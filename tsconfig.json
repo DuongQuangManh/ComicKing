@@ -1,3 +1,17 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["src/components/index"],
+      "@constants": ["src/constants/index"],
+      "@navigations": ["src/navigations/index"],
+      "@screens": ["src/screens/index"],
+      "@utils": ["src/utils/index"],
+      "@redux/*": ["src/redux/*"],
+      "@api": ["src/api/index"],
+      "@models": ["src/models/index"]
+    }
+  }
 }

@@ -1,3 +1,1 @@
-export interface UserModel{
-    
-}
+export * from './auth.types'

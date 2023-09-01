@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "312692424686",
+    "project_id": "commic-book",
+    "storage_bucket": "commic-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312692424686:android:75e1b739a88dd415bcd8ff",
+        "android_client_info": {
+          "package_name": "com.comicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312692424686-dmtpvfr9dtkoidug5d1a6pe1gen8josc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.comicapp",
+            "certificate_hash": "7ad9768ac5a36253bc4de1aa3dfc2fa4ab327cea"
+          }
+        },
+        {
+          "client_id": "312692424686-s48bk0aefg9je8kp1c4le63g0sf5cne5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD96n_xEbk-WnB_1PZhOauaL7JuM92kOrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312692424686-s48bk0aefg9je8kp1c4le63g0sf5cne5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
