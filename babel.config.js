@@ -8,7 +8,6 @@ module.exports = {
         alias: {
           // This needs to be mirrored in tsconfig.json
           '@components': "./src/components",
-          '@constants': "./src/constants",
           '@models': "./src/models",
           '@navigations': './src/navigations',
           '@redux': './src/redux',

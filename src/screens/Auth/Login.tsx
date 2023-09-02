@@ -1,20 +1,19 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
-import { Colors } from '@constants';
 import { WINDOW_HEIGHT, WINDOW_WIDTH, myColors } from '@utils';
 import { Button, Input, Text } from '@components';
-import { useNavigation } from '@react-navigation/native';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import { loginAction, loginWithGoogleAction } from '@redux/authSlice'
 import { useAppDispatch } from '@redux/store';
 import auth from '@react-native-firebase/auth'
+import { Screen } from '../screen';
+import { navigate } from '@navigations'
 
-const SignInScreen = () => {
-  const navigation = useNavigation<any>();
+const Login = () => {
   const dispatch = useAppDispatch()
   const handlerSignIn = () => { };
   const handlerSignUp = () => {
-    navigation.navigate('SignUpScreen');
+    navigate('register');
   };
   const handlerForgot = () => { };
 
@@ -26,7 +25,7 @@ const SignInScreen = () => {
     })
   }, [])
 
-  const signinWithGoogle = async () => {
+  const loginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices()
       const data = await GoogleSignin.signIn()
@@ -43,7 +42,7 @@ const SignInScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <Screen preset='scroll'>
       <View style={styles.box}>
         <Text
           color={myColors.primary}
@@ -78,7 +77,7 @@ const SignInScreen = () => {
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
-          onPress={signinWithGoogle}
+          onPress={loginWithGoogle}
         />
       </View>
       <View style={styles.box}>
@@ -89,21 +88,16 @@ const SignInScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Screen>
   );
 };
 
-export default SignInScreen;
+export default Login;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.WHITE_COLOR,
-    alignItems: 'center',
-  },
   box: {
     width: WINDOW_WIDTH,
-    height: WINDOW_HEIGHT / 3,
+    height: Math.round(WINDOW_HEIGHT / 3),
     justifyContent: 'center',
     alignItems: 'center',
   },

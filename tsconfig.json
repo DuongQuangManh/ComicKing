@@ -5,7 +5,6 @@
     "baseUrl": ".",
     "paths": {
       "@components": ["src/components/index"],
-      "@constants": ["src/constants/index"],
       "@navigations": ["src/navigations/index"],
       "@screens": ["src/screens/index"],
       "@utils": ["src/utils/index"],

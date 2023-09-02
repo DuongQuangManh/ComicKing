@@ -1,9 +1,8 @@
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {FC} from 'react';
-import {WINDOW_WIDTH} from '../utils';
-import {Colors} from '../constants';
-import Icon, {Icons} from './Icon';
-import { Text } from 'react-native-paper'
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { FC } from 'react';
+import { WINDOW_WIDTH } from '../utils';
+import { Icons } from './Icon';
+import { Text, Icon } from '@components'
 interface propsComponent {
   text?: string;
   onBack?: () => void;
@@ -12,13 +11,13 @@ interface propsComponent {
   nameIconEnd?: string;
   typeIconEnd?: any;
 }
-const Header: FC<propsComponent> = ({isIconEnd = false, ...props}) => {
+const Header: FC<propsComponent> = ({ isIconEnd = false, ...props }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={props.onBack}>
         <Icon name="chevron-back-outline" type={Icons.Ionicons} />
       </TouchableOpacity>
-      <Text style={styles.text}>{props.text}</Text>
+      <Text type='semibold_18' >{props.text}</Text>
       {isIconEnd ? (
         <TouchableOpacity onPress={props.onClickIconEnd}>
           <Icon name={props.nameIconEnd} type={props.typeIconEnd} />
@@ -40,10 +39,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 10,
-  },
-  text: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: Colors.BLACK_COLOR,
   },
 });

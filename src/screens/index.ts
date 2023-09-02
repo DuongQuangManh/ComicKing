@@ -1,8 +1,15 @@
-import SplashScreen from './SplashScreen'
-import SignInScreen from './Auth/SignInScreen'
-import SignUpScreen from './Auth/SignUpScreen'
+import Splash from './Splash/Splash'
+import Login from './Auth/Login'
+import Register from './Auth/Register'
+import ForgotPassword from './Auth/ForgotPassword'
+import ChangePassword from './Setting/ChangePassword'
+import OtpVerification from './Auth/OtpVerification'
+
 export {
-    SplashScreen,
-    SignInScreen,
-    SignUpScreen
+    Splash,
+    Login,
+    Register,
+    ForgotPassword,
+    ChangePassword,
+    OtpVerification
 }
