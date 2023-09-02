@@ -18,15 +18,13 @@ const getFontType = (
 }
 
 const enFontConfig = {
-  light_12: getFontType(12, '300', 'AvenirLTStd-Roman'),
   light_13: getFontType(13, '300', 'AvenirLTStd-Roman'),
   light_14: getFontType(14, '300', 'AvenirLTStd-Roman'),
 
-  regular_14: getFontType(14, '400', 'AvenirLTStd-Roman'),
   regular_15: getFontType(15, '400', 'AvenirLTStd-Roman'),
   regular_16: getFontType(16, '400', 'AvenirLTStd-Roman'),
+  regular_17: getFontType(17, '400', 'AvenirLTStd-Roman'),
 
-  medium_15: getFontType(15, '500', 'AvenirLTStd-Medium'),
   medium_16: getFontType(16, '500', 'AvenirLTStd-Medium'),
   medium_17: getFontType(17, '500', 'AvenirLTStd-Medium'),
   medium_18: getFontType(18, '500', 'AvenirLTStd-Medium'),
@@ -36,9 +34,8 @@ const enFontConfig = {
   semibold_16: getFontType(16, '600', 'AvenirLTStd-Heavy'),
   semibold_18: getFontType(18, '600', 'AvenirLTStd-Heavy'),
   semibold_20: getFontType(20, '600', 'AvenirLTStd-Heavy'),
-  semibold_22: getFontType(20, '600', 'AvenirLTStd-Heavy'),
+  semibold_22: getFontType(22, '600', 'AvenirLTStd-Heavy'),
 
-  bold_20: getFontType(20, '800', 'AvenirLTStd-Black'),
   bold_22: getFontType(22, '800', 'AvenirLTStd-Black'),
   bold_24: getFontType(24, '800', 'AvenirLTStd-Black'),
   bold_26: getFontType(26, '800', 'AvenirLTStd-Black'),
@@ -73,7 +70,9 @@ export const myTheme = {
     surfaceVariant: 'white',
     background: '#fff',
     text: '#202020',
-    textHint: '#747474'
+    textHint: '#747474c3',
+    transparent: 'transparent',
+    backgroundMsg: '#0000002d'
   },
   fonts: configureFonts({ config: fontConfig as any, isV3: false }) as any,
   roundness: 5

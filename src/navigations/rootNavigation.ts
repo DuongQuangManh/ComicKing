@@ -1,15 +1,15 @@
 import { StackActions, createNavigationContainerRef } from '@react-navigation/native';
-import { TStackParamList, TScreensName } from './params.type';
+import { StackParamList, ScreensName } from '@navigations';
 
-export const navigationRef = createNavigationContainerRef<TStackParamList>()
+export const navigationRef = createNavigationContainerRef<StackParamList>()
 
-export function navigate(name: TScreensName, params?: any) {
+export const navigate = (name: ScreensName, params?: StackParamList[typeof name]) => {
     if (navigationRef.isReady()) {
-        navigationRef.navigate(name, params);
+        navigationRef.navigate(name, params as any);
     }
 }
 
-export function reset(index: number, routes: { name: TScreensName }[]) {
+export const reset = (index: number, routes: { name: ScreensName }[]) => {
     if (navigationRef.isReady()) {
         navigationRef.reset({
             index,
@@ -17,15 +17,19 @@ export function reset(index: number, routes: { name: TScreensName }[]) {
         })
     }
 }
-export function replace(name: TScreensName, params: any) {
+export const replace = (name: ScreensName, params: any) => {
     if (navigationRef.isReady()) {
-        navigationRef.dispatch(StackActions.replace(name, params));
+        navigationRef.dispatch(StackActions.replace(name, params))
     }
 }
 
-export function goBack() {
-    if (navigationRef.isReady()) {
-        navigationRef.dispatch(StackActions.pop());
+export const goBack = (time: number | any = 1) => {
+    if (typeof time != 'number') time = 1
+    while (--time >= 0) {
+        if (navigationRef.isReady()) {
+            if (!navigationRef.canGoBack()) return
+            navigationRef.dispatch(StackActions.pop())
+        }
     }
 }
 

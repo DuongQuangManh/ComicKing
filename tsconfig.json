@@ -11,7 +11,8 @@
       "@redux/*": ["src/redux/*"],
       "@api": ["src/api/index"],
       "@models": ["src/models/index"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@hooks": ["src/hooks/index"]
     }
   }
 }

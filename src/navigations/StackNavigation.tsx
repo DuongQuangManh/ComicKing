@@ -7,12 +7,12 @@ import {
     OtpVerification,
     Login,
     Splash,
-    Register
+    Register,
+    Message
 } from '@screens';
-import { TStackParamList } from './params.type';
-import { navigationRef } from './rootNavigation';
+import { StackParamList, navigationRef } from '@navigations';
 
-const Stack = createNativeStackNavigator<TStackParamList>();
+const Stack = createNativeStackNavigator<StackParamList>();
 
 export const Stacknavigation = () => {
     return (
@@ -24,6 +24,15 @@ export const Stacknavigation = () => {
                 <Stack.Screen name='changePassword' component={ChangePassword} />
                 <Stack.Screen name='otpVerification' component={OtpVerification} />
                 <Stack.Screen name='forgotPassword' component={ForgotPassword} />
+
+                {/* Messsage screens */}
+                <Stack.Group
+                    screenOptions={{
+                        presentation: 'transparentModal',
+                        animation: 'fade'
+                    }}>
+                    <Stack.Screen name='message' component={Message as any} />
+                </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>
     );
