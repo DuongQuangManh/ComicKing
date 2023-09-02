@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import { Colors } from '@constants';
-import { WINDOW_HEIGHT, WINDOW_WIDTH } from '@utils';
-import { Button, Input } from '@components';
+import { WINDOW_HEIGHT, WINDOW_WIDTH, myColors } from '@utils';
+import { Button, Input, Text } from '@components';
 import { useNavigation } from '@react-navigation/native';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import { loginAction, loginWithGoogleAction } from '@redux/authSlice'
@@ -30,13 +30,13 @@ const SignInScreen = () => {
     try {
       await GoogleSignin.hasPlayServices()
       const data = await GoogleSignin.signIn()
-      
+      console.log("data", data)
       const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
       const userCredential = await auth().signInWithCredential(googleCredential);
-
+      console.log("user credential", userCredential)
       const user = userCredential.user;
-      dispatch(loginWithGoogleAction({idToken: await user.getIdToken()}))
-      
+      dispatch(loginWithGoogleAction({ idToken: await user.getIdToken() }))
+
     } catch (error: any) {
       console.log("Google Signin Error : ", error.message)
     }
@@ -46,31 +46,17 @@ const SignInScreen = () => {
     <View style={styles.container}>
       <View style={styles.box}>
         <Text
-          style={{
-            fontSize: 38,
-            color: Colors.RED_COLOR_CUSTOM,
-            fontWeight: '700',
-          }}>
-          Welcome
-        </Text>
-        <Text
-          style={{
-            fontSize: 15,
-            color: Colors.BLACK_COLOR,
-            fontWeight: '400',
-            marginTop: 10,
-          }}>
-          Sign in to start
-        </Text>
+          color={myColors.primary}
+          type='bold_30'
+          style={{ fontSize: 38 }}>Welcome</Text>
+        <Text type='regular_16'>Sign in to start</Text>
       </View>
       <View style={styles.box}>
-        <Input placeholder="Email" extraProps={{}} />
+        <Input placeholder="Email" />
         <Input
           placeholder="Password"
-          extraProps={{
-            secureTextEntry: true,
-          }}
-          containerStyle={{ marginTop: 15 }}
+          secureTextEntry={true}
+          style={{ marginTop: 15 }}
         />
         <TouchableOpacity
           activeOpacity={0.6}
@@ -83,13 +69,12 @@ const SignInScreen = () => {
           <Text>Forgot password?</Text>
         </TouchableOpacity>
         <Button
-          onClick={handlerSignIn}
+          onPress={handlerSignIn}
           text="Sign In"
-          width={WINDOW_WIDTH - 100}
           height={45}
-          containerStyle={{ marginTop: 30 }}
+          style={{ marginTop: 30 }}
         />
-        <Text>Or</Text>
+        <Text style={{ marginVertical: 10 }}>Or</Text>
         <GoogleSigninButton
           size={GoogleSigninButton.Size.Wide}
           color={GoogleSigninButton.Color.Light}
@@ -100,7 +85,7 @@ const SignInScreen = () => {
         <TouchableOpacity onPress={handlerSignUp} activeOpacity={0.6}>
           <Text>
             No account?
-            <Text style={{ color: Colors.RED_COLOR_CUSTOM }}> Sign up</Text>
+            <Text color={myColors.primary} type='semibold_14'> Sign up</Text>
           </Text>
         </TouchableOpacity>
       </View>

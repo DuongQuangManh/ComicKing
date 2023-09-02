@@ -1,6 +1,6 @@
 import SplashScreen from './SplashScreen'
-import SignInScreen from './SignInScreen'
-import SignUpScreen from './SignUpScreen'
+import SignInScreen from './Auth/SignInScreen'
+import SignUpScreen from './Auth/SignUpScreen'
 export {
     SplashScreen,
     SignInScreen,
