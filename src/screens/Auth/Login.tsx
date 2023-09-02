@@ -1,21 +1,27 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
-import { WINDOW_HEIGHT, WINDOW_WIDTH, myColors } from '@utils';
+import { WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors } from '@utils';
 import { Button, Input, Text } from '@components';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import { loginAction, loginWithGoogleAction } from '@redux/authSlice'
 import { useAppDispatch } from '@redux/store';
 import auth from '@react-native-firebase/auth'
 import { Screen } from '../screen';
-import { navigate } from '@navigations'
+import { goBack, navigate } from '@navigations'
 
 const Login = () => {
   const dispatch = useAppDispatch()
-  const handlerSignIn = () => { };
-  const handlerSignUp = () => {
-    navigate('register');
+
+  const onLogin = () => {
+
   };
-  const handlerForgot = () => { };
+
+  const navigateRegister = () => {
+    navigate('register')
+  };
+  const navigateForgot = () => {
+    navigate('forgotPassword')
+  };
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -29,10 +35,10 @@ const Login = () => {
     try {
       await GoogleSignin.hasPlayServices()
       const data = await GoogleSignin.signIn()
-      console.log("data", data)
+
       const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
       const userCredential = await auth().signInWithCredential(googleCredential);
-      console.log("user credential", userCredential)
+
       const user = userCredential.user;
       dispatch(loginWithGoogleAction({ idToken: await user.getIdToken() }))
 
@@ -60,15 +66,16 @@ const Login = () => {
         <TouchableOpacity
           activeOpacity={0.6}
           style={{
-            width: WINDOW_WIDTH - 30,
             alignItems: 'flex-end',
-            padding: 10,
+            paddingVertical: 8,
+            alignSelf: 'flex-end',
+            paddingEnd: 25
           }}
-          onPress={handlerForgot}>
+          onPress={navigateForgot}>
           <Text>Forgot password?</Text>
         </TouchableOpacity>
         <Button
-          onPress={handlerSignIn}
+          onPress={onLogin}
           text="Sign In"
           height={45}
           style={{ marginTop: 30 }}
@@ -81,10 +88,13 @@ const Login = () => {
         />
       </View>
       <View style={styles.box}>
-        <TouchableOpacity onPress={handlerSignUp} activeOpacity={0.6}>
+        <TouchableOpacity
+          style={{ paddingVertical: 5 }}
+          onPress={navigateRegister}
+          activeOpacity={0.6}>
           <Text>
             No account?
-            <Text color={myColors.primary} type='semibold_14'> Sign up</Text>
+            <Text color={myColors.primary} type='semibold_16'> Sign up</Text>
           </Text>
         </TouchableOpacity>
       </View>

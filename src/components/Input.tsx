@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
-import { WINDOW_WIDTH } from '../utils';
+import { WINDOW_WIDTH, myColors } from '../utils';
 import { TextInput, TextInputProps } from 'react-native-paper'
+import { ViewStyle } from 'react-native';
 
 interface propsComponent {
-  width?: number;
-  height?: number;
+  width?: ViewStyle['width'],
+  height?: ViewStyle['width'],
+  color?: string,
+  hintColor?: string
 }
 type TInput = TextInputProps & propsComponent
 
@@ -16,6 +19,8 @@ const Input: FC<TInput> = ({
   return (
     <TextInput
       {...props}
+      textColor={myColors.text}
+      placeholderTextColor={myColors.textHint}
       style={[{ width: width, height: height }, props.style]}
     />
   );
