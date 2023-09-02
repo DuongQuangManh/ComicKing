@@ -1,11 +1,12 @@
-import React, {FC} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, { FC } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Text } from '@components'
 
 interface itemProps {
   icon: JSX.Element;
   badgeCount?: number;
 }
-const BadgeIcon: FC<itemProps> = ({icon, badgeCount = 0}) => {
+const BadgeIcon: FC<itemProps> = ({ icon, badgeCount = 0 }) => {
   return (
     <View style={styles.container}>
       {icon}

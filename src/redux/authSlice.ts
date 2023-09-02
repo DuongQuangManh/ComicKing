@@ -40,6 +40,7 @@ export const registerVerifyOtpAction = () => {
 export const loginWithGoogleAction = createAsyncThunk(
     'auth/loginWithGoogle',
     async (body: ILoginWithGoogleBody, {rejectWithValue}) => {
+        console.log('1234')
         const response = await authDataServices.loginWithGoogle(body)
         
         console.log(response)

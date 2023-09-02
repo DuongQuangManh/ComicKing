@@ -1,10 +1,10 @@
 
 import {constants} from '@utils'
 const {TOKEN_TYPE} = constants
-const {BASIC_TOKEN, HOST_NAME} = process.env
 
-export default (path: string, data: any, method = 'POST', tokenType = TOKEN_TYPE.BASIC, token = BASIC_TOKEN  ) => {
-    let url = `${HOST_NAME}${path}`;
+export default (path: string, data: any, method = 'POST', tokenType = TOKEN_TYPE.BASIC, token = process.env.BASIC_TOKEN  ) => {
+    // let url = `${process.env.HOST_NAME}${path}`;
+    let url = `${'http//:localhost:1337/'}${path}`;
     return new Promise(async function (resolve, reject) {
 
         let option = {

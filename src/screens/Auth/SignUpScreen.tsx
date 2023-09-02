@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Header} from '../components';
-import {Colors} from '../constants';
+import {Header} from '../../components';
+import {Colors} from '../../constants';
 import {useNavigation} from '@react-navigation/native';
 
 const SignUpScreen = () => {

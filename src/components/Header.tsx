@@ -1,8 +1,9 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {WINDOW_WIDTH} from '../utils';
 import {Colors} from '../constants';
 import Icon, {Icons} from './Icon';
+import { Text } from 'react-native-paper'
 interface propsComponent {
   text?: string;
   onBack?: () => void;
