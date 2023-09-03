@@ -1,4 +1,4 @@
-import { goBack, navigate } from "@navigations"
+import { getCurrentRouter, goBack, navigate } from "@navigations"
 
 export const helper = {
     // you can pass 'message' param only
@@ -9,5 +9,13 @@ export const helper = {
         title: string = 'Message'
     ) => {
         navigate('message', { message, msgType, title, onOk: onPress })
+    },
+    showLoading: () => {
+        navigate('loading')
+    },
+    hideLoading: () => {
+        if (getCurrentRouter() == 'loading') {
+            goBack()
+        }
     }
 }

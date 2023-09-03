@@ -34,5 +34,5 @@ export const goBack = (time: number | any = 1) => {
 }
 
 export const getCurrentRouter = () => {
-    return navigationRef.getCurrentRoute()
+    return navigationRef.getCurrentRoute()?.name
 }

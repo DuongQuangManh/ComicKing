@@ -32,19 +32,7 @@ const Login = () => {
   }, [])
 
   const loginWithGoogle = async () => {
-    try {
-      await GoogleSignin.hasPlayServices()
-      const data = await GoogleSignin.signIn()
-
-      const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
-      const userCredential = await auth().signInWithCredential(googleCredential);
-
-      const user = userCredential.user;
-      dispatch(loginWithGoogleAction({ idToken: await user.getIdToken() }))
-
-    } catch (error: any) {
-      console.log("Google Signin Error : ", error.message)
-    }
+    dispatch(loginWithGoogleAction())
   }
 
   return (
