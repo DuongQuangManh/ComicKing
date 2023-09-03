@@ -7,7 +7,11 @@ export type StackParamList = {
     login: undefined,
     forgotPassword: undefined,
     register: undefined,
-    otpVerification: undefined,
+    otpVerification: {
+        verifyAction: 'login' | 'register' | 'forgotPass' | 'changePass',
+        message: string,
+        email: string
+    },
     changePassword: undefined,
     splash: undefined,
     message: {

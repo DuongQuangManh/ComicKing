@@ -3,21 +3,25 @@ import React, { FC } from 'react';
 import { WINDOW_WIDTH } from '../utils';
 import { Icons } from './Icon';
 import { Text, Icon } from '@components'
+import { goBack } from '@navigations';
 interface propsComponent {
-  text?: string;
+  text: string;
   onBack?: () => void;
   onClickIconEnd?: () => void;
   isIconEnd?: boolean;
   nameIconEnd?: string;
   typeIconEnd?: any;
 }
-const Header: FC<propsComponent> = ({ isIconEnd = false, ...props }) => {
+const Header: FC<propsComponent> = ({
+  isIconEnd = false,
+  onBack = goBack,
+  ...props }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={props.onBack}>
-        <Icon name="chevron-back-outline" type={Icons.Ionicons} />
+      <TouchableOpacity style={{ position: 'absolute', zIndex: 10, left: 8 }} onPress={onBack}>
+        <Icon name="chevron-back-outline" type={Icons.Ionicons} size={22} />
       </TouchableOpacity>
-      <Text type='semibold_18' >{props.text}</Text>
+      <Text style={{ flex: 1, textAlign: 'center' }} type='semibold_18' >{props.text}</Text>
       {isIconEnd ? (
         <TouchableOpacity onPress={props.onClickIconEnd}>
           <Icon name={props.nameIconEnd} type={props.typeIconEnd} />
@@ -37,7 +41,6 @@ const styles = StyleSheet.create({
     height: 45,
     alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     padding: 10,
   },
 });

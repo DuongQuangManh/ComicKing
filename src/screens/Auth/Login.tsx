@@ -1,27 +1,32 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors } from '@utils';
 import { Button, Input, Text } from '@components';
 import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
 import { loginAction, loginWithGoogleAction } from '@redux/authSlice'
 import { useAppDispatch } from '@redux/store';
-import auth from '@react-native-firebase/auth'
 import { Screen } from '../screen';
-import { goBack, navigate } from '@navigations'
+import { navigate } from '@navigations'
 
 const Login = () => {
   const dispatch = useAppDispatch()
-
-  const onLogin = () => {
-
-  };
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+    isShowPass: true
+  })
 
   const navigateRegister = () => {
     navigate('register')
-  };
+    // navigate('otpVerification', { verifyAction: 'login', message: 'Vui lòng xác minh mã Otp từ email Le gia tuan dep trai để hoàn thành đăng nhập.', email: 'legiatuan03@gmail.com' })
+  }
   const navigateForgot = () => {
     navigate('forgotPassword')
-  };
+  }
+  const login = () => {
+    dispatch(loginAction({ email: state.email, password: state.password }))
+  }
+
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -45,11 +50,16 @@ const Login = () => {
         <Text type='regular_16'>Sign in to start</Text>
       </View>
       <View style={styles.box}>
-        <Input placeholder="Email" />
         <Input
+          onChangeText={email => setState(pre => ({ ...pre, email }))}
+          placeholder="Email" />
+        <Input
+          onChangeText={password => setState(pre => ({ ...pre, password }))}
           placeholder="Password"
-          secureTextEntry={true}
+          secureTextEntry={state.isShowPass}
           style={{ marginTop: 15 }}
+          isRightIcon
+          onChangeShowPass={isShowPass => setState(pre => ({ ...pre, isShowPass }))}
         />
         <TouchableOpacity
           activeOpacity={0.6}
@@ -63,7 +73,7 @@ const Login = () => {
           <Text>Forgot password?</Text>
         </TouchableOpacity>
         <Button
-          onPress={onLogin}
+          onPress={login}
           text="Sign In"
           height={45}
           style={{ marginTop: 30 }}
@@ -81,7 +91,7 @@ const Login = () => {
           onPress={navigateRegister}
           activeOpacity={0.6}>
           <Text>
-            No account?
+            No have account?
             <Text color={myColors.primary} type='semibold_16'> Sign up</Text>
           </Text>
         </TouchableOpacity>
