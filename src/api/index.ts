@@ -1,5 +1,4 @@
-import * as sendRequest from './sendRequest'
-export * from './dataServices'
+import { sendRequest } from './sendRequest'
 export {
     sendRequest,
 }

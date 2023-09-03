@@ -3,7 +3,7 @@ import { constants } from '@utils'
 import { ApiResult } from 'src/models/api.types';
 const { TOKEN_TYPE } = constants
 
-export default (
+export const sendRequest = (
     path: string, data: any, method = 'POST',
     tokenType = TOKEN_TYPE.BASIC, token = process.env.BASIC_TOKEN
 ) => {
@@ -25,6 +25,7 @@ export default (
         }
         fetch(url, option).then((response) => {
             try {
+                console.log('respone', response)
                 return response.json();
             } catch (err) {
                 reject({ err: 2, message: 'Session expired' });

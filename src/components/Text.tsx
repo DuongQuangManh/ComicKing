@@ -19,7 +19,7 @@ const Text: React.FC<TTextProps> = ({
         <CustomText
             {...props}
             variant={type}
-            style={[props.style, { color }]} />
+            style={[{ color }, props.style]} />
     )
 }
 

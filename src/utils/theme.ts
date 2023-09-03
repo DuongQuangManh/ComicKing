@@ -70,7 +70,8 @@ export const myTheme = {
     surfaceVariant: 'white',
     background: '#fff',
     text: '#202020',
-    textHint: '#747474c3',
+    textHint: '#74747494',
+    transparentGray: '#8787878d',
     transparent: 'transparent',
     backgroundMsg: '#0000002d'
   },

@@ -4,4 +4,4 @@ export interface BaseResponse {
     message: string
 }
 
-export type ApiResult = { err: number, message: string, data: any }
+export type ApiResult = { err: number, message: string, data: any } | any
