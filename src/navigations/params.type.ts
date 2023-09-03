@@ -15,5 +15,6 @@ export type StackParamList = {
         title: string,
         message: string,
         msgType: 'error' | 'success'
-    }
+    },
+    loading: undefined
 }

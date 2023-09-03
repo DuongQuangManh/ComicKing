@@ -8,7 +8,8 @@ import {
     Login,
     Splash,
     Register,
-    Message
+    Message,
+    Loading
 } from '@screens';
 import { StackParamList, navigationRef } from '@navigations';
 
@@ -25,13 +26,14 @@ export const Stacknavigation = () => {
                 <Stack.Screen name='otpVerification' component={OtpVerification} />
                 <Stack.Screen name='forgotPassword' component={ForgotPassword} />
 
-                {/* Messsage screens */}
+                {/* common screens */}
                 <Stack.Group
                     screenOptions={{
                         presentation: 'transparentModal',
                         animation: 'fade'
                     }}>
-                    <Stack.Screen name='message' component={Message as any} />
+                    <Stack.Screen name='message' component={Message} />
+                    <Stack.Screen name='loading' component={Loading} />
                 </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>
