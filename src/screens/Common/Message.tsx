@@ -1,10 +1,9 @@
 import { StyleSheet, View, Image } from 'react-native'
 import React from 'react'
-import { Screen } from '../screen'
 import { myColors } from '@utils'
 import { Button, Text } from '@components'
 import { RouteProp, useRoute } from '@react-navigation/native'
-import { StackParamList, goBack } from '@navigations'
+import { StackParamList } from '@navigations'
 import Modal from 'react-native-modal'
 
 const Message = () => {
@@ -19,7 +18,6 @@ const Message = () => {
         <Modal
             isVisible
             onBackdropPress={onOk}
-            onBackButtonPress={onOk}
             style={{
                 flex: 1,
                 alignItems: 'center',

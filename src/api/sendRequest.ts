@@ -1,12 +1,15 @@
 
-import {constants} from '@utils'
-const {TOKEN_TYPE} = constants
+import { constants } from '@utils'
+import { ApiResult } from 'src/models/api.types';
+const { TOKEN_TYPE } = constants
 
-export default (path: string, data: any, method = 'POST', tokenType = TOKEN_TYPE.BASIC, token = process.env.BASIC_TOKEN  ) => {
+export default (
+    path: string, data: any, method = 'POST',
+    tokenType = TOKEN_TYPE.BASIC, token = process.env.BASIC_TOKEN
+) => {
     // let url = `${process.env.HOST_NAME}${path}`;
-    let url = `${'http//:localhost:1337/'}${path}`;
-    return new Promise(async function (resolve, reject) {
-
+    let url = `${'http://192.168.1.6:1337/'}${path}`;
+    return new Promise<ApiResult>(async function (resolve, reject) {
         let option = {
             method: method,
             headers: {
@@ -24,12 +27,12 @@ export default (path: string, data: any, method = 'POST', tokenType = TOKEN_TYPE
             try {
                 return response.json();
             } catch (err) {
-                reject({ err: 2, msg: 'Session expired' });
+                reject({ err: 2, message: 'Session expired' });
             }
         }).then((data) => {
             resolve(data);
         }).catch((err) => {
-            reject({ err: 1, msg: err.message });
+            reject({ err: 1, message: err.message });
         })
 
     });

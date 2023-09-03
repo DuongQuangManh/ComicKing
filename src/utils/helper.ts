@@ -2,7 +2,7 @@ import { getCurrentRouter, goBack, navigate } from "@navigations"
 
 export const helper = {
     // you can pass 'message' param only
-    showMessage: (
+    showMsg: (
         message: string,
         onPress: () => void = goBack,
         msgType: 'error' | 'success' = 'error',
@@ -14,8 +14,10 @@ export const helper = {
         navigate('loading')
     },
     hideLoading: () => {
-        if (getCurrentRouter() == 'loading') {
-            goBack()
-        }
+        if (getCurrentRouter() == 'loading') goBack()
+
+    },
+    showFlashMsg: () => {
+
     }
 }

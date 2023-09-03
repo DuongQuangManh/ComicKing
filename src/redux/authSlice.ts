@@ -14,12 +14,6 @@ const initialState: IAuthState = {
 
 }
 
-const authSlice = createSlice({
-    name: "authState",
-    initialState,
-    reducers: {}
-})
-
 export const loginAction = () => {
 
 }
@@ -44,21 +38,41 @@ export const loginWithGoogleAction = createAsyncThunk(
     'auth/loginWithGoogle',
     async (_, { rejectWithValue }) => {
         try {
-            helper.showLoading()
             await GoogleSignin.hasPlayServices()
-            const data = await GoogleSignin.signIn()
-            const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
+            const dataSignin = await GoogleSignin.signIn()
+            helper.showLoading()
+            const googleCredential = auth.GoogleAuthProvider.credential(dataSignin.idToken);
             const userCredential = await auth().signInWithCredential(googleCredential)
             const user = userCredential.user;
-
-            const response = await authDataServices.loginWithGoogle({ idToken: await user.getIdToken() })
+            const respone = await authDataServices.loginWithGoogle({ idToken: await user.getIdToken() })
             helper.hideLoading()
-
+            if (respone.err != 200) {
+                helper.showMsg(respone.message)
+                return rejectWithValue(respone.message)
+            }
+            return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            console.log('[Error at authslice] : ', error)
+            return rejectWithValue(error.message)
         }
     }
 )
+
+const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+
+    },
+    extraReducers(builder) {
+        builder
+            .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
+                state.token = action.payload.accessToken
+            })
+            .addCase(loginWithGoogleAction.rejected, (state, action) => {
+                console.log('[Error at authSlice]', action.payload)
+            })
+    },
+})
 
 export default authSlice.reducer
