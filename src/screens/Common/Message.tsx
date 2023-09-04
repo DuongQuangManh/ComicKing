@@ -49,7 +49,7 @@ export default Message
 
 const styles = StyleSheet.create({
     centeredView: {
-        width: '85%',
+        width: '90%',
         height: 290,
         borderRadius: 8,
         backgroundColor: myColors.background,

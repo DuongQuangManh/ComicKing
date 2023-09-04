@@ -11,6 +11,7 @@ interface propsComponent {
   buttonColor?: string;
   text: string;
   textType?: KeyFontType;
+  disable?: boolean
 }
 type TButton = propsComponent & TouchableOpacityProps
 
@@ -21,17 +22,19 @@ const Button: FC<TButton> = ({
   buttonColor = myColors.primary,
   textColor = myColors.background,
   textType = 'regular_15',
+  disable = false,
   ...props
 }) => {
   return (
     <TouchableOpacity
       {...props}
+      disabled={disable}
       style={[
         styles.container,
         props.style,
         {
           borderRadius,
-          backgroundColor: buttonColor,
+          backgroundColor: disable ? myColors.disablePrimary : buttonColor,
           width, height,
         },
       ]}>

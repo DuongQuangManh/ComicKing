@@ -11,7 +11,9 @@ interface propsComponent {
   hintColor?: string,
   isRightIcon?: boolean,
   containerStyle?: StyleProp<ViewStyle>,
-  onChangeShowPass?: (isShow: boolean) => void
+  onChangeShowPass?: (isShow: boolean) => void,
+  isTrim?: boolean,
+  value: string
 }
 type TInput = TextInputProps & propsComponent
 
@@ -21,12 +23,14 @@ const Input: FC<TInput> = ({
   isRightIcon,
   containerStyle,
   onChangeShowPass,
+  isTrim = false,
   ...props
 }) => {
   return (
     <View style={containerStyle}>
       <TextInput
         {...props}
+        onChangeText={val => props.onChangeText && props.onChangeText(isTrim ? val.trim() : val)}
         textColor={myColors.text}
         placeholderTextColor={myColors.textHint}
         style={[{ width: width, height: height }, props.style]}
