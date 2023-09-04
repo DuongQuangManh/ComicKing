@@ -4,7 +4,7 @@ import { helper } from '@utils'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import { sendRequest } from '@api'
-import { navigate } from '@navigations'
+import { goBack, navigate, replace, reset } from '@navigations'
 
 export interface IAuthState {
     token: string
@@ -50,7 +50,11 @@ export const registerAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
-            navigate('otpVerification', { verifyAction: 'register', message: respone.message, email: respone.email })
+            navigate('otpVerification', {
+                verifyAction: 'register',
+                message: respone.message,
+                email: respone.email
+            })
             return
         } catch (error: any) {
             helper.hideLoading()
@@ -89,6 +93,7 @@ export const registerVerifyOtpAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
+            replace('home')
             helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
@@ -125,13 +130,49 @@ export const loginWithGoogleAction = createAsyncThunk(
 
 export const forgotPassAction = createAsyncThunk(
     'auth/forgotPass', async (body: IForgotPassBody, { rejectWithValue }) => {
-
+        let path = 'api/user/forgotPassword'
+        try {
+            helper.showLoading()
+            const respone = await sendRequest(path, body)
+            helper.hideLoading()
+            if (respone.err != 200) {
+                helper.showErrorMsg(respone.message)
+                return rejectWithValue(respone.message)
+            }
+            navigate('otpVerification', {
+                verifyAction: 'forgotPass',
+                message: respone.message,
+                email: respone.email
+            })
+            return
+        } catch (error: any) {
+            helper.hideLoading()
+            return rejectWithValue(error.message)
+        }
     }
 )
 
 export const forgotPassVerifyOtpAction = createAsyncThunk(
     'auth/forgotPassVerifyOtp', async (body: IVerifyOtpBody, { rejectWithValue }) => {
-
+        let path = 'api/user/forgotPasswordVerifyOtp'
+        try {
+            helper.showLoading()
+            const respone = await sendRequest(path, body)
+            helper.hideLoading()
+            if (respone.err != 200) {
+                helper.showErrorMsg(respone.message)
+                return rejectWithValue(respone.message)
+            }
+            helper.showSuccessMsg(
+                respone.message,
+                () => {
+                    reset([{ name: 'login', params: { email: body.email } }])
+                })
+            return
+        } catch (error: any) {
+            helper.hideLoading()
+            return rejectWithValue(error.message)
+        }
     }
 )
 
@@ -145,6 +186,7 @@ const authSlice = createSlice({
         builder
             .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
+                navigate('home')
             })
             .addCase(loginWithGoogleAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
@@ -156,31 +198,23 @@ const authSlice = createSlice({
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
-
+                state.token = action.payload?.accessToken
+                replace('home')
             })
             .addCase(loginVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(registerAction.fulfilled, (state, action) => {
-
             })
             .addCase(registerAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(registerVerifyOtpAction.fulfilled, (state, action) => {
-
+                state.token = action.payload?.accessToken
             })
             .addCase(registerVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
-            .addCase(forgotPassAction.fulfilled, (state, action) => {
-
-            })
             .addCase(forgotPassAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(forgotPassVerifyOtpAction.fulfilled, (state, action) => {
-
             })
             .addCase(forgotPassVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)

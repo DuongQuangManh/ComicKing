@@ -13,8 +13,8 @@ const Register = () => {
     password: '',
     confirmPass: '',
     fullName: '',
-    birthDay: '',
-    isShowPass: true
+    birthday: '',
+    isHidePass: true
   })
 
   const register = () => {
@@ -23,7 +23,7 @@ const Register = () => {
       password: state.password,
       confirmPassword: state.confirmPass,
       fullName: state.fullName,
-      birthDay: state.birthDay
+      birthday: state.birthday
     }))
   }
 
@@ -50,39 +50,40 @@ const Register = () => {
           style={{ marginTop: 15 }}
         />
         <DatePicker placeholder='Birth day'
-          onChangeText={birthDay => setState(pre => ({ ...pre, birthDay: birthDay ?? '' }))}
-          value={state.birthDay}
+          onChangeText={birthday => setState(pre => ({ ...pre, birthday: birthday ?? '' }))}
+          value={state.birthday}
         />
         <Input
           isTrim
           value={state.password}
           onChangeText={password => setState(pre => ({ ...pre, password }))}
           placeholder="Password"
-          secureTextEntry={state.isShowPass}
+          secureTextEntry={state.isHidePass}
           style={{ marginTop: 15 }}
           isRightIcon
-          onChangeShowPass={isShowPass => setState(pre => ({ ...pre, isShowPass }))}
+          onChangeShowPass={isHidePass => setState(pre => ({ ...pre, isHidePass }))}
         />
         <Input
           isTrim
           value={state.confirmPass}
           onChangeText={confirmPass => setState(pre => ({ ...pre, confirmPass }))}
           placeholder="Confirm password"
-          secureTextEntry={state.isShowPass}
+          secureTextEntry={state.isHidePass}
           style={{ marginTop: 15 }}
           isRightIcon
-          onChangeShowPass={isShowPass => setState(pre => ({ ...pre, isShowPass }))}
+          onChangeShowPass={isHidePass => setState(pre => ({ ...pre, isHidePass }))}
         />
         <Button
           disable={
             !state.email
+            || !state.password
             || !(state.password == state.confirmPass)
-            || !state.birthDay
+            || !state.birthday
             || !state.fullName
           }
           onPress={register}
           style={{ marginTop: 45 }}
-          text='Register'
+          text='Next'
         />
       </View>
     </Screen>

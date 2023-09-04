@@ -9,11 +9,19 @@ const ForgotPassword = () => {
     const dispatch = useAppDispatch()
     const [state, setState] = useState({
         email: '',
-        birthDay: '',
+        birthday: '',
+        password: '',
+        confirmPass: '',
+        isHidePass: true
     })
 
     const forgotPass = () => {
-        dispatch(forgotPassAction({ email: state.email, birthDay: state.birthDay }))
+        dispatch(forgotPassAction({
+            email: state.email,
+            birthday: state.birthday,
+            password: state.password,
+            confirmPassword: state.confirmPass
+        }))
     }
 
     return (
@@ -34,14 +42,36 @@ const ForgotPassword = () => {
                     style={{ marginTop: 15 }}
                 />
                 <DatePicker
-                    placeholder='Birth day'
-                    onChangeText={birthDay => setState(pre => ({ ...pre, birthDay: birthDay ?? '' }))}
-                    value={state.birthDay}
+                    placeholder='Birthday'
+                    onChangeText={birthday => setState(pre => ({ ...pre, birthday: birthday ?? '' }))}
+                    value={state.birthday}
+                />
+                <Input
+                    isTrim
+                    value={state.password}
+                    onChangeText={password => setState(pre => ({ ...pre, password }))}
+                    placeholder="New Password"
+                    secureTextEntry={state.isHidePass}
+                    style={{ marginTop: 15 }}
+                    isRightIcon
+                    onChangeShowPass={isHidePass => setState(pre => ({ ...pre, isHidePass }))}
+                />
+                <Input
+                    isTrim
+                    value={state.confirmPass}
+                    onChangeText={confirmPass => setState(pre => ({ ...pre, confirmPass }))}
+                    placeholder="Confirm New Password"
+                    secureTextEntry={state.isHidePass}
+                    style={{ marginTop: 15 }}
+                    isRightIcon
+                    onChangeShowPass={isHidePass => setState(pre => ({ ...pre, isHidePass }))}
                 />
                 <Button
                     disable={
                         !state.email
-                        || !state.birthDay
+                        || !state.birthday
+                        || !state.password
+                        || !(state.password == state.confirmPass)
                     }
                     onPress={forgotPass}
                     style={{ marginTop: 45 }}
