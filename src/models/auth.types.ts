@@ -9,7 +9,7 @@ export interface ILoginBody {
 
 export interface IRegisterBody extends ILoginBody {
     confirmPassword: string,
-    birthDay: string,
+    birthday: string,
     fullName: string
 }
 
@@ -20,5 +20,7 @@ export interface IVerifyOtpBody {
 
 export interface IForgotPassBody {
     email: string,
-    birthDay: string
+    birthday: string,
+    password: string,
+    confirmPassword: string
 }

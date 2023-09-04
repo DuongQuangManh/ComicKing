@@ -6,13 +6,15 @@ import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/go
 import { loginAction, loginWithGoogleAction } from '@redux/authSlice'
 import { useAppDispatch } from '@redux/store';
 import { Screen } from '../screen';
-import { navigate } from '@navigations'
+import { StackParamList, navigate } from '@navigations'
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 const Login = () => {
   const dispatch = useAppDispatch()
+  const params = useRoute<RouteProp<StackParamList, 'login'>>().params
   const [state, setState] = useState({
-    email: '',
-    password: '',
+    email: params?.email ?? '',
+    password: params?.password ?? '',
     isShowPass: true
   })
 

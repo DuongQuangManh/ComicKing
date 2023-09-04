@@ -11,7 +11,7 @@ interface propsComponent {
   hintColor?: string,
   isRightIcon?: boolean,
   containerStyle?: StyleProp<ViewStyle>,
-  onChangeShowPass?: (isShow: boolean) => void,
+  onChangeShowPass?: (isHide: boolean) => void,
   isTrim?: boolean,
   value: string
 }

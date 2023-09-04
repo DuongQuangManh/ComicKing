@@ -9,7 +9,7 @@ export const navigate = (name: ScreensName, params?: StackParamList[typeof name]
     }
 }
 
-export const reset = (index: number, routes: { name: ScreensName }[]) => {
+export const reset = (routes: { name: ScreensName, params?: any }[], index: number = 0) => {
     if (navigationRef.isReady()) {
         navigationRef.reset({
             index,
@@ -17,7 +17,7 @@ export const reset = (index: number, routes: { name: ScreensName }[]) => {
         })
     }
 }
-export const replace = (name: ScreensName, params: any) => {
+export const replace = (name: ScreensName, params?: any) => {
     if (navigationRef.isReady()) {
         navigationRef.dispatch(StackActions.replace(name, params))
     }

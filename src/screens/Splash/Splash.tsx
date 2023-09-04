@@ -2,12 +2,12 @@ import { StyleSheet, View, Image } from 'react-native';
 import React, { useEffect } from 'react';
 import { WINDOW_WIDTH, myColors } from '../../utils';
 import { Screen } from '../screen';
-import { navigate } from '@navigations';
+import { replace } from '@navigations';
 
 const Splash = () => {
   useEffect(() => {
     setTimeout(() => {
-      navigate('login');
+      replace('login');
     }, 2000);
   }, []);
   return (
