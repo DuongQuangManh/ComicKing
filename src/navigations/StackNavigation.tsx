@@ -9,7 +9,8 @@ import {
     Splash,
     Register,
     Message,
-    Loading
+    Loading,
+    Home
 } from '@screens';
 import { StackParamList, navigationRef } from '@navigations';
 
@@ -26,6 +27,7 @@ export const Stacknavigation = () => {
                 <Stack.Screen name='otpVerification' component={OtpVerification} />
                 <Stack.Screen name='forgotPassword' component={ForgotPassword} />
 
+                <Stack.Screen name='home' component={Home} />
                 {/* common screens */}
                 <Stack.Group
                     screenOptions={{

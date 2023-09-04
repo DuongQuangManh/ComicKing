@@ -51,9 +51,13 @@ const Login = () => {
       </View>
       <View style={styles.box}>
         <Input
+          value={state.email}
+          isTrim
           onChangeText={email => setState(pre => ({ ...pre, email }))}
           placeholder="Email" />
         <Input
+          value={state.password}
+          isTrim
           onChangeText={password => setState(pre => ({ ...pre, password }))}
           placeholder="Password"
           secureTextEntry={state.isShowPass}
@@ -73,6 +77,7 @@ const Login = () => {
           <Text>Forgot password?</Text>
         </TouchableOpacity>
         <Button
+          disable={!state.email || !state.password}
           onPress={login}
           text="Sign In"
           height={45}

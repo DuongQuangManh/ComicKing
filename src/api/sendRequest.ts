@@ -25,7 +25,6 @@ export const sendRequest = (
         }
         fetch(url, option).then((response) => {
             try {
-                console.log('respone', response)
                 return response.json();
             } catch (err) {
                 reject({ err: 2, message: 'Session expired' });

@@ -73,7 +73,8 @@ export const myTheme = {
     textHint: '#74747494',
     transparentGray: '#8787878d',
     transparent: 'transparent',
-    backgroundMsg: '#0000002d'
+    backgroundMsg: '#0000002d',
+    disablePrimary: '#fb6d798f'
   },
   fonts: configureFonts({ config: fontConfig as any, isV3: false }) as any,
   roundness: 5

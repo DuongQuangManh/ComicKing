@@ -6,6 +6,7 @@ import ChangePassword from './Setting/ChangePassword'
 import OtpVerification from './Auth/OtpVerification'
 import Message from './Common/Message'
 import Loading from './Common/Loading'
+import Home from './Home/Home'
 
 export {
     Splash,
@@ -15,5 +16,6 @@ export {
     ChangePassword,
     OtpVerification,
     Message,
-    Loading
+    Loading,
+    Home
 }

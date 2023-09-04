@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { ILoginBody, IRegisterBody, IVerifyOtpBody } from '@models'
+import { IForgotPassBody, ILoginBody, IRegisterBody, IVerifyOtpBody } from '@models'
 import { helper } from '@utils'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
@@ -22,7 +22,7 @@ export const loginAction = createAsyncThunk(
             const respone = await sendRequest(path, body)
             helper.hideLoading()
             if (respone.err != 200) {
-                helper.showMsg(respone.message)
+                helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             } else if (respone.needVerifyOtp) {
                 navigate('otpVerification', { verifyAction: 'login', message: respone.message, email: respone.email })
@@ -47,7 +47,7 @@ export const registerAction = createAsyncThunk(
             const respone = await sendRequest(path, body)
             helper.hideLoading()
             if (respone.err != 200) {
-                helper.showMsg(respone.message)
+                helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
             navigate('otpVerification', { verifyAction: 'register', message: respone.message, email: respone.email })
@@ -67,7 +67,7 @@ export const loginVerifyOtpAction = createAsyncThunk(
             const respone = await sendRequest(path, body)
             helper.hideLoading()
             if (respone.err != 200) {
-                helper.showMsg(respone.message)
+                helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
             return respone.data
@@ -79,16 +79,17 @@ export const loginVerifyOtpAction = createAsyncThunk(
 )
 
 export const registerVerifyOtpAction = createAsyncThunk(
-    'auth/registerVerifyOtp', async (body: IRegisterBody, { rejectWithValue }) => {
+    'auth/registerVerifyOtp', async (body: IVerifyOtpBody, { rejectWithValue }) => {
         let path = 'api/user/registerVerifyOtp'
         try {
             helper.showLoading()
             const respone = await sendRequest(path, body)
             helper.hideLoading()
             if (respone.err != 200) {
-                helper.showMsg(respone.message)
+                helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
+            helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
@@ -111,7 +112,7 @@ export const loginWithGoogleAction = createAsyncThunk(
             const respone = await sendRequest(path, { idToken: await user.getIdToken() })
             helper.hideLoading()
             if (respone.err != 200) {
-                helper.showMsg(respone.message)
+                helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
             return respone.data
@@ -123,7 +124,7 @@ export const loginWithGoogleAction = createAsyncThunk(
 )
 
 export const forgotPassAction = createAsyncThunk(
-    'auth/forgotPass', async (body, { rejectWithValue }) => {
+    'auth/forgotPass', async (body: IForgotPassBody, { rejectWithValue }) => {
 
     }
 )

@@ -37,7 +37,7 @@ const OtpVerification = () => {
             case 'forgotPass':
                 return dispatch(forgotPassVerifyOtpAction({ code, email }))
             case 'register':
-                return dispatch(forgotPassVerifyOtpAction({ code, email }))
+                return dispatch(registerVerifyOtpAction({ code, email }))
         }
     }
 
