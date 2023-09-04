@@ -1,4 +1,5 @@
 import { getCurrentRouter, goBack, navigate } from "@navigations"
+import { store } from "@redux/store"
 
 export const helper = {
     // you can pass 'message' param only
@@ -24,5 +25,8 @@ export const helper = {
     },
     showFlashMsg: () => {
 
+    },
+    getAccessToken: () => {
+        return store.getState()?.authSlice?.token
     }
 }
