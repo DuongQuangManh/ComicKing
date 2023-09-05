@@ -17,6 +17,14 @@ export const helper = {
     ) => {
         navigate('message', { message, msgType: 'success', title, onOk: onPress })
     },
+    showConfirmMsg: (
+        message: string,
+        onOk: () => void,
+        onCancel: () => void = goBack,
+        title: string = 'Message'
+    ) => {
+        navigate('confirmMessage', { message, onOk, onCancel, title })
+    },
     showLoading: () => {
         navigate('loading')
     },

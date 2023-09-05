@@ -7,6 +7,8 @@ import OtpVerification from './Auth/OtpVerification'
 import Message from './Common/Message'
 import Loading from './Common/Loading'
 import Home from './Home/Home'
+import Profile from './Profile/Profile'
+import ConfirmMessage from './Common/ConfirmMessage'
 
 export {
     Splash,
@@ -17,5 +19,7 @@ export {
     OtpVerification,
     Message,
     Loading,
-    Home
+    Home,
+    Profile,
+    ConfirmMessage
 }

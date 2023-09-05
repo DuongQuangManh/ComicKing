@@ -10,9 +10,10 @@ import {
     Register,
     Message,
     Loading,
-    Home
+    ConfirmMessage
 } from '@screens';
 import { StackParamList, navigationRef } from '@navigations';
+import BottomTabNavigation from './BottomTabNavigation';
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -27,7 +28,8 @@ export const Stacknavigation = () => {
                 <Stack.Screen name='otpVerification' component={OtpVerification} />
                 <Stack.Screen name='forgotPassword' component={ForgotPassword} />
 
-                <Stack.Screen name='home' component={Home} />
+                <Stack.Screen name='bottomHome' component={BottomTabNavigation} />
+
                 {/* common screens */}
                 <Stack.Group
                     screenOptions={{
@@ -36,6 +38,7 @@ export const Stacknavigation = () => {
                     }}>
                     <Stack.Screen name='message' component={Message} />
                     <Stack.Screen name='loading' component={Loading} />
+                    <Stack.Screen name='confirmMessage' component={ConfirmMessage} />
                 </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>

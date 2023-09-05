@@ -8,7 +8,7 @@ export const sendRequest = (
     tokenType = TOKEN_TYPE.BASIC, token = process.env.BASIC_TOKEN
 ) => {
     // let url = `${process.env.HOST_NAME}${path}`;
-    let url = `${__DEV__ ? 'http://192.168.1.6:1337/' : process.env.HOST_NAME}${path}`;
+    let url = `${process.env.HOST_NAME}${path}`;
     return new Promise<ApiResult>(async function (resolve, reject) {
         let option = {
             method: method,

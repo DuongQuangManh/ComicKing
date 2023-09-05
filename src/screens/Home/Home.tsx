@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { Screen } from '../screen'
 
 const Home = () => {
     return (
-        <View>
-            <Text>Home</Text>
-        </View>
+        <Screen preset='scroll'>
+
+        </Screen>
     )
 }
 

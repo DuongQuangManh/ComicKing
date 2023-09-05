@@ -11,7 +11,7 @@ const Splash = () => {
     SplashScreen.hide()
     setTimeout(() => {
       if (helper.getAccessToken()) {
-        replace('home')
+        replace('bottomHome')
       } else {
         replace('login');
       }
