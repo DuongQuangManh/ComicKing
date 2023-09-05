@@ -4,7 +4,7 @@ import { helper } from '@utils'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import { sendRequest } from '@api'
-import { goBack, navigate, replace, reset } from '@navigations'
+import { navigate, replace, reset } from '@navigations'
 
 export interface IAuthState {
     token: string
@@ -34,10 +34,6 @@ export const loginAction = createAsyncThunk(
         }
     }
 )
-
-export const logoutAction = () => {
-
-}
 
 export const registerAction = createAsyncThunk(
     'auth/register', async (body: IRegisterBody, { rejectWithValue }) => {
@@ -93,7 +89,7 @@ export const registerVerifyOtpAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
-            replace('home')
+            replace('bottomHome')
             helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
@@ -176,11 +172,35 @@ export const forgotPassVerifyOtpAction = createAsyncThunk(
     }
 )
 
+export const resendOtp = createAsyncThunk(
+    'auth/resendOtpt', async (body: { email: string }, { rejectWithValue }) => {
+        let path = 'api/user/resendOtp'
+        try {
+            helper.showLoading()
+            const respone = await sendRequest(path, body)
+            helper.hideLoading()
+            console.log(respone)
+            if (respone.err != 200) {
+                helper.showErrorMsg(respone.message)
+                return rejectWithValue(respone.message)
+            }
+            return
+        } catch (error: any) {
+            helper.hideLoading()
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-
+        logout: () => {
+            console.log('123')
+            reset([{ name: 'login' }])
+            return initialState
+        }
     },
     extraReducers(builder) {
         builder
@@ -199,7 +219,7 @@ const authSlice = createSlice({
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                replace('home')
+                replace('bottomHome')
             })
             .addCase(loginVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
@@ -219,7 +239,11 @@ const authSlice = createSlice({
             .addCase(forgotPassVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
+            .addCase(resendOtp.rejected, (state, action) => {
+                console.log('Error at authSlice', action.payload)
+            })
     },
 })
 
+export const { logout } = authSlice.actions
 export default authSlice.reducer

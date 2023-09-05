@@ -8,7 +8,8 @@ import { useAppDispatch } from '@redux/store'
 import {
     loginVerifyOtpAction,
     registerVerifyOtpAction,
-    forgotPassVerifyOtpAction
+    forgotPassVerifyOtpAction,
+    resendOtp
 } from '@redux/authSlice'
 import { myColors } from '@utils'
 
@@ -41,12 +42,13 @@ const OtpVerification = () => {
         }
     }
 
-    const resendOtp = () => {
+    const onResendOtp = async () => {
+        await dispatch(resendOtp({ email }))
         setState(pre => ({ ...pre, cooldown: 60 }))
     }
 
     return (
-        <Screen>
+        <Screen preset='scroll'>
             <Header text='Verity OTP code' />
             <View style={{ paddingHorizontal: 20, marginTop: 30 }}>
                 <Text style={{ lineHeight: 18 }}>{message}</Text>
@@ -58,7 +60,7 @@ const OtpVerification = () => {
                 }}>
                     <TouchableOpacity
                         disabled={state.cooldown > 0}
-                        onPress={resendOtp}
+                        onPress={onResendOtp}
                     >
                         <Text type='semibold_18'
                             style={{ color: state.cooldown <= 0 ? myColors.primary : myColors.textHint }}>Resend</Text>

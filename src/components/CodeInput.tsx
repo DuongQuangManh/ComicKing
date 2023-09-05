@@ -1,6 +1,18 @@
-import { StyleProp, StyleSheet, Text, View, ViewStyle, Keyboard } from 'react-native'
+import {
+    StyleProp,
+    StyleSheet,
+    Text,
+    View,
+    ViewStyle,
+    Platform
+} from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell } from 'react-native-confirmation-code-field'
+import {
+    CodeField,
+    Cursor,
+    useBlurOnFulfill,
+    useClearByFocusCell
+} from 'react-native-confirmation-code-field'
 import { myColors } from '@utils'
 
 interface CodeInputProps {
@@ -23,17 +35,23 @@ const CodeInput: React.FC<CodeInputProps> = ({
     containerStyle
 }) => {
     const [value, setValue] = useState('');
+    const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value, setValue });
+    const ref = useBlurOnFulfill({ value, cellCount });
 
     useEffect(() => {
         if (value.length >= 6) {
-            Keyboard.dismiss()
-            onFull(value.substring(0, 6))
+            onFull(value)
         }
     }, [value])
 
+    useEffect(() => {
+        Platform.OS === "ios" ? ref.current?.focus() : setTimeout(() => ref.current?.focus(), 50)
+    }, [])
 
     return (
         <CodeField
+            ref={ref}
+            {...props}
             value={value}
             onChangeText={setValue}
             cellCount={cellCount}
@@ -43,6 +61,7 @@ const CodeInput: React.FC<CodeInputProps> = ({
             renderCell={({ index, symbol, isFocused }) => (
                 <View
                     key={index}
+                    onLayout={getCellOnLayoutHandler(index)}
                     style={[
                         {
                             width: cellWidth,

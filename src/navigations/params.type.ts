@@ -21,5 +21,13 @@ export type StackParamList = {
         msgType: 'error' | 'success'
     },
     loading: undefined,
-    home: undefined
+    home: undefined,
+    setting: undefined,
+    bottomHome: undefined,
+    confirmMessage: {
+        title: string,
+        message: string,
+        onOk: () => void,
+        onCancel: () => void
+    }
 }
