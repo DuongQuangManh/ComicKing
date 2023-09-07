@@ -89,7 +89,7 @@ export const registerVerifyOtpAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
-            replace('bottomHome')
+            replace('home')
             helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
@@ -219,7 +219,7 @@ const authSlice = createSlice({
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                replace('bottomHome')
+                replace('home')
             })
             .addCase(loginVerifyOtpAction.rejected, (state, action) => {
                 console.log('[Error at authSlice]', action.payload)

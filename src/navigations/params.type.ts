@@ -23,7 +23,6 @@ export type StackParamList = {
     loading: undefined,
     home: undefined,
     setting: undefined,
-    bottomHome: undefined,
     confirmMessage: {
         title: string,
         message: string,

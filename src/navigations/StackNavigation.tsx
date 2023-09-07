@@ -10,7 +10,8 @@ import {
     Register,
     Message,
     Loading,
-    ConfirmMessage
+    ConfirmMessage,
+    Home
 } from '@screens';
 import { StackParamList, navigationRef } from '@navigations';
 import BottomTabNavigation from './BottomTabNavigation';
@@ -28,7 +29,7 @@ export const Stacknavigation = () => {
                 <Stack.Screen name='otpVerification' component={OtpVerification} />
                 <Stack.Screen name='forgotPassword' component={ForgotPassword} />
 
-                <Stack.Screen name='bottomHome' component={BottomTabNavigation} />
+                <Stack.Screen name='home' component={Home} />
 
                 {/* common screens */}
                 <Stack.Group
