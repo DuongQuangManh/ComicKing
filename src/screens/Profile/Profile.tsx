@@ -12,7 +12,7 @@ import { Screen } from '../screen'
 import { helper, myColors } from '@utils'
 import { Badge, Icon, Icons } from '@components'
 import { useAppDispatch } from '@redux/store'
-import { logout } from '@redux/authSlice'
+import { logoutAction } from '@redux/authSlice'
 
 const Profile = () => {
     const dispatch = useAppDispatch()
@@ -24,7 +24,7 @@ const Profile = () => {
     const handleLogout = async () => {
         helper.showConfirmMsg(
             'Do you want logout?',
-            () => { dispatch(logout()) },
+            () => { dispatch(logoutAction()) },
         )
     }
 

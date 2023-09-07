@@ -44,12 +44,12 @@ const ConfirmMessage = () => {
                         buttonColor={myColors.background}
                         textColor={myColors.textHint}
                         width={'40%'}
-                        text='Cancel'
-                        onPress={onCancel} />
-                    <Button
-                        width={'40%'}
                         text='OK'
                         onPress={onOk} />
+                    <Button
+                        width={'40%'}
+                        text='Cancel'
+                        onPress={onCancel} />
                 </View>
             </View>
         </Modal>

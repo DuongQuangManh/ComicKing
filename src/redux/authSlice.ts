@@ -5,6 +5,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import { sendRequest } from '@api'
 import { navigate, replace, reset } from '@navigations'
+import { AccessToken, LoginManager } from 'react-native-fbsdk-next'
 
 export interface IAuthState {
     token: string
@@ -89,7 +90,7 @@ export const registerVerifyOtpAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
-            replace('bottomHome')
+            reset([{ name: 'bottomHome' }])
             helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
@@ -112,6 +113,38 @@ export const loginWithGoogleAction = createAsyncThunk(
             const user = userCredential.user;
             const respone = await sendRequest(path, { idToken: await user.getIdToken() })
             helper.hideLoading()
+            if (respone.err != 200) {
+                helper.showErrorMsg(respone.message)
+                return rejectWithValue(respone.message)
+            }
+            return respone.data
+        } catch (error: any) {
+            helper.hideLoading()
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
+
+export const loginWithFacebookAction = createAsyncThunk(
+    'auth/loginWithFacebook',
+    async (_, { rejectWithValue }) => {
+        let path = 'api/user/loginWithFacebook'
+        try {
+            await LoginManager.logInWithPermissions(['public_profile', 'email']);
+            const data = await AccessToken.getCurrentAccessToken()
+            if (!data) return rejectWithValue('Invalid accesstoken')
+
+            helper.showLoading()
+            const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken)
+            const userCredential = await auth().signInWithCredential(facebookCredential)
+            const user = userCredential.user
+            console.log(user)
+            console.log(await user.getIdToken())
+
+            const respone = await sendRequest(path, { idToken: await user.getIdToken() })
+            helper.hideLoading()
+
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
@@ -192,58 +225,82 @@ export const resendOtp = createAsyncThunk(
     }
 )
 
+export const logoutAction = createAsyncThunk(
+    'auth/logout', async (_, { rejectWithValue }) => {
+        try {
+            helper.showLoading()
+            LoginManager.logOut()
+            await GoogleSignin.signOut()
+            reset([{ name: 'login' }])
+            helper.hideLoading()
+            return initialState
+        } catch (error: any) {
+            helper.hideLoading()
+            return rejectWithValue(error.message)
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        logout: () => {
-            console.log('123')
-            reset([{ name: 'login' }])
-            return initialState
-        }
     },
     extraReducers(builder) {
         builder
             .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                navigate('home')
+                reset([{ name: 'bottomHome' }])
             })
-            .addCase(loginWithGoogleAction.rejected, (state, action) => {
+            .addCase(loginWithGoogleAction.rejected, (_, action) => {
+                console.log('[Error at authSlice]', action.payload)
+            })
+            .addCase(loginWithFacebookAction.fulfilled, (state, action) => {
+                state.token = action.payload?.accessToken
+                reset([{ name: 'bottomHome' }])
+            })
+            .addCase(loginWithFacebookAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
             })
-            .addCase(loginAction.rejected, (state, action) => {
+            .addCase(loginAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                replace('bottomHome')
+                reset([{ name: 'bottomHome' }])
             })
-            .addCase(loginVerifyOtpAction.rejected, (state, action) => {
+            .addCase(loginVerifyOtpAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
-            .addCase(registerAction.rejected, (state, action) => {
+            .addCase(registerAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(registerVerifyOtpAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
             })
-            .addCase(registerVerifyOtpAction.rejected, (state, action) => {
+            .addCase(registerVerifyOtpAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
-            .addCase(forgotPassAction.rejected, (state, action) => {
+            .addCase(forgotPassAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
-            .addCase(forgotPassVerifyOtpAction.rejected, (state, action) => {
+            .addCase(forgotPassVerifyOtpAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
-            .addCase(resendOtp.rejected, (state, action) => {
+            .addCase(resendOtp.rejected, (_, action) => {
+                console.log('Error at authSlice', action.payload)
+            })
+            .addCase(logoutAction.fulfilled, (state, action) => {
+                if (action.payload)
+                    state = action.payload
+            })
+            .addCase(logoutAction.rejected, (_, action) => {
                 console.log('Error at authSlice', action.payload)
             })
     },
 })
 
-export const { logout } = authSlice.actions
 export default authSlice.reducer
