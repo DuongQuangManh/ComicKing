@@ -14,37 +14,36 @@ import FbLoginBtn from './component/FbLoginBtn';
 import GgLoginBtn from './component/GgLoginBtn';
 
 const Login = () => {
-  const dispatch = useAppDispatch()
-  const params = useRoute<RouteProp<StackParamList, 'login'>>().params
+  const dispatch = useAppDispatch();
+  const params = useRoute<RouteProp<StackParamList, 'login'>>().params;
   const [state, setState] = useState({
     email: params?.email ?? '',
     password: params?.password ?? '',
-    isShowPass: true
-  })
+    isShowPass: true,
+  });
 
   const navigateRegister = () => {
-    navigate('register')
+    navigate('register');
     // navigate('otpVerification', { verifyAction: 'login', message: 'Vui lòng xác minh mã Otp từ email Le gia tuan dep trai để hoàn thành đăng nhập.', email: 'legiatuan03@gmail.com' })
-  }
+  };
   const navigateForgot = () => {
-    navigate('forgotPassword')
-  }
+    navigate('forgotPassword');
+  };
   const login = () => {
-    dispatch(loginAction({ email: state.email, password: state.password }))
-  }
-
+    dispatch(loginAction({ email: state.email, password: state.password }));
+  };
 
   useEffect(() => {
     GoogleSignin.configure({
       webClientId: process.env.GOOGLE_AUTH_WEB_ID,
       offlineAccess: true,
-      forceCodeForRefreshToken: true
-    })
-  }, [])
+      forceCodeForRefreshToken: true,
+    });
+  }, []);
 
   const loginWithGoogle = async () => {
-    dispatch(loginWithGoogleAction())
-  }
+    dispatch(loginWithGoogleAction());
+  };
 
   const loginWithFacebook = async () => {
     dispatch(loginWithFacebookAction())

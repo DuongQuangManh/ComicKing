@@ -90,7 +90,7 @@ export const registerVerifyOtpAction = createAsyncThunk(
                 helper.showErrorMsg(respone.message)
                 return rejectWithValue(respone.message)
             }
-            reset([{ name: 'bottomHome' }])
+            reset([{ name: 'home' }])
             helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
@@ -250,14 +250,14 @@ const authSlice = createSlice({
         builder
             .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                reset([{ name: 'bottomHome' }])
+                reset([{ name: 'home' }])
             })
             .addCase(loginWithGoogleAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginWithFacebookAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                reset([{ name: 'bottomHome' }])
+                reset([{ name: 'home' }])
             })
             .addCase(loginWithFacebookAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
@@ -270,7 +270,7 @@ const authSlice = createSlice({
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
                 state.token = action.payload?.accessToken
-                reset([{ name: 'bottomHome' }])
+                reset([{ name: 'home' }])
             })
             .addCase(loginVerifyOtpAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)

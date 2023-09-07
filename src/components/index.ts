@@ -8,6 +8,8 @@ import { Icons } from './Icon'
 import Footer from './Footer'
 import DatePicker from './DatePicker'
 import Badge from './Badge'
+import HeaderHome from './HeaderHome'
+import TextCustom from './TextCustom'
 
 export {
     Button,
@@ -19,5 +21,7 @@ export {
     Icons,
     Footer,
     DatePicker,
-    Badge
+    Badge,
+    HeaderHome,
+    TextCustom
 }
