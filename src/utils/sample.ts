@@ -1,3 +1,5 @@
+import { Icons } from "@components";
+
 export const Type = [
   {
     id: 1,
@@ -77,8 +79,40 @@ export const Comic = [
   },
 ];
 
-// export const Comic = [
-//     {
-//         name
-//     }
-// ]
+
+export const Utilitys = [{
+  id:1,
+  name:"Search",
+  nameIcon:"search",
+  typeIcon:Icons.Ionicons,
+},{
+  id:2,
+  name:"Favorite",
+  nameIcon:"heart-outline",
+  typeIcon:Icons.Ionicons,
+},{
+  id:3,
+  name:"Notification",
+  nameIcon:"bell-o",
+  typeIcon:Icons.FontAwesome,
+},{
+  id:4,
+  name:"Nigh mode",
+  nameIcon:"light-down",
+  typeIcon:Icons.Entypo,
+},{
+  id:5,
+  name:"Donate",
+  nameIcon:"gift-outline",
+  typeIcon:Icons.Ionicons,
+},{
+  id:3,
+  name:"Setting",
+  nameIcon:"settings-outline",
+  typeIcon:Icons.Ionicons,
+},{
+  id:4,
+  name:"Sign out",
+  nameIcon:"sign-out",
+  typeIcon:Icons.Octicons,
+}]

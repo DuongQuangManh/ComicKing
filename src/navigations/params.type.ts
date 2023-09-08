@@ -29,4 +29,7 @@ export type StackParamList = {
         onOk: () => void,
         onCancel: () => void
     }
+    utility:{
+        
+    }
 }

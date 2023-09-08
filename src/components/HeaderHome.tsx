@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import React, {FC} from 'react';
 import {WINDOW_WIDTH, myColors} from '@utils';
 import Icon, {Icons} from './Icon';
+import Text from './Text';
 interface propsComponent {
   onClick?: () => void;
 }
@@ -17,10 +18,11 @@ const HeaderHome: FC<propsComponent> = ({...props}) => {
         </View>
         <View style={styles.name}>
           <Text
+            type="semibold_16"
             style={{
               color: myColors.text,
               fontSize: 15,
-              fontWeight: '400',
+              fontWeight: '600',
             }}>
             Good morning
           </Text>
@@ -28,7 +30,7 @@ const HeaderHome: FC<propsComponent> = ({...props}) => {
             style={{
               color: myColors.text,
               fontSize: 18,
-              fontWeight: '600',
+              fontWeight: '800',
             }}>
             Dương Quang Mạnh
           </Text>
