@@ -9,6 +9,7 @@ import Loading from './Common/Loading'
 import Home from './Home/Home'
 import Profile from './Profile/Profile'
 import ConfirmMessage from './Common/ConfirmMessage'
+import Utility from './Profile/Utility'
 
 export {
     Splash,
@@ -21,5 +22,6 @@ export {
     Loading,
     Home,
     Profile,
-    ConfirmMessage
+    ConfirmMessage,
+    Utility
 }

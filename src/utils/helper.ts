@@ -36,5 +36,5 @@ export const helper = {
     },
     getAccessToken: () => {
         return store.getState()?.authSlice?.token
-    }
+    },
 }

@@ -32,6 +32,7 @@ const enFontConfig = {
 
   semibold_14: getFontType(14, '600', 'AvenirLTStd-Heavy'),
   semibold_16: getFontType(16, '600', 'AvenirLTStd-Heavy'),
+  semibold_17: getFontType(17, '600', 'AvenirLTStd-Heavy'),
   semibold_18: getFontType(18, '600', 'AvenirLTStd-Heavy'),
   semibold_20: getFontType(20, '600', 'AvenirLTStd-Heavy'),
   semibold_22: getFontType(22, '600', 'AvenirLTStd-Heavy'),
@@ -71,6 +72,8 @@ export const myTheme = {
     background: '#fff',
     text: '#202020',
     textHint: '#74747494',
+    gray:'#efeeee',
+    blackCustom:'#334249',
     transparentGray: '#8787878d',
     transparent: 'transparent',
     backgroundMsg: '#0000002d',

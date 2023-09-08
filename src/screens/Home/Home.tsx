@@ -4,10 +4,11 @@ import {Screen} from '../screen';
 import {HeaderHome} from '@components';
 import {Comic, Type, myColors} from '@utils';
 import {ItemComic, ItemType} from '@items';
+import {navigate} from '@navigations';
 
 const Home = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
-  const animatedHeaderVisible = useRef(new Animated.Value(1)).current;
+  const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const listener = scrollY.addListener(({value}) => {
@@ -42,7 +43,7 @@ const Home = () => {
         style={{
           transform: [{translateY}],
         }}>
-        <HeaderHome />
+        <HeaderHome onClick={() => navigate('utility')} />
         <FlatList
           data={Type}
           renderItem={({item}) => <ItemType item={item} />}
