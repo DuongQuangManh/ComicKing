@@ -1,7 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { configureStore, } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER
+} from 'redux-persist';
 import rootReducer from './rootReducer';
 
 const persistConfig = {
@@ -12,15 +21,17 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
     reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) => {
-        const middlewares = getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-            },
-        })
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        thunk: {
+            extraArgument: {
+                dispatch: useAppDispatch
+            }
+        },
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        }
 
-        return middlewares
-    },
+    })
 })
 
 export type RootState = ReturnType<typeof store.getState>
