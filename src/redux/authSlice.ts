@@ -4,40 +4,38 @@ import { helper } from '@utils'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import { sendRequest } from '@api'
-import { navigate, replace, reset } from '@navigations'
+import { navigate, reset } from '@navigations'
 import { AccessToken, LoginManager } from 'react-native-fbsdk-next'
-
-export interface IAuthState {
-    token: string
-}
-
-const initialState: IAuthState = {
-    token: '',
-}
+import { RootState } from './store'
 
 export const loginAction = createAsyncThunk(
-    'auth/login', async (body: ILoginBody, { rejectWithValue }) => {
+    'auth/login', async (body: ILoginBody) => {
         let path = 'api/user/login'
         try {
             helper.showLoading()
             const respone = await sendRequest(path, body)
-            helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             } else if (respone.needVerifyOtp) {
-                navigate('otpVerification', { verifyAction: 'login', message: respone.message, email: respone.email })
+                helper.hideLoading()
+                navigate('otpVerification', {
+                    verifyAction: 'login',
+                    message: respone.message,
+                    email: respone.email
+                })
+                return false
             }
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const registerAction = createAsyncThunk(
-    'auth/register', async (body: IRegisterBody, { rejectWithValue }) => {
+    'auth/register', async (body: IRegisterBody) => {
         let path = 'api/user/register'
         try {
             helper.showLoading()
@@ -45,7 +43,7 @@ export const registerAction = createAsyncThunk(
             helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             navigate('otpVerification', {
                 verifyAction: 'register',
@@ -55,32 +53,31 @@ export const registerAction = createAsyncThunk(
             return
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const loginVerifyOtpAction = createAsyncThunk(
-    'auth/loginVerifyOtp', async (body: IVerifyOtpBody, { rejectWithValue }) => {
+    'auth/loginVerifyOtp', async (body: IVerifyOtpBody) => {
         let path = 'api/user/loginVerifyOtp'
         try {
             helper.showLoading()
             const respone = await sendRequest(path, body)
-            helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const registerVerifyOtpAction = createAsyncThunk(
-    'auth/registerVerifyOtp', async (body: IVerifyOtpBody, { rejectWithValue }) => {
+    'auth/registerVerifyOtp', async (body: IVerifyOtpBody,) => {
         let path = 'api/user/registerVerifyOtp'
         try {
             helper.showLoading()
@@ -88,21 +85,19 @@ export const registerVerifyOtpAction = createAsyncThunk(
             helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
-            reset([{ name: 'home' }])
-            helper.showSuccessMsg(respone.message)
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const loginWithGoogleAction = createAsyncThunk(
     'auth/loginWithGoogle',
-    async (_, { rejectWithValue }) => {
+    async () => {
         let path = 'api/user/loginWithGoogle'
         try {
             await GoogleSignin.hasPlayServices()
@@ -112,15 +107,14 @@ export const loginWithGoogleAction = createAsyncThunk(
             const userCredential = await auth().signInWithCredential(googleCredential)
             const user = userCredential.user;
             const respone = await sendRequest(path, { idToken: await user.getIdToken() })
-            helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
@@ -128,37 +122,34 @@ export const loginWithGoogleAction = createAsyncThunk(
 
 export const loginWithFacebookAction = createAsyncThunk(
     'auth/loginWithFacebook',
-    async (_, { rejectWithValue }) => {
+    async () => {
         let path = 'api/user/loginWithFacebook'
         try {
             await LoginManager.logInWithPermissions(['public_profile', 'email']);
             const data = await AccessToken.getCurrentAccessToken()
-            if (!data) return rejectWithValue('Invalid accesstoken')
+            if (!data) return false
 
             helper.showLoading()
             const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken)
             const userCredential = await auth().signInWithCredential(facebookCredential)
             const user = userCredential.user
-            console.log(user)
-            console.log(await user.getIdToken())
 
             const respone = await sendRequest(path, { idToken: await user.getIdToken() })
-            helper.hideLoading()
 
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             return respone.data
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const forgotPassAction = createAsyncThunk(
-    'auth/forgotPass', async (body: IForgotPassBody, { rejectWithValue }) => {
+    'auth/forgotPass', async (body: IForgotPassBody) => {
         let path = 'api/user/forgotPassword'
         try {
             helper.showLoading()
@@ -166,7 +157,7 @@ export const forgotPassAction = createAsyncThunk(
             helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             navigate('otpVerification', {
                 verifyAction: 'forgotPass',
@@ -176,13 +167,13 @@ export const forgotPassAction = createAsyncThunk(
             return
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const forgotPassVerifyOtpAction = createAsyncThunk(
-    'auth/forgotPassVerifyOtp', async (body: IVerifyOtpBody, { rejectWithValue }) => {
+    'auth/forgotPassVerifyOtp', async (body: IVerifyOtpBody) => {
         let path = 'api/user/forgotPasswordVerifyOtp'
         try {
             helper.showLoading()
@@ -190,7 +181,7 @@ export const forgotPassVerifyOtpAction = createAsyncThunk(
             helper.hideLoading()
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             helper.showSuccessMsg(
                 respone.message,
@@ -200,46 +191,58 @@ export const forgotPassVerifyOtpAction = createAsyncThunk(
             return
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
 export const resendOtp = createAsyncThunk(
-    'auth/resendOtpt', async (body: { email: string }, { rejectWithValue }) => {
+    'auth/resendOtpt', async (body: { email: string },) => {
         let path = 'api/user/resendOtp'
         try {
             helper.showLoading()
             const respone = await sendRequest(path, body)
             helper.hideLoading()
-            console.log(respone)
             if (respone.err != 200) {
                 helper.showErrorMsg(respone.message)
-                return rejectWithValue(respone.message)
+                return false
             }
             return
         } catch (error: any) {
             helper.hideLoading()
-            return rejectWithValue(error.message)
+            return false
         }
     }
 )
 
-export const logoutAction = createAsyncThunk(
-    'auth/logout', async (_, { rejectWithValue }) => {
+export const logoutAction = createAsyncThunk<void, void, { state: RootState }>(
+    'auth/logout', async (_, { getState }) => {
         try {
-            helper.showLoading()
-            LoginManager.logOut()
-            await GoogleSignin.signOut()
-            reset([{ name: 'login' }])
-            helper.hideLoading()
-            return initialState
+            let loginSource = getState().authSlice.loginSource
+            if (loginSource == 'facebook') {
+                console.log('logout facebook')
+                LoginManager?.logOut()
+            }
+            else if (loginSource == 'google') {
+                console.log('logout google')
+                await GoogleSignin.signOut()
+            }
+            return
         } catch (error: any) {
-            helper.hideLoading()
-            return rejectWithValue(error.message)
+            return
         }
     }
 )
+
+export interface IAuthState {
+    token: string,
+    loginSource: 'google' | 'facebook' | 'email'
+}
+
+const initialState: IAuthState = {
+    token: '',
+    loginSource: 'email'
+}
 
 const authSlice = createSlice({
     name: "auth",
@@ -249,56 +252,30 @@ const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
-                reset([{ name: 'home' }])
-            })
-            .addCase(loginWithGoogleAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
+                if (!action.payload) return
+                state.token = action.payload.accessToken
+                state.loginSource = 'google'
             })
             .addCase(loginWithFacebookAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
-                reset([{ name: 'home' }])
-            })
-            .addCase(loginWithFacebookAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
+                if (!action.payload) return
+                state.token = action.payload.accessToken
+                state.loginSource = 'facebook'
             })
             .addCase(loginAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
-            })
-            .addCase(loginAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
+                if (!action.payload) return
+                state.token = action.payload.accessToken
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
-                reset([{ name: 'home' }])
-            })
-            .addCase(loginVerifyOtpAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(registerAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
+                if (!action.payload) return
+                state.token = action.payload.accessToken;
             })
             .addCase(registerVerifyOtpAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
-            })
-            .addCase(registerVerifyOtpAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(forgotPassAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(forgotPassVerifyOtpAction.rejected, (_, action) => {
-                console.log('[Error at authSlice]', action.payload)
-            })
-            .addCase(resendOtp.rejected, (_, action) => {
-                console.log('Error at authSlice', action.payload)
+                if (!action.payload) return
+                state.token = action.payload.accessToken
             })
             .addCase(logoutAction.fulfilled, (state, action) => {
-                if (action.payload)
-                    state = action.payload
-            })
-            .addCase(logoutAction.rejected, (_, action) => {
-                console.log('Error at authSlice', action.payload)
+                state.token = ''
+                state.loginSource = 'email'
             })
     },
 })

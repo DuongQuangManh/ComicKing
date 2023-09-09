@@ -45,7 +45,7 @@ const CodeInput: React.FC<CodeInputProps> = ({
     }, [value])
 
     useEffect(() => {
-        Platform.OS === "ios" ? ref.current?.focus() : setTimeout(() => ref.current?.focus(), 50)
+        Platform.OS === "ios" ? ref.current?.focus() : setTimeout(() => ref.current?.focus(), 100)
     }, [])
 
     return (

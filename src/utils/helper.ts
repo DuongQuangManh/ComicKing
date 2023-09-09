@@ -8,6 +8,7 @@ export const helper = {
         onPress: () => void = goBack,
         title: string = 'Message'
     ) => {
+        helper.hideLoading()
         navigate('message', { message, msgType: 'error', title, onOk: onPress })
     },
     showSuccessMsg: (

@@ -74,6 +74,7 @@ export const myTheme = {
     textHint: '#74747494',
     gray:'#efeeee',
     blackCustom:'#334249',
+    transparentWhite:'#fffffff0',
     transparentGray: '#8787878d',
     transparent: 'transparent',
     backgroundMsg: '#0000002d',

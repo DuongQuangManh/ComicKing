@@ -1,6 +1,6 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 import {
   ChangePassword,
   ForgotPassword,
@@ -12,9 +12,11 @@ import {
   Loading,
   ConfirmMessage,
   Home,
-  Utility,
+  Menu,
+  Notification,
+  Setting
 } from '@screens';
-import {StackParamList, navigationRef} from '@navigations';
+import { StackParamList, navigationRef } from '@navigations';
 import BottomTabNavigation from './BottomTabNavigation';
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -22,15 +24,20 @@ const Stack = createNativeStackNavigator<StackParamList>();
 export const Stacknavigation = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="splash" component={Splash} />
+
         <Stack.Screen name="login" component={Login} />
         <Stack.Screen name="register" component={Register} />
-        <Stack.Screen name="changePassword" component={ChangePassword} />
         <Stack.Screen name="otpVerification" component={OtpVerification} />
         <Stack.Screen name="forgotPassword" component={ForgotPassword} />
 
         <Stack.Screen name="home" component={Home} />
+
+        <Stack.Screen name='notification' component={Notification} />
+
+        <Stack.Screen name='setting' component={Setting} />
+        <Stack.Screen name='changePassword' component={ChangePassword} />
 
         {/* common screens */}
         <Stack.Group
@@ -41,7 +48,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="message" component={Message} />
           <Stack.Screen name="loading" component={Loading} />
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
-          <Stack.Screen name="utility" component={Utility} />
+          <Stack.Screen name="menu" component={Menu} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

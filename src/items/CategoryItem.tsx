@@ -1,22 +1,30 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React, {FC, useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { FC, useState } from 'react';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
-import {myColors} from '@utils';
+import { myColors } from '@utils';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { setSelect } from '@redux/categorySlice';
 interface propsItem {
   item?: any;
 }
-const ItemType: FC<propsItem> = ({item}) => {
-  const handlerClick = () => {};
-  const isSelect = item.name === 'All';
+const CategoryItem: FC<propsItem> = ({ item }) => {
+  const dispatch = useAppDispatch();
+  const handlerClick = () => {
+    dispatch(setSelect(item.id));
+  };
+
+  const loading = useAppSelector(state => state.categorySlice.loading);
+  const select = useAppSelector(state => state.categorySlice.select);
+  const isSelect = item.id === select;
   return (
     <TouchableOpacity onPress={handlerClick}>
       <ShimmerPlaceholder
         LinearGradient={LinearGradient}
-        visible={true}
+        visible={!loading}
         width={80}
         height={40}
-        style={{borderRadius: 18, marginStart: 10}}>
+        style={{ borderRadius: 18, marginStart: 10 }}>
         <View
           style={[
             styles.container,
@@ -29,9 +37,9 @@ const ItemType: FC<propsItem> = ({item}) => {
           <Text
             style={[
               styles.text,
-              {color: isSelect ? myColors.background : undefined},
+              { color: isSelect ? myColors.background : undefined },
             ]}>
-            {item.name}
+            {`${item.title} (${item.numOfComic})`}
           </Text>
         </View>
       </ShimmerPlaceholder>
@@ -39,7 +47,7 @@ const ItemType: FC<propsItem> = ({item}) => {
   );
 };
 
-export default ItemType;
+export default React.memo(CategoryItem)
 
 const styles = StyleSheet.create({
   container: {
