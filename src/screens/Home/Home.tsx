@@ -5,10 +5,19 @@ import {HeaderHome} from '@components';
 import {Comic, Type, myColors} from '@utils';
 import {ItemComic, ItemType} from '@items';
 import {navigate} from '@navigations';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {getCate} from '@redux/categorySlice';
 
 const Home = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
+
+  const dispatch = useAppDispatch();
+  const dataCate = useAppSelector(state => state.categorySlice.data);
+
+  useEffect(() => {
+    dispatch(getCate());
+  }, []);
 
   useEffect(() => {
     const listener = scrollY.addListener(({value}) => {
@@ -45,7 +54,7 @@ const Home = () => {
         }}>
         <HeaderHome onClick={() => navigate('utility')} />
         <FlatList
-          data={Type}
+          data={dataCate}
           renderItem={({item}) => <ItemType item={item} />}
           horizontal
           style={styles.type}

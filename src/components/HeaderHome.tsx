@@ -3,10 +3,14 @@ import React, {FC} from 'react';
 import {WINDOW_WIDTH, myColors} from '@utils';
 import Icon, {Icons} from './Icon';
 import Text from './Text';
+import {useAppSelector} from '@redux/store';
 interface propsComponent {
   onClick?: () => void;
 }
 const HeaderHome: FC<propsComponent> = ({...props}) => {
+  const auth = useAppSelector(state => state.authSlice);
+  console.log('đây là img');
+  console.log(auth.fullName);
   return (
     <View style={styles.container}>
       <View style={styles.box1}>

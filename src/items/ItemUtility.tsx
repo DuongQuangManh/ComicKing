@@ -8,7 +8,7 @@ interface itemProps {
 const ItemUtility: FC<itemProps> = ({item}) => {
   const isSelect = item.id === 1;
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={item.onClick}>
       <View
         style={[
           styles.container,

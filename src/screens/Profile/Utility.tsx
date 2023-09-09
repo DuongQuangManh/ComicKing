@@ -7,13 +7,27 @@ import {
 } from 'react-native';
 import React from 'react';
 import Modal from 'react-native-modal';
-import {Utilitys, WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
+import {Utilitys, WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 
 import {ItemUtility} from '@items';
 import {goBack} from '@navigations';
 import {Icon, Icons, Text} from '@components';
+import {useAppDispatch} from '@redux/store';
+import {logoutAction} from '@redux/authSlice';
 
 const Utility = () => {
+  const dispatch = useAppDispatch();
+  const logout = {
+    id: 4,
+    name: 'Sign out',
+    nameIcon: 'sign-out',
+    typeIcon: Icons.Octicons,
+    onClick: () => {
+      helper.showConfirmMsg('Do you want logout?', () => {
+        dispatch(logoutAction());
+      });
+    },
+  };
   return (
     <Modal
       isVisible
@@ -46,6 +60,7 @@ const Utility = () => {
           data={Utilitys}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({item}) => <ItemUtility item={item} />}
+          ListFooterComponent={() => <ItemUtility item={logout} />}
         />
       </View>
     </Modal>
@@ -57,7 +72,7 @@ export default Utility;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.gray,
+    backgroundColor: myColors.transparentWhite,
     padding: 25,
     borderRadius: 18,
     marginTop: 50,

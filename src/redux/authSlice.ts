@@ -8,11 +8,21 @@ import { navigate, replace, reset } from '@navigations'
 import { AccessToken, LoginManager } from 'react-native-fbsdk-next'
 
 export interface IAuthState {
-    token: string
+    token: string,
+    fullName:string,
+    nickName:string,
+    email?:string,
+    image:string,
+    id:string
 }
 
 const initialState: IAuthState = {
     token: '',
+    fullName:'',
+    nickName:'',
+    email:'',
+    image:'',
+    id:'',
 }
 
 export const loginAction = createAsyncThunk(
@@ -249,14 +259,23 @@ const authSlice = createSlice({
     extraReducers(builder) {
         builder
             .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
+                state.token = action.payload?.accessToken;
+                state.email = action.payload?.email;
+                state.fullName = action.payload?.fullName;
+                state.id = action.payload?.id;
+                state.image = action.payload?.image;
+                state.nickName = action.payload?.nickName;
                 reset([{ name: 'home' }])
             })
             .addCase(loginWithGoogleAction.rejected, (_, action) => {
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginWithFacebookAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
+                state.token = action.payload?.accessToken;
+                state.fullName = action.payload?.fullName;
+                state.id = action.payload?.id;
+                state.image = action.payload?.image;
+                state.nickName = action.payload?.nickName;
                 reset([{ name: 'home' }])
             })
             .addCase(loginWithFacebookAction.rejected, (_, action) => {
@@ -269,7 +288,14 @@ const authSlice = createSlice({
                 console.log('[Error at authSlice]', action.payload)
             })
             .addCase(loginVerifyOtpAction.fulfilled, (state, action) => {
-                state.token = action.payload?.accessToken
+                console.log(action.payload)
+                state.token = action.payload?.accessToken;
+                state.email = action.payload?.email;
+                state.fullName = action.payload?.fullName;
+                state.id = action.payload?.id;
+                state.image = action.payload?.image;
+                state.nickName = action.payload?.nickName;
+                
                 reset([{ name: 'home' }])
             })
             .addCase(loginVerifyOtpAction.rejected, (_, action) => {

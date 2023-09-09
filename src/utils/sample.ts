@@ -1,17 +1,19 @@
 import { Icons } from "@components";
-
 export const Type = [
   {
     id: 1,
-    name: 'All',
+    title: 'All',
+    numOfComic:0
   },
   {
     id: 2,
-    name: 'Manga',
+    title: 'Manga',
+    numOfComic:0
   },
   {
     id: 3,
-    name: 'Manhwa',
+    title: 'Manhwa',
+    numOfComic:0
   },
 ];
 
@@ -85,34 +87,35 @@ export const Utilitys = [{
   name:"Search",
   nameIcon:"search",
   typeIcon:Icons.Ionicons,
+  onClick:() => {}
 },{
   id:2,
   name:"Favorite",
   nameIcon:"heart-outline",
   typeIcon:Icons.Ionicons,
+  onClick:() => {}
 },{
   id:3,
   name:"Notification",
   nameIcon:"bell-o",
   typeIcon:Icons.FontAwesome,
+  onClick:() => {}
 },{
   id:4,
   name:"Nigh mode",
   nameIcon:"light-down",
   typeIcon:Icons.Entypo,
+  onClick:() => {}
 },{
   id:5,
   name:"Donate",
   nameIcon:"gift-outline",
   typeIcon:Icons.Ionicons,
+  onClick:() => {}
 },{
   id:3,
   name:"Setting",
   nameIcon:"settings-outline",
   typeIcon:Icons.Ionicons,
-},{
-  id:4,
-  name:"Sign out",
-  nameIcon:"sign-out",
-  typeIcon:Icons.Octicons,
-}]
+  onClick:() => {}
+},]
