@@ -19,7 +19,11 @@ import { usePreviousRouteName } from '@hooks';
 const Menu = () => {
   const dispatch = useAppDispatch();
   const previousRouteName = usePreviousRouteName()
-  const { token } = useAppSelector(state => state.authSlice)
+
+  const document = useAppSelector(state => state.userSlice.document)
+  const token = useAppSelector(state => state.authSlice.token)
+
+  console.log('Document Menu.tsx', document)
 
   useEffect(() => {
     if (!token) reset([{ name: 'login' }])
@@ -46,8 +50,8 @@ const Menu = () => {
               />
             </View>
             <View style={styles.name}>
-              <Text type="semibold_17">Dương Quang Mạnh</Text>
-              <Text>manhvodich@gmail.com</Text>
+              <Text type="semibold_17">{document.fullName}</Text>
+              <Text>{document.email ?? document.nickName}</Text>
             </View>
             <Icon type={Icons.Entypo} name="chevron-down" />
           </View>

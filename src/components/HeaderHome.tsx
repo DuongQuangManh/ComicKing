@@ -9,7 +9,8 @@ interface propsComponent {
 }
 
 const HeaderHome: FC<propsComponent> = ({ ...props }) => {
-  const auth = useAppSelector(state => state.authSlice);
+  const fullName = useAppSelector(state => state.userSlice.document.fullName)
+
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -34,9 +35,7 @@ const HeaderHome: FC<propsComponent> = ({ ...props }) => {
               color: myColors.text,
               fontSize: 18,
               fontWeight: '800',
-            }}>
-            Dương Quang Mạnh
-          </Text>
+            }}>{fullName}</Text>
         </View>
         <View style={styles.btnMenu}>
           <TouchableOpacity onPress={props.onClick}>

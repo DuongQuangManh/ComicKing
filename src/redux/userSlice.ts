@@ -1,14 +1,29 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-const initialState = {
 
+interface IUserState {
+    document: IDocument
+}
+
+const initialState: IUserState = {
+    document: {
+        image: '',
+        fullName: '',
+        nickName: '',
+        id: ''
+    }
 }
 
 const userSlice = createSlice({
-    name:"user",
+    name: "user",
     initialState,
-    reducers:{},
+    reducers: {
+        setDocumentInfo: (state, action: PayloadAction<IDocument>) => {
+            state.document = action.payload
+        }
+    },
 })
 
+export const { setDocumentInfo } = userSlice.actions
 export default userSlice.reducer
 
