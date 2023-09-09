@@ -1,23 +1,22 @@
-import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
-import React, {FC} from 'react';
-import {WINDOW_WIDTH, myColors} from '@utils';
-import Icon, {Icons} from './Icon';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import React, { FC } from 'react';
+import { WINDOW_WIDTH, myColors } from '@utils';
+import Icon, { Icons } from './Icon';
 import Text from './Text';
-import {useAppSelector} from '@redux/store';
+import { useAppSelector } from '@redux/store';
 interface propsComponent {
   onClick?: () => void;
 }
-const HeaderHome: FC<propsComponent> = ({...props}) => {
+
+const HeaderHome: FC<propsComponent> = ({ ...props }) => {
   const auth = useAppSelector(state => state.authSlice);
-  console.log('đây là img');
-  console.log(auth.fullName);
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
         <View style={styles.img}>
           <Image
             source={require('../assets/images/avatar.png')}
-            style={{width: 50, height: 50, borderRadius: 180}}
+            style={{ width: 50, height: 50, borderRadius: 180 }}
           />
         </View>
         <View style={styles.name}>

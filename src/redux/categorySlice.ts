@@ -1,44 +1,46 @@
 import { sendRequest } from '@api';
 import { CateModel } from '@models'
-import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-export const getCate = createAsyncThunk('cate/get',async (_,{ rejectWithValue })=>{
+export const getCate = createAsyncThunk('cate/get', async (_, { rejectWithValue }) => {
     let path = "api/category/findAll";
-    const res =await sendRequest(path);
-    if(res.err === 200){
-        console.log(res.data)
+    try {
+        const res = await sendRequest(path);
+        if (res.err != 200) {
+            return rejectWithValue(res.message);
+        }
         return res.data
-    }else{
-        return rejectWithValue(res.message);
+    } catch (error: any) {
+        return rejectWithValue(error.message)
     }
 })
 
 const initialState = {
-    data:[] as CateModel[],
-    loading:false,
-    select:"" as string,
+    data: [] as CateModel[],
+    loading: false,
+    select: "" as string,
 }
 
 const cateSlice = createSlice({
-    name:"cate",
+    name: "cate",
     initialState,
-    reducers:{
-        setSelect:(state,action)=>{
+    reducers: {
+        setSelect: (state, action) => {
             state.select = action.payload
         }
     },
-    extraReducers:builder=>{
-        builder.addCase(getCate.pending,state=>{
+    extraReducers: builder => {
+        builder.addCase(getCate.pending, state => {
             state.loading = true;
-        }).addCase(getCate.fulfilled,(state,action)=>{
+        }).addCase(getCate.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
-        }).addCase(getCate.rejected,(state,action)=>{
+        }).addCase(getCate.rejected, (state, action) => {
             state.loading = false;
-            console.log('[Error at authSlice]', action.payload)
+            console.log('[Error at categorySlice]', action.payload)
         })
     }
 })
 
-export const {setSelect} = cateSlice.actions
+export const { setSelect } = cateSlice.actions
 export default cateSlice.reducer

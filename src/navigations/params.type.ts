@@ -21,7 +21,7 @@ export type StackParamList = {
         msgType: 'error' | 'success'
     },
     loading: undefined,
-    home: undefined,
+    home: { registerSuccess?: boolean },
     setting: undefined,
     confirmMessage: {
         title: string,
@@ -29,7 +29,6 @@ export type StackParamList = {
         onOk: () => void,
         onCancel: () => void
     }
-    utility:{
-        
-    }
+    menu: undefined,
+    notification: undefined
 }

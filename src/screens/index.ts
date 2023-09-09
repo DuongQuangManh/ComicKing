@@ -9,7 +9,9 @@ import Loading from './Common/Loading'
 import Home from './Home/Home'
 import Profile from './Profile/Profile'
 import ConfirmMessage from './Common/ConfirmMessage'
-import Utility from './Profile/Utility'
+import Menu from './Home/Menu'
+import Notification from './Notification/Notification'
+import Setting from './Setting/Setting'
 
 export {
     Splash,
@@ -23,5 +25,7 @@ export {
     Home,
     Profile,
     ConfirmMessage,
-    Utility
+    Menu,
+    Notification,
+    Setting
 }

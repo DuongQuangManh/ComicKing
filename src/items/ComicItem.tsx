@@ -5,30 +5,30 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import React, {FC} from 'react';
-import {WINDOW_WIDTH, myColors} from '@utils';
-import {Icon, Icons, TextCustom} from '@components';
+import React, { FC } from 'react';
+import { WINDOW_WIDTH, myColors } from '@utils';
+import { Icon, Icons, TextCustom } from '@components';
 interface propsItem {
   item?: any;
 }
-const ItemComic: FC<propsItem> = ({item}) => {
-  const handlerClick = () => {};
+const ComicItem: FC<propsItem> = ({ item }) => {
+  const handlerClick = () => { };
   return (
     <TouchableOpacity onPress={handlerClick} activeOpacity={0.7}>
       <View style={styles.container}>
         <ImageBackground
-          source={{uri: item.image}}
+          source={{ uri: item.image }}
           style={styles.image}
           borderRadius={18}>
           <TextCustom
             text={'Chapter: ' + item.chapter}
             width={120}
-            style={{position: 'absolute', top: 10, end: 10}}
+            style={{ position: 'absolute', top: 10, end: 10 }}
           />
           <TextCustom
             text={item.type}
             width={100}
-            style={{position: 'absolute', start: 10, bottom: 10}}
+            style={{ position: 'absolute', start: 10, bottom: 10 }}
           />
         </ImageBackground>
         <View style={styles.bottom}>
@@ -37,13 +37,13 @@ const ItemComic: FC<propsItem> = ({item}) => {
             ellipsizeMode="tail"
             style={[
               styles.text,
-              {fontSize: 16, maxWidth: ((WINDOW_WIDTH - 30) * 7) / 10},
+              { fontSize: 16, maxWidth: ((WINDOW_WIDTH - 30) * 7) / 10 },
             ]}>
             {item.name}
           </Text>
           <View style={styles.time}>
             <Icon type={Icons.Ionicons} name="time-outline" size={20} />
-            <Text style={[styles.text, {marginStart: 5}]}>{item.time}</Text>
+            <Text style={[styles.text, { marginStart: 5 }]}>{item.time}</Text>
           </View>
         </View>
       </View>
@@ -51,7 +51,7 @@ const ItemComic: FC<propsItem> = ({item}) => {
   );
 };
 
-export default ItemComic;
+export default React.memo(ComicItem)
 
 const styles = StyleSheet.create({
   container: {

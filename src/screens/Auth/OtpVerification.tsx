@@ -1,21 +1,22 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { RouteProp, useRoute } from '@react-navigation/core'
-import { StackParamList } from '@navigations'
+import { StackParamList, reset } from '@navigations'
 import { Screen } from '../screen'
 import { CodeInput, Header, Text } from '@components'
-import { useAppDispatch } from '@redux/store'
+import { useAppDispatch, useAppSelector } from '@redux/store'
 import {
     loginVerifyOtpAction,
     registerVerifyOtpAction,
     forgotPassVerifyOtpAction,
     resendOtp
 } from '@redux/authSlice'
-import { myColors } from '@utils'
+import { helper, myColors } from '@utils'
 
 const OtpVerification = () => {
     const dispatch = useAppDispatch()
     const { message, verifyAction, email } = useRoute<RouteProp<StackParamList, 'otpVerification'>>().params
+    const { token } = useAppSelector(state => state.authSlice)
     const [state, setState] = useState({
         cooldown: 0
     })
@@ -29,6 +30,18 @@ const OtpVerification = () => {
 
         return () => clearTimeout(interval)
     }, [state.cooldown])
+
+    useEffect(() => {
+        if (token)
+            switch (verifyAction) {
+                case 'login':
+                    return reset([{ name: 'home' }])
+                case 'register':
+                    return reset([{ name: 'home', params: { registerSuccess: true } }])
+                case 'changePass':
+                case 'forgotPass':
+            }
+    }, [token])
 
     const onFull = (code: string) => {
         switch (verifyAction) {

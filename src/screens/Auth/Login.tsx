@@ -2,20 +2,19 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { WINDOW_HEIGHT, WINDOW_WIDTH, myColors } from '@utils';
 import { Button, Input, Text } from '@components';
-import { GoogleSignin, GoogleSigninButton } from '@react-native-google-signin/google-signin'
-import { LoginButton as FacebookLoginButton, LoginManager, AccessToken } from 'react-native-fbsdk-next'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import { loginAction, loginWithFacebookAction, loginWithGoogleAction } from '@redux/authSlice'
-import { useAppDispatch } from '@redux/store';
+import { useAppDispatch, useAppSelector } from '@redux/store';
 import { Screen } from '../screen';
-import { StackParamList, navigate } from '@navigations'
+import { StackParamList, navigate, reset } from '@navigations'
 import { RouteProp, useRoute } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth'
 import FbLoginBtn from './component/FbLoginBtn';
 import GgLoginBtn from './component/GgLoginBtn';
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const params = useRoute<RouteProp<StackParamList, 'login'>>().params;
+  const { token } = useAppSelector(state => state.authSlice)
   const [state, setState] = useState({
     email: params?.email ?? '',
     password: params?.password ?? '',
@@ -24,7 +23,6 @@ const Login = () => {
 
   const navigateRegister = () => {
     navigate('register');
-    // navigate('otpVerification', { verifyAction: 'login', message: 'Vui lòng xác minh mã Otp từ email Le gia tuan dep trai để hoàn thành đăng nhập.', email: 'legiatuan03@gmail.com' })
   };
   const navigateForgot = () => {
     navigate('forgotPassword');
@@ -32,6 +30,14 @@ const Login = () => {
   const login = () => {
     dispatch(loginAction({ email: state.email, password: state.password }));
   };
+
+  const loginWithGoogle = async () => {
+    dispatch(loginWithGoogleAction());
+  };
+
+  const loginWithFacebook = async () => {
+    dispatch(loginWithFacebookAction())
+  }
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -41,13 +47,10 @@ const Login = () => {
     });
   }, []);
 
-  const loginWithGoogle = async () => {
-    dispatch(loginWithGoogleAction());
-  };
-
-  const loginWithFacebook = async () => {
-    dispatch(loginWithFacebookAction())
-  }
+  useEffect(() => {
+    if (token)
+      reset([{ name: 'home' }])
+  }, [token])
 
   return (
     <Screen style={{ alignItems: 'center' }} preset='scroll'>

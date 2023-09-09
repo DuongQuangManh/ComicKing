@@ -1,8 +1,6 @@
-import ItemType from './ItemType'
-import ItemComic from './ItemComic'
-import ItemUtility from './ItemUtility'
+import CategoryItem from './CategoryItem'
+import ComicItem from './ComicItem'
 export {
-    ItemType,
-    ItemComic,
-    ItemUtility
+    CategoryItem,
+    ComicItem,
 }
