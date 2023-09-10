@@ -1,7 +1,7 @@
 import { StyleSheet, FlatList, Animated } from 'react-native';
 import React, { useRef, useEffect } from 'react';
 import { Screen } from '../screen';
-import { HeaderHome } from '@components';
+import HeaderHome from './components/HeaderHome';
 import { helper, myColors } from '@utils';
 import { ComicItem, CategoryItem } from '@items';
 import { StackParamList, navigate } from '@navigations';

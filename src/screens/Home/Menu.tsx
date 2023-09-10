@@ -45,7 +45,9 @@ const Menu = () => {
           <View style={styles.box1}>
             <View style={styles.avt}>
               <Image
-                source={require('@assets/images/avatar.png')}
+                source={document.image
+                  ? { uri: `${process.env.IMAGE_URL}${document.image}` }
+                  : require('@assets/images/avatar.png')}
                 style={styles.img}
               />
             </View>
