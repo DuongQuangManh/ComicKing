@@ -8,7 +8,6 @@ import { Icons } from './Icon'
 import Footer from './Footer'
 import DatePicker from './DatePicker'
 import Badge from './Badge'
-import HeaderHome from './HeaderHome'
 import TextCustom from './TextCustom'
 
 export {
@@ -22,6 +21,5 @@ export {
     Footer,
     DatePicker,
     Badge,
-    HeaderHome,
     TextCustom
 }

@@ -1,23 +1,25 @@
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import React, { FC } from 'react';
 import { WINDOW_WIDTH, myColors } from '@utils';
-import Icon, { Icons } from './Icon';
-import Text from './Text';
+import Icon, { Icons } from '../../../components/Icon';
+import Text from '../../../components/Text';
 import { useAppSelector } from '@redux/store';
 interface propsComponent {
   onClick?: () => void;
 }
 
 const HeaderHome: FC<propsComponent> = ({ ...props }) => {
-  const fullName = useAppSelector(state => state.userSlice.document.fullName)
+  const { fullName, image } = useAppSelector(state => state.userSlice.document)
 
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
         <View style={styles.img}>
           <Image
-            source={require('../assets/images/avatar.png')}
-            style={{ width: 50, height: 50, borderRadius: 180 }}
+            source={image
+              ? { uri: `${process.env.IMAGE_URL}${image}` }
+              : require('@assets/images/avatar.png')}
+            style={{ width: 50, height: 50, borderRadius: 25 }}
           />
         </View>
         <View style={styles.name}>
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
   img: {
     width: 55,
     height: 55,
-    borderRadius: 180,
+    borderRadius: 30,
     borderColor: myColors.background,
     borderWidth: 2,
     shadowColor: '#000',
@@ -75,6 +77,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6.68,
 
     elevation: 11,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   btnMenu: {
     borderRadius: 180,
