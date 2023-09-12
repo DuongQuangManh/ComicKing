@@ -24,3 +24,10 @@ export interface IForgotPassBody {
     password: string,
     confirmPassword: string
 }
+
+export interface IChangePassBody{
+    email?:string,
+    oldPass:string,
+    password:string,
+    confirmPassword:string,
+}

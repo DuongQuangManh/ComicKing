@@ -1,25 +1,23 @@
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
-import React, { FC } from 'react';
-import { WINDOW_WIDTH, myColors } from '@utils';
-import Icon, { Icons } from '../../../components/Icon';
+import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import React, {FC} from 'react';
+import {WINDOW_WIDTH, myColors} from '@utils';
+import Icon, {Icons} from '../../../components/Icon';
 import Text from '../../../components/Text';
-import { useAppSelector } from '@redux/store';
+import {useAppSelector} from '@redux/store';
 interface propsComponent {
   onClick?: () => void;
 }
 
-const HeaderHome: FC<propsComponent> = ({ ...props }) => {
-  const { fullName, image } = useAppSelector(state => state.userSlice.document)
+const HeaderHome: FC<propsComponent> = ({...props}) => {
+  const {fullName, image} = useAppSelector(state => state.userSlice.document);
 
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
         <View style={styles.img}>
           <Image
-            source={image
-              ? { uri: `${process.env.IMAGE_URL}${image}` }
-              : require('@assets/images/avatar.png')}
-            style={{ width: 50, height: 50, borderRadius: 25 }}
+            source={image ? {uri: image} : require('@assets/images/avatar.png')}
+            style={{width: 50, height: 50, borderRadius: 25}}
           />
         </View>
         <View style={styles.name}>
@@ -37,7 +35,9 @@ const HeaderHome: FC<propsComponent> = ({ ...props }) => {
               color: myColors.text,
               fontSize: 18,
               fontWeight: '800',
-            }}>{fullName}</Text>
+            }}>
+            {fullName}
+          </Text>
         </View>
         <View style={styles.btnMenu}>
           <TouchableOpacity onPress={props.onClick}>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 
     elevation: 11,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   btnMenu: {
     borderRadius: 180,
