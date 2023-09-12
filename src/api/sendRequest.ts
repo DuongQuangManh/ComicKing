@@ -10,6 +10,7 @@ export const sendRequest = (
     let url = `${process.env.HOST_NAME}${path}`;
     // let url = `${'http://192.168.1.9:1337/'}${path}`;
     return new Promise<ApiResult>(async function (resolve, reject) {
+
         let option = {
             method: method,
             headers: {

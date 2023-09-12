@@ -5,29 +5,29 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import Modal from 'react-native-modal';
-import { helper, myColors } from '@utils';
+import {helper, myColors} from '@utils';
 
-import { goBack, navigate, reset } from '@navigations';
-import { Icon, Icons, Text } from '@components';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { logoutAction } from '@redux/authSlice';
+import {goBack, navigate, reset} from '@navigations';
+import {Icon, Icons, Text} from '@components';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {logoutAction} from '@redux/authSlice';
 import MenuItem from './components/MenuItem';
-import { usePreviousRouteName } from '@hooks';
+import {usePreviousRouteName} from '@hooks';
 
 const Menu = () => {
   const dispatch = useAppDispatch();
-  const previousRouteName = usePreviousRouteName()
+  const previousRouteName = usePreviousRouteName();
 
-  const document = useAppSelector(state => state.userSlice.document)
-  const token = useAppSelector(state => state.authSlice.token)
+  const document = useAppSelector(state => state.userSlice.document);
+  const token = useAppSelector(state => state.authSlice.token);
 
-  console.log('Document Menu.tsx', document)
+  console.log('Document Menu.tsx', document);
 
   useEffect(() => {
-    if (!token) reset([{ name: 'login' }])
-  }, [token])
+    if (!token) reset([{name: 'login'}]);
+  }, [token]);
 
   return (
     <Modal
@@ -45,9 +45,11 @@ const Menu = () => {
           <View style={styles.box1}>
             <View style={styles.avt}>
               <Image
-                source={document.image
-                  ? { uri: `${process.env.IMAGE_URL}${document.image}` }
-                  : require('@assets/images/avatar.png')}
+                source={
+                  document.image
+                    ? {uri: document.image}
+                    : require('@assets/images/avatar.png')
+                }
                 style={styles.img}
               />
             </View>
@@ -58,26 +60,26 @@ const Menu = () => {
             <Icon type={Icons.Entypo} name="chevron-down" />
           </View>
         </TouchableOpacity>
-        <ScrollView contentContainerStyle={{ paddingTop: 15 }}>
+        <ScrollView contentContainerStyle={{paddingTop: 15}}>
           <MenuItem
-            name='Home'
-            iconName='search'
+            name="Home"
+            iconName="search"
             onPress={() => {
-              goBack()
-              navigate('home')
+              goBack();
+              navigate('home');
             }}
             isSelect={previousRouteName == 'home'}
           />
           <MenuItem
-            name='Search'
-            iconName='search'
-            onPress={() => { }}
+            name="Search"
+            iconName="search"
+            onPress={() => {}}
             isSelect={false}
           />
           <MenuItem
-            name='Favorite'
-            iconName='heart-outline'
-            onPress={() => { }}
+            name="Favorite"
+            iconName="heart-outline"
+            onPress={() => {}}
             isSelect={false}
           />
           <MenuItem
@@ -85,8 +87,8 @@ const Menu = () => {
             iconName="bell-o"
             iconType={Icons.FontAwesome}
             onPress={() => {
-              goBack()
-              navigate('notification')
+              goBack();
+              navigate('notification');
             }}
             isSelect={previousRouteName == 'notification'}
           />
@@ -95,19 +97,19 @@ const Menu = () => {
             iconName="settings-outline"
             iconType={Icons.Ionicons}
             onPress={() => {
-              goBack()
-              navigate('setting')
+              goBack();
+              navigate('setting');
             }}
             isSelect={previousRouteName == 'setting'}
           />
           <MenuItem
-            name='Logout'
-            iconName='sign-out'
+            name="Logout"
+            iconName="sign-out"
             iconType={Icons.Octicons}
             onPress={() => {
               helper.showConfirmMsg('Do you want logout?', () => {
                 dispatch(logoutAction());
-              })
+              });
             }}
           />
         </ScrollView>

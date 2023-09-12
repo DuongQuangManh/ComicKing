@@ -18,7 +18,7 @@ export const getCate = createAsyncThunk('cate/get', async (_, { rejectWithValue 
 const initialState = {
     data: [] as CateModel[],
     loading: false,
-    select: "" as string,
+    select: "all" as string,
 }
 
 const cateSlice = createSlice({

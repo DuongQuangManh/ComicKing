@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
+    IChangePassBody,
     IForgotPassBody,
     ILoginBody,
     IRegisterBody,
     IVerifyOtpBody
 } from '@models'
-import { helper } from '@utils'
+import { constants, helper } from '@utils'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 import auth from '@react-native-firebase/auth'
 import { sendRequest } from '@api'
-import { navigate, reset } from '@navigations'
+import { goBack, navigate, replace, reset } from '@navigations'
 import { AccessToken, LoginManager } from 'react-native-fbsdk-next'
 import { AppDispatch, RootState } from './store'
 import { setDocumentInfo } from './userSlice'
@@ -276,6 +277,55 @@ export const logoutAction = createAsyncThunk<void, void, { state: RootState }>(
     }
 )
 
+
+//POST /api/user/changePassword': 'AuthController.changePassword',
+//'POST /api/user/changePasswordVerifyOtp': 'AuthController.changePasswordVerifyOtp',
+export const changePassAction = createAsyncThunk('auth/changePassAction',async (body:IChangePassBody)=>{
+    let path = "api/user/changePassword";
+    try{
+        helper.showLoading();
+        const res =await sendRequest(path,body);
+       
+        if(res.err != 200){
+            helper.showErrorMsg(res.message);
+            console.log(res.message)
+            return false;
+        }else{
+            console.log(res.message)
+            helper.hideLoading()
+            navigate('otpVerification', {
+                verifyAction: 'changePass',
+                message: res.message,
+                email: res.email
+            })
+           
+        }
+    }catch(error:any){
+        console.log(error.message)
+        helper.hideLoading()
+        return false
+    }
+})
+
+export const changePassVerifyOtpAction = createAsyncThunk('auth/changePassVerifyOtpAction',async (body:IVerifyOtpBody)=>{
+    let path = "api/user/changePasswordVerifyOtp";
+    try{
+        helper.showLoading();
+        const res =await sendRequest(path,body);
+        if(res.err != 200){
+            helper.showErrorMsg(res.message)
+            return false;
+        }
+        helper.hideLoading();
+        helper.showSuccessMsg(
+            res.message,
+            ()=>goBack(3))
+    }catch(error:any){
+        helper.hideLoading();
+        return false;
+    }
+})
+
 export interface IAuthState {
     token: string,
     loginSource: 'google' | 'facebook' | 'email'
@@ -318,6 +368,8 @@ const authSlice = createSlice({
             .addCase(logoutAction.fulfilled, (state, action) => {
                 state.token = ''
                 state.loginSource = 'email'
+            }).addCase(changePassVerifyOtpAction.fulfilled,(state,action)=>{
+               
             })
     },
 })
