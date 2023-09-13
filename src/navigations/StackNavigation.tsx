@@ -1,6 +1,6 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   ChangePassword,
   ForgotPassword,
@@ -14,17 +14,20 @@ import {
   Home,
   Menu,
   Notification,
-  Setting
+  Setting,
+  Profile,
+  Language,
+  NighMode,
+  EditProfile,
 } from '@screens';
-import { StackParamList, navigationRef } from '@navigations';
-import BottomTabNavigation from './BottomTabNavigation';
+import {StackParamList, navigationRef} from '@navigations';
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
 export const Stacknavigation = () => {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name="splash" component={Splash} />
 
         <Stack.Screen name="login" component={Login} />
@@ -34,10 +37,14 @@ export const Stacknavigation = () => {
 
         <Stack.Screen name="home" component={Home} />
 
-        <Stack.Screen name='notification' component={Notification} />
+        <Stack.Screen name="notification" component={Notification} />
 
-        <Stack.Screen name='setting' component={Setting} />
-        <Stack.Screen name='changePassword' component={ChangePassword} />
+        <Stack.Screen name="setting" component={Setting} />
+        <Stack.Screen name="changePassword" component={ChangePassword} />
+        <Stack.Screen name="profile" component={Profile} />
+        <Stack.Screen name="language" component={Language} />
+        <Stack.Screen name="nighmode" component={NighMode} />
+        <Stack.Screen name="editprofile" component={EditProfile} />
 
         {/* common screens */}
         <Stack.Group

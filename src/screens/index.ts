@@ -12,6 +12,9 @@ import ConfirmMessage from './Common/ConfirmMessage'
 import Menu from './Home/Menu'
 import Notification from './Notification/Notification'
 import Setting from './Setting/Setting'
+import Language from './Setting/Language'
+import NighMode from './Setting/NighMode'
+import EditProfile from './Profile/EditProfile'
 
 export {
     Splash,
@@ -27,5 +30,8 @@ export {
     ConfirmMessage,
     Menu,
     Notification,
-    Setting
+    Setting,
+    NighMode,
+    Language,
+    EditProfile
 }

@@ -1,6 +1,8 @@
 import { getCurrentRouter, goBack, navigate } from "@navigations"
 import { store } from "@redux/store"
-
+import { Platform, PermissionsAndroid } from 'react-native';
+import { showMessage } from "react-native-flash-message";
+import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 export const helper = {
     // you can pass 'message' param only
     showErrorMsg: (
@@ -38,4 +40,40 @@ export const helper = {
     getAccessToken: () => {
         return store.getState()?.authSlice?.token
     },
+    checkPermission: async (imagePicker:()=>void) => {
+        if (Platform.OS === 'android') {
+          const permission = PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE;
+          const hasPermission = await check(permission);
+          if (hasPermission === RESULTS.GRANTED) {
+            imagePicker()
+          } else {
+            const status = await request(permission);
+            if (status === RESULTS.GRANTED) {
+                imagePicker()
+            } else {
+              helper.showErrorMsg("Vui lòng cấp quyền truy cập ảnh")
+            }
+          }
+        } else {
+            imagePicker()
+        }
+    },
+    getGender:(id: string) => {
+        if (id === '1') {
+          return 'male';
+        } else if (id === '2') {
+          return 'female';
+        } else {
+          return 'none';
+        }
+    },
+    getGenderId:(value: string) =>{
+        if (value === 'male') {
+            return '1';
+        } else if (value === 'female') {
+            return '2';
+        } else {
+            return '3';
+        }
+    }
 }
