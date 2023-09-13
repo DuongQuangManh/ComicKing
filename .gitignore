@@ -1,7 +1,7 @@
 # OSX
 #
 .DS_Store
-
+.vscode/settings.json
 # Xcode
 #
 build/
