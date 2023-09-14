@@ -15,4 +15,3 @@ export const Type = [
     numOfComic: 0
   },
 ];
-

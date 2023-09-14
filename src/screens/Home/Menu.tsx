@@ -28,7 +28,10 @@ const Menu = () => {
   useEffect(() => {
     if (!token) reset([{name: 'login'}]);
   }, [token]);
-
+  const handlerShowProfile = () => {
+    goBack();
+    navigate('profile');
+  };
   return (
     <Modal
       isVisible
@@ -41,7 +44,7 @@ const Menu = () => {
         marginTop: 20,
       }}>
       <View style={styles.container}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handlerShowProfile} activeOpacity={0.7}>
           <View style={styles.box1}>
             <View style={styles.avt}>
               <Image

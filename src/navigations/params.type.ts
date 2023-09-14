@@ -30,5 +30,14 @@ export type StackParamList = {
         onCancel: () => void
     }
     menu: undefined,
-    notification: undefined
+    notification: undefined,
+    profile:undefined,
+    language:undefined,
+    nighmode:undefined,
+    editprofile:{
+        typeAction:'fullname' | 'birthday' | 'gender' |'image'|'nickname',
+        value:any,
+        message:string,
+        label:string,
+    },
 }
