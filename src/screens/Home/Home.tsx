@@ -1,18 +1,20 @@
-import {StyleSheet, FlatList, Animated} from 'react-native';
+import {StyleSheet, FlatList, Animated, ScrollView} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
 import {helper, myColors} from '@utils';
-import {ComicItem, CategoryItem} from '@items';
+import {ComicItem, CategoryItem, ComicItemSmall} from '@items';
 import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
 import {RouteProp, useRoute} from '@react-navigation/native';
+import FlatListCustom from './components/FlatListCustom';
 
 export const comicData = [
   {
     id: 1,
     name: 'Cuộc phiêu lưu của biệt đội vô cực ',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
     image:
       'https://dccomicsnews.com/wp-content/uploads/2022/07/I-Am-Batman-11-2-Banner.jpg',
     chapter: 330,
@@ -22,6 +24,8 @@ export const comicData = [
   {
     id: 2,
     name: 'Biệt đột vô cực và DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
     chapter: 933,
@@ -31,6 +35,8 @@ export const comicData = [
   {
     id: 3,
     name: 'Sự tích bí ẩn của DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
     chapter: 1070,
@@ -40,6 +46,8 @@ export const comicData = [
   {
     id: 4,
     name: 'Biệt đột vô cực và DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
     chapter: 933,
@@ -49,6 +57,8 @@ export const comicData = [
   {
     id: 5,
     name: 'Sự tích bí ẩn của DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
     chapter: 1070,
@@ -58,6 +68,8 @@ export const comicData = [
   {
     id: 6,
     name: 'Biệt đột vô cực và DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
     chapter: 933,
@@ -67,6 +79,8 @@ export const comicData = [
   {
     id: 7,
     name: 'Sự tích bí ẩn của DATN',
+    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+
     image:
       'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
     chapter: 1070,
@@ -88,10 +102,10 @@ const Home = () => {
     dispatch(getCate());
     if (registerSuccess) helper.showSuccessMsg('Đăng kí tài khoản thành công.');
   }, []);
-
+  const offsetY = useRef(0);
   useEffect(() => {
     const listener = scrollY.addListener(({value}) => {
-      if (value < 70) {
+      if (value < offsetY.current) {
         Animated.timing(animatedHeaderVisible, {
           toValue: 0,
           duration: 100,
@@ -104,6 +118,7 @@ const Home = () => {
           useNativeDriver: false,
         }).start();
       }
+      offsetY.current = value;
     });
 
     return () => {
@@ -124,30 +139,48 @@ const Home = () => {
     numOfComic: -1,
   };
   return (
-    <Screen preset="fixed" style={{paddingBottom: 70}}>
+    <Screen
+      preset="scroll"
+      style={{paddingBottom: 70, paddingTop: 65}}
+      onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
+        useNativeDriver: false,
+      })}>
       <Animated.View
         style={{
           transform: [{translateY}],
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 10,
         }}>
         <HeaderHome onClick={() => navigate('menu')} />
-        <FlatList
-          data={dataCate}
-          ListHeaderComponent={() => <CategoryItem item={cateFirst} />}
-          renderItem={({item}) => <CategoryItem item={item} />}
-          horizontal
-          style={styles.type}
-        />
-        <FlatList
-          data={comicData}
-          renderItem={({item}) => <ComicItem item={item} />}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {y: scrollY}}}],
-            {useNativeDriver: false},
-          )}
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-        />
       </Animated.View>
+      <FlatListCustom
+        label="Hot"
+        data={comicData}
+        renderItem={({item}) => <ComicItemSmall item={item} />}
+        horizontal
+      />
+      <FlatListCustom
+        label="Popular"
+        data={comicData}
+        renderItem={({item}) => <ComicItemSmall item={item} />}
+        horizontal
+      />
+      <FlatList
+        data={dataCate}
+        ListHeaderComponent={() => <CategoryItem item={cateFirst} />}
+        renderItem={({item}) => <CategoryItem item={item} />}
+        horizontal
+        style={styles.type}
+      />
+      <FlatList
+        data={comicData}
+        renderItem={({item}) => <ComicItem item={item} />}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      />
     </Screen>
   );
 };
@@ -160,7 +193,6 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.background,
   },
   type: {
-    marginTop: 10,
-    height: 55,
+    height: 65,
   },
 });

@@ -9,6 +9,7 @@ export const getCate = createAsyncThunk('cate/get', async (_, { rejectWithValue 
         if (res.err != 200) {
             return rejectWithValue(res.message);
         }
+        console.log(res.data)
         return res.data
     } catch (error: any) {
         return rejectWithValue(error.message)
