@@ -1,7 +1,9 @@
 import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import React, {FC} from 'react';
 import {Text} from '@components';
-import {WINDOW_WIDTH} from '@utils';
+import {WINDOW_WIDTH, myColors} from '@utils';
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import LinearGradient from 'react-native-linear-gradient';
 interface itemProps {
   item?: any;
 }
@@ -17,16 +19,25 @@ const ComicItemSmall: FC<itemProps> = ({item}) => {
   return (
     <TouchableOpacity activeOpacity={0.8}>
       <View style={styles.container}>
-        <View style={styles.boximg}>
-          <Image source={{uri: item.image}} style={styles.img} />
-        </View>
-        <Text
-          type="semibold_16"
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.txt}>
-          {item.name}
-        </Text>
+        <ShimmerPlaceholder
+          LinearGradient={LinearGradient}
+          visible={true}
+          width={WINDOW_WIDTH / 3 - 10}
+          height={WINDOW_WIDTH / 3 + 60}
+          style={{borderRadius: 18}}>
+          <View style={styles.boximg}>
+            <Image source={{uri: item.image}} style={styles.img} />
+          </View>
+        </ShimmerPlaceholder>
+        <ShimmerPlaceholder
+          LinearGradient={LinearGradient}
+          visible={true}
+          width={WINDOW_WIDTH / 3 - 10}
+          style={{borderRadius: 18, marginTop: 10}}>
+          <Text type="semibold_16" numberOfLines={1} ellipsizeMode="tail">
+            {item.name}
+          </Text>
+        </ShimmerPlaceholder>
       </View>
     </TouchableOpacity>
   );
@@ -40,7 +51,10 @@ const styles = StyleSheet.create({
     marginStart: 5,
   },
   boximg: {
+    width: WINDOW_WIDTH / 3 - 9,
+    height: WINDOW_WIDTH / 3 + 61,
     borderRadius: 18,
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -55,8 +69,5 @@ const styles = StyleSheet.create({
     width: WINDOW_WIDTH / 3 - 10,
     height: WINDOW_WIDTH / 3 + 60,
     borderRadius: 18,
-  },
-  txt: {
-    marginTop: 10,
   },
 });

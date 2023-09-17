@@ -75,5 +75,12 @@ export const helper = {
         } else {
             return '3';
         }
+    },
+    convertToK:(value:number)=>{
+        if(value<1000){
+            return `${value}`;
+        }else{
+            return `${value/1000}k`;
+        }
     }
 }

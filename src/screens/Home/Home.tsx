@@ -1,25 +1,36 @@
-import {StyleSheet, FlatList, Animated, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  Animated,
+  ScrollView,
+  Image,
+  View,
+} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
-import {helper, myColors} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import {ComicItem, CategoryItem, ComicItemSmall} from '@items';
 import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatListCustom from './components/FlatListCustom';
+import Carousel from 'react-native-snap-carousel';
+import LeaderBoard from './components/LeaderBoard';
 
 export const comicData = [
   {
     id: 1,
     name: 'Cuộc phiêu lưu của biệt đội vô cực ',
     description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
+    author: 'dqmanh',
     image:
       'https://dccomicsnews.com/wp-content/uploads/2022/07/I-Am-Batman-11-2-Banner.jpg',
     chapter: 330,
     time: '2 ngày trước',
     type: 'Manga',
+    view: 120000,
   },
   {
     id: 2,
@@ -31,6 +42,8 @@ export const comicData = [
     chapter: 933,
     time: '1 ngày trước',
     type: 'Manga',
+    view: 112000,
+    author: 'dqmanh',
   },
   {
     id: 3,
@@ -42,6 +55,8 @@ export const comicData = [
     chapter: 1070,
     time: '3 ngày trước',
     type: 'Manhwa',
+    view: 109000,
+    author: 'dqmanh',
   },
   {
     id: 4,
@@ -53,6 +68,8 @@ export const comicData = [
     chapter: 933,
     time: '1 ngày trước',
     type: 'Manga',
+    view: 92000,
+    author: 'dqmanh',
   },
   {
     id: 5,
@@ -64,28 +81,8 @@ export const comicData = [
     chapter: 1070,
     time: '3 ngày trước',
     type: 'Manhwa',
-  },
-  {
-    id: 6,
-    name: 'Biệt đột vô cực và DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
-    chapter: 933,
-    time: '1 ngày trước',
-    type: 'Manga',
-  },
-  {
-    id: 7,
-    name: 'Sự tích bí ẩn của DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
-    chapter: 1070,
-    time: '3 ngày trước',
-    type: 'Manhwa',
+    view: 91000,
+    author: 'dqmanh',
   },
 ];
 
@@ -102,10 +99,16 @@ const Home = () => {
     dispatch(getCate());
     if (registerSuccess) helper.showSuccessMsg('Đăng kí tài khoản thành công.');
   }, []);
-  const offsetY = useRef(0);
+  const offsetY = useRef(70);
   useEffect(() => {
     const listener = scrollY.addListener(({value}) => {
       if (value < offsetY.current) {
+        Animated.timing(animatedHeaderVisible, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: false,
+        }).start();
+      } else if (value === 0) {
         Animated.timing(animatedHeaderVisible, {
           toValue: 0,
           duration: 100,
@@ -139,12 +142,7 @@ const Home = () => {
     numOfComic: -1,
   };
   return (
-    <Screen
-      preset="scroll"
-      style={{paddingBottom: 70, paddingTop: 65}}
-      onScroll={Animated.event([{nativeEvent: {contentOffset: {y: scrollY}}}], {
-        useNativeDriver: false,
-      })}>
+    <Screen preset="fixed">
       <Animated.View
         style={{
           transform: [{translateY}],
@@ -156,31 +154,70 @@ const Home = () => {
         }}>
         <HeaderHome onClick={() => navigate('menu')} />
       </Animated.View>
-      <FlatListCustom
-        label="Hot"
-        data={comicData}
-        renderItem={({item}) => <ComicItemSmall item={item} />}
-        horizontal
-      />
-      <FlatListCustom
-        label="Popular"
-        data={comicData}
-        renderItem={({item}) => <ComicItemSmall item={item} />}
-        horizontal
-      />
-      <FlatList
-        data={dataCate}
-        ListHeaderComponent={() => <CategoryItem item={cateFirst} />}
-        renderItem={({item}) => <CategoryItem item={item} />}
-        horizontal
-        style={styles.type}
-      />
-      <FlatList
-        data={comicData}
-        renderItem={({item}) => <ComicItem item={item} />}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-      />
+      <ScrollView
+        nestedScrollEnabled={true}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {
+            useNativeDriver: false,
+          },
+        )}>
+        <View style={{paddingBottom: 70, paddingTop: 80}}>
+          <Carousel
+            nestedScrollEnabled={true}
+            data={comicData}
+            renderItem={({item}) => (
+              <Image
+                source={{uri: item.image}}
+                style={{
+                  width: WINDOW_WIDTH - 30,
+                  height: WINDOW_HEIGHT / 3 - 10,
+                  borderRadius: 18,
+                }}
+              />
+            )}
+            sliderWidth={WINDOW_WIDTH}
+            itemWidth={WINDOW_WIDTH - 25}
+            itemHeight={WINDOW_HEIGHT / 3}
+            loop={true}
+            autoplay={true}
+            autoplayDelay={3000}
+          />
+          <FlatListCustom
+            nestedScrollEnabled={true}
+            label="Hot"
+            data={comicData}
+            renderItem={({item}) => <ComicItemSmall item={item} />}
+            horizontal
+          />
+          <FlatListCustom
+            nestedScrollEnabled={true}
+            label="Popular"
+            data={comicData}
+            renderItem={({item}) => <ComicItemSmall item={item} />}
+            horizontal
+          />
+          <LeaderBoard />
+          <FlatList
+            nestedScrollEnabled={true}
+            data={dataCate}
+            ListHeaderComponent={() => <CategoryItem item={cateFirst} />}
+            renderItem={({item}) => (
+              <CategoryItem item={item} isShowNumberComic={true} />
+            )}
+            horizontal
+            style={styles.type}
+            showsHorizontalScrollIndicator={false}
+          />
+          <FlatList
+            nestedScrollEnabled={true}
+            data={comicData}
+            renderItem={({item}) => <ComicItem item={item} />}
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
     </Screen>
   );
 };
@@ -193,6 +230,6 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.background,
   },
   type: {
-    height: 65,
+    marginTop: 10,
   },
 });

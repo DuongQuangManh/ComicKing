@@ -18,7 +18,7 @@ const FlatListCustom: FC<TFlatlist> = ({...props}) => {
     <Screen>
       <View style={styles.container}>
         <View style={styles.box1}>
-          <Text type="bold_26">{props.label}</Text>
+          <Text type="bold_24">{props.label}</Text>
           <TouchableOpacity style={styles.box2}>
             <Text type="semibold_16">Thêm</Text>
             <Icon type={Icons.Entypo} name="chevron-right" size={16} />

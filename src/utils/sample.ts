@@ -1,17 +1,17 @@
-export const Type = [
+export const bxh = [
   {
     id: 1,
-    title: 'All',
-    numOfComic: 0
+    title: 'Truyện tranh hot',
+
   },
   {
     id: 2,
-    title: 'Manga',
-    numOfComic: 0
+    title: 'Truyện tranh mới',
+
   },
   {
     id: 3,
-    title: 'Manhwa',
-    numOfComic: 0
-  },
+    title: 'BXH Truyện full',
+
+  }
 ];

@@ -76,13 +76,19 @@ const Menu = () => {
           <MenuItem
             name="Search"
             iconName="search"
-            onPress={() => {}}
+            onPress={() => {
+              goBack();
+              navigate('search');
+            }}
             isSelect={false}
           />
           <MenuItem
             name="Favorite"
             iconName="heart-outline"
-            onPress={() => {}}
+            onPress={() => {
+              goBack();
+              navigate('favorite');
+            }}
             isSelect={false}
           />
           <MenuItem
