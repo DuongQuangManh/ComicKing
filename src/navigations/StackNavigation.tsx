@@ -19,6 +19,8 @@ import {
   Language,
   NighMode,
   EditProfile,
+  Favorite,
+  Search,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 
@@ -45,7 +47,8 @@ export const Stacknavigation = () => {
         <Stack.Screen name="language" component={Language} />
         <Stack.Screen name="nighmode" component={NighMode} />
         <Stack.Screen name="editprofile" component={EditProfile} />
-
+        <Stack.Screen name="favorite" component={Favorite} />
+        <Stack.Screen name="search" component={Search} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{

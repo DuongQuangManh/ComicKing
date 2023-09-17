@@ -15,6 +15,8 @@ import Setting from './Setting/Setting'
 import Language from './Setting/Language'
 import NighMode from './Setting/NighMode'
 import EditProfile from './Profile/EditProfile'
+import Favorite from './Favorite/Favorite'
+import Search from './Search/Search'
 
 export {
     Splash,
@@ -33,5 +35,7 @@ export {
     Setting,
     NighMode,
     Language,
-    EditProfile
+    EditProfile,
+    Favorite,
+    Search
 }

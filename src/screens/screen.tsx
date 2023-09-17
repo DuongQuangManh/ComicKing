@@ -68,6 +68,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       <View style={[preset.outer, backgroundStyle, insetStyle]}>
         <ScrollView
           {...props}
+          nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           style={[preset.outer, backgroundStyle]}
           contentContainerStyle={[preset.inner, style]}

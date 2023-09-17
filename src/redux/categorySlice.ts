@@ -3,13 +3,13 @@ import { CateModel } from '@models'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const getCate = createAsyncThunk('cate/get', async (_, { rejectWithValue }) => {
-    let path = "api/category/findAll";
+    let path = "api/category/get";
     try {
         const res = await sendRequest(path);
         if (res.err != 200) {
             return rejectWithValue(res.message);
         }
-        console.log(res.data)
+        
         return res.data
     } catch (error: any) {
         return rejectWithValue(error.message)
@@ -20,6 +20,7 @@ const initialState = {
     data: [] as CateModel[],
     loading: false,
     select: "all" as string,
+    selectBXh:1 as number,
 }
 
 const cateSlice = createSlice({
@@ -28,6 +29,9 @@ const cateSlice = createSlice({
     reducers: {
         setSelect: (state, action) => {
             state.select = action.payload
+        },
+        setSelectBXH: (state, action) => {
+            state.selectBXh = action.payload
         }
     },
     extraReducers: builder => {
@@ -43,5 +47,5 @@ const cateSlice = createSlice({
     }
 })
 
-export const { setSelect } = cateSlice.actions
+export const { setSelect,setSelectBXH } = cateSlice.actions
 export default cateSlice.reducer

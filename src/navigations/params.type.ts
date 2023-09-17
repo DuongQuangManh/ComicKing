@@ -40,4 +40,6 @@ export type StackParamList = {
         message:string,
         label:string,
     },
+    search:undefined,
+    favorite:undefined
 }

@@ -25,11 +25,13 @@ const enFontConfig = {
   regular_16: getFontType(16, '400', 'AvenirLTStd-Roman'),
   regular_17: getFontType(17, '400', 'AvenirLTStd-Roman'),
 
+  medium_14: getFontType(14, '500', 'AvenirLTStd-Medium'),
   medium_16: getFontType(16, '500', 'AvenirLTStd-Medium'),
   medium_17: getFontType(17, '500', 'AvenirLTStd-Medium'),
   medium_18: getFontType(18, '500', 'AvenirLTStd-Medium'),
   medium_19: getFontType(19, '500', 'AvenirLTStd-Medium'),
 
+  semibold_12: getFontType(12, '600', 'AvenirLTStd-Heavy'),
   semibold_14: getFontType(14, '600', 'AvenirLTStd-Heavy'),
   semibold_16: getFontType(16, '600', 'AvenirLTStd-Heavy'),
   semibold_17: getFontType(17, '600', 'AvenirLTStd-Heavy'),
