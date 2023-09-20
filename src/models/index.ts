@@ -1,9 +1,4 @@
 export * from './auth.types'
-
-export interface CateModel{
-    id:string,
-    title:string,
-    description:string,
-    status:string,
-    numOfComic:number,
-}
+export * from './cate.types'
+export * from './home.types'
+export * from './user.types'

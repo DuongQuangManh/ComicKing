@@ -3,6 +3,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
+import { IDocument } from '@models';
 
 
 interface IProfile{
