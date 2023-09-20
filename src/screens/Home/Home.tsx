@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  FlatList,
-  Animated,
-  ScrollView,
-  Image,
-  View,
-} from 'react-native';
+import {StyleSheet, FlatList, Animated, ScrollView, View} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
@@ -18,6 +11,8 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatListCustom from './components/FlatListCustom';
 import Carousel from 'react-native-snap-carousel';
 import LeaderBoard from './components/LeaderBoard';
+import FastImage from 'react-native-fast-image';
+import homeSlice from '@redux/homeSlice';
 
 export const comicData = [
   {
@@ -94,6 +89,7 @@ const Home = () => {
 
   const dispatch = useAppDispatch();
   const dataCate = useAppSelector(state => state.categorySlice.data);
+  const comics = useAppSelector(state => state.homeSlice);
 
   useEffect(() => {
     dispatch(getCate());
@@ -165,10 +161,12 @@ const Home = () => {
         <View style={{paddingBottom: 70, paddingTop: 80}}>
           <Carousel
             nestedScrollEnabled={true}
-            data={comicData}
+            data={comics.sliderComic}
             renderItem={({item}) => (
-              <Image
-                source={{uri: item.image}}
+              <FastImage
+                source={{
+                  uri: item.image,
+                }}
                 style={{
                   width: WINDOW_WIDTH - 30,
                   height: WINDOW_HEIGHT / 3 - 10,
@@ -183,20 +181,17 @@ const Home = () => {
             autoplay={true}
             autoplayDelay={3000}
           />
+          <FlatListCustom label="Propose" data={comics.proposeComics} />
           <FlatListCustom
-            nestedScrollEnabled={true}
-            label="Hot"
-            data={comicData}
-            renderItem={({item}) => <ComicItemSmall item={item} />}
-            horizontal
+            label="Newest"
+            isMore={true}
+            data={comics.newestComic}
+            isItemLarge={true}
           />
-          <FlatListCustom
-            nestedScrollEnabled={true}
-            label="Popular"
-            data={comicData}
-            renderItem={({item}) => <ComicItemSmall item={item} />}
-            horizontal
-          />
+          <FlatListCustom label="Hot" data={comicData} />
+
+          <FlatListCustom label="Popular" data={comicData} />
+
           <LeaderBoard />
           <FlatList
             nestedScrollEnabled={true}
