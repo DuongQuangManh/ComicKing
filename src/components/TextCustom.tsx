@@ -24,7 +24,7 @@ const TextCustom: FC<propsComponent> = ({
     <TouchableOpacity
       onPress={props.onClick}
       activeOpacity={activeOpacity}
-      style={props.style}>
+      style={[props.style, {alignItems: 'center', justifyContent: 'center'}]}>
       <View
         style={[
           styles.containerTextCustom,

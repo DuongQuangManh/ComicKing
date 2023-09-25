@@ -4,6 +4,7 @@ import {WINDOW_WIDTH, myColors} from '@utils';
 import Icon, {Icons} from '../../../components/Icon';
 import Text from '../../../components/Text';
 import {useAppSelector} from '@redux/store';
+import FastImage from 'react-native-fast-image';
 interface propsComponent {
   onClick?: () => void;
 }
@@ -15,9 +16,10 @@ const HeaderHome: FC<propsComponent> = ({...props}) => {
     <View style={styles.container}>
       <View style={styles.box1}>
         <View style={styles.img}>
-          <Image
+          <FastImage
             source={image ? {uri: image} : require('@assets/images/avatar.png')}
             style={{width: 50, height: 50, borderRadius: 25}}
+            defaultSource={require('@assets/images/error_img.jpg')}
           />
         </View>
         <View style={styles.name}>

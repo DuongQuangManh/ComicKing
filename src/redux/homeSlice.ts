@@ -64,13 +64,18 @@ const initialState = {
     sliderComic:[] as IComic[],//
     newestComic:[] as IComic[],
     proposeComics:[] as IComic[],
-    doneComics:[] as IComic[]
+    doneComics:[] as IComic[],
+    selectComicId:""as string,
 }
 
 const homeSlice = createSlice({
     name:'homeSlice',
     initialState,
-    reducers:{},
+    reducers:{
+        setSelectComicId:(state,action)=>{
+            state.selectComicId = action.payload;
+        }
+    },
     extraReducers:builder=>builder.addCase(getSliderComics.fulfilled,(state,action)=>{
         state.sliderComic = action.payload.listComic;
     }).addCase(getNewestComics.fulfilled,(state,action)=>{
@@ -81,5 +86,5 @@ const homeSlice = createSlice({
         state.doneComics = action.payload.listComic;
     })
 })
-
+export const {setSelectComicId} = homeSlice.actions
 export default homeSlice.reducer

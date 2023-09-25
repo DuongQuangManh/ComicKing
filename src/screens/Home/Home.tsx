@@ -2,8 +2,7 @@ import {StyleSheet, FlatList, Animated, ScrollView, View} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
-import {ComicItem, CategoryItem, ComicItemSmall} from '@items';
+import {helper, myColors} from '@utils';
 import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
@@ -159,7 +158,7 @@ const Home = () => {
           },
         )}>
         <View style={{paddingBottom: 70, paddingTop: 80}}>
-          <Carousel
+          {/* <Carousel
             nestedScrollEnabled={true}
             data={comics.sliderComic}
             renderItem={({item}) => (
@@ -180,37 +179,21 @@ const Home = () => {
             loop={true}
             autoplay={true}
             autoplayDelay={3000}
-          />
+          /> */}
           <FlatListCustom label="Propose" data={comics.proposeComics} />
           <FlatListCustom
             label="Newest"
             isMore={true}
             data={comics.newestComic}
-            isItemLarge={true}
+            isItemLarge={false}
           />
           <FlatListCustom label="Hot" data={comicData} />
 
           <FlatListCustom label="Popular" data={comicData} />
 
           <LeaderBoard />
-          <FlatList
-            nestedScrollEnabled={true}
-            data={dataCate}
-            ListHeaderComponent={() => <CategoryItem item={cateFirst} />}
-            renderItem={({item}) => (
-              <CategoryItem item={item} isShowNumberComic={true} />
-            )}
-            horizontal
-            style={styles.type}
-            showsHorizontalScrollIndicator={false}
-          />
-          <FlatList
-            nestedScrollEnabled={true}
-            data={comicData}
-            renderItem={({item}) => <ComicItem item={item} />}
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-          />
+          <FlatListCustom label="Popular" data={comicData} />
+          <FlatListCustom label="Hot" data={comicData} />
         </View>
       </ScrollView>
     </Screen>
