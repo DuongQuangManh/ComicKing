@@ -7,12 +7,13 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Screen} from '../../screen';
-import {WINDOW_WIDTH, bxh, myColors} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, bxh, myColors} from '@utils';
 import {Icon, Icons, Text} from '@components';
-import {CategoryItem} from '@items';
+import {Category} from '@items';
 import {comicData} from '../Home';
-import {RankItem} from '@items';
+import {Rank} from '@items';
 import LinearGradient from 'react-native-linear-gradient';
+import {FlashList} from '@shopify/flash-list';
 
 const LeaderBoard = () => {
   return (
@@ -35,22 +36,31 @@ const LeaderBoard = () => {
             <Icon type={Icons.Entypo} name="chevron-right" size={16} />
           </TouchableOpacity>
         </View>
-        <FlatList
-          nestedScrollEnabled={true}
-          data={bxh}
-          renderItem={({item}) => <CategoryItem item={item} isBXH={true} />}
-          horizontal
-          style={styles.type}
-          showsHorizontalScrollIndicator={false}
-        />
-        <FlatList
+        <View style={styles.type}>
+          <FlashList
+            estimatedItemSize={40}
+            estimatedListSize={{
+              height: 40,
+              width: WINDOW_WIDTH,
+            }}
+            nestedScrollEnabled={true}
+            data={bxh}
+            renderItem={({item}) => <Category item={item} isBXH={true} />}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+
+        <FlashList
           nestedScrollEnabled={true}
           data={comicData}
-          renderItem={({item, index}) => (
-            <RankItem item={item} index={index + 1} />
-          )}
+          renderItem={({item, index}) => <Rank item={item} index={index + 1} />}
           showsVerticalScrollIndicator={false}
-          style={{marginTop: 10}}
+          estimatedItemSize={WINDOW_HEIGHT}
+          estimatedListSize={{
+            height: WINDOW_HEIGHT,
+            width: WINDOW_WIDTH,
+          }}
         />
         <LinearGradient
           style={styles.box4}

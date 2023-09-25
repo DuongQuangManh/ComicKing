@@ -15,6 +15,7 @@ import {useAppDispatch, useAppSelector} from '@redux/store';
 import {logoutAction} from '@redux/authSlice';
 import MenuItem from './components/MenuItem';
 import {usePreviousRouteName} from '@hooks';
+import FastImage from 'react-native-fast-image';
 
 const Menu = () => {
   const dispatch = useAppDispatch();
@@ -47,13 +48,14 @@ const Menu = () => {
         <TouchableOpacity onPress={handlerShowProfile} activeOpacity={0.7}>
           <View style={styles.box1}>
             <View style={styles.avt}>
-              <Image
+              <FastImage
                 source={
                   document.image
                     ? {uri: document.image}
                     : require('@assets/images/avatar.png')
                 }
                 style={styles.img}
+                defaultSource={require('@assets/images/error_img.jpg')}
               />
             </View>
             <View style={styles.name}>

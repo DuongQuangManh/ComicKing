@@ -1,10 +1,14 @@
-import CategoryItem from './CategoryItem'
-import ComicItem from './ComicItem'
-import ComicItemSmall from './ComicItemSmall'
-import RankItem from './RankItem'
+import Category from './Category'
+import Comic from './Comic'
+import ComicSmall from './ComicSmall'
+import Rank from './Rank'
+import CommentTop from './CommentTop'
+import Chapter from './Chapter'
 export {
-    CategoryItem,
-    ComicItem,
-    ComicItemSmall,
-    RankItem
+    Category,
+    Comic,
+    ComicSmall,
+    Rank,
+    CommentTop,
+    Chapter
 }

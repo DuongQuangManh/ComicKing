@@ -1,24 +1,32 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
-import {WINDOW_WIDTH} from '../utils';
+import {WINDOW_WIDTH, myColors} from '../utils';
 import {Icons} from './Icon';
 import {Text, Icon} from '@components';
 import {goBack} from '@navigations';
 interface propsComponent {
-  text: string;
+  text?: string;
   onBack?: () => void;
   onClickIconEnd?: () => void;
   isIconEnd?: boolean;
   nameIconEnd?: string;
   typeIconEnd?: any;
+  backgroundColor?: string;
+  style?: any;
 }
 const Header: FC<propsComponent> = ({
   isIconEnd = false,
   onBack = goBack,
+  backgroundColor = myColors.background,
   ...props
 }) => {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: backgroundColor},
+        props.style,
+      ]}>
       <TouchableOpacity
         style={{position: 'absolute', zIndex: 10, left: 8}}
         onPress={onBack}>

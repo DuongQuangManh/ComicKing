@@ -1,0 +1,41 @@
+import {StyleSheet, View} from 'react-native';
+import React, {FC} from 'react';
+import {Icon, Text} from '@components';
+import {myColors} from '@utils';
+interface componentProps {
+  text?: string;
+  nameIcon?: string;
+  typeIcon?: any;
+  sizeIcon?: number;
+  colorIcon?: string;
+  colorText?: string;
+}
+const IconText: FC<componentProps> = ({
+  colorText = myColors.surfaceVariant,
+  ...props
+}) => {
+  return (
+    <View style={styles.container}>
+      <Icon
+        type={props.typeIcon}
+        name={props.nameIcon}
+        size={props.sizeIcon}
+        color={props.colorIcon}
+      />
+      <Text type="semibold_16" color={colorText} style={{marginStart: 5}}>
+        {props.text}
+      </Text>
+    </View>
+  );
+};
+
+export default IconText;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 3,
+  },
+});

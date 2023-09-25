@@ -41,5 +41,8 @@ export type StackParamList = {
         label:string,
     },
     search:undefined,
-    favorite:undefined
+    favorite:undefined,
+    comicdetail:{
+        id:string,
+    }
 }

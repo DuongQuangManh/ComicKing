@@ -17,6 +17,7 @@ import NighMode from './Setting/NighMode'
 import EditProfile from './Profile/EditProfile'
 import Favorite from './Favorite/Favorite'
 import Search from './Search/Search'
+import ComicDetail from './Home/ComicDetail'
 
 export {
     Splash,
@@ -37,5 +38,6 @@ export {
     Language,
     EditProfile,
     Favorite,
-    Search
+    Search,
+    ComicDetail
 }

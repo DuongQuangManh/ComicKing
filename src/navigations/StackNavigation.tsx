@@ -21,6 +21,7 @@ import {
   EditProfile,
   Favorite,
   Search,
+  ComicDetail,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 
@@ -49,6 +50,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="editprofile" component={EditProfile} />
         <Stack.Screen name="favorite" component={Favorite} />
         <Stack.Screen name="search" component={Search} />
+        <Stack.Screen name="comicdetail" component={ComicDetail} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
