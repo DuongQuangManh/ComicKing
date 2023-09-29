@@ -3,24 +3,28 @@ import React, {FC} from 'react';
 import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {IconText, Icons, Text} from '@components';
 import {myColors} from '@utils';
+import {navigate} from '@navigations';
 interface itemProps {
   item?: any;
   index?: number;
 }
 const Chapter: FC<itemProps> = ({item, index}) => {
+  const handlerClick = () => {
+    navigate('readcomic', {id: item.id});
+  };
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={handlerClick}>
       <View style={styles.container}>
         <Text type="semibold_18">{`${index}. Chapter ${index}`}</Text>
         <View style={styles.box1}>
-          <Text>22/09/2023</Text>
+          <Text>{item.updatedAt}</Text>
           <View style={{flexDirection: 'row'}}>
             <IconText
               nameIcon="like1"
               typeIcon={Icons.AntDesign}
               colorIcon={myColors.primary}
               sizeIcon={18}
-              text="15.7k"
+              text={item.numOfLike}
               colorText={myColors.text}
             />
             <IconText
@@ -28,7 +32,15 @@ const Chapter: FC<itemProps> = ({item, index}) => {
               typeIcon={Icons.Fontisto}
               colorIcon={myColors.primary}
               sizeIcon={18}
-              text="15.7k"
+              text={item.numOfComment}
+              colorText={myColors.text}
+            />
+            <IconText
+              nameIcon="local-fire-department"
+              typeIcon={Icons.MaterialIcons}
+              sizeIcon={18}
+              colorIcon="#f77c00"
+              text={item.numOfView}
               colorText={myColors.text}
             />
           </View>

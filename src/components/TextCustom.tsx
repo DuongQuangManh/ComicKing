@@ -2,7 +2,7 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {myColors} from '@utils';
 interface propsComponent {
-  text?: string;
+  text?: any;
   width?: number;
   height?: number;
   borderRadius?: number;

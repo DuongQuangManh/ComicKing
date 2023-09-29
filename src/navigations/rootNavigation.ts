@@ -8,6 +8,11 @@ export const navigate = (name: ScreensName, params?: StackParamList[typeof name]
         navigationRef.navigate(name, params as any);
     }
 }
+export const push = (name: ScreensName, params?: StackParamList[typeof name]) => {
+    if (navigationRef.isReady()) {
+        navigationRef.dispatch(StackActions.push(name, params as any));
+    }
+}
 
 export const reset = (routes: { name: ScreensName, params?: any }[], index: number = 0) => {
     if (navigationRef.isReady()) {

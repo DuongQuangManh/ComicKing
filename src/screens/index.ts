@@ -18,6 +18,8 @@ import EditProfile from './Profile/EditProfile'
 import Favorite from './Favorite/Favorite'
 import Search from './Search/Search'
 import ComicDetail from './Home/ComicDetail'
+import Comment from './Home/Comment'
+import ReadComic from './Home/ReadComic'
 
 export {
     Splash,
@@ -39,5 +41,7 @@ export {
     EditProfile,
     Favorite,
     Search,
-    ComicDetail
+    ComicDetail,
+    Comment,
+    ReadComic
 }
