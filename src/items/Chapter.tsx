@@ -10,7 +10,7 @@ interface itemProps {
 }
 const Chapter: FC<itemProps> = ({item, index}) => {
   const handlerClick = () => {
-    navigate('readcomic', {id: item.id});
+    navigate('readcomic', {id: item.id, chapter: index});
   };
   return (
     <TouchableOpacity onPress={handlerClick}>

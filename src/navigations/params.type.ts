@@ -48,5 +48,6 @@ export type StackParamList = {
     comment:undefined,
     readcomic:{
         id:string,
+        chapter:number,
     }
 }

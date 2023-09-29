@@ -32,7 +32,7 @@ const Header: FC<propsComponent> = ({
         onPress={onBack}>
         <Icon name="chevron-back-outline" type={Icons.Ionicons} size={22} />
       </TouchableOpacity>
-      <Text style={{flex: 1, textAlign: 'center'}} type="semibold_18">
+      <Text style={{flex: 1, textAlign: 'center'}} type="bold_18">
         {props.text}
       </Text>
       {isIconEnd ? (
