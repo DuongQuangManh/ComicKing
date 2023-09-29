@@ -2,7 +2,7 @@ import {StyleSheet, FlatList, Animated, ScrollView, View} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
-import {helper, myColors} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
@@ -190,7 +190,7 @@ const Home = () => {
           <FlatListCustom label="Hot" data={comicData} />
 
           <FlatListCustom label="Popular" data={comicData} />
-
+          <FlatListCustom label="Popular" data={comicData} isItemLarge={true} />
           <LeaderBoard />
           <FlatListCustom label="Popular" data={comicData} />
           <FlatListCustom label="Hot" data={comicData} />

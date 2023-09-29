@@ -34,3 +34,31 @@ export interface IComic{
 
     publishedAt: number
 }
+
+export interface IComicDetails{
+    updatedAt:string,
+    id: string,
+    name: string,
+    description: string,
+    numOfChapter: number,
+    numOfFavorite: number,
+    image: string,
+    numOfComment: number,
+    numOfView: number,
+    isHot: boolean,
+    star: number,
+    numOfRate: number,
+    publishedAt: string,
+    numOfLike: number,
+    updatedChapterAt: number,
+    author: any,
+    specialList: null,
+    categories:any,
+    chapters: any
+}
+
+export interface IChapterDetails{
+    id:string,
+    images:[] ,
+    comic:string,
+}

@@ -17,7 +17,7 @@ import {
   TextMore,
 } from '@components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList} from '@navigations';
+import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
@@ -28,11 +28,14 @@ import {FlashList} from '@shopify/flash-list';
 import {Chapter, ComicSmall, CommentTop} from '@items';
 import HeaderDetail from './components/HeaderDetail';
 import Interact from './components/Interact';
+import {detailComic} from '@redux/comicSlice';
+import {CateModel} from '@models';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
   const dispatch = useAppDispatch();
   const propose = useAppSelector(state => state.homeSlice.proposeComics);
+  const comic = useAppSelector(state => state.comicSlice.data);
   const [screen, setScreen] = useState(1);
   const changeScreen = (number: number) => {
     if (number != screen) {
@@ -100,6 +103,13 @@ const ComicDetail = () => {
     },
   ];
 
+  useEffect(() => {
+    dispatch(detailComic({id: id}));
+  }, []);
+
+  const handlerShowModalComment = () => {
+    navigate('comment');
+  };
   useEffect(() => {}, []);
   return (
     <Screen>
@@ -130,9 +140,9 @@ const ComicDetail = () => {
           {screen === 1 ? (
             <View style={[styles.box2]}>
               <View style={{padding: 5}}>
-                <TextMore text="Dragon Ball (ドラゴンボール Doragon Bōru?) là bộ truyện tranh nhiều tập được viết và vẽ minh họa bởi Toriyama Akira. Loạt truyện tranh bắt đầu xuất bản hàng tuần trong tạp chí Weekly Shōnen Jump từ năm 1984 đến 1995 với 519 chương và sau đó được xuất bản trong 42 tập truyện dày bởi nhà xuất bản Shueisha. Sau 20 năm dừng sáng tác, từ năm 2015, tác giả Toriyama Akira đã tiếp tục sáng tác bộ truyện Dragon Ball Super, với nội dung tiếp nối bộ truyện gốc. Dragon Ball là bộ truyện nổi tiếng và phổ biến rộng rãi bậc nhất trên toàn thế giới là một trong những bộ manga được tiêu thụ nhiều nhất mọi thời đại." />
+                <TextMore text={comic.description} />
                 <FlashList
-                  data={listCate}
+                  data={comic.categories as CateModel[]}
                   nestedScrollEnabled={true}
                   estimatedItemSize={100}
                   estimatedListSize={{
@@ -142,7 +152,7 @@ const ComicDetail = () => {
                   contentContainerStyle={{paddingTop: 5}}
                   renderItem={({item}) => (
                     <TextCustom
-                      text={item.name}
+                      text={item?.title}
                       style={{
                         borderWidth: 1,
                         borderColor: myColors.gray,
@@ -171,6 +181,7 @@ const ComicDetail = () => {
                   <Text type="bold_18">Bình luận nổi bật</Text>
 
                   <TouchableOpacity
+                    onPress={handlerShowModalComment}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -236,7 +247,7 @@ const ComicDetail = () => {
                   padding: 5,
                 }}>
                 <Text type="bold_16" style={{flex: 3.5}}>
-                  Update to chapter 4
+                  {`Update to chapter ${comic.chapters.length}`}
                 </Text>
                 <View
                   style={{
@@ -256,7 +267,7 @@ const ComicDetail = () => {
               </View>
               <FlashList
                 nestedScrollEnabled={true}
-                data={listCm}
+                data={comic.chapters}
                 renderItem={({item, index}) => (
                   <Chapter item={item} index={index + 1} />
                 )}

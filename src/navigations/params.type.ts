@@ -45,4 +45,8 @@ export type StackParamList = {
     comicdetail:{
         id:string,
     }
+    comment:undefined,
+    readcomic:{
+        id:string,
+    }
 }

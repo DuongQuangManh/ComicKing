@@ -7,14 +7,14 @@ import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 import {useAppDispatch} from '@redux/store';
 import {setSelectComicId} from '@redux/homeSlice';
-import {navigate} from '@navigations';
+import {navigate, push} from '@navigations';
 interface itemProps {
   item?: any;
 }
 
 const ComicItemSmall: FC<itemProps> = ({item}) => {
   const handlerClick = () => {
-    navigate('comicdetail', {id: item.id});
+    push('comicdetail', {id: item.id});
   };
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={handlerClick}>

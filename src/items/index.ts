@@ -4,11 +4,13 @@ import ComicSmall from './ComicSmall'
 import Rank from './Rank'
 import CommentTop from './CommentTop'
 import Chapter from './Chapter'
+import PageChapter from './PageChapter'
 export {
     Category,
     Comic,
     ComicSmall,
     Rank,
     CommentTop,
-    Chapter
+    Chapter,
+    PageChapter
 }
