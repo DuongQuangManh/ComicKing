@@ -33,6 +33,7 @@ import {CateModel} from '@models';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
+  const user = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
   const propose = useAppSelector(state => state.homeSlice.proposeComics);
   const comic = useAppSelector(state => state.comicSlice.data);
@@ -104,7 +105,9 @@ const ComicDetail = () => {
   ];
 
   useEffect(() => {
-    dispatch(detailComic({id: id}));
+    console.log(id);
+    console.log(user.id);
+    dispatch(detailComic({comicId: id, userId: user.id}));
   }, []);
 
   const handlerShowModalComment = () => {
@@ -268,9 +271,7 @@ const ComicDetail = () => {
               <FlashList
                 nestedScrollEnabled={true}
                 data={comic.chapters}
-                renderItem={({item, index}) => (
-                  <Chapter item={item} index={index + 1} />
-                )}
+                renderItem={({item}) => <Chapter item={item} />}
                 estimatedItemSize={100}
                 estimatedListSize={{
                   width: WINDOW_WIDTH,

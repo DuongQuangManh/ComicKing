@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import FastImage from 'react-native-fast-image';
-import {WINDOW_HEIGHT, WINDOW_WIDTH} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import {useAppSelector} from '@redux/store';
@@ -18,7 +18,11 @@ const PageChapter: FC<itemProps> = ({item}) => {
       height={WINDOW_HEIGHT}>
       <FastImage
         source={item ? {uri: item} : require('@assets/images/error_img.jpg')}
-        style={{width: WINDOW_WIDTH, height: WINDOW_HEIGHT}}
+        style={{
+          width: WINDOW_WIDTH,
+          height: WINDOW_HEIGHT,
+        }}
+        resizeMode="cover"
       />
     </ShimmerPlaceholder>
   );

@@ -18,22 +18,32 @@ export const getChapterDetail = createAsyncThunk("chapterSlice/getChapterDetail"
     }
 })
 const initialState = {
-    data:{} as IChapterDetails,
+    data:[] as IChapterDetails[],
     loading:false,
 }
 const chapterSlice = createSlice({
     name:"chapterSlice",
     initialState,
-    reducers:{},
+    reducers:{
+        setDataChapter:(state,action)=>{
+            const newComic = action.payload;
+            if (state.data.length === 3) { 
+                state.data = [];
+            }
+            state.data.push(newComic);
+            console.log(state.data.length)
+        }
+    },
     extraReducers:builder=>{
         builder.addCase(getChapterDetail.pending,state=>{
             state.loading = true;
         }).addCase(getChapterDetail.fulfilled,(state,action)=>{
             state.loading = false;
-            state.data = action.payload;
+            // state.data = action.payload;
         }).addCase(getChapterDetail.rejected,state=>{
             state.loading = false;
         })
     }
 })
+export const {setDataChapter} = chapterSlice.actions
 export default chapterSlice.reducer

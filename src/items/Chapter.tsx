@@ -8,14 +8,14 @@ interface itemProps {
   item?: any;
   index?: number;
 }
-const Chapter: FC<itemProps> = ({item, index}) => {
+const Chapter: FC<itemProps> = ({item}) => {
   const handlerClick = () => {
-    navigate('readcomic', {id: item.id, chapter: index});
+    navigate('readcomic', {id: item.id, chapter: item.index});
   };
   return (
     <TouchableOpacity onPress={handlerClick}>
       <View style={styles.container}>
-        <Text type="semibold_18">{`${index}. Chapter ${index}`}</Text>
+        <Text type="semibold_18">{`${item.index}. Chapter ${item.index}`}</Text>
         <View style={styles.box1}>
           <Text>{item.updatedAt}</Text>
           <View style={{flexDirection: 'row'}}>

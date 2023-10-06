@@ -10,6 +10,7 @@ export const detailComic = createAsyncThunk ("comicSlice/detailComic",async (bod
         if(res.err!==200){
             helper.showErrorMsg(res.message);
         }else{
+            
             return res.data;
         }
     }catch(error:any){

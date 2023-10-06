@@ -5,6 +5,7 @@ import Rank from './Rank'
 import CommentTop from './CommentTop'
 import Chapter from './Chapter'
 import PageChapter from './PageChapter'
+import ComicRead from './ComicRead'
 export {
     Category,
     Comic,
@@ -12,5 +13,6 @@ export {
     Rank,
     CommentTop,
     Chapter,
-    PageChapter
+    PageChapter,
+    ComicRead
 }
