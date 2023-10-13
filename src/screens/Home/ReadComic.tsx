@@ -1,4 +1,5 @@
 import {
+  Animated,
   RefreshControl,
   StyleSheet,
   Text,
@@ -33,6 +34,23 @@ const ReadComic = () => {
   const [hasInitialData, setHasInitialData] = useState(false);
   const dispatch = useAppDispatch();
   const [data, setData] = useState<string[]>([]);
+  const [scrollUp, setScrollUp] = useState(false);
+  const [currentChapterIndex, setCurrentChapterIndex] = useState(chapter);
+
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
+
+  const onViewableItemsChanged = useRef(({viewableItems}: any) => {
+    console.log(viewableItems);
+    if (!isNaN(viewableItems[0]?.item)) {
+      setCurrentChapterIndex(viewableItems[0]?.item);
+    } else if (!isNaN(viewableItems[1]?.item)) {
+      setCurrentChapterIndex(viewableItems[1]?.item);
+    }
+  }).current;
+  console.log(currentChapterIndex);
+  console.log(scrollUp ? 'lướt lên' : 'lướt xuống');
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setIndex(pre => pre - 1);
@@ -95,14 +113,68 @@ const ReadComic = () => {
       setIndex(pre => pre + 1);
     }
   };
+
+  const offsetY = useRef(70);
+  useEffect(() => {
+    const listener = scrollY.addListener(({value}) => {
+      if (value < offsetY.current) {
+        setScrollUp(false);
+        Animated.timing(animatedHeaderVisible, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: false,
+        }).start();
+      } else if (value === 0) {
+        Animated.timing(animatedHeaderVisible, {
+          toValue: 0,
+          duration: 100,
+          useNativeDriver: false,
+        }).start();
+      } else {
+        setScrollUp(true);
+
+        Animated.timing(animatedHeaderVisible, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: false,
+        }).start();
+      }
+      offsetY.current = value;
+    });
+
+    return () => {
+      scrollY.removeListener(listener);
+    };
+  }, []);
+
+  const translateY = animatedHeaderVisible.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -75],
+    extrapolate: 'clamp',
+  });
+  const translateY1 = animatedHeaderVisible.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 110],
+    extrapolate: 'clamp',
+  });
+
   return (
     <Screen>
-      <Header
-        backgroundColor={myColors.transparent}
-        style={{position: 'absolute', top: 0, right: 0, left: 0, zIndex: 10}}
-        text={`Chapter ${index}`}
-        onBack={handlerBack}
-      />
+      <Animated.View
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          left: 0,
+          zIndex: 10,
+          transform: [{translateY}],
+        }}>
+        <Header
+          backgroundColor={myColors.transparentGray}
+          text={`Chapter ${index}`}
+          onBack={handlerBack}
+        />
+      </Animated.View>
       <FlashList
         ref={flashlistRef}
         nestedScrollEnabled={true}
@@ -118,9 +190,17 @@ const ReadComic = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {y: scrollY}}}],
+          {
+            useNativeDriver: false,
+          },
+        )}
+        onViewableItemsChanged={onViewableItemsChanged}
       />
 
-      <View style={styles.bottomMenu}>
+      <Animated.View
+        style={[styles.bottomMenu, {transform: [{translateY: translateY1}]}]}>
         <View style={styles.boxbtn}>
           <Input
             value={cmt}
@@ -142,13 +222,13 @@ const ReadComic = () => {
             <Icon type={Icons.Ionicons} name="chevron-back-outline" />
           </TouchableOpacity>
           <TouchableOpacity>
-            <Icon type={Icons.AntDesign} name="like1" />
+            <Icon type={Icons.AntDesign} name="like2" />
           </TouchableOpacity>
           <TouchableOpacity>
             <Icon type={Icons.Ionicons} name="chevron-forward-outline" />
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
     </Screen>
   );
 };

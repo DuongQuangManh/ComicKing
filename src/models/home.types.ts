@@ -54,7 +54,8 @@ export interface IComicDetails{
     author: any,
     specialList: null,
     categories:any,
-    chapters: any
+    chapters: any,
+    readingChapter:number,
 }
 
 export interface IChapterDetails{
