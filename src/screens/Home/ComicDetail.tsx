@@ -113,7 +113,15 @@ const ComicDetail = () => {
   const handlerShowModalComment = () => {
     navigate('comment');
   };
-  useEffect(() => {}, []);
+
+  const handlerReadComic = () => {
+    if (comic.readingChapter) {
+      navigate('readcomic', {id: comic.id, chapter: comic.readingChapter});
+    } else {
+      navigate('readcomic', {id: comic.id, chapter: 1});
+    }
+  };
+  console.log(comic.readingChapter);
   return (
     <Screen>
       <Header
@@ -170,9 +178,14 @@ const ComicDetail = () => {
                 />
               </View>
               <Button
-                text="Start reading the comic"
+                text={
+                  comic.readingChapter
+                    ? `Continue reading chapter ${comic.readingChapter}`
+                    : 'Start reading the comic'
+                }
                 borderRadius={25}
                 style={{marginTop: 20, alignSelf: 'center'}}
+                onPress={handlerReadComic}
               />
               <View style={styles.box4}>
                 <View

@@ -39,7 +39,8 @@ const initialState = {
         author: {},
         specialList: null,
         categories:[],
-        chapters: []
+        chapters: [],
+        readingChapter:0,
     } as IComicDetails,
     loading:false,
 }
