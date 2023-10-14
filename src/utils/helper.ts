@@ -1,7 +1,6 @@
 import { getCurrentRouter, goBack, navigate } from "@navigations"
 import { store } from "@redux/store"
 import { Platform, PermissionsAndroid } from 'react-native';
-import { showMessage } from "react-native-flash-message";
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
 export const helper = {
     // you can pass 'message' param only

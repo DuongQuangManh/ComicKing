@@ -2,28 +2,24 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "assets/fonts/AvenirLTStd-Black.ttf",
-      "sha1": "75fa4ec206248f36b03e87f0956b20964ffd8a76"
+      "path": "assets/fonts/Fredoka-Bold.ttf",
+      "sha1": "49a29e15ae38e96548e70ae3f09c21da2ba7da65"
     },
     {
-      "path": "assets/fonts/AvenirLTStd-Heavy.ttf",
-      "sha1": "eae48e8347c4939d3e2f8d7c1c4849de098bf0b3"
+      "path": "assets/fonts/Fredoka-Light.ttf",
+      "sha1": "358f7fd527e77fc5e95a9db210d1a0e74ce2f37e"
     },
     {
-      "path": "assets/fonts/AvenirLTStd-Medium.ttf",
-      "sha1": "f94fd43b09b01f31a6c260de80fcf1b74cab906e"
+      "path": "assets/fonts/Fredoka-Medium.ttf",
+      "sha1": "dac864c17432337b69775a6a04a7f9673857a101"
     },
     {
-      "path": "assets/fonts/AvenirLTStd-Roman.ttf",
-      "sha1": "1e4170f820f09958b0656aecced9548f5b02d5f5"
+      "path": "assets/fonts/Fredoka-Regular.ttf",
+      "sha1": "753b91e83586d517b993f5ae5666cb4f2f29cbbe"
     },
     {
-      "path": "assets/fonts/Padauk-Bold.ttf",
-      "sha1": "14b279926adb2237baa7a035eb3c5337321e17de"
-    },
-    {
-      "path": "assets/fonts/Padauk-Regular.ttf",
-      "sha1": "77d6e1505eb6b493c66643c39df79b84815d088e"
+      "path": "assets/fonts/Fredoka-SemiBold.ttf",
+      "sha1": "10738d8e8510bbd602eff944e35fc57254425f2e"
     }
   ]
 }
