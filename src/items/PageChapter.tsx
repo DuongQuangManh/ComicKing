@@ -1,43 +1,32 @@
-import {StyleSheet, View} from 'react-native';
-import React, {FC, useState} from 'react';
+import { StyleSheet, View } from 'react-native';
+import React, { FC } from 'react';
 import FastImage from 'react-native-fast-image';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
-import LinearGradient from 'react-native-linear-gradient';
-import {useAppSelector} from '@redux/store';
-import {Text} from '@components';
+import { WINDOW_WIDTH, } from '@utils';
+import { Text } from '@components';
 interface itemProps {
   item?: any;
   firstItem?: any;
 }
-const PageChapter: FC<itemProps> = ({item, firstItem}) => {
-  const loading = useAppSelector(state => state.chapterSlice.loading);
-  const [width, height] = useState({});
+const PageChapter: FC<itemProps> = ({ item, firstItem }) => {
   return (
-    <ShimmerPlaceholder
-      LinearGradient={LinearGradient}
-      visible={!loading}
-      width={WINDOW_WIDTH}
-      height={WINDOW_HEIGHT}>
+    <>
       {!isNaN(item) ? (
-        <Text type="bold_18" style={{alignSelf: 'center'}}>
-          {firstItem != 0 && `Chapter ${item}`}
-        </Text>
+        <View style={{ height: 100, justifyContent: 'center', alignItems: 'center' }}>
+          <Text type="bold_18">
+            {firstItem != 0 && `Chapter ${item}`}
+          </Text>
+        </View>
       ) : (
         <FastImage
-          source={item ? {uri: item} : require('@assets/images/error_img.jpg')}
+          source={item ? { uri: item } : require('@assets/images/error_img.jpg')}
           style={{
             width: WINDOW_WIDTH,
-            height: WINDOW_HEIGHT,
+            height: WINDOW_WIDTH * 1.5,
           }}
-          // onLoad={event => {
-          //   const { width, height } = event.nativeEvent;
-          //   setImageSize({ width, height });
-          // }}
           resizeMode="contain"
         />
       )}
-    </ShimmerPlaceholder>
+    </>
   );
 };
 

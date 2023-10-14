@@ -62,5 +62,5 @@ export interface IChapterDetails{
     id:string,
     images:[] ,
     comic:string,
-    chapterIndex:string
+    index:string
 }
