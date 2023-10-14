@@ -53,12 +53,11 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AvenirLTStd-Black.ttf</string>
-		<string>AvenirLTStd-Heavy.ttf</string>
-		<string>AvenirLTStd-Medium.ttf</string>
-		<string>AvenirLTStd-Roman.ttf</string>
-		<string>Padauk-Bold.ttf</string>
-		<string>Padauk-Regular.ttf</string>
+		<string>Fredoka-Bold.ttf</string>
+		<string>Fredoka-Light.ttf</string>
+		<string>Fredoka-Medium.ttf</string>
+		<string>Fredoka-Regular.ttf</string>
+		<string>Fredoka-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

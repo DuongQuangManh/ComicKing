@@ -14,12 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-ComicApp-ComicAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ComicApp-ComicAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		25DC0175033C4E87BEF049BB /* AvenirLTStd-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A2805AD916C48ABA9890DED /* AvenirLTStd-Black.ttf */; };
-		32A16525614B4649A470D9CE /* AvenirLTStd-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D076E31A02E4ADEBB3FD4A3 /* AvenirLTStd-Heavy.ttf */; };
-		D57238822B4E470F8BBEEBB6 /* AvenirLTStd-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86B74766D9424254B157AE2B /* AvenirLTStd-Medium.ttf */; };
-		D116E4E929CC4FB8A3706F33 /* AvenirLTStd-Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFC18636566340F5A6D1B445 /* AvenirLTStd-Roman.ttf */; };
-		47048ECD9EFC453D9F55859F /* Padauk-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AC4F2E6A68A4280AA6AA95D /* Padauk-Bold.ttf */; };
-		BD19252382E24FF6869CCF6D /* Padauk-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFE5BEE2922A4F698297E16E /* Padauk-Regular.ttf */; };
+		0E4AA14B50374812A6706932 /* Fredoka-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C85AE0D1039E469B9B011328 /* Fredoka-Bold.ttf */; };
+		A175EB81D24048F190D2873C /* Fredoka-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B650C8FA840A4A578B212D72 /* Fredoka-Light.ttf */; };
+		9D9A7DFA4785472596A606C4 /* Fredoka-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0518B259964404BC3D6B5B /* Fredoka-Medium.ttf */; };
+		51F13BFAABF94706BEE1BF5D /* Fredoka-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CCBA2D1CA9B4501949E4A70 /* Fredoka-Regular.ttf */; };
+		D597B199DC9B467AA7D029B2 /* Fredoka-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65256019ACE3400DBFECE784 /* Fredoka-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,12 +49,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ComicApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ComicApp-ComicAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ComicApp-ComicAppTests.release.xcconfig"; path = "Target Support Files/Pods-ComicApp-ComicAppTests/Pods-ComicApp-ComicAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		9A2805AD916C48ABA9890DED /* AvenirLTStd-Black.ttf */ = {isa = PBXFileReference; name = "AvenirLTStd-Black.ttf"; path = "../assets/fonts/AvenirLTStd-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6D076E31A02E4ADEBB3FD4A3 /* AvenirLTStd-Heavy.ttf */ = {isa = PBXFileReference; name = "AvenirLTStd-Heavy.ttf"; path = "../assets/fonts/AvenirLTStd-Heavy.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		86B74766D9424254B157AE2B /* AvenirLTStd-Medium.ttf */ = {isa = PBXFileReference; name = "AvenirLTStd-Medium.ttf"; path = "../assets/fonts/AvenirLTStd-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FFC18636566340F5A6D1B445 /* AvenirLTStd-Roman.ttf */ = {isa = PBXFileReference; name = "AvenirLTStd-Roman.ttf"; path = "../assets/fonts/AvenirLTStd-Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7AC4F2E6A68A4280AA6AA95D /* Padauk-Bold.ttf */ = {isa = PBXFileReference; name = "Padauk-Bold.ttf"; path = "../assets/fonts/Padauk-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BFE5BEE2922A4F698297E16E /* Padauk-Regular.ttf */ = {isa = PBXFileReference; name = "Padauk-Regular.ttf"; path = "../assets/fonts/Padauk-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C85AE0D1039E469B9B011328 /* Fredoka-Bold.ttf */ = {isa = PBXFileReference; name = "Fredoka-Bold.ttf"; path = "../assets/fonts/Fredoka-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B650C8FA840A4A578B212D72 /* Fredoka-Light.ttf */ = {isa = PBXFileReference; name = "Fredoka-Light.ttf"; path = "../assets/fonts/Fredoka-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5C0518B259964404BC3D6B5B /* Fredoka-Medium.ttf */ = {isa = PBXFileReference; name = "Fredoka-Medium.ttf"; path = "../assets/fonts/Fredoka-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6CCBA2D1CA9B4501949E4A70 /* Fredoka-Regular.ttf */ = {isa = PBXFileReference; name = "Fredoka-Regular.ttf"; path = "../assets/fonts/Fredoka-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		65256019ACE3400DBFECE784 /* Fredoka-SemiBold.ttf */ = {isa = PBXFileReference; name = "Fredoka-SemiBold.ttf"; path = "../assets/fonts/Fredoka-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,12 +162,11 @@
 		BEBDBB541CC24D38BB2709AA /* Resources */ = {
 			isa = "PBXGroup";
 			children = (
-				9A2805AD916C48ABA9890DED /* AvenirLTStd-Black.ttf */,
-				6D076E31A02E4ADEBB3FD4A3 /* AvenirLTStd-Heavy.ttf */,
-				86B74766D9424254B157AE2B /* AvenirLTStd-Medium.ttf */,
-				FFC18636566340F5A6D1B445 /* AvenirLTStd-Roman.ttf */,
-				7AC4F2E6A68A4280AA6AA95D /* Padauk-Bold.ttf */,
-				BFE5BEE2922A4F698297E16E /* Padauk-Regular.ttf */,
+				C85AE0D1039E469B9B011328 /* Fredoka-Bold.ttf */,
+				B650C8FA840A4A578B212D72 /* Fredoka-Light.ttf */,
+				5C0518B259964404BC3D6B5B /* Fredoka-Medium.ttf */,
+				6CCBA2D1CA9B4501949E4A70 /* Fredoka-Regular.ttf */,
+				65256019ACE3400DBFECE784 /* Fredoka-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -271,12 +268,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				25DC0175033C4E87BEF049BB /* AvenirLTStd-Black.ttf in Resources */,
-				32A16525614B4649A470D9CE /* AvenirLTStd-Heavy.ttf in Resources */,
-				D57238822B4E470F8BBEEBB6 /* AvenirLTStd-Medium.ttf in Resources */,
-				D116E4E929CC4FB8A3706F33 /* AvenirLTStd-Roman.ttf in Resources */,
-				47048ECD9EFC453D9F55859F /* Padauk-Bold.ttf in Resources */,
-				BD19252382E24FF6869CCF6D /* Padauk-Regular.ttf in Resources */,
+				0E4AA14B50374812A6706932 /* Fredoka-Bold.ttf in Resources */,
+				A175EB81D24048F190D2873C /* Fredoka-Light.ttf in Resources */,
+				9D9A7DFA4785472596A606C4 /* Fredoka-Medium.ttf in Resources */,
+				51F13BFAABF94706BEE1BF5D /* Fredoka-Regular.ttf in Resources */,
+				D597B199DC9B467AA7D029B2 /* Fredoka-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
