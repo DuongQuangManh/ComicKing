@@ -15,9 +15,15 @@ const Chapter: FC<itemProps> = ({item}) => {
   return (
     <TouchableOpacity onPress={handlerClick}>
       <View style={styles.container}>
-        <Text type="semibold_18">{`${item.index}. Chapter ${item.index}`}</Text>
+        <Text
+          type="semibold_16"
+          color={
+            item.isRead ? '#616161dc' : myColors.text
+          }>{`${item.index}. Chapter ${item.index}`}</Text>
         <View style={styles.box1}>
-          <Text>{item.updatedAt}</Text>
+          <Text color={item.isRead ? '#616161dc' : myColors.text}>
+            {item.updatedAt}
+          </Text>
           <View style={{flexDirection: 'row'}}>
             <IconText
               nameIcon="like1"

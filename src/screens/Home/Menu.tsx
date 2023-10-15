@@ -59,8 +59,12 @@ const Menu = () => {
               />
             </View>
             <View style={styles.name}>
-              <Text type="semibold_17">{document.fullName}</Text>
-              <Text>{document.email ?? document.nickName}</Text>
+              <Text type="semibold_17" numberOfLines={1}>
+                {document.fullName}
+              </Text>
+              <Text numberOfLines={1} ellipsizeMode="tail">
+                {document.email ?? document.nickName}
+              </Text>
             </View>
             <Icon type={Icons.Entypo} name="chevron-down" />
           </View>
@@ -169,6 +173,8 @@ const styles = StyleSheet.create({
     elevation: 11,
   },
   name: {
+    flex: 1,
+    marginStart: 10,
     justifyContent: 'space-around',
   },
 });
