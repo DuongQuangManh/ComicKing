@@ -7,3 +7,14 @@ export interface IDocument {
     birthday?:string,
     gender?:string,
 }
+
+export interface AvatarFrame {
+    id: string,
+    description: string,
+    howToGet: string,
+    isLock?: boolean,
+    needPoint?: number,
+    tag: string,
+    title: string,
+    image: string
+}

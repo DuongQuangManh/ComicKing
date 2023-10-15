@@ -57,6 +57,31 @@ export const helper = {
             imagePicker()
         }
     },
+    checkCamPermission: () => {
+        return new Promise((onOk, onErr) => {
+            if (Platform.OS == 'ios') return onOk(true);
+            if (Platform.OS === 'android' && Platform.Version >= 23) {
+                PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA).then((result) => {
+
+                    if (result) {
+                        onOk(result == true ? true : false);
+                    } else {
+                        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA)
+                            .then((result) => {
+                                if (result && result !== 'denied') {
+                                    onOk(result === "granted" ? true : false);
+                                } else {
+                                    helper.showErrorMsg('Vui lòng cấp quyền truy cập ảnh');
+                                    onOk(false);
+                                }
+                            });
+                    }
+                });
+            } else {
+                onOk(true);
+            }
+        });
+    },
     getGender:(id: string) => {
         if (id === '1') {
           return 'male';

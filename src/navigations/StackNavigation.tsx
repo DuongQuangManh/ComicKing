@@ -24,6 +24,8 @@ import {
   ComicDetail,
   Comment,
   ReadComic,
+  Infomation,
+  EditAvtFrame
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 
@@ -47,9 +49,11 @@ export const Stacknavigation = () => {
         <Stack.Screen name="setting" component={Setting} />
         <Stack.Screen name="changePassword" component={ChangePassword} />
         <Stack.Screen name="profile" component={Profile} />
+        <Stack.Screen name='infomation' component={Infomation} />
         <Stack.Screen name="language" component={Language} />
         <Stack.Screen name="nighmode" component={NighMode} />
         <Stack.Screen name="editprofile" component={EditProfile} />
+        <Stack.Screen name='editAvtFrame' component={EditAvtFrame}/>
         <Stack.Screen name="favorite" component={Favorite} />
         <Stack.Screen name="search" component={Search} />
         <Stack.Screen name="comicdetail" component={ComicDetail} />

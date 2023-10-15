@@ -1,119 +1,84 @@
 import {
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
-  Platform,
-  PermissionsAndroid,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {Screen} from '../screen';
-import {Header, Text} from '@components';
-import {useAppDispatch, useAppSelector} from '@redux/store';
+import React, { useEffect, useState } from 'react';
+import { Screen } from '../screen';
+import { Header, Icon, Icons, Text } from '@components';
+import { useAppDispatch, useAppSelector } from '@redux/store';
 import InfoItem from './Components/InfoItem';
-import {helper, myColors} from '@utils';
-import {goBack, navigate} from '@navigations';
-import {getProfileAction} from '@redux/userSlice';
+import { helper, myColors } from '@utils';
+import { goBack, navigate } from '@navigations';
+import { getProfileAction } from '@redux/userSlice';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-crop-picker';
+import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
-  const document = useAppSelector(state => state.userSlice.document);
-  const loading = useAppSelector(state => state.userSlice.loading);
-  const [img, setImg] = useState('');
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getProfileAction({id: document.id}));
-  }, []);
+  const { id, fullName, image } = useAppSelector(state => state.userSlice.document);
 
-  const imagePicker = async () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-      includeBase64: true,
-    }).then(image => {
-      console.log(image);
-      navigate('editprofile', {
-        value: image,
-        message: 'hello',
-        typeAction: 'image',
-        label: 'Avatar',
-      });
-    });
-    // console.log(result.assets[0].uri);
-    // console.log(helper.convertImageToBase64(result.assets[0].uri));
-  };
   return (
-    <Screen backgroundColor={myColors.background}>
-      <Header text={document.fullName} />
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.boxsd}
-          onPress={() => helper.checkPermission(imagePicker)}>
-          <ShimmerPlaceholder
-            LinearGradient={LinearGradient}
-            visible={!loading}
-            width={157}
-            height={157}
-            style={{borderRadius: 180, alignSelf: 'center'}}>
-            <Image source={{uri: document.image}} style={styles.img} />
-          </ShimmerPlaceholder>
-        </TouchableOpacity>
-        <View style={styles.box1}>
-          <Text type="semibold_16">Introduce yourself</Text>
-          <InfoItem
-            label="FullName"
-            text={document.fullName}
-            onPress={() =>
-              navigate('editprofile', {
-                value: document.fullName,
-                message: 'hello',
-                typeAction: 'fullname',
-                label: 'FullName',
-              })
-            }
-          />
-          <InfoItem
-            label="NickName"
-            text={document.nickName}
-            onPress={() =>
-              navigate('editprofile', {
-                value: document.nickName,
-                message: 'hello',
-                typeAction: 'nickname',
-                label: 'NickName',
-              })
-            }
-          />
-          <InfoItem
-            label="Gender"
-            text={document.gender}
-            onPress={() =>
-              navigate('editprofile', {
-                value: document.gender || '',
-                message: 'hello',
-                typeAction: 'gender',
-                label: 'Gender',
-              })
-            }
-          />
-          <InfoItem
-            label="Birthday"
-            text={document.birthday}
-            onPress={() =>
-              navigate('editprofile', {
-                value: document.birthday || '',
-                message: 'hello',
-                typeAction: 'birthday',
-                label: 'Birthday',
-              })
-            }
-          />
+    <Screen
+      backgroundColor={myColors.gray}
+      preset='scroll'
+      statusBarColor={myColors.primary_60}
+    >
+      <LinearGradient colors={[myColors.primary_60, myColors.gray]} style={{ padding: 18 }}>
+        <View style={{ height: 40 }}>
+
         </View>
+        <View style={{ flexDirection: 'row', paddingBottom: 20 }}>
+          <View style={styles.imgContainer}>
+            <FastImage
+              source={image ? { uri: image } : require('@assets/images/avatar.png')}
+              style={{ width: 65, height: 65, borderRadius: 35 }}
+              resizeMode='contain'
+            />
+            <FastImage
+              source={require('@assets/avatar/img1.png')}
+              style={{ position: 'absolute', width: 90, height: 90 }}
+            />
+          </View>
+          <View style={{ paddingStart: 15, flex: 1 }}>
+            <Text style={{ marginVertical: 8 }}>{fullName}</Text>
+            <TouchableOpacity style={styles.lvlBtn}>
+              <Text color='#fff' type='medium_14'>Lv1</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('infomation')
+              dispatch(getProfileAction({ id }))
+            }}
+            style={styles.editBtn}
+          >
+            <Icon type={Icons.FontAwesome} name='edit' size={22} />
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+      <View style={styles.containerOption}>
+        <TouchableOpacity style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name='crown-outline' size={18} />
+          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Vip</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name='star-shooting-outline' size={18} />
+          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Nạp xu</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate('editAvtFrame')} style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name='image-frame' size={18} />
+          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Khung Avatar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name='shield-star-outline' size={18} />
+          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Danh hiệu</Text>
+        </TouchableOpacity>
       </View>
-    </Screen>
+      <View style={{ height: 500 }} />
+    </Screen >
   );
 };
 
@@ -124,30 +89,35 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
   },
-  img: {
-    width: 150,
-    height: 150,
-    borderRadius: 180,
-    borderWidth: 3,
-    borderColor: myColors.background,
+  rowOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 16
   },
-  boxsd: {
-    width: 157,
-    height: 157,
-    borderRadius: 180,
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-
-    elevation: 15,
+  containerOption: {
+    marginHorizontal: 18,
+    backgroundColor: myColors.background,
+    borderRadius: 5,
+    elevation: 1,
+    padding: 12
   },
-  box1: {
-    flex: 1,
-    paddingTop: 25,
+  imgContainer: {
+    width: 90, height: 90,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
+  lvlBtn: {
+    backgroundColor: myColors.primary,
+    paddingVertical: 2,
+    paddingHorizontal: 10,
+    borderRadius: 4,
+    alignSelf: 'baseline',
+    elevation: 2
+  },
+  editBtn: {
+    width: 24, height: 24,
+    position: 'absolute',
+    top: 6, right: 8
+  }
 });

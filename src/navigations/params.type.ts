@@ -32,6 +32,8 @@ export type StackParamList = {
     menu: undefined,
     notification: undefined,
     profile:undefined,
+    infomation: undefined,
+    editAvtFrame: undefined,
     language:undefined,
     nighmode:undefined,
     editprofile:{

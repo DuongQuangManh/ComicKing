@@ -20,6 +20,8 @@ import Search from './Search/Search'
 import ComicDetail from './Home/ComicDetail'
 import Comment from './Home/Comment'
 import ReadComic from './Home/ReadComic'
+import Infomation from './Profile/Infomation'
+import EditAvtFrame from './Profile/EditAvtFrame'
 
 export {
     Splash,
@@ -43,5 +45,7 @@ export {
     Search,
     ComicDetail,
     Comment,
-    ReadComic
+    ReadComic,
+    Infomation,
+    EditAvtFrame
 }
