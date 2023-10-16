@@ -7,6 +7,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 export const Icons = {
   Ionicons,
   FontAwesome,
@@ -15,6 +17,7 @@ export const Icons = {
   Octicons,
   AntDesign,
   Fontisto,
+  MaterialCommunityIcons
 };
 interface IconProps {
   type?: any;

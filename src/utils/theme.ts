@@ -26,6 +26,7 @@ const enFontConfig = {
   light_13: getFontType(13, '300', 'Fredoka-Light'),
   light_14: getFontType(14, '300', 'Fredoka-Light'),
 
+  regular_14: getFontType(14, '400', 'Fredoka-Regular'),
   regular_15: getFontType(15, '400', 'Fredoka-Regular'),
   regular_16: getFontType(16, '400', 'Fredoka-Regular'),
   regular_17: getFontType(17, '400', 'Fredoka-Regular'),
@@ -79,6 +80,8 @@ export const myTheme = {
   colors: {
     ...MD3LightTheme.colors,
     primary: '#fb6d78',
+    primary_60: '#fb6d79a2',
+    primary_80: '#fb6d79cb',
     surfaceVariant: 'white',
     background: '#fff',
     text: '#202020',

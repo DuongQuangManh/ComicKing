@@ -41,11 +41,6 @@ const HeaderHome: FC<propsComponent> = ({...props}) => {
             {fullName}
           </Text>
         </View>
-        <View style={styles.btnMenu}>
-          <TouchableOpacity onPress={props.onClick}>
-            <Icon type={Icons.Ionicons} name="menu" />
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
