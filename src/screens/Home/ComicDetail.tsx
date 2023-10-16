@@ -9,6 +9,7 @@ import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {
   Button,
+  DataEmpty,
   Header,
   Icon,
   Icons,
@@ -20,7 +21,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import FastImage from 'react-native-fast-image';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import LinearGradient from 'react-native-linear-gradient';
 import ButtonInteract from './components/ButtonInteract';
 import IconText from '../../components/IconText';
@@ -121,7 +122,9 @@ const ComicDetail = () => {
       navigate('readcomic', {id: comic.id, chapter: 1});
     }
   };
-  console.log(comic.readingChapter);
+  const handlerShowAuthor = () => {
+    navigate('author', {id: comic.author.id});
+  };
   return (
     <Screen>
       <Header
@@ -134,14 +137,14 @@ const ComicDetail = () => {
           <Interact />
           <View style={styles.box3}>
             <ButtonInteract
-              label="Detail"
+              label="Chi tiết"
               isClick={screen === 1}
               isIcon={false}
               typeText="semibold_16"
               onClick={() => changeScreen(1)}
             />
             <ButtonInteract
-              label="Chapter"
+              label="Chương"
               isClick={screen === 2}
               isIcon={false}
               typeText="semibold_16"
@@ -180,13 +183,47 @@ const ComicDetail = () => {
               <Button
                 text={
                   comic.readingChapter
-                    ? `Continue reading chapter ${comic.readingChapter}`
-                    : 'Start reading the comic'
+                    ? `Tiếp tục đọc chapter ${comic.readingChapter}`
+                    : 'Bắt đầu đọc'
                 }
                 borderRadius={25}
                 style={{marginTop: 20, alignSelf: 'center'}}
                 onPress={handlerReadComic}
               />
+              <View style={[styles.box3, styles.author]}>
+                <FastImage
+                  source={
+                    comic.author.image
+                      ? {uri: comic.author.image}
+                      : require('@assets/images/avatar.png')
+                  }
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderWidth: 1,
+                    borderColor: myColors.background,
+                    borderRadius: 180,
+                  }}
+                />
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                  <Text type="semibold_16">{comic.author.name}</Text>
+                  <Text type="regular_15">{`${helper.convertToK(
+                    comic.author.numOfFollow,
+                  )} Fan`}</Text>
+                </View>
+                <TouchableOpacity
+                  onPress={handlerShowAuthor}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text type="semibold_14" style={{color: '#555555'}}>
+                    Xem tác giả
+                  </Text>
+                  <Icon type={Icons.Entypo} name="chevron-right" size={16} />
+                </TouchableOpacity>
+              </View>
               <View style={styles.box4}>
                 <View
                   style={{
@@ -262,22 +299,21 @@ const ComicDetail = () => {
                   justifyContent: 'space-between',
                   padding: 5,
                 }}>
-                <Text type="bold_16" style={{flex: 3.5}}>
-                  {`Update to chapter ${comic.chapters.length}`}
+                <Text type="bold_16" style={{flex: 1}}>
+                  {`Cập nhật đến chap ${comic.chapters.length}`}
                 </Text>
                 <View
                   style={{
-                    flex: 1.5,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                   }}>
                   <TouchableOpacity>
                     <Text type="bold_16" color={myColors.primary}>
-                      Newest
+                      Mới
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text type="bold_16">Oldest</Text>
+                  <TouchableOpacity style={{marginStart: 10}}>
+                    <Text type="bold_16">Cũ</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -290,6 +326,9 @@ const ComicDetail = () => {
                   width: WINDOW_WIDTH,
                   height: 100,
                 }}
+                ListEmptyComponent={() => (
+                  <DataEmpty text="Các chương chưa được cập nhật" />
+                )}
               />
             </View>
           )}
@@ -322,5 +361,8 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.surfaceVariant,
     borderWidth: 1,
     borderColor: myColors.gray,
+  },
+  author: {
+    marginTop: 10,
   },
 });

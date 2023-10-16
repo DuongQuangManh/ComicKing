@@ -79,7 +79,21 @@ export const helper = {
         if(value<1000){
             return `${value}`;
         }else{
-            return `${value/1000}k`;
+            const number = value/1000;
+            const roundedNumber = parseFloat(number.toFixed(1));
+            return `${roundedNumber}k`;
         }
+    },
+    checkTime:(currentHour:any)=>{
+        let timeOfDay = "Chào bạn";
+        
+        if (currentHour < 12) {
+            timeOfDay = 'Chào buổi sáng';
+        } else if (currentHour < 18) {
+            timeOfDay = 'Chào buổi chiều';
+        } else {
+            timeOfDay = 'Chào buổi tối';
+        }
+        return timeOfDay
     }
 }

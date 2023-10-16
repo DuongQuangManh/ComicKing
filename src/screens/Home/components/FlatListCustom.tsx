@@ -1,10 +1,10 @@
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import React, { FC } from 'react';
-import { WINDOW_WIDTH, myColors } from '@utils';
-import { Icon, Icons, Text } from '@components';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {FC} from 'react';
+import {WINDOW_WIDTH, myColors} from '@utils';
+import {Icon, Icons, Text} from '@components';
 import FastImage from 'react-native-fast-image';
-import { ComicSmall } from '@items';
-import { FlashList } from '@shopify/flash-list';
+import {ComicSmall} from '@items';
+import {FlashList} from '@shopify/flash-list';
 interface componetProps {
   label?: string;
   isMore?: boolean;
@@ -36,7 +36,7 @@ const FlatListCustom: FC<componetProps> = ({
           <FastImage
             source={
               props.data[0].image
-                ? { uri: props.data[0].image }
+                ? {uri: props.data[0].image}
                 : require('@assets/images/error_img.jpg')
             }
             defaultSource={require('@assets/images/error_img.jpg')}
@@ -59,7 +59,7 @@ const FlatListCustom: FC<componetProps> = ({
               type="medium_14"
               numberOfLines={5}
               ellipsizeMode="tail"
-              style={{ color: '#4a4747d8' }}>
+              style={{color: '#4a4747d8'}}>
               {props.data[0].description}
             </Text>
           </View>
@@ -71,9 +71,9 @@ const FlatListCustom: FC<componetProps> = ({
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           data={isItemLarge ? props.data.slice(1) : props.data}
-          renderItem={({ item }) => <ComicSmall item={item} />}
+          renderItem={({item}) => <ComicSmall item={item} />}
           horizontal={horizontal}
-          contentContainerStyle={{ paddingTop: 6, paddingRight: 8 }}
+          contentContainerStyle={{paddingRight: 8}}
         />
       )}
     </View>
@@ -86,12 +86,13 @@ const styles = StyleSheet.create({
   container: {
     width: WINDOW_WIDTH,
     marginTop: 18,
+    minHeight: WINDOW_WIDTH / 3 + 60,
   },
   box1: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingStart: 4
+    paddingStart: 4,
   },
   box2: {
     flexDirection: 'row',

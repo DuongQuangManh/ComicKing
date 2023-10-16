@@ -11,6 +11,7 @@ import Badge from './Badge'
 import TextCustom from './TextCustom'
 import TextMore from './TextMore'
 import IconText from './IconText'
+import DataEmpty from './DataEmpty'
 
 export {
     Button,
@@ -25,5 +26,6 @@ export {
     Badge,
     TextCustom,
     TextMore,
-    IconText
+    IconText,
+    DataEmpty
 }

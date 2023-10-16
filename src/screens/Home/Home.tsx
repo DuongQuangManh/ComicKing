@@ -180,9 +180,9 @@ const Home = () => {
             autoplay={true}
             autoplayDelay={3000}
           /> */}
-          <FlatListCustom label="Propose" data={comics.proposeComics} />
+          <FlatListCustom label="Đề xuất" data={comics.proposeComics} />
           <FlatListCustom
-            label="Newest"
+            label="Mới nhất"
             isMore={true}
             data={comics.newestComic}
             isItemLarge={false}
