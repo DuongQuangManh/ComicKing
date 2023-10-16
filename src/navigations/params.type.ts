@@ -49,5 +49,8 @@ export type StackParamList = {
     readcomic:{
         id:string,
         chapter:number,
+    },
+    author:{
+        id:string,
     }
 }

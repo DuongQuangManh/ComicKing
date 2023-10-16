@@ -1,6 +1,6 @@
 import {StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 import React, {FC} from 'react';
-import {WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import Icon, {Icons} from '../../../components/Icon';
 import Text from '../../../components/Text';
 import {useAppSelector} from '@redux/store';
@@ -30,7 +30,7 @@ const HeaderHome: FC<propsComponent> = ({...props}) => {
               fontSize: 15,
               fontWeight: '600',
             }}>
-            Good morning
+            {helper.checkTime(new Date().getHours())}
           </Text>
           <Text
             style={{
