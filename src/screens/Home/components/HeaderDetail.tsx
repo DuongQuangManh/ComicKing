@@ -1,6 +1,6 @@
 import {StyleSheet, View, ImageBackground} from 'react-native';
 import React, {FC} from 'react';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import LinearGradient from 'react-native-linear-gradient';
 import {Icons, Text} from '@components';
 import {IconText} from '@components';
@@ -53,14 +53,14 @@ const HeaderDetail: FC<componentProps> = ({
                 typeIcon={Icons.MaterialIcons}
                 sizeIcon={18}
                 colorIcon="#f77c00"
-                text={data.numOfView + ''}
+                text={helper.convertToK(data.numOfView)}
               />
               <IconText
                 nameIcon="like1"
                 typeIcon={Icons.AntDesign}
                 colorIcon={myColors.primary}
                 sizeIcon={18}
-                text={data.numOfLike + ''}
+                text={helper.convertToK(data.numOfLike)}
               />
               <IconText
                 nameIcon="star"

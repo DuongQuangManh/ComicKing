@@ -22,6 +22,7 @@ import Comment from './Home/Comment'
 import ReadComic from './Home/ReadComic'
 import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
+import Author from './Home/Author'
 
 export {
     Splash,
@@ -48,4 +49,5 @@ export {
     ReadComic,
     Infomation,
     EditAvtFrame
+    Author
 }
