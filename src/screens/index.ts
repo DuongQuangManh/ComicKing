@@ -9,7 +9,7 @@ import Loading from './Common/Loading'
 import Home from './Home/Home'
 import Profile from './Profile/Profile'
 import ConfirmMessage from './Common/ConfirmMessage'
-import Menu from './Home/Menu'
+// import Menu from './Home/Menu'
 import Notification from './Notification/Notification'
 import Setting from './Setting/Setting'
 import Language from './Setting/Language'
@@ -35,7 +35,7 @@ export {
     Home,
     Profile,
     ConfirmMessage,
-    Menu,
+    // Menu,
     Notification,
     Setting,
     NighMode,

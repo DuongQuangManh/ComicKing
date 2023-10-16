@@ -5,16 +5,18 @@ import {Screen} from '../screen';
 import {navigate, replace} from '@navigations';
 import {Text} from '@components';
 import SplashScreen from 'react-native-splash-screen';
-import {useAppDispatch} from '@redux/store';
+import {useAppDispatch, useAppSelector} from '@redux/store';
 import {
   getDoneComics,
   getNewestComics,
   getProposeComics,
   getSliderComics,
 } from '@redux/homeSlice';
+import { getUserInfo } from '@redux/userSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
+  const { id = '' } = useAppSelector(state => state.userSlice.document)
   useEffect(() => {
     SplashScreen.hide();
     dispatch(getSliderComics());
@@ -22,8 +24,9 @@ const Splash = () => {
     dispatch(getProposeComics());
     dispatch(getDoneComics());
     setTimeout(() => {
-      if (helper.getAccessToken()) {
-        replace('home');
+      if (helper.getAccessToken() && id) {
+        dispatch(getUserInfo({id}))
+        replace('bottomNavigation');
       } else {
         replace('login');
       }

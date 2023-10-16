@@ -12,7 +12,7 @@ import {
   Loading,
   ConfirmMessage,
   Home,
-  Menu,
+  // Menu,
   Notification,
   Setting,
   Profile,
@@ -28,6 +28,7 @@ import {
   EditAvtFrame
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
+import BottomNavigation from './BottomNavigation';
 
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -42,7 +43,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="otpVerification" component={OtpVerification} />
         <Stack.Screen name="forgotPassword" component={ForgotPassword} />
 
-        <Stack.Screen name="home" component={Home} />
+        <Stack.Screen name="bottomNavigation" component={BottomNavigation} />
 
         <Stack.Screen name="notification" component={Notification} />
 
@@ -67,7 +68,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="message" component={Message} />
           <Stack.Screen name="loading" component={Loading} />
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
-          <Stack.Screen name="menu" component={Menu} />
+          {/* <Stack.Screen name="menu" component={Menu} /> */}
           <Stack.Screen name="comment" component={Comment} />
         </Stack.Group>
       </Stack.Navigator>

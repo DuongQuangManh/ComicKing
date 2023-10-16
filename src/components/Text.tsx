@@ -11,7 +11,7 @@ type TTextProps = Omit<TextProps<any>, 'variant'> & ITextProps;
 const CustomText = customText<KeyFontType>();
 
 const Text: React.FC<TTextProps> = ({
-  type = 'medium_16',
+  type = 'medium_14',
   color = myColors.text,
   ...props
 }) => {

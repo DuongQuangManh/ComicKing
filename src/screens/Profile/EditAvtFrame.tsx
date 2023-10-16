@@ -1,16 +1,38 @@
-import { ActivityIndicator, Animated, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+    ActivityIndicator,
+    Animated,
+    StyleSheet,
+    TouchableOpacity,
+    View
+} from 'react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Screen } from '../screen'
-import { Header, Text } from '@components'
-import { WINDOW_WIDTH, helper, myColors } from '@utils'
+import { Header, Icon, Icons, Text } from '@components'
+import { WINDOW_WIDTH, helper, myColors, myTheme } from '@utils'
 import FastImage from 'react-native-fast-image'
 import { useAppSelector } from '@redux/store'
 import { sendRequest } from '@api'
 import { AvatarFrame } from '@models'
 import { FlashList } from '@shopify/flash-list'
 import LinearGradient from 'react-native-linear-gradient'
+import { RouteProp, useRoute } from '@react-navigation/native'
+import { StackParamList } from '@navigations'
 
-const TABS = [
+type TabType = {
+    type: 'level' | 'event' | 'vip',
+    index: number,
+    label: string
+}
+
+type StateType = {
+    listAvtFrame: AvatarFrame[]
+    loading: boolean
+    selectedTab: TabType,
+    selectedFrame: AvatarFrame | null,
+    haveCount: number
+}
+
+const TABS: TabType[] = [
     {
         type: 'level',
         label: 'Level Frame',
@@ -31,12 +53,17 @@ const TABS = [
 const ITEM_WIDTH = Math.round(WINDOW_WIDTH / 3)
 
 const EditAvtFrame = () => {
-
+    const { avatarFrame } = useRoute<RouteProp<StackParamList, 'editAvtFrame'>>().params
     const { image, id } = useAppSelector(state => state.userSlice.document)
-    const [listAvtFrame, setListAvtFrame] = useState<AvatarFrame[]>([])
-    const [loading, setLoading] = useState(true)
-    const [selectedTab, setSelectedTab] = useState(TABS[0])
-    const [selectedFrame, setSelectedFrame] = useState<AvatarFrame | null>(null)
+    const [state, setState] = useState<StateType>({
+        listAvtFrame: [],
+        loading: true,
+        selectedTab: TABS[0],
+        selectedFrame: avatarFrame,
+        haveCount: 0
+    })
+    const { loading, selectedFrame, selectedTab, listAvtFrame, haveCount } = state
+
     const animatedValue = useRef(new Animated.Value(1)).current
     const translateX = animatedValue.interpolate({
         inputRange: [1, TABS.length],
@@ -44,25 +71,26 @@ const EditAvtFrame = () => {
     })
 
     const getListAvtFrame = async (type: string) => {
-        setLoading(true)
+        setState(pre => ({ ...pre, loading: true }))
         const respone = await sendRequest('api/user/findDecorate', { userId: id, type })
-        setLoading(false)
-        if (respone.err == 200) {
-            console.log(respone.data)
-            setListAvtFrame(respone.data)
+        setState(pre => ({ ...pre, loading: false }))
+        const { err, message, data = [], haveCount = 0 } = respone
+        if (err == 200) {
+            setState(pre => ({ ...pre, listAvtFrame: data, haveCount }))
         } else {
-            helper.showErrorMsg(respone.message)
+            helper.showErrorMsg(message)
         }
     }
 
     useEffect(() => {
-        getListAvtFrame(selectedTab.type)
+        getListAvtFrame(selectedTab?.type)
         Animated.timing(animatedValue, {
-            toValue: selectedTab.index,
+            toValue: selectedTab?.index,
             duration: 300,
             useNativeDriver: true
         }).start()
     }, [selectedTab])
+
 
     const _renderTabs = useCallback(() => {
         return (
@@ -72,26 +100,13 @@ const EditAvtFrame = () => {
                         key={item.type}
                         onPress={() => {
                             if (loading || selectedTab.type == item.type) return
-                            setSelectedTab(item)
+                            setState(pre => ({ ...pre, selectedTab: item }))
                         }}
-                        style={{
-                            flex: 1,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            height: 50,
-                        }}>
+                        style={styles.tabBtn}>
                         <Text color={item.type == selectedTab.type ? myColors.primary : 'gray'}>{item.label}</Text>
                     </TouchableOpacity>
                 ))}
-                <Animated.View
-                    style={{
-                        position: 'absolute',
-                        backgroundColor: myColors.primary,
-                        height: 4, bottom: 0,
-                        width: ITEM_WIDTH,
-                        transform: [{ translateX }]
-                    }}
-                />
+                <Animated.View style={[{ transform: [{ translateX }] }, styles.dividerTab]} />
             </View>
         )
     }, [selectedTab, loading])
@@ -99,7 +114,7 @@ const EditAvtFrame = () => {
     return (
         <Screen>
             <Header text='Khung Avatar' />
-            <View style={{ paddingHorizontal: 18, paddingVertical: 20, alignItems: 'center' }}>
+            <View style={styles.container}>
                 <View style={styles.imgContainer}>
                     <FastImage
                         source={image ? { uri: image } : require('@assets/images/avatar.png')}
@@ -108,13 +123,18 @@ const EditAvtFrame = () => {
                     />
                     <FastImage
                         source={selectedFrame ? { uri: selectedFrame.image } : require('@assets/avatar/img1.png')}
-                        style={{ position: 'absolute', width: 128, height: 128 }}
+                        style={{ position: 'absolute', width: 122, height: 122 }}
                     />
+                </View>
+                <View style={{ paddingStart: 40 }}>
+                    <Text type='regular_15'>* Vip point: 0</Text>
+                    <Text type='regular_15'>* Level point: 0</Text>
+                    <Text type='regular_15'>* Đang có: {haveCount}</Text>
                 </View>
             </View>
             <LinearGradient
-                colors={[myColors.primary, myColors.primary_60]}
-                style={{ margin: 12, paddingHorizontal: 10, paddingVertical: 14, borderRadius: 5 }}
+                colors={[myColors.primary, myColors.primary_80]}
+                style={styles.linearContainer}
             >
                 <View style={{ flexDirection: 'row' }}>
                     <FastImage
@@ -125,15 +145,11 @@ const EditAvtFrame = () => {
                         <Text type='regular_14' color='#fff'
                             numberOfLines={2}
                             ellipsizeMode='tail'
-                        >{selectedFrame?.description}</Text>
-                        <View style={{ flexDirection: 'row', justifyContent:'flex-end' }}>
-                            <TouchableOpacity style={{
-                                backgroundColor: '#fff',
-                                borderRadius: 4,
-                                paddingVertical: 4,
-                                paddingHorizontal: 8
-                            }}>
-                                <Text type='medium_14' >{!selectedFrame?.isLock ? 'Sử dụng' : 'Lấy ngay'}</Text>
+                        >* {selectedFrame?.description}</Text>
+                        <Text color='#fff' type='regular_14'>* Require point : {selectedFrame?.needPoint}</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                            <TouchableOpacity style={styles.actionBtn}>
+                                <Text type='medium_14' >{!selectedFrame?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -146,40 +162,38 @@ const EditAvtFrame = () => {
                     size='large'
                     style={{ height: 500, width: '100%' }} />
                 :
-                <View style={{ marginTop: 15, flex: 1 }}>
-                    <FlashList
-                        numColumns={3}
-                        estimatedItemSize={ITEM_WIDTH}
-                        data={listAvtFrame}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => setSelectedFrame(item)}
-                                style={{
-                                    width: ITEM_WIDTH,
-                                    height: ITEM_WIDTH,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}>
-                                {item.isLock && <View
-                                    style={{ flex: 1 }}
-                                />}
-                                <FastImage
-                                    style={{ width: ITEM_WIDTH - 30, height: ITEM_WIDTH - 30 }}
-                                    source={{ uri: item.image }}
-                                />
-                            </TouchableOpacity>
-                        )}
-                        ListEmptyComponent={() => (
-                            <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 100 }}>
-                                <FastImage
-                                    tintColor='gray'
-                                    source={require('@assets/images/empty.png')}
-                                    style={{ width: 80, height: 80 }} />
-                                <Text color='gray'>List is empty</Text>
-                            </View>
-                        )}
-                    />
-                </View>
+                <FlashList
+                    numColumns={3}
+                    estimatedItemSize={ITEM_WIDTH}
+                    data={listAvtFrame}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity
+                            onPress={() => setState(pre => ({ ...pre, selectedFrame: item }))}
+                            style={styles.btnItem}>
+                            <FastImage
+                                tintColor={item.isLock ? 'gray' : ''}
+                                style={{ width: ITEM_WIDTH - 30, height: ITEM_WIDTH - 30 }}
+                                source={{ uri: item.image }}
+                            />
+                            {item.isLock && <Icon
+                                color={myColors.primary}
+                                type={Icons.MaterialIcons}
+                                name='lock'
+                                size={24}
+                                style={{ position: 'absolute' }}
+                            />}
+                        </TouchableOpacity>
+                    )}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyContainer}>
+                            <FastImage
+                                tintColor='gray'
+                                source={require('@assets/images/empty.png')}
+                                style={{ width: 80, height: 80 }} />
+                            <Text color='gray'>List is empty</Text>
+                        </View>
+                    )}
+                />
             }
         </Screen>
     )
@@ -188,11 +202,52 @@ const EditAvtFrame = () => {
 export default EditAvtFrame
 
 const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 18,
+        paddingVertical: 20,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     imgContainer: {
         width: 90, height: 90,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20
     },
-
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 100
+    },
+    btnItem: {
+        width: ITEM_WIDTH,
+        height: ITEM_WIDTH,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    actionBtn: {
+        backgroundColor: '#fff',
+        borderRadius: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 8
+    },
+    linearContainer: {
+        margin: 12,
+        paddingHorizontal: 10,
+        paddingVertical: 14,
+        borderRadius: 5
+    },
+    tabBtn: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 50,
+    },
+    dividerTab: {
+        position: 'absolute',
+        backgroundColor: myColors.primary,
+        height: 4, bottom: 0,
+        width: ITEM_WIDTH,
+    }
 })

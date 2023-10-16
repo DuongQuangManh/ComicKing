@@ -18,7 +18,10 @@ import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const { id, fullName, image } = useAppSelector(state => state.userSlice.document);
+  const {
+    document: { id, fullName, image },
+    avatarFrame
+  } = useAppSelector(state => state.userSlice);
 
   return (
     <Screen
@@ -34,12 +37,12 @@ const Profile = () => {
           <View style={styles.imgContainer}>
             <FastImage
               source={image ? { uri: image } : require('@assets/images/avatar.png')}
-              style={{ width: 65, height: 65, borderRadius: 35 }}
+              style={{ width: 72, height: 72, borderRadius: 35 }}
               resizeMode='contain'
             />
             <FastImage
-              source={require('@assets/avatar/img1.png')}
-              style={{ position: 'absolute', width: 90, height: 90 }}
+              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/avatar/img1.png')}
+              style={{ position: 'absolute', width: 88, height: 88 }}
             />
           </View>
           <View style={{ paddingStart: 15, flex: 1 }}>
@@ -68,7 +71,7 @@ const Profile = () => {
           <Icon type={Icons.MaterialCommunityIcons} name='star-shooting-outline' size={18} />
           <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Nạp xu</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('editAvtFrame')} style={styles.rowOption}>
+        <TouchableOpacity onPress={() => navigate('editAvtFrame', { avatarFrame })} style={styles.rowOption}>
           <Icon type={Icons.MaterialCommunityIcons} name='image-frame' size={18} />
           <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Khung Avatar</Text>
         </TouchableOpacity>

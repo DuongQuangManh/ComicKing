@@ -1,14 +1,13 @@
-import {StyleSheet, FlatList, Animated, ScrollView, View} from 'react-native';
-import React, {useRef, useEffect} from 'react';
-import {Screen} from '../screen';
+import { StyleSheet, FlatList, Animated, ScrollView, View } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { Screen } from '../screen';
 import HeaderHome from './components/HeaderHome';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
-import {StackParamList, navigate} from '@navigations';
-import {useAppDispatch, useAppSelector} from '@redux/store';
-import {getCate} from '@redux/categorySlice';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import { WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors } from '@utils';
+import { StackParamList, navigate } from '@navigations';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { getCate } from '@redux/categorySlice';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import FlatListCustom from './components/FlatListCustom';
-import Carousel from 'react-native-snap-carousel';
 import LeaderBoard from './components/LeaderBoard';
 import FastImage from 'react-native-fast-image';
 import homeSlice from '@redux/homeSlice';
@@ -83,8 +82,6 @@ export const comicData = [
 const Home = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
-  const {registerSuccess} =
-    useRoute<RouteProp<StackParamList, 'home'>>().params ?? {};
 
   const dispatch = useAppDispatch();
   const dataCate = useAppSelector(state => state.categorySlice.data);
@@ -92,73 +89,14 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(getCate());
-    if (registerSuccess) helper.showSuccessMsg('Đăng kí tài khoản thành công.');
   }, []);
   const offsetY = useRef(70);
-  useEffect(() => {
-    const listener = scrollY.addListener(({value}) => {
-      if (value < offsetY.current) {
-        Animated.timing(animatedHeaderVisible, {
-          toValue: 0,
-          duration: 100,
-          useNativeDriver: false,
-        }).start();
-      } else if (value === 0) {
-        Animated.timing(animatedHeaderVisible, {
-          toValue: 0,
-          duration: 100,
-          useNativeDriver: false,
-        }).start();
-      } else {
-        Animated.timing(animatedHeaderVisible, {
-          toValue: 1,
-          duration: 100,
-          useNativeDriver: false,
-        }).start();
-      }
-      offsetY.current = value;
-    });
 
-    return () => {
-      scrollY.removeListener(listener);
-    };
-  }, []);
-
-  const translateY = animatedHeaderVisible.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, -75],
-    extrapolate: 'clamp',
-  });
-
-  const cateFirst = {
-    id: 'all',
-    title: 'All',
-    description: 'all',
-    numOfComic: -1,
-  };
   return (
-    <Screen preset="fixed">
-      <Animated.View
-        style={{
-          transform: [{translateY}],
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 10,
-        }}>
-        <HeaderHome onClick={() => navigate('menu')} />
-      </Animated.View>
-      <ScrollView
-        nestedScrollEnabled={true}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {
-            useNativeDriver: false,
-          },
-        )}>
-        <View style={{paddingBottom: 70, paddingTop: 80}}>
-          {/* <Carousel
+    <Screen preset="scroll">
+      <HeaderHome onClick={() => navigate('menu')}/>
+      <View style={{ paddingBottom: 70, paddingTop: 80 }}>
+        {/* <Carousel
             nestedScrollEnabled={true}
             data={comics.sliderComic}
             renderItem={({item}) => (
@@ -180,22 +118,19 @@ const Home = () => {
             autoplay={true}
             autoplayDelay={3000}
           /> */}
-          <FlatListCustom label="Propose" data={comics.proposeComics} />
-          <FlatListCustom
-            label="Newest"
-            isMore={true}
-            data={comics.newestComic}
-            isItemLarge={false}
-          />
-          <FlatListCustom label="Hot" data={comicData} />
+        <FlatListCustom label="Propose" data={comics.proposeComics} />
+        <FlatListCustom
+          label="Newest"
+          isMore={true}
+          data={comics.newestComic}
+          isItemLarge={false}
+        />
+        <FlatListCustom label="Hot" data={comicData} />
 
-          <FlatListCustom label="Popular" data={comicData} />
-          <FlatListCustom label="Popular" data={comicData} isItemLarge={true} />
-          <LeaderBoard />
-          <FlatListCustom label="Popular" data={comicData} />
-          <FlatListCustom label="Hot" data={comicData} />
-        </View>
-      </ScrollView>
+        <FlatListCustom label="Popular" data={comicData} />
+        <FlatListCustom label="Popular" data={comicData} isItemLarge={true} />
+        <LeaderBoard />
+      </View>
     </Screen>
   );
 };

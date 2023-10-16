@@ -3,7 +3,7 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
-import { IDocument } from '@models';
+import { AvatarFrame, IDocument } from '@models';
 
 
 interface IProfile{
@@ -44,10 +44,23 @@ export const updateProfileAction = createAsyncThunk('userSlice/updateProfileActi
     }
 })
 
+export const getUserInfo = createAsyncThunk('userSlice/getUserInfo', async(body: {id: string})=>{
+    let path = 'api/user/getUserInfo'
+    try{
+        const res = await sendRequest(path, body)
+        if(res.err == 200){
+            return res.data
+        }
+    }catch(error: any){
+        return false 
+    }
+})
+
 
 interface IUserState {
     document: IDocument,
     loading:boolean;
+    avatarFrame: AvatarFrame | null
 }
 
 const initialState: IUserState = {
@@ -59,6 +72,7 @@ const initialState: IUserState = {
         birthday:"",
         gender:'',
     },
+    avatarFrame: null,
     loading:false
 }
 
@@ -85,6 +99,8 @@ const userSlice = createSlice({
             state.document.gender = action.payload.gender;
             state.document.birthday = action.payload.birthday;
             state.document.fullName = action.payload.fullName;
+        }).addCase(getUserInfo.fulfilled, (state, action) => {
+            state.avatarFrame = action.payload?.avatarFrame
         })
     }
 })

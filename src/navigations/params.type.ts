@@ -1,3 +1,5 @@
+import { AvatarFrame } from "@models"
+
 // list name of routes of rootStack
 export type ScreensName = keyof StackParamList
 
@@ -21,7 +23,8 @@ export type StackParamList = {
         msgType: 'error' | 'success'
     },
     loading: undefined,
-    home: { registerSuccess?: boolean },
+    // home: { registerSuccess?: boolean },
+    bottomNavigation: undefined,
     setting: undefined,
     confirmMessage: {
         title: string,
@@ -33,7 +36,7 @@ export type StackParamList = {
     notification: undefined,
     profile:undefined,
     infomation: undefined,
-    editAvtFrame: undefined,
+    editAvtFrame: { avatarFrame: AvatarFrame | null },
     language:undefined,
     nighmode:undefined,
     editprofile:{

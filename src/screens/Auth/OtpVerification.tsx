@@ -37,9 +37,9 @@ const OtpVerification = () => {
     if (token)
       switch (verifyAction) {
         case 'login':
-          return reset([{name: 'home'}]);
+          return reset([{name: 'bottomNavigation'}]);
         case 'register':
-          return reset([{name: 'home', params: {registerSuccess: true}}]);
+          return reset([{name: 'bottomNavigation', params: {registerSuccess: true}}]);
         case 'changePass':
         case 'forgotPass':
       }

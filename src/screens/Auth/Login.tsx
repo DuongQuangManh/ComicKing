@@ -49,7 +49,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token)
-      reset([{ name: 'home' }])
+      reset([{ name: 'bottomNavigation' }])
   }, [token])
 
   return (

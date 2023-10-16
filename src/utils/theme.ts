@@ -80,6 +80,7 @@ export const myTheme = {
     ...MD3LightTheme.colors,
     primary: '#fb6d78',
     primary_60: '#fb6d79a2',
+    primary_80: '#fb6d79cb',
     surfaceVariant: 'white',
     background: '#fff',
     text: '#202020',
