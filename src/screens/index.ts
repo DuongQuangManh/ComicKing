@@ -22,6 +22,7 @@ import Comment from './Home/Comment'
 import ReadComic from './Home/ReadComic'
 import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
+import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
 import Follow from './Home/Follow'
 
@@ -51,5 +52,8 @@ export {
     Infomation,
     EditAvtFrame,
     Author,
-    Follow
+    Follow,
+    EditAvtTitle,
+
+
 }

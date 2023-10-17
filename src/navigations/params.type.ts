@@ -1,4 +1,4 @@
-import { AvatarFrame } from "@models"
+import { Decorate } from "@models"
 
 // list name of routes of rootStack
 export type ScreensName = keyof StackParamList
@@ -34,26 +34,27 @@ export type StackParamList = {
     }
     menu: undefined,
     notification: undefined,
-    profile:undefined,
+    profile: undefined,
     infomation: undefined,
-    editAvtFrame: { avatarFrame: AvatarFrame | null },
-    language:undefined,
-    nighmode:undefined,
-    editprofile:{
-        typeAction:'fullname' | 'birthday' | 'gender' |'image'|'nickname',
-        value:any,
-        message:string,
-        label:string,
+    editAvtFrame: { avatarFrame: Decorate | null },
+    editAvtTitle: { avatarTitle: Decorate | null }
+    language: undefined,
+    nighmode: undefined,
+    editprofile: {
+        typeAction: 'fullname' | 'birthday' | 'gender' | 'image' | 'nickname',
+        value: any,
+        message: string,
+        label: string,
     },
-    search:undefined,
-    favorite:undefined,
-    comicdetail:{
-        id:string,
+    search: undefined,
+    favorite: undefined,
+    comicdetail: {
+        id: string,
     }
-    comment:undefined,
-    readcomic:{
-        id:string,
-        chapter:number,
+    comment: undefined,
+    readcomic: {
+        id: string,
+        chapter: number,
     },
     author:{
         id:string,

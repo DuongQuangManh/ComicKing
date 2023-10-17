@@ -12,11 +12,13 @@ import {
   getProposeComics,
   getSliderComics,
 } from '@redux/homeSlice';
+
 import {
   getAuthorFollowing,
   getComicFollowing,
-  getUserInfo,
+  getUserInfoAction,
 } from '@redux/userSlice';
+
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -31,8 +33,7 @@ const Splash = () => {
     dispatch(getComicFollowing({userId: id}));
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
-        dispatch(getUserInfo({id}));
-
+        dispatch(getUserInfoAction({id}))
         replace('bottomNavigation');
       } else {
         replace('login');

@@ -9,14 +9,15 @@ import {goBack, navigate} from '@navigations';
 import {getProfileAction} from '@redux/userSlice';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-crop-picker';
 import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const {
+<<<<<<< src/screens/Profile/Profile.tsx
     document: {id, fullName, image},
     avatarFrame,
+    avatarTitle,
     authorFollowing,
     comicFollowing,
   } = useAppSelector(state => state.userSlice);
@@ -125,15 +126,9 @@ const Profile = () => {
             Khung Avatar
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowOption}>
-          <Icon
-            type={Icons.MaterialCommunityIcons}
-            name="shield-star-outline"
-            size={18}
-          />
-          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
-            Danh hiệu
-          </Text>
+        <TouchableOpacity onPress={() => navigate('editAvtTitle', { avatarTitle })} style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name='shield-star-outline' size={18} />
+          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Danh hiệu</Text>
         </TouchableOpacity>
       </View>
       <View style={{height: 500}} />
