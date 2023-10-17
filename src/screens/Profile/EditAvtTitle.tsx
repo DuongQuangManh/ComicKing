@@ -11,14 +11,13 @@ import { Screen } from '../screen'
 import { Header, Icon, Icons, Text } from '@components'
 import { WINDOW_WIDTH, helper, myColors, myTheme } from '@utils'
 import FastImage from 'react-native-fast-image'
-import { useAppDispatch, useAppSelector } from '@redux/store'
+import { useAppSelector } from '@redux/store'
 import { sendRequest } from '@api'
 import { Decorate } from '@models'
 import { FlashList } from '@shopify/flash-list'
 import LinearGradient from 'react-native-linear-gradient'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { StackParamList } from '@navigations'
-import { changeAvatarFrameAction } from '@redux/userSlice'
 
 type TabType = {
     type: 'level' | 'event' | 'vip',
@@ -27,47 +26,44 @@ type TabType = {
 }
 
 type StateType = {
-    listAvtFrame: Decorate[]
+    listAvttitle: Decorate[]
     loading: boolean
     selectedTab: TabType,
-    selectedFrame: Decorate | null,
+    selectedtitle: Decorate | null,
     haveCount: number
 }
 
 const TABS: TabType[] = [
     {
         type: 'level',
-        label: 'Level Frame',
+        label: 'Level Title',
         index: 1
     },
     {
         type: 'vip',
-        label: 'Vip Frame',
+        label: 'Vip Title',
         index: 2
     },
     {
         type: 'event',
-        label: 'Event Frame',
+        label: 'Event Title',
         index: 3
     },
 ]
 
 const ITEM_WIDTH = Math.round(WINDOW_WIDTH / 3)
 
-const EditAvtFrame = () => {
-    const dispatch = useAppDispatch()
-    const {
-        vipPoint, levelPoint, avatarFrame,
-        document: { image, id },
-    } = useAppSelector(state => state.userSlice)
+const EditAvtTitle = () => {
+    const { avatarTitle } = useRoute<RouteProp<StackParamList, 'editAvtTitle'>>().params
+    const { image, id } = useAppSelector(state => state.userSlice.document)
     const [state, setState] = useState<StateType>({
-        listAvtFrame: [],
+        listAvttitle: [],
         loading: true,
         selectedTab: TABS[0],
-        selectedFrame: avatarFrame ? { ...avatarFrame } : null,
+        selectedtitle: avatarTitle ? { ...avatarTitle } : null,
         haveCount: 0
     })
-    const { loading, selectedFrame, selectedTab, listAvtFrame, haveCount } = state
+    const { loading, selectedtitle, selectedTab, listAvttitle, haveCount } = state
 
     const animatedValue = useRef(new Animated.Value(1)).current
     const translateX = animatedValue.interpolate({
@@ -75,20 +71,20 @@ const EditAvtFrame = () => {
         outputRange: [0, ITEM_WIDTH * 2]
     })
 
-    const getListAvtFrame = async (type: string) => {
+    const getListAvttitle = async (type: string) => {
         setState(pre => ({ ...pre, loading: true }))
-        const respone = await sendRequest('api/user/findDecorate', { userId: id, type })
+        const respone = await sendRequest('api/user/findDecorate', { userId: id, type, tag: 'title' })
         setState(pre => ({ ...pre, loading: false }))
         const { err, message, data = [], haveCount = 0 } = respone
         if (err == 200) {
-            setState(pre => ({ ...pre, listAvtFrame: data, haveCount }))
+            setState(pre => ({ ...pre, listAvttitle: data, haveCount }))
         } else {
             helper.showErrorMsg(message)
         }
     }
 
     useEffect(() => {
-        getListAvtFrame(selectedTab?.type)
+        getListAvttitle(selectedTab?.type)
         Animated.timing(animatedValue, {
             toValue: selectedTab?.index,
             duration: 300,
@@ -96,25 +92,6 @@ const EditAvtFrame = () => {
         }).start()
     }, [selectedTab])
 
-    const handleClick = () => {
-        if (selectedFrame) {
-            if (selectedFrame.isLock) {
-                navigateToHowToGet()
-            } else {
-                changeAvatarFrame(selectedFrame.id)
-            }
-        }
-    }
-
-    const changeAvatarFrame = (avatarFrameId: string) => {
-        if (avatarFrameId != avatarFrame?.id) {
-            dispatch(changeAvatarFrameAction({ userId: id, avatarFrameId }))
-        }
-    }
-
-    const navigateToHowToGet = () => {
-
-    }
 
     const _renderTabs = useCallback(() => {
         return (
@@ -138,9 +115,9 @@ const EditAvtFrame = () => {
     const _renderItem = useCallback(({ item }: { item: Decorate }) => {
         return (
             <TouchableOpacity
-                onPress={() => setState(pre => ({ ...pre, selectedFrame: item }))}
+                onPress={() => setState(pre => ({ ...pre, selectedtitle: item }))}
                 style={styles.btnItem}>
-                {item.id == selectedFrame?.id && (
+                {item.id == selectedtitle?.id && (
                     <View style={{
                         position: 'absolute',
                         width: ITEM_WIDTH - 15,
@@ -164,9 +141,7 @@ const EditAvtFrame = () => {
                 />}
             </TouchableOpacity>
         )
-    }, [selectedFrame])
-
-    console.log(avatarFrame)
+    }, [selectedtitle])
 
     return (
         <Screen>
@@ -179,14 +154,14 @@ const EditAvtFrame = () => {
                         resizeMode='cover'
                     />
                     <FastImage
-                        source={avatarFrame ? { uri: avatarFrame.image } : require('@assets/avatar/img1.png')}
+                        source={selectedtitle ? { uri: selectedtitle.image } : require('@assets/avatar/img1.png')}
                         style={{ position: 'absolute', width: 122, height: 122 }}
                     />
                 </View>
                 <View style={{ paddingStart: 40 }}>
-                    <Text type='regular_15'>* Level point : {levelPoint}</Text>
-                    <Text type='regular_15'>* Vip point : {vipPoint}</Text>
-                    <Text type='regular_15'>* Đang có : {haveCount}</Text>
+                    <Text type='regular_15'>* Vip point: 0</Text>
+                    <Text type='regular_15'>* Level point: 0</Text>
+                    <Text type='regular_15'>* Đang có: {haveCount}</Text>
                 </View>
             </View>
             <LinearGradient
@@ -195,18 +170,18 @@ const EditAvtFrame = () => {
             >
                 <View style={{ flexDirection: 'row' }}>
                     <FastImage
-                        source={selectedFrame ? { uri: selectedFrame.image } : require('@assets/avatar/img1.png')}
+                        source={selectedtitle ? { uri: selectedtitle.image } : require('@assets/avatar/img1.png')}
                         style={{ width: 80, height: 80 }}
                     />
                     <View style={{ flex: 1, paddingStart: 16, justifyContent: 'space-between' }}>
                         <Text type='regular_14' color='#fff'
                             numberOfLines={2}
                             ellipsizeMode='tail'
-                        >* {selectedFrame?.description}</Text>
-                        <Text color='#fff' type='regular_14'>* Require point : {selectedFrame?.needPoint}</Text>
+                        >* {selectedtitle?.description}</Text>
+                        <Text color='#fff' type='regular_14'>* Require point : {selectedtitle?.needPoint}</Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <TouchableOpacity onPress={handleClick} style={styles.actionBtn}>
-                                <Text type='medium_14' >{!selectedFrame?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
+                            <TouchableOpacity style={styles.actionBtn}>
+                                <Text type='medium_14' >{!selectedtitle?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -222,7 +197,7 @@ const EditAvtFrame = () => {
                 <FlatList
                     numColumns={3}
                     // estimatedItemSize={ITEM_WIDTH}
-                    data={listAvtFrame}
+                    data={listAvttitle}
                     renderItem={_renderItem}
                     ListEmptyComponent={() => (
                         <View style={styles.emptyContainer}>
@@ -239,7 +214,7 @@ const EditAvtFrame = () => {
     )
 }
 
-export default EditAvtFrame
+export default EditAvtTitle
 
 const styles = StyleSheet.create({
     container: {

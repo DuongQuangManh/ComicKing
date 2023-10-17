@@ -22,6 +22,7 @@ import Comment from './Home/Comment'
 import ReadComic from './Home/ReadComic'
 import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
+import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
 
 export {
@@ -48,6 +49,7 @@ export {
     Comment,
     ReadComic,
     Infomation,
-    EditAvtFrame
+    EditAvtFrame,
+    EditAvtTitle,
     Author
 }

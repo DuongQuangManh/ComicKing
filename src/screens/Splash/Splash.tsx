@@ -12,7 +12,7 @@ import {
   getProposeComics,
   getSliderComics,
 } from '@redux/homeSlice';
-import { getUserInfo } from '@redux/userSlice';
+import { getUserInfoAction } from '@redux/userSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const Splash = () => {
     dispatch(getDoneComics());
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
-        dispatch(getUserInfo({id}))
+        dispatch(getUserInfoAction({id}))
         replace('bottomNavigation');
       } else {
         replace('login');
