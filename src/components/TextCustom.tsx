@@ -47,6 +47,8 @@ const styles = StyleSheet.create({
   containerTextCustom: {
     justifyContent: 'center',
     alignItems: 'center',
+    minHeight: 30,
+    minWidth: 100,
   },
   text: {
     fontWeight: '600',

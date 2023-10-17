@@ -44,32 +44,6 @@ const ComicDetail = () => {
       setScreen(number);
     }
   };
-  const listCate = [
-    {
-      id: 1,
-      name: 'Hành động',
-    },
-    {
-      id: 2,
-      name: 'Mạo hiểm',
-    },
-    {
-      id: 3,
-      name: 'Viễn tưởng',
-    },
-    {
-      id: 4,
-      name: 'Hentai',
-    },
-    {
-      id: 5,
-      name: 'Anime',
-    },
-    {
-      id: 6,
-      name: 'Dragon',
-    },
-  ];
   const listCm = [
     {
       id: 1,
@@ -123,7 +97,7 @@ const ComicDetail = () => {
     }
   };
   const handlerShowAuthor = () => {
-    navigate('author', {id: comic.author.id});
+    navigate('author', {id: comic.author.id, type: 'author'});
   };
   return (
     <Screen>
@@ -134,51 +108,62 @@ const ComicDetail = () => {
       <ScrollView nestedScrollEnabled={true}>
         <View style={styles.box2}>
           <HeaderDetail />
-          <Interact />
-          <View style={styles.box3}>
-            <ButtonInteract
-              label="Chi tiết"
-              isClick={screen === 1}
-              isIcon={false}
-              typeText="semibold_16"
-              onClick={() => changeScreen(1)}
+
+          <View style={[styles.box3, {padding: 10}]}>
+            <Button
+              text="Chi tiết"
+              onPress={() => changeScreen(1)}
+              textColor={screen === 1 ? myColors.background : myColors.primary}
+              buttonColor={
+                screen === 1 ? myColors.primary : myColors.background
+              }
+              style={{flex: 1}}
+              borderRadius={40}
+              height={35}
             />
-            <ButtonInteract
-              label="Chương"
-              isClick={screen === 2}
-              isIcon={false}
-              typeText="semibold_16"
-              onClick={() => changeScreen(2)}
+            <Button
+              text="Chương"
+              onPress={() => changeScreen(2)}
+              textColor={screen === 2 ? myColors.background : myColors.primary}
+              buttonColor={
+                screen === 2 ? myColors.primary : myColors.background
+              }
+              style={{flex: 1, marginStart: 10}}
+              borderRadius={40}
+              height={35}
             />
           </View>
           {screen === 1 ? (
             <View style={[styles.box2]}>
               <View style={{padding: 5}}>
-                <TextMore text={comic.description} />
-                <FlashList
-                  data={comic.categories as CateModel[]}
-                  nestedScrollEnabled={true}
-                  estimatedItemSize={100}
-                  estimatedListSize={{
-                    width: WINDOW_WIDTH,
-                    height: 40,
-                  }}
-                  contentContainerStyle={{paddingTop: 5}}
-                  renderItem={({item}) => (
-                    <TextCustom
-                      text={item?.title}
-                      style={{
-                        borderWidth: 1,
-                        borderColor: myColors.gray,
-                        borderRadius: 18,
-                        marginStart: 5,
-                        minWidth: 100,
-                      }}
-                    />
-                  )}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                />
+                <Interact comic={comic} />
+                <View style={styles.containerDes}>
+                  <TextMore text={comic.description} />
+                  <FlashList
+                    data={comic.categories as CateModel[]}
+                    nestedScrollEnabled={true}
+                    estimatedItemSize={100}
+                    estimatedListSize={{
+                      width: WINDOW_WIDTH,
+                      height: 40,
+                    }}
+                    contentContainerStyle={{paddingTop: 5}}
+                    renderItem={({item}) => (
+                      <TextCustom
+                        text={item?.title}
+                        style={{
+                          borderWidth: 1,
+                          borderColor: myColors.gray,
+                          borderRadius: 18,
+                          marginStart: 5,
+                          minWidth: 100,
+                        }}
+                      />
+                    )}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                  />
+                </View>
               </View>
               <Button
                 text={
@@ -363,6 +348,14 @@ const styles = StyleSheet.create({
     borderColor: myColors.gray,
   },
   author: {
+    marginTop: 10,
+  },
+  containerDes: {
+    width: WINDOW_WIDTH - 20,
+    backgroundColor: myColors.gray,
+    borderRadius: 12,
+    padding: 10,
+    alignSelf: 'center',
     marginTop: 10,
   },
 });

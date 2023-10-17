@@ -3,7 +3,8 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
-import { Decorate, IDocument } from '@models';
+
+import { AvatarFrame, IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument } from '@models';
 
 
 interface IProfile {
@@ -56,6 +57,40 @@ export const getUserInfoAction = createAsyncThunk('userSlice/getUserInfo', async
     }
 })
 
+
+export const getAuthorFollowing = createAsyncThunk("userSlice/getAuthorFollowing",async (body:any)=>{
+    let path = "api/user/getAuthorFollowing"
+    try{
+        const res = await sendRequest(path,body);
+        if(res.err === 200){
+            console.log(res)
+            return res
+        }
+    }catch(error:any){
+        return false
+    }
+})
+
+export const getComicFollowing = createAsyncThunk("userSlice/getComicFollowing",async (body:any)=>{
+    let path = "api/user/getComicFollowing"
+    try{
+        const res = await sendRequest(path,body);
+        if(res.err === 200){
+            console.log(res)
+            return res
+        }
+    }catch(error:any){
+        return false
+    }
+})
+
+interface IUserState {
+    document: IDocument,
+    loading:boolean;
+    avatarFrame: AvatarFrame | null,
+    authorFollowing:IAuthorFollowing | null |any,
+    comicFollowing:IComicFollowing | null |any
+}
 export const changeAvatarFrameAction = createAsyncThunk(
     'auth/changeAvatarFrame',
     async (body: { userId: string, avatarFrameId: string }) => {
@@ -105,6 +140,7 @@ interface IUserState {
     avatarTitle: Decorate | null,
     vipPoint: number,
     levelPoint: number
+
 }
 
 const initialState: IUserState = {
@@ -117,10 +153,12 @@ const initialState: IUserState = {
         gender: '',
     },
     avatarFrame: null,
+    authorFollowing:null,
+    comicFollowing:null,
+    loading:false,
     avatarTitle: null,
     vipPoint: 0,
     levelPoint: 0,
-    loading: false
 }
 
 const userSlice = createSlice({
@@ -129,7 +167,26 @@ const userSlice = createSlice({
     reducers: {
         setDocumentInfo: (state, action: PayloadAction<IDocument>) => {
             state.document = action.payload
-        }
+        },
+        addAuthorToListFollowing:(state,action)=>{
+            state.authorFollowing?.data.push(action.payload)
+        },
+        deleteAuthorToListFollowing:(state,action)=>{
+            const index = state.authorFollowing.data.findIndex((item:any) => item.id === action.payload);
+            if (index !== -1) {
+                state.authorFollowing.data.splice(index, 1);
+            }
+        },
+        addComicToListFollowing:(state,action)=>{
+            state.comicFollowing?.data.push(action.payload)
+        },
+        deleteComicToListFollowing:(state,action)=>{
+            const index = state.comicFollowing.data.findIndex((item:any) => item.id === action.payload);
+            if (index !== -1) {
+                state.comicFollowing.data.splice(index, 1);
+            }
+        },
+
     },
     extraReducers: builder => {
         builder.addCase(getProfileAction.pending, state => {
@@ -146,6 +203,12 @@ const userSlice = createSlice({
             state.document.gender = action.payload.gender;
             state.document.birthday = action.payload.birthday;
             state.document.fullName = action.payload.fullName;
+        }).addCase(getAuthorFollowing.fulfilled, (state, action) => {
+            console.log(action.payload)
+            state.authorFollowing = action.payload
+        }).addCase(getComicFollowing.fulfilled, (state, action) => {
+            console.log(action.payload)
+            state.comicFollowing = action.payload
         }).addCase(getUserInfoAction.fulfilled, (state, action) => {
             if (action.payload) {
                 const { avatarFrame, vipPoint, levelPoint, avatarTitle } = action.payload
@@ -166,5 +229,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { setDocumentInfo } = userSlice.actions
+export const { setDocumentInfo ,addAuthorToListFollowing,deleteAuthorToListFollowing,addComicToListFollowing,deleteComicToListFollowing} = userSlice.actions
 export default userSlice.reducer
+

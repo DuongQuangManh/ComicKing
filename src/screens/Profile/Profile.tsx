@@ -1,95 +1,138 @@
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Screen } from '../screen';
-import { Header, Icon, Icons, Text } from '@components';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { helper, myColors } from '@utils';
-import { goBack, navigate } from '@navigations';
-import { getProfileAction } from '@redux/userSlice';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Screen} from '../screen';
+import {Header, Icon, Icons, Text} from '@components';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import InfoItem from './Components/InfoItem';
+import {helper, myColors} from '@utils';
+import {goBack, navigate} from '@navigations';
+import {getProfileAction} from '@redux/userSlice';
+import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const {
-    document: { id, fullName, image },
-    avatarFrame, avatarTitle
+<<<<<<< src/screens/Profile/Profile.tsx
+    document: {id, fullName, image},
+    avatarFrame,
+    avatarTitle,
+    authorFollowing,
+    comicFollowing,
   } = useAppSelector(state => state.userSlice);
-
-
-
+  console.log(authorFollowing);
   return (
     <Screen
       backgroundColor={myColors.gray}
-      preset='scroll'
-      statusBarColor={myColors.primary_60}
-    >
-      <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}
-        onPress={() => navigate('setting')}>
-        <Icon name={'settings-sharp'} color={myColors.text} type={Icons.Ionicons} size={20} />
-      </TouchableOpacity>
-      <LinearGradient colors={[myColors.primary_60, myColors.gray]} style={{ padding: 18 }}>
-        <View style={{ height: 40 }}>
-
-        </View>
-        <View style={{ flexDirection: 'row', paddingBottom: 20 }}>
+      preset="scroll"
+      statusBarColor={myColors.primary_60}>
+      <LinearGradient
+        colors={[myColors.primary_60, myColors.gray]}
+        style={{padding: 18}}>
+        <View style={{height: 40}}></View>
+        <View style={{flexDirection: 'row', paddingBottom: 20}}>
           <View style={styles.imgContainer}>
             <FastImage
-              source={avatarTitle?.image ? { uri: avatarTitle.image } : require('@assets/images/avatarTitle.png')}
-              style={{ width: 120, height: 35, zIndex: 10, position: 'absolute', top: -30 }}
-              resizeMode='contain'
+              source={
+                image ? {uri: image} : require('@assets/images/avatar.png')
+              }
+              style={{width: 72, height: 72, borderRadius: 35}}
+              resizeMode="contain"
             />
             <FastImage
-              source={image ? { uri: image } : require('@assets/images/avatar.png')}
-              style={{ width: 72, height: 72, borderRadius: 35 }}
-              resizeMode='contain'
-            />
-            <FastImage
-              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/images/avatarFrame.png')}
-              style={{ position: 'absolute', width: 88, height: 88 }}
+              source={
+                avatarFrame?.image
+                  ? {uri: avatarFrame.image}
+                  : require('@assets/avatar/img1.png')
+              }
+              style={{position: 'absolute', width: 88, height: 88}}
             />
           </View>
-          <View style={{ paddingStart: 15, flex: 1 }}>
-            <Text style={{ marginVertical: 8 }}>{fullName}</Text>
+          <View style={{paddingStart: 15, flex: 1}}>
+            <Text style={{marginVertical: 8}}>{fullName}</Text>
             <TouchableOpacity style={styles.lvlBtn}>
-              <Text color='#fff' type='medium_14'>Lv1</Text>
+              <Text color="#fff" type="medium_14">
+                Lv1
+              </Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             onPress={() => {
-              navigate('infomation')
-              dispatch(getProfileAction({ id }))
+              navigate('infomation');
+              dispatch(getProfileAction({id}));
             }}
-            style={styles.editBtn}
-          >
-            <Icon type={Icons.FontAwesome} name='edit' size={22} />
+            style={styles.editBtn}>
+            <Icon type={Icons.FontAwesome} name="edit" size={22} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.containerFl}>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigate('follow', {type: 'following'})}>
+            <View style={styles.itemFl}>
+              <Text type="bold_22">
+                {authorFollowing ? authorFollowing.data.length : 0}
+              </Text>
+              <Text type="medium_14" color="#555454df">
+                Đang theo dõi
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.6}
+            onPress={() => navigate('follow', {type: 'comicfollowing'})}>
+            <View style={styles.itemFl}>
+              <Text type="bold_22">
+                {comicFollowing ? comicFollowing.data.length : 0}
+              </Text>
+              <Text type="medium_14" color="#555454df">
+                Truyện theo dõi
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       </LinearGradient>
       <View style={styles.containerOption}>
         <TouchableOpacity style={styles.rowOption}>
-          <Icon type={Icons.MaterialCommunityIcons} name='crown-outline' size={18} />
-          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Vip</Text>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="crown-outline"
+            size={18}
+          />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Vip
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.rowOption}>
-          <Icon type={Icons.MaterialCommunityIcons} name='star-shooting-outline' size={18} />
-          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Nạp xu</Text>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="star-shooting-outline"
+            size={18}
+          />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Nạp xu
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('editAvtFrame', { avatarFrame })} style={styles.rowOption}>
-          <Icon type={Icons.MaterialCommunityIcons} name='image-frame' size={18} />
-          <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Khung Avatar</Text>
+        <TouchableOpacity
+          onPress={() => navigate('editAvtFrame', {avatarFrame})}
+          style={styles.rowOption}>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="image-frame"
+            size={18}
+          />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Khung Avatar
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigate('editAvtTitle', { avatarTitle })} style={styles.rowOption}>
           <Icon type={Icons.MaterialCommunityIcons} name='shield-star-outline' size={18} />
           <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Danh hiệu</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ height: 500 }} />
-    </Screen >
+      <View style={{height: 500}} />
+    </Screen>
   );
 };
 
@@ -104,19 +147,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 10,
-    paddingVertical: 16
+    paddingVertical: 16,
   },
   containerOption: {
     marginHorizontal: 18,
     backgroundColor: myColors.background,
     borderRadius: 5,
     elevation: 1,
-    padding: 12
+    padding: 12,
   },
   imgContainer: {
-    width: 90, height: 90,
+    width: 90,
+    height: 90,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   lvlBtn: {
     backgroundColor: myColors.primary,
@@ -124,11 +168,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 4,
     alignSelf: 'baseline',
-    elevation: 2
+    elevation: 2,
   },
   editBtn: {
-    width: 24, height: 24,
+    width: 24,
+    height: 24,
     position: 'absolute',
-    top: 6, right: 8
-  }
+    top: 6,
+    right: 8,
+  },
+  containerFl: {
+    flexDirection: 'row',
+  },
+  itemFl: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginEnd: 10,
+  },
 });

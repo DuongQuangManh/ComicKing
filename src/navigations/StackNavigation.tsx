@@ -28,6 +28,7 @@ import {
   EditAvtFrame,
   EditAvtTitle,
   Author,
+  Follow,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -52,7 +53,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="setting" component={Setting} />
         <Stack.Screen name="changePassword" component={ChangePassword} />
         <Stack.Screen name="profile" component={Profile} />
-        <Stack.Screen name='infomation' component={Infomation} />
+        <Stack.Screen name="infomation" component={Infomation} />
         <Stack.Screen name="language" component={Language} />
         <Stack.Screen name="nighmode" component={NighMode} />
         <Stack.Screen name="editprofile" component={EditProfile} />
@@ -63,6 +64,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="comicdetail" component={ComicDetail} />
         <Stack.Screen name="readcomic" component={ReadComic} />
         <Stack.Screen name="author" component={Author} />
+        <Stack.Screen name="follow" component={Follow} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{

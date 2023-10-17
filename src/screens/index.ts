@@ -24,6 +24,7 @@ import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
 import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
+import Follow from './Home/Follow'
 
 export {
     Splash,
@@ -50,6 +51,9 @@ export {
     ReadComic,
     Infomation,
     EditAvtFrame,
+    Author,
+    Follow,
     EditAvtTitle,
-    Author
+
+
 }
