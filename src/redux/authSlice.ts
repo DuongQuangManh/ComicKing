@@ -266,10 +266,12 @@ export const logoutAction = createAsyncThunk<void, void, { state: RootState }>(
     'auth/logout', async (_, { getState }) => {
         try {
             let loginSource = getState().authSlice.loginSource
-            if (loginSource == 'facebook')
+            if (loginSource == 'facebook') {
                 LoginManager?.logOut()
-            else if (loginSource == 'google')
+            } else if (loginSource == 'google') {
                 await GoogleSignin.signOut()
+            }
+            reset([{ name: 'login' }]);
             return
         } catch (error: any) {
             return
@@ -280,17 +282,17 @@ export const logoutAction = createAsyncThunk<void, void, { state: RootState }>(
 
 //POST /api/user/changePassword': 'AuthController.changePassword',
 //'POST /api/user/changePasswordVerifyOtp': 'AuthController.changePasswordVerifyOtp',
-export const changePassAction = createAsyncThunk('auth/changePassAction',async (body:IChangePassBody)=>{
+export const changePassAction = createAsyncThunk('auth/changePassAction', async (body: IChangePassBody) => {
     let path = "api/user/changePassword";
-    try{
+    try {
         helper.showLoading();
-        const res =await sendRequest(path,body);
-       
-        if(res.err != 200){
+        const res = await sendRequest(path, body);
+
+        if (res.err != 200) {
             helper.showErrorMsg(res.message);
             console.log(res.message)
             return false;
-        }else{
+        } else {
             console.log(res.message)
             helper.hideLoading()
             navigate('otpVerification', {
@@ -298,29 +300,29 @@ export const changePassAction = createAsyncThunk('auth/changePassAction',async (
                 message: res.message,
                 email: res.email
             })
-           
+
         }
-    }catch(error:any){
+    } catch (error: any) {
         console.log(error.message)
         helper.hideLoading()
         return false
     }
 })
 
-export const changePassVerifyOtpAction = createAsyncThunk('auth/changePassVerifyOtpAction',async (body:IVerifyOtpBody)=>{
+export const changePassVerifyOtpAction = createAsyncThunk('auth/changePassVerifyOtpAction', async (body: IVerifyOtpBody) => {
     let path = "api/user/changePasswordVerifyOtp";
-    try{
+    try {
         helper.showLoading();
-        const res =await sendRequest(path,body);
-        if(res.err != 200){
+        const res = await sendRequest(path, body);
+        if (res.err != 200) {
             helper.showErrorMsg(res.message)
             return false;
         }
         helper.hideLoading();
         helper.showSuccessMsg(
             res.message,
-            ()=>goBack(3))
-    }catch(error:any){
+            () => goBack(3))
+    } catch (error: any) {
         helper.hideLoading();
         return false;
     }
@@ -368,8 +370,8 @@ const authSlice = createSlice({
             .addCase(logoutAction.fulfilled, (state, action) => {
                 state.token = ''
                 state.loginSource = 'email'
-            }).addCase(changePassVerifyOtpAction.fulfilled,(state,action)=>{
-               
+            }).addCase(changePassVerifyOtpAction.fulfilled, (state, action) => {
+
             })
     },
 })

@@ -7,21 +7,20 @@ import React, { useEffect, useState } from 'react';
 import { Screen } from '../screen';
 import { Header, Icon, Icons, Text } from '@components';
 import { useAppDispatch, useAppSelector } from '@redux/store';
-import InfoItem from './Components/InfoItem';
 import { helper, myColors } from '@utils';
 import { goBack, navigate } from '@navigations';
 import { getProfileAction } from '@redux/userSlice';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-crop-picker';
 import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const {
     document: { id, fullName, image },
-    avatarFrame
+    avatarFrame, avatarTitle
   } = useAppSelector(state => state.userSlice);
+
+
 
   return (
     <Screen
@@ -29,6 +28,10 @@ const Profile = () => {
       preset='scroll'
       statusBarColor={myColors.primary_60}
     >
+      <TouchableOpacity style={{ position: 'absolute', top: 10, right: 10, zIndex: 10 }}
+        onPress={() => navigate('setting')}>
+        <Icon name={'settings-sharp'} color={myColors.text} type={Icons.Ionicons} size={20} />
+      </TouchableOpacity>
       <LinearGradient colors={[myColors.primary_60, myColors.gray]} style={{ padding: 18 }}>
         <View style={{ height: 40 }}>
 
@@ -36,12 +39,17 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', paddingBottom: 20 }}>
           <View style={styles.imgContainer}>
             <FastImage
+              source={avatarTitle?.image ? { uri: avatarTitle.image } : require('@assets/images/avatarTitle.png')}
+              style={{ width: 120, height: 35, zIndex: 10, position: 'absolute', top: -30 }}
+              resizeMode='contain'
+            />
+            <FastImage
               source={image ? { uri: image } : require('@assets/images/avatar.png')}
               style={{ width: 72, height: 72, borderRadius: 35 }}
               resizeMode='contain'
             />
             <FastImage
-              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/avatar/img1.png')}
+              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/images/avatarFrame.png')}
               style={{ position: 'absolute', width: 88, height: 88 }}
             />
           </View>
@@ -75,7 +83,7 @@ const Profile = () => {
           <Icon type={Icons.MaterialCommunityIcons} name='image-frame' size={18} />
           <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Khung Avatar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowOption}>
+        <TouchableOpacity onPress={() => navigate('editAvtTitle', { avatarTitle })} style={styles.rowOption}>
           <Icon type={Icons.MaterialCommunityIcons} name='shield-star-outline' size={18} />
           <Text type='medium_14' style={{ flex: 1, paddingStart: 12 }}>Danh hiệu</Text>
         </TouchableOpacity>

@@ -3,64 +3,108 @@ import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
-import { AvatarFrame, IDocument } from '@models';
+import { Decorate, IDocument } from '@models';
 
 
-interface IProfile{
-    id:string,
+interface IProfile {
+    id: string,
 }
-export const getProfileAction = createAsyncThunk<any,IProfile>('userSlice/getProfileAction',async(body:IProfile) => {
+export const getProfileAction = createAsyncThunk<any, IProfile>('userSlice/getProfileAction', async (body: IProfile) => {
     let path = "api/user/getProfile";
-    try{
-        const res =await sendRequest(path,body);
-        if(res.err !== 200){
+    try {
+        const res = await sendRequest(path, body);
+        if (res.err !== 200) {
             helper.showErrorMsg(res.message);
             return false;
-        }else{
+        } else {
             return res.data;
         }
-    }catch(error:any){
+    } catch (error: any) {
         helper.showErrorMsg(error.message);
         return false;
     }
 })
 
-export const updateProfileAction = createAsyncThunk('userSlice/updateProfileAction',async(body:IDocument)=>{
+export const updateProfileAction = createAsyncThunk('userSlice/updateProfileAction', async (body: IDocument) => {
     let path = "api/user/updateProfile";
-    try{
-        
+    try {
+
         helper.showLoading();
-        const res =await sendRequest(path,body);
-        if(res.err != 200){
+        const res = await sendRequest(path, body);
+        if (res.err != 200) {
             helper.showErrorMsg(res.message);
             return false;
-        }else{
+        } else {
             helper.hideLoading();
-            helper.showSuccessMsg(res.message,()=>goBack(2));
+            helper.showSuccessMsg(res.message, () => goBack(2));
             return res.data;
         }
-    }catch(error:any){
+    } catch (error: any) {
         return false;
     }
 })
 
-export const getUserInfo = createAsyncThunk('userSlice/getUserInfo', async(body: {id: string})=>{
+export const getUserInfoAction = createAsyncThunk('userSlice/getUserInfo', async (body: { id: string }) => {
     let path = 'api/user/getUserInfo'
-    try{
+    try {
         const res = await sendRequest(path, body)
-        if(res.err == 200){
+        if (res.err == 200) {
             return res.data
         }
-    }catch(error: any){
-        return false 
+    } catch (error: any) {
+        return false
     }
 })
 
+export const changeAvatarFrameAction = createAsyncThunk(
+    'auth/changeAvatarFrame',
+    async (body: { userId: string, avatarFrameId: string }) => {
+        let path = 'api/user/changeAvatarFrame'
+        try {
+            helper.showLoading()
+            const res = await sendRequest(path, body)
+            helper.hideLoading()
+            if (res.err == 200) {
+                return res.data
+            } else {
+                helper.showErrorMsg(res.message)
+                return false
+            }
+        } catch (error: any) {
+            helper.hideLoading()
+            return false
+        }
+    }
+)
+
+export const changeAvatarTitleAction = createAsyncThunk(
+    'auth/changeAvatarTitle',
+    async (body: { userId: string, avatarTitleId: string }) => {
+        let path = 'api/user/changeAvatarTitle'
+        try {
+            helper.showLoading()
+            const res = await sendRequest(path, body)
+            helper.hideLoading()
+            if (res.err == 200) {
+                return res.data
+            } else {
+                helper.showErrorMsg(res.message)
+                return false
+            }
+        } catch (error: any) {
+            helper.hideLoading()
+            return false
+        }
+    }
+)
 
 interface IUserState {
     document: IDocument,
-    loading:boolean;
-    avatarFrame: AvatarFrame | null
+    loading: boolean;
+    avatarFrame: Decorate | null,
+    avatarTitle: Decorate | null,
+    vipPoint: number,
+    levelPoint: number
 }
 
 const initialState: IUserState = {
@@ -69,11 +113,14 @@ const initialState: IUserState = {
         image: '',
         fullName: '',
         nickName: '',
-        birthday:"",
-        gender:'',
+        birthday: "",
+        gender: '',
     },
     avatarFrame: null,
-    loading:false
+    avatarTitle: null,
+    vipPoint: 0,
+    levelPoint: 0,
+    loading: false
 }
 
 const userSlice = createSlice({
@@ -84,27 +131,40 @@ const userSlice = createSlice({
             state.document = action.payload
         }
     },
-    extraReducers:builder=>{
-        builder.addCase(getProfileAction.pending,state=>{
+    extraReducers: builder => {
+        builder.addCase(getProfileAction.pending, state => {
             state.loading = true;
-        }).addCase(getProfileAction.fulfilled,(state,action)=>{
+        }).addCase(getProfileAction.fulfilled, (state, action) => {
             state.loading = false;
             state.document.birthday = action.payload.birthday;
             state.document.gender = action.payload.gender;
-        }).addCase(getProfileAction.rejected,(state,action)=>{
-            state.loading =false;
-        }).addCase(updateProfileAction.fulfilled,(state,action)=>{
+        }).addCase(getProfileAction.rejected, (state, action) => {
+            state.loading = false;
+        }).addCase(updateProfileAction.fulfilled, (state, action) => {
             state.document.nickName = action.payload.nickName;
             state.document.image = action.payload.image;
             state.document.gender = action.payload.gender;
             state.document.birthday = action.payload.birthday;
             state.document.fullName = action.payload.fullName;
-        }).addCase(getUserInfo.fulfilled, (state, action) => {
-            state.avatarFrame = action.payload?.avatarFrame
+        }).addCase(getUserInfoAction.fulfilled, (state, action) => {
+            if (action.payload) {
+                const { avatarFrame, vipPoint, levelPoint, avatarTitle } = action.payload
+                state.avatarFrame = avatarFrame
+                state.avatarTitle = avatarTitle
+                state.vipPoint = vipPoint
+                state.levelPoint = levelPoint
+            }
+        }).addCase(changeAvatarFrameAction.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.avatarFrame = action.payload
+            }
+        }).addCase(changeAvatarTitleAction.fulfilled, (state, action) => {
+            if (action.payload) {
+                state.avatarTitle = action.payload
+            }
         })
     }
 })
 
 export const { setDocumentInfo } = userSlice.actions
 export default userSlice.reducer
-

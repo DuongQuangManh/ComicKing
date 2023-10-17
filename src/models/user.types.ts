@@ -8,7 +8,7 @@ export interface IDocument {
     gender?:string,
 }
 
-export interface AvatarFrame {
+export interface Decorate {
     id: string,
     description: string,
     howToGet: string,
