@@ -30,7 +30,7 @@ const ComicItemSmall: FC<itemProps> = ({item}) => {
         style={styles.img}
       />
       <Text
-        type="semibold_14"
+        type="medium_14"
         numberOfLines={1}
         ellipsizeMode="tail"
         style={{padding: 2, width: 118}}>

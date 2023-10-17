@@ -23,11 +23,15 @@ const FlatListCustom: FC<componetProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
-        <Text type="bold_20">{props.label}</Text>
+        <Text type="semibold_17">{props.label}</Text>
         {isMore && (
           <TouchableOpacity style={styles.box2}>
-            <Text type="semibold_16">Thêm</Text>
-            <Icon type={Icons.Entypo} name="chevron-right" size={16} />
+            <Text type='regular_14' color='gray' >Thêm</Text>
+            <Icon color='gray'
+             type={Icons.Entypo} 
+             name="chevron-right" 
+             size={14}
+              style={{paddingTop: 2}} />
           </TouchableOpacity>
         )}
       </View>
@@ -52,11 +56,11 @@ const FlatListCustom: FC<componetProps> = ({
               paddingStart: 8,
               justifyContent: 'center',
             }}>
-            <Text type="semibold_18" numberOfLines={2} ellipsizeMode="tail">
+            <Text type="medium_14" numberOfLines={2} ellipsizeMode="tail">
               {props.data[0].name}
             </Text>
             <Text
-              type="medium_14"
+              type="light_13"
               numberOfLines={5}
               ellipsizeMode="tail"
               style={{color: '#4a4747d8'}}>

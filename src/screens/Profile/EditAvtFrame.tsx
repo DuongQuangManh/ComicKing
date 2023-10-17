@@ -121,6 +121,7 @@ const EditAvtFrame = () => {
             <View style={{ flexDirection: 'row' }}>
                 {TABS.map(item => (
                     <TouchableOpacity
+                        activeOpacity={0.7}
                         key={item.type}
                         onPress={() => {
                             if (loading || selectedTab.type == item.type) return
@@ -138,6 +139,7 @@ const EditAvtFrame = () => {
     const _renderItem = useCallback(({ item }: { item: Decorate }) => {
         return (
             <TouchableOpacity
+                activeOpacity={0.7}
                 onPress={() => setState(pre => ({ ...pre, selectedFrame: item }))}
                 style={styles.btnItem}>
                 {item.id == selectedFrame?.id && (
@@ -166,8 +168,6 @@ const EditAvtFrame = () => {
         )
     }, [selectedFrame])
 
-    console.log(avatarFrame)
-
     return (
         <Screen>
             <Header text='Khung Avatar' />
@@ -179,7 +179,7 @@ const EditAvtFrame = () => {
                         resizeMode='cover'
                     />
                     <FastImage
-                        source={avatarFrame ? { uri: avatarFrame.image } : require('@assets/avatar/img1.png')}
+                        source={avatarFrame ? { uri: avatarFrame.image } : require('@assets/images/avatarFrame.png')}
                         style={{ position: 'absolute', width: 122, height: 122 }}
                     />
                 </View>
@@ -195,19 +195,23 @@ const EditAvtFrame = () => {
             >
                 <View style={{ flexDirection: 'row' }}>
                     <FastImage
-                        source={selectedFrame ? { uri: selectedFrame.image } : require('@assets/avatar/img1.png')}
+                        source={selectedFrame ? { uri: selectedFrame.image } : require('@assets/images/avatarFrame.png')}
                         style={{ width: 80, height: 80 }}
                     />
-                    <View style={{ flex: 1, paddingStart: 16, justifyContent: 'space-between' }}>
-                        <Text type='regular_14' color='#fff'
-                            numberOfLines={2}
-                            ellipsizeMode='tail'
-                        >* {selectedFrame?.description}</Text>
-                        <Text color='#fff' type='regular_14'>* Require point : {selectedFrame?.needPoint}</Text>
+                    <View style={{ flex: 1, paddingStart: 16 }}>
+                        <View style={{ flex: 1 }}>
+                            <Text type='regular_14' color='#fff'
+                                numberOfLines={2}
+                                ellipsizeMode='tail'
+                            >* {selectedFrame?.description}</Text>
+                            <Text color='#fff' type='regular_14'>* Require point : {selectedFrame?.needPoint}</Text>
+                        </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <TouchableOpacity onPress={handleClick} style={styles.actionBtn}>
-                                <Text type='medium_14' >{!selectedFrame?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
-                            </TouchableOpacity>
+                            {selectedFrame?.id != avatarFrame?.id &&
+                                (<TouchableOpacity onPress={handleClick} style={styles.actionBtn}>
+                                    <Text type='medium_14' >{!selectedFrame?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
+                                </TouchableOpacity>)
+                            }
                         </View>
                     </View>
                 </View>
@@ -221,6 +225,7 @@ const EditAvtFrame = () => {
                 :
                 <FlatList
                     numColumns={3}
+                    style={{ backgroundColor: '#e8e8e84f' }}
                     // estimatedItemSize={ITEM_WIDTH}
                     data={listAvtFrame}
                     renderItem={_renderItem}

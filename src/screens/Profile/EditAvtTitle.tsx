@@ -11,13 +11,14 @@ import { Screen } from '../screen'
 import { Header, Icon, Icons, Text } from '@components'
 import { WINDOW_WIDTH, helper, myColors, myTheme } from '@utils'
 import FastImage from 'react-native-fast-image'
-import { useAppSelector } from '@redux/store'
+import { useAppDispatch, useAppSelector } from '@redux/store'
 import { sendRequest } from '@api'
 import { Decorate } from '@models'
 import { FlashList } from '@shopify/flash-list'
 import LinearGradient from 'react-native-linear-gradient'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { StackParamList } from '@navigations'
+import { changeAvatarTitleAction } from '@redux/userSlice'
 
 type TabType = {
     type: 'level' | 'event' | 'vip',
@@ -29,7 +30,7 @@ type StateType = {
     listAvttitle: Decorate[]
     loading: boolean
     selectedTab: TabType,
-    selectedtitle: Decorate | null,
+    selectedTitle: Decorate | null,
     haveCount: number
 }
 
@@ -54,16 +55,19 @@ const TABS: TabType[] = [
 const ITEM_WIDTH = Math.round(WINDOW_WIDTH / 3)
 
 const EditAvtTitle = () => {
-    const { avatarTitle } = useRoute<RouteProp<StackParamList, 'editAvtTitle'>>().params
-    const { image, id } = useAppSelector(state => state.userSlice.document)
+    const dispatch = useAppDispatch()
+    const {
+        vipPoint, levelPoint, avatarTitle,
+        document: { id },
+    } = useAppSelector(state => state.userSlice)
     const [state, setState] = useState<StateType>({
         listAvttitle: [],
         loading: true,
         selectedTab: TABS[0],
-        selectedtitle: avatarTitle ? { ...avatarTitle } : null,
+        selectedTitle: avatarTitle ? { ...avatarTitle } : null,
         haveCount: 0
     })
-    const { loading, selectedtitle, selectedTab, listAvttitle, haveCount } = state
+    const { loading, selectedTitle, selectedTab, listAvttitle, haveCount } = state
 
     const animatedValue = useRef(new Animated.Value(1)).current
     const translateX = animatedValue.interpolate({
@@ -71,7 +75,7 @@ const EditAvtTitle = () => {
         outputRange: [0, ITEM_WIDTH * 2]
     })
 
-    const getListAvttitle = async (type: string) => {
+    const getListAvtTitle = async (type: string) => {
         setState(pre => ({ ...pre, loading: true }))
         const respone = await sendRequest('api/user/findDecorate', { userId: id, type, tag: 'title' })
         setState(pre => ({ ...pre, loading: false }))
@@ -83,8 +87,28 @@ const EditAvtTitle = () => {
         }
     }
 
+    const handleClick = () => {
+        if (selectedTitle) {
+            if (selectedTitle.isLock) {
+                navigateToHowToGet()
+            } else {
+                changeAvatarFrame(selectedTitle.id)
+            }
+        }
+    }
+
+    const changeAvatarFrame = (avatarTitleId: string) => {
+        if (avatarTitleId != avatarTitle?.id) {
+            dispatch(changeAvatarTitleAction({ userId: id, avatarTitleId }))
+        }
+    }
+
+    const navigateToHowToGet = () => {
+
+    }
+
     useEffect(() => {
-        getListAvttitle(selectedTab?.type)
+        getListAvtTitle(selectedTab?.type)
         Animated.timing(animatedValue, {
             toValue: selectedTab?.index,
             duration: 300,
@@ -98,6 +122,7 @@ const EditAvtTitle = () => {
             <View style={{ flexDirection: 'row' }}>
                 {TABS.map(item => (
                     <TouchableOpacity
+                        activeOpacity={0.7}
                         key={item.type}
                         onPress={() => {
                             if (loading || selectedTab.type == item.type) return
@@ -115,22 +140,24 @@ const EditAvtTitle = () => {
     const _renderItem = useCallback(({ item }: { item: Decorate }) => {
         return (
             <TouchableOpacity
-                onPress={() => setState(pre => ({ ...pre, selectedtitle: item }))}
+                activeOpacity={0.7}
+                onPress={() => setState(pre => ({ ...pre, selectedTitle: item }))}
                 style={styles.btnItem}>
-                {item.id == selectedtitle?.id && (
+                {item.id == selectedTitle?.id && (
                     <View style={{
                         position: 'absolute',
                         width: ITEM_WIDTH - 15,
-                        height: ITEM_WIDTH - 15,
-                        borderRadius: 100,
+                        height: 60,
+                        borderRadius: 20,
                         backgroundColor: item.isLock ? 'gray' : myColors.primary,
-                        opacity: 0.15
+                        opacity: 0.15,
                     }} />
                 )}
                 <FastImage
                     tintColor={item.isLock ? 'gray' : ''}
-                    style={{ width: ITEM_WIDTH - 30, height: ITEM_WIDTH - 30 }}
+                    style={{ width: ITEM_WIDTH - 30, height: 60 }}
                     source={{ uri: item.image }}
+                    resizeMode='contain'
                 />
                 {item.isLock && <Icon
                     color={myColors.primary}
@@ -141,48 +168,47 @@ const EditAvtTitle = () => {
                 />}
             </TouchableOpacity>
         )
-    }, [selectedtitle])
+    }, [selectedTitle])
 
     return (
         <Screen>
-            <Header text='Khung Avatar' />
-            <View style={styles.container}>
-                <View style={styles.imgContainer}>
-                    <FastImage
-                        source={image ? { uri: image } : require('@assets/images/avatar.png')}
-                        style={{ width: 100, height: 100, borderRadius: 50 }}
-                        resizeMode='cover'
-                    />
-                    <FastImage
-                        source={selectedtitle ? { uri: selectedtitle.image } : require('@assets/avatar/img1.png')}
-                        style={{ position: 'absolute', width: 122, height: 122 }}
-                    />
-                </View>
-                <View style={{ paddingStart: 40 }}>
-                    <Text type='regular_15'>* Vip point: 0</Text>
-                    <Text type='regular_15'>* Level point: 0</Text>
-                    <Text type='regular_15'>* Đang có: {haveCount}</Text>
-                </View>
+            <Header text='Danh Hiệu' />
+            <View style={styles.imgContainer}>
+                <FastImage
+                    source={avatarTitle ? { uri: avatarTitle.image } : require('@assets/images/avatarTitle.png')}
+                    style={{ position: 'absolute', width: 140, height: 60 }}
+                    resizeMode='contain'
+                />
+            </View>
+            <View style={{ paddingStart: 18 }}>
+                <Text type='regular_15'>* Vip point: {vipPoint}</Text>
+                <Text type='regular_15'>* Level point: {levelPoint}</Text>
+                <Text type='regular_15'>* Đang có: {haveCount}</Text>
             </View>
             <LinearGradient
                 colors={[myColors.primary, myColors.primary_80]}
                 style={styles.linearContainer}
             >
-                <View style={{ flexDirection: 'row' }}>
+                <View>
                     <FastImage
-                        source={selectedtitle ? { uri: selectedtitle.image } : require('@assets/avatar/img1.png')}
-                        style={{ width: 80, height: 80 }}
+                        source={selectedTitle ? { uri: selectedTitle.image } : require('@assets/images/avatarTitle.png')}
+                        style={{ width: 140, height: 50, alignSelf: 'center' }}
+                        resizeMode='contain'
                     />
-                    <View style={{ flex: 1, paddingStart: 16, justifyContent: 'space-between' }}>
-                        <Text type='regular_14' color='#fff'
-                            numberOfLines={2}
-                            ellipsizeMode='tail'
-                        >* {selectedtitle?.description}</Text>
-                        <Text color='#fff' type='regular_14'>* Require point : {selectedtitle?.needPoint}</Text>
+                    <View style={{ paddingStart: 16, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ width: '70%' }}>
+                            <Text type='regular_14' color='#fff'
+                                numberOfLines={2}
+                                ellipsizeMode='tail'
+                            >* {selectedTitle?.description}</Text>
+                            <Text color='#fff' type='regular_14'>* Require point : {selectedTitle?.needPoint}</Text>
+                        </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                            <TouchableOpacity style={styles.actionBtn}>
-                                <Text type='medium_14' >{!selectedtitle?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
-                            </TouchableOpacity>
+                            {selectedTitle?.id != avatarTitle?.id &&
+                                <TouchableOpacity onPress={handleClick} style={styles.actionBtn}>
+                                    <Text type='medium_14' >{!selectedTitle?.isLock ? ('Sử dụng') : 'Lấy ngay'}</Text>
+                                </TouchableOpacity>
+                            }
                         </View>
                     </View>
                 </View>
@@ -196,8 +222,10 @@ const EditAvtTitle = () => {
                 :
                 <FlatList
                     numColumns={3}
+                    style={{ backgroundColor: '#e8e8e84f' }}
                     // estimatedItemSize={ITEM_WIDTH}
                     data={listAvttitle}
+                    showsVerticalScrollIndicator={false}
                     renderItem={_renderItem}
                     ListEmptyComponent={() => (
                         <View style={styles.emptyContainer}>
@@ -217,18 +245,11 @@ const EditAvtTitle = () => {
 export default EditAvtTitle
 
 const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 18,
-        paddingVertical: 20,
-        justifyContent: 'center',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
     imgContainer: {
-        width: 90, height: 90,
+        height: 60,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 10
     },
     emptyContainer: {
         justifyContent: 'center',
@@ -237,7 +258,7 @@ const styles = StyleSheet.create({
     },
     btnItem: {
         width: ITEM_WIDTH,
-        height: ITEM_WIDTH,
+        height: 100,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -245,12 +266,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 4,
         paddingVertical: 4,
-        paddingHorizontal: 8
+        paddingHorizontal: 8,
+        alignSelf: 'flex-end'
     },
     linearContainer: {
         margin: 12,
         paddingHorizontal: 10,
-        paddingVertical: 14,
+        paddingBottom: 14,
         borderRadius: 5
     },
     tabBtn: {

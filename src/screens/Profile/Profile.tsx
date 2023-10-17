@@ -20,6 +20,8 @@ const Profile = () => {
     avatarFrame, avatarTitle
   } = useAppSelector(state => state.userSlice);
 
+
+
   return (
     <Screen
       backgroundColor={myColors.gray}
@@ -37,12 +39,17 @@ const Profile = () => {
         <View style={{ flexDirection: 'row', paddingBottom: 20 }}>
           <View style={styles.imgContainer}>
             <FastImage
+              source={avatarTitle?.image ? { uri: avatarTitle.image } : require('@assets/images/avatarTitle.png')}
+              style={{ width: 120, height: 35, zIndex: 10, position: 'absolute', top: -30 }}
+              resizeMode='contain'
+            />
+            <FastImage
               source={image ? { uri: image } : require('@assets/images/avatar.png')}
               style={{ width: 72, height: 72, borderRadius: 35 }}
               resizeMode='contain'
             />
             <FastImage
-              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/avatar/img1.png')}
+              source={avatarFrame?.image ? { uri: avatarFrame.image } : require('@assets/images/avatarFrame.png')}
               style={{ position: 'absolute', width: 88, height: 88 }}
             />
           </View>

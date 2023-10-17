@@ -148,8 +148,9 @@ const userSlice = createSlice({
             state.document.fullName = action.payload.fullName;
         }).addCase(getUserInfoAction.fulfilled, (state, action) => {
             if (action.payload) {
-                const { avatarFrame, vipPoint, levelPoint } = action.payload
+                const { avatarFrame, vipPoint, levelPoint, avatarTitle } = action.payload
                 state.avatarFrame = avatarFrame
+                state.avatarTitle = avatarTitle
                 state.vipPoint = vipPoint
                 state.levelPoint = levelPoint
             }
