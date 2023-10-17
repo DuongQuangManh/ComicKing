@@ -12,20 +12,27 @@ import {
   getProposeComics,
   getSliderComics,
 } from '@redux/homeSlice';
-import { getUserInfo } from '@redux/userSlice';
+import {
+  getAuthorFollowing,
+  getComicFollowing,
+  getUserInfo,
+} from '@redux/userSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
-  const { id = '' } = useAppSelector(state => state.userSlice.document)
+  const {id = ''} = useAppSelector(state => state.userSlice.document);
   useEffect(() => {
     SplashScreen.hide();
     dispatch(getSliderComics());
     dispatch(getNewestComics());
     dispatch(getProposeComics());
     dispatch(getDoneComics());
+    dispatch(getAuthorFollowing({userId: id}));
+    dispatch(getComicFollowing({userId: id}));
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
-        dispatch(getUserInfo({id}))
+        dispatch(getUserInfo({id}));
+
         replace('bottomNavigation');
       } else {
         replace('login');

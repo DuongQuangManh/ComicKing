@@ -57,5 +57,9 @@ export type StackParamList = {
     },
     author:{
         id:string,
+        type:string,
+    },
+    follow:{
+        type:'following' | 'follower' | 'comicfollowing',
     }
 }

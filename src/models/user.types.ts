@@ -31,3 +31,13 @@ export interface IAuthor{
     skip: number,
     limit: number
 }
+export interface IAuthorFollowing{
+    skip:number,
+    limit:number,
+    data:[],
+}
+export interface IComicFollowing{
+    skip:number,
+    limit:number,
+    data:[],
+}
