@@ -10,7 +10,7 @@ import {myColors} from '@utils';
 import {StatusBar} from 'react-native';
 
 const BottomTab = createBottomTabNavigator();
-const TABBAR_HEIEGHT = 50;
+const TABBAR_HEIEGHT = 60;
 
 interface ButtonTab {
   route: string;
@@ -79,16 +79,17 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
         justifyContent: 'center',
       }}>
       <TouchableOpacity
+      activeOpacity={0.6}
         style={{alignItems: 'center', justifyContent: 'center'}}
         onPress={onPress}>
         <Icon
           type={item.type}
           name={focused ? item.activeIcon : item.inActiveIcon}
           color={focused ? myColors.primary : myColors.textHint}
-          size={23}
+          size={20}
         />
         <Text
-          type={focused ? 'semibold_14' : 'medium_14'}
+          type={focused ? 'medium_14' : 'regular_14'}
           color={focused ? myColors.primary : myColors.textHint}>
           {item.label}
         </Text>
