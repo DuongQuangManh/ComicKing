@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, ScrollView, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {
@@ -22,22 +16,21 @@ import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
-import LinearGradient from 'react-native-linear-gradient';
-import ButtonInteract from './components/ButtonInteract';
-import IconText from '../../components/IconText';
 import {FlashList} from '@shopify/flash-list';
 import {Chapter, ComicSmall, CommentTop} from '@items';
 import HeaderDetail from './components/HeaderDetail';
 import Interact from './components/Interact';
 import {detailComic} from '@redux/comicSlice';
 import {CateModel} from '@models';
+import {ActivityIndicator} from 'react-native-paper';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
   const user = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
   const propose = useAppSelector(state => state.homeSlice.proposeComics);
-  const comic = useAppSelector(state => state.comicSlice.data);
+  const {data, loading} = useAppSelector(state => state.comicSlice);
+
   const [screen, setScreen] = useState(1);
   const changeScreen = (number: number) => {
     if (number != screen) {
@@ -90,14 +83,14 @@ const ComicDetail = () => {
   };
 
   const handlerReadComic = () => {
-    if (comic.readingChapter) {
-      navigate('readcomic', {id: comic.id, chapter: comic.readingChapter});
+    if (data.readingChapter) {
+      navigate('readcomic', {id: data.id, chapter: data.readingChapter});
     } else {
-      navigate('readcomic', {id: comic.id, chapter: 1});
+      navigate('readcomic', {id: data.id, chapter: 1});
     }
   };
   const handlerShowAuthor = () => {
-    navigate('author', {id: comic.author.id, type: 'author'});
+    navigate('author', {id: data.author.id, type: 'author'});
   };
   return (
     <Screen>
@@ -105,220 +98,236 @@ const ComicDetail = () => {
         backgroundColor={myColors.transparent}
         style={{position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10}}
       />
-      <ScrollView nestedScrollEnabled={true}>
-        <View style={styles.box2}>
-          <HeaderDetail />
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color={myColors.primary}
+          style={{height: WINDOW_HEIGHT * 0.9}}
+        />
+      ) : (
+        <ScrollView nestedScrollEnabled={true}>
+          <View style={styles.box2}>
+            <HeaderDetail />
 
-          <View style={[styles.box3, {padding: 10}]}>
-            <Button
-              text="Chi tiết"
-              onPress={() => changeScreen(1)}
-              textColor={screen === 1 ? myColors.background : myColors.primary}
-              buttonColor={
-                screen === 1 ? myColors.primary : myColors.background
-              }
-              style={{flex: 1}}
-              borderRadius={40}
-              height={35}
-            />
-            <Button
-              text="Chương"
-              onPress={() => changeScreen(2)}
-              textColor={screen === 2 ? myColors.background : myColors.primary}
-              buttonColor={
-                screen === 2 ? myColors.primary : myColors.background
-              }
-              style={{flex: 1, marginStart: 10}}
-              borderRadius={40}
-              height={35}
-            />
-          </View>
-          {screen === 1 ? (
-            <View style={[styles.box2]}>
-              <View style={{padding: 5}}>
-                <Interact comic={comic} />
-                <View style={styles.containerDes}>
-                  <TextMore text={comic.description} />
-                  <FlashList
-                    data={comic.categories as CateModel[]}
-                    nestedScrollEnabled={true}
-                    estimatedItemSize={100}
-                    estimatedListSize={{
-                      width: WINDOW_WIDTH,
-                      height: 40,
-                    }}
-                    contentContainerStyle={{paddingTop: 5}}
-                    renderItem={({item}) => (
-                      <TextCustom
-                        text={item?.title}
-                        style={{
-                          borderWidth: 1,
-                          borderColor: myColors.gray,
-                          borderRadius: 18,
-                          marginStart: 5,
-                          minWidth: 100,
-                        }}
-                      />
-                    )}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                  />
-                </View>
-              </View>
+            <View style={[styles.box3, {padding: 10}]}>
               <Button
-                text={
-                  comic.readingChapter
-                    ? `Tiếp tục đọc chapter ${comic.readingChapter}`
-                    : 'Bắt đầu đọc'
+                text="Chi tiết"
+                onPress={() => changeScreen(1)}
+                textColor={
+                  screen === 1 ? myColors.background : myColors.primary
                 }
-                borderRadius={25}
-                style={{marginTop: 20, alignSelf: 'center'}}
-                onPress={handlerReadComic}
+                buttonColor={
+                  screen === 1 ? myColors.primary : myColors.background
+                }
+                style={{flex: 1}}
+                borderRadius={40}
+                height={35}
               />
-              <View style={[styles.box3, styles.author]}>
-                <FastImage
-                  source={
-                    comic.author.image
-                      ? {uri: comic.author.image}
-                      : require('@assets/images/avatar.png')
-                  }
-                  style={{
-                    width: 60,
-                    height: 60,
-                    borderWidth: 1,
-                    borderColor: myColors.background,
-                    borderRadius: 180,
-                  }}
-                />
-                <View style={{flex: 1, justifyContent: 'center'}}>
-                  <Text type="semibold_16">{comic.author.name}</Text>
-                  <Text type="regular_15">{`${helper.convertToK(
-                    comic.author.numOfFollow,
-                  )} Fan`}</Text>
+              <Button
+                text="Chương"
+                onPress={() => changeScreen(2)}
+                textColor={
+                  screen === 2 ? myColors.background : myColors.primary
+                }
+                buttonColor={
+                  screen === 2 ? myColors.primary : myColors.background
+                }
+                style={{flex: 1, marginStart: 10}}
+                borderRadius={40}
+                height={35}
+              />
+            </View>
+            {screen === 1 ? (
+              <View style={[styles.box2]}>
+                <View style={{padding: 5}}>
+                  <Interact comic={data} />
+                  <View style={styles.containerDes}>
+                    <TextMore text={data.description} />
+                    <FlashList
+                      data={data.categories as CateModel[]}
+                      nestedScrollEnabled={true}
+                      estimatedItemSize={100}
+                      estimatedListSize={{
+                        width: WINDOW_WIDTH,
+                        height: 40,
+                      }}
+                      contentContainerStyle={{paddingTop: 5}}
+                      renderItem={({item}) => (
+                        <TextCustom
+                          text={item?.title}
+                          style={{
+                            borderWidth: 1,
+                            borderColor: myColors.gray,
+                            borderRadius: 18,
+                            marginStart: 5,
+                            minWidth: 100,
+                          }}
+                        />
+                      )}
+                      horizontal={true}
+                      showsHorizontalScrollIndicator={false}
+                    />
+                  </View>
                 </View>
-                <TouchableOpacity
-                  onPress={handlerShowAuthor}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Text type="semibold_14" style={{color: '#555555'}}>
-                    Xem tác giả
-                  </Text>
-                  <Icon type={Icons.Entypo} name="chevron-right" size={16} />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.box4}>
-                <View
-                  style={{
-                    justifyContent: 'space-between',
-                    width: WINDOW_WIDTH - 10,
-                    flexDirection: 'row',
-                  }}>
-                  <Text type="bold_18">Bình luận nổi bật</Text>
-
+                <Button
+                  text={
+                    data.readingChapter
+                      ? `Tiếp tục đọc chapter ${data.readingChapter}`
+                      : 'Bắt đầu đọc'
+                  }
+                  borderRadius={25}
+                  style={{marginTop: 20, alignSelf: 'center'}}
+                  onPress={handlerReadComic}
+                />
+                <View style={[styles.box3, styles.author]}>
+                  <FastImage
+                    source={
+                      data.author.image
+                        ? {uri: data.author.image}
+                        : require('@assets/images/avatar.png')
+                    }
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderWidth: 1,
+                      borderColor: myColors.background,
+                      borderRadius: 180,
+                    }}
+                  />
+                  <View style={{flex: 1, justifyContent: 'center'}}>
+                    <Text type="semibold_16">{data.author.name}</Text>
+                    <Text type="regular_15">{`${helper.convertToK(
+                      data.author.numOfFollow,
+                    )} Fan`}</Text>
+                  </View>
                   <TouchableOpacity
-                    onPress={handlerShowModalComment}
+                    onPress={handlerShowAuthor}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
                     <Text type="semibold_14" style={{color: '#555555'}}>
-                      Tổng 138.3k bình luận
+                      Xem tác giả
                     </Text>
                     <Icon type={Icons.Entypo} name="chevron-right" size={16} />
                   </TouchableOpacity>
                 </View>
-                <FlashList
-                  data={listCm}
-                  renderItem={({item}) => <CommentTop item={item} />}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  nestedScrollEnabled={true}
-                  estimatedItemSize={290}
-                  estimatedListSize={{
-                    width: WINDOW_WIDTH,
-                    height: 290,
-                  }}
-                  contentContainerStyle={{paddingTop: 10, paddingRight: 10}}
-                  snapToAlignment="start"
-                  decelerationRate={'fast'}
-                  snapToInterval={WINDOW_WIDTH - 20}
-                />
-              </View>
-              <View style={{flex: 1, height: 500, marginTop: 10}}>
-                <View
-                  style={[
-                    styles.box3,
-                    {justifyContent: 'space-between', padding: 5},
-                  ]}>
-                  <Text type="bold_18">Đề xuất liên quan</Text>
-                  <TouchableOpacity>
-                    <Icon
-                      type={Icons.Fontisto}
-                      name="spinner-refresh"
-                      size={18}
-                    />
-                  </TouchableOpacity>
+                <View style={styles.box4}>
+                  <View
+                    style={{
+                      justifyContent: 'space-between',
+                      width: WINDOW_WIDTH - 10,
+                      flexDirection: 'row',
+                    }}>
+                    <Text type="bold_18">Bình luận nổi bật</Text>
+
+                    <TouchableOpacity
+                      onPress={handlerShowModalComment}
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Text type="semibold_14" style={{color: '#555555'}}>
+                        Tổng 138.3k bình luận
+                      </Text>
+                      <Icon
+                        type={Icons.Entypo}
+                        name="chevron-right"
+                        size={16}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <FlashList
+                    data={listCm}
+                    renderItem={({item}) => <CommentTop item={item} />}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    nestedScrollEnabled={true}
+                    estimatedItemSize={290}
+                    estimatedListSize={{
+                      width: WINDOW_WIDTH,
+                      height: 290,
+                    }}
+                    contentContainerStyle={{paddingTop: 10, paddingRight: 10}}
+                    snapToAlignment="start"
+                    decelerationRate={'fast'}
+                    snapToInterval={WINDOW_WIDTH - 20}
+                  />
                 </View>
-                <FlashList
-                  data={propose}
-                  renderItem={({item}) => <ComicSmall item={item} />}
-                  numColumns={3}
-                  showsVerticalScrollIndicator={false}
-                  estimatedItemSize={WINDOW_WIDTH / 3 + 60}
-                  estimatedListSize={{
-                    width: WINDOW_WIDTH,
-                    height: WINDOW_WIDTH / 3 + 60,
-                  }}
-                />
+                <View style={{flex: 1, height: 500, marginTop: 10}}>
+                  <View
+                    style={[
+                      styles.box3,
+                      {justifyContent: 'space-between', padding: 5},
+                    ]}>
+                    <Text type="bold_18">Đề xuất liên quan</Text>
+                    <TouchableOpacity>
+                      <Icon
+                        type={Icons.Fontisto}
+                        name="spinner-refresh"
+                        size={18}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <FlashList
+                    data={propose}
+                    renderItem={({item}) => <ComicSmall item={item} />}
+                    numColumns={3}
+                    showsVerticalScrollIndicator={false}
+                    estimatedItemSize={WINDOW_WIDTH / 3 + 60}
+                    estimatedListSize={{
+                      width: WINDOW_WIDTH,
+                      height: WINDOW_WIDTH / 3 + 60,
+                    }}
+                  />
+                </View>
               </View>
-            </View>
-          ) : (
-            <View style={[styles.box2]}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  padding: 5,
-                }}>
-                <Text type="bold_16" style={{flex: 1}}>
-                  {`Cập nhật đến chap ${comic.chapters.length}`}
-                </Text>
+            ) : (
+              <View style={[styles.box2]}>
                 <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    padding: 5,
                   }}>
-                  <TouchableOpacity>
-                    <Text type="bold_16" color={myColors.primary}>
-                      Mới
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{marginStart: 10}}>
-                    <Text type="bold_16">Cũ</Text>
-                  </TouchableOpacity>
+                  <Text type="bold_16" style={{flex: 1}}>
+                    {`Cập nhật đến chap ${data.chapters.length}`}
+                  </Text>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <TouchableOpacity>
+                      <Text type="bold_16" color={myColors.primary}>
+                        Mới
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginStart: 10}}>
+                      <Text type="bold_16">Cũ</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
+                <FlashList
+                  nestedScrollEnabled={true}
+                  data={data.chapters}
+                  renderItem={({item}) => <Chapter item={item} />}
+                  estimatedItemSize={100}
+                  estimatedListSize={{
+                    width: WINDOW_WIDTH,
+                    height: 100,
+                  }}
+                  ListEmptyComponent={() => (
+                    <DataEmpty text="Các chương chưa được cập nhật" />
+                  )}
+                />
               </View>
-              <FlashList
-                nestedScrollEnabled={true}
-                data={comic.chapters}
-                renderItem={({item}) => <Chapter item={item} />}
-                estimatedItemSize={100}
-                estimatedListSize={{
-                  width: WINDOW_WIDTH,
-                  height: 100,
-                }}
-                ListEmptyComponent={() => (
-                  <DataEmpty text="Các chương chưa được cập nhật" />
-                )}
-              />
-            </View>
-          )}
-        </View>
-      </ScrollView>
+            )}
+          </View>
+        </ScrollView>
+      )}
     </Screen>
   );
 };
