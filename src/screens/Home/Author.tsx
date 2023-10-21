@@ -1,26 +1,31 @@
-import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
-import React, { useEffect, useState, useRef } from 'react';
-import { Screen } from '../screen';
-import { Button, DataEmpty, Header, Text } from '@components';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { StackParamList, navigate } from '@navigations';
-import { sendRequest } from '@api';
-import { IAuthor } from '@models';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {Screen} from '../screen';
+import {Button, DataEmpty, Header, Text} from '@components';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {StackParamList, navigate} from '@navigations';
+import {sendRequest} from '@api';
+import {IAuthor} from '@models';
 import FastImage from 'react-native-fast-image';
-import { WINDOW_HEIGHT, WINDOW_WIDTH, myColors } from '@utils';
-import { FlashList } from '@shopify/flash-list';
-import { ComicSmall } from '@items';
-import { useAppDispatch, useAppSelector } from '@redux/store';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
+import {FlashList} from '@shopify/flash-list';
+import {ComicSmall} from '@items';
+import {useAppDispatch, useAppSelector} from '@redux/store';
 import {
   addAuthorToListFollowing,
   deleteAuthorToListFollowing,
 } from '@redux/userSlice';
 const Author = () => {
-  const { id } = useRoute<RouteProp<StackParamList, 'author'>>().params;
+  const {id} = useRoute<RouteProp<StackParamList, 'author'>>().params;
   const document = useAppSelector(state => state.userSlice.document);
   const [data, setData] = useState<IAuthor | any>();
   const [isFollow, setFollow] = useState(false);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useAppDispatch();
   const ref = useRef({
     skip: 0,
@@ -28,9 +33,10 @@ const Author = () => {
   }).current;
   const getData = async () => {
     let path = 'api/user/detailAuthor';
-    const res = await sendRequest(path, { authorId: id });
-    setIsLoading(false)
+    const res = await sendRequest(path, {authorId: id, userId: document.id});
+    setIsLoading(false);
     if (res.err === 200) {
+      setFollow(res.data.isFollowing);
       setData(res.data);
       ref.skip = res.data?.skip;
       ref.limit = res.data?.limit;
@@ -48,7 +54,7 @@ const Author = () => {
     if (res.err === 200) {
       if (isFollow) {
         dispatch(deleteAuthorToListFollowing(id));
-        setData((pre: any) => ({ ...pre, numOfFollow: data.numOfFollow - 1 }));
+        setData((pre: any) => ({...pre, numOfFollow: data.numOfFollow - 1}));
       } else {
         dispatch(
           addAuthorToListFollowing({
@@ -57,7 +63,7 @@ const Author = () => {
             image: data?.image,
           }),
         );
-        setData((pre: any) => ({ ...pre, numOfFollow: data.numOfFollow + 1 }));
+        setData((pre: any) => ({...pre, numOfFollow: data.numOfFollow + 1}));
       }
     }
     setFollow(!isFollow);
@@ -67,17 +73,23 @@ const Author = () => {
   }, []);
   return (
     <Screen preset="fixed">
-      {isLoading ? (<ActivityIndicator size='large' color={myColors.primary} style={{height: WINDOW_HEIGHT*0.9}}/>):
+      {isLoading ? (
+        <ActivityIndicator
+          size="large"
+          color={myColors.primary}
+          style={{height: WINDOW_HEIGHT * 0.9}}
+        />
+      ) : (
         <>
           <Header backgroundColor={myColors.transparent} text={data?.name} />
           <View style={styles.box1}>
             <FastImage
               source={
                 data?.image
-                  ? { uri: data.image }
+                  ? {uri: data.image}
                   : require('@assets/images/avatar.png')
               }
-              style={{ width: 100, height: 100, borderRadius: 180 }}
+              style={{width: 100, height: 100, borderRadius: 180}}
             />
             <View style={styles.box1_1}>
               <Text type="bold_22">{data?.name}</Text>
@@ -91,7 +103,7 @@ const Author = () => {
             </View>
           </View>
           <View style={styles.box2}>
-            <View style={{ flexDirection: 'row' }}>
+            <View style={{flexDirection: 'row'}}>
               {/* <TouchableOpacity
             activeOpacity={0.6}
             onPress={() => navigate('follow', {type: 'follower'})}> */}
@@ -133,7 +145,7 @@ const Author = () => {
               nestedScrollEnabled={true}
               showsVerticalScrollIndicator={false}
               data={data?.listComic}
-              renderItem={({ item }) => <ComicSmall item={item} />}
+              renderItem={({item}) => <ComicSmall item={item} />}
               estimatedItemSize={WINDOW_WIDTH}
               numColumns={3}
               ListEmptyComponent={() => (
@@ -142,7 +154,7 @@ const Author = () => {
             />
           </View>
         </>
-      }
+      )}
     </Screen>
   );
 };

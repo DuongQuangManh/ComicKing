@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, ScrollView, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {
@@ -22,9 +16,6 @@ import {StackParamList, navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
-import LinearGradient from 'react-native-linear-gradient';
-import ButtonInteract from './components/ButtonInteract';
-import IconText from '../../components/IconText';
 import {FlashList} from '@shopify/flash-list';
 import {Chapter, ComicSmall, CommentTop} from '@items';
 import HeaderDetail from './components/HeaderDetail';

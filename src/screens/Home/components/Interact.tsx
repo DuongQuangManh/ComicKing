@@ -14,7 +14,7 @@ interface componentProps {
   comic: any;
 }
 const Interact: FC<componentProps> = ({comic}) => {
-  const [follow, setFollow] = useState(comic.isHot);
+  const [follow, setFollow] = useState(comic.isFollowing);
   const document = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
   //api/user/toggleFollowComic
