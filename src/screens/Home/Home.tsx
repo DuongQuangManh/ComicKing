@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList, Animated, ScrollView, View } from 'react-native';
+import { StyleSheet, FlatList, Animated, ScrollView, View, Image } from 'react-native';
 import React, { useRef, useEffect } from 'react';
 import { Screen } from '../screen';
 import HeaderHome from './components/HeaderHome';
@@ -11,6 +11,16 @@ import FlatListCustom from './components/FlatListCustom';
 import LeaderBoard from './components/LeaderBoard';
 import FastImage from 'react-native-fast-image';
 import homeSlice from '@redux/homeSlice';
+import SlideShow from './components/SlideShow';
+
+const images = [
+  // require('@assets/images/img_slide.jpg'),
+  // require('@assets/images/img_slide_2.jpg'),
+  // require('@assets/images/img_slide_3.jpg'),
+  'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
+  'https://asianfilmfestival.barcelona/2019/wp-content/uploads/2020/02/Japon-DETECTIVE-CONAN-845x321.jpg',
+  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg'
+];
 
 export const comicData = [
   {
@@ -94,8 +104,8 @@ const Home = () => {
 
   return (
     <Screen preset="scroll">
-      <HeaderHome onClick={() => navigate('menu')}/>
-      <View style={{ paddingBottom: 70, paddingTop: 80 }}>
+      <HeaderHome onClick={() => navigate('menu')} />
+      <View style={{ paddingBottom: 70 }}>
         {/* <Carousel
             nestedScrollEnabled={true}
             data={comics.sliderComic}
@@ -118,6 +128,9 @@ const Home = () => {
             autoplay={true}
             autoplayDelay={3000}
           /> */}
+        <View style={styles.slider}>
+          <SlideShow images={images} />
+        </View>
         <FlatListCustom label="Propose" data={comics.proposeComics} />
         <FlatListCustom
           label="Newest"
@@ -144,5 +157,10 @@ const styles = StyleSheet.create({
   },
   type: {
     marginTop: 10,
+  },
+  slider:{
+    marginStart: 20,
+    marginEnd: 20,
+    height: 100
   },
 });
