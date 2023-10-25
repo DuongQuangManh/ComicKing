@@ -62,5 +62,6 @@ export type StackParamList = {
     },
     follow:{
         type:'following' | 'follower' | 'comicfollowing',
-    }
+    },
+    level:{}
 }
