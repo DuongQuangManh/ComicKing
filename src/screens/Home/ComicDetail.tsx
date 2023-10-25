@@ -142,7 +142,7 @@ const ComicDetail = () => {
                 <View style={{padding: 5}}>
                   <Interact comic={data} />
                   <View style={styles.containerDes}>
-                    <TextMore text={data.description} />
+                    <TextMore text={data?.description} />
                     <FlashList
                       data={data.categories as CateModel[]}
                       nestedScrollEnabled={true}
@@ -182,8 +182,8 @@ const ComicDetail = () => {
                 <View style={[styles.box3, styles.author]}>
                   <FastImage
                     source={
-                      data.author.image
-                        ? {uri: data.author.image}
+                      data.author?.image
+                        ? {uri: data.author?.image}
                         : require('@assets/images/avatar.png')
                     }
                     style={{
@@ -195,10 +195,12 @@ const ComicDetail = () => {
                     }}
                   />
                   <View style={{flex: 1, justifyContent: 'center'}}>
-                    <Text type="semibold_16">{data.author.name}</Text>
-                    <Text type="regular_15">{`${helper.convertToK(
-                      data.author.numOfFollow,
-                    )} Fan`}</Text>
+                    <Text type="semibold_16">{data?.author?.name}</Text>
+                    <Text type="regular_15">
+                      {data?.author?.numOfFollow
+                        ? `${helper.convertToK(data?.author?.numOfFollow)} Fan`
+                        : ''}
+                    </Text>
                   </View>
                   <TouchableOpacity
                     onPress={handlerShowAuthor}

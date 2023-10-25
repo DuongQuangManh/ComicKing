@@ -41,3 +41,14 @@ export interface IComicFollowing{
     limit:number,
     data:[],
 }
+
+export interface ILevel{
+    currentLevelIndex: number,
+    levelPoint: number,
+    reachedMax: boolean,
+    listLevel: []
+}
+export interface IPrivilege{
+    image:string,
+    title:string,
+}

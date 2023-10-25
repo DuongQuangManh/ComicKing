@@ -4,7 +4,7 @@ import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
 
-import { AvatarFrame, IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument } from '@models';
+import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument } from '@models';
 
 
 interface IProfile {
@@ -87,7 +87,7 @@ export const getComicFollowing = createAsyncThunk("userSlice/getComicFollowing",
 interface IUserState {
     document: IDocument,
     loading:boolean;
-    avatarFrame: AvatarFrame | null,
+    avatarFrame: Decorate | null,
     authorFollowing:IAuthorFollowing | null |any,
     comicFollowing:IComicFollowing | null |any
 }
