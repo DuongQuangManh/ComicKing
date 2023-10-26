@@ -25,6 +25,7 @@ import EditAvtFrame from './Profile/EditAvtFrame'
 import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
 import Follow from './Home/Follow'
+import Success from './Auth/Success'
 
 export {
     Splash,
@@ -54,6 +55,6 @@ export {
     Author,
     Follow,
     EditAvtTitle,
-
+    Success
 
 }

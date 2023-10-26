@@ -29,6 +29,7 @@ import {
   EditAvtTitle,
   Author,
   Follow,
+  Success
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -65,6 +66,8 @@ export const Stacknavigation = () => {
         <Stack.Screen name="readcomic" component={ReadComic} />
         <Stack.Screen name="author" component={Author} />
         <Stack.Screen name="follow" component={Follow} />
+        <Stack.Screen name="success" component={Success} />
+
         {/* common screens */}
         <Stack.Group
           screenOptions={{
