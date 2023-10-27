@@ -128,7 +128,9 @@ const Profile = () => {
             Vip
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.rowOption}>
+        <TouchableOpacity
+          style={styles.rowOption}
+          onPress={() => navigate('buycoins')}>
           <Icon
             type={Icons.MaterialCommunityIcons}
             name="star-shooting-outline"
