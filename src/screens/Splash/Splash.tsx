@@ -18,7 +18,7 @@ import {
   getComicFollowing,
   getUserInfoAction,
 } from '@redux/userSlice';
-
+import {getLevel} from '@redux/levelSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -31,9 +31,10 @@ const Splash = () => {
     dispatch(getDoneComics());
     dispatch(getAuthorFollowing({userId: id}));
     dispatch(getComicFollowing({userId: id}));
+    dispatch(getLevel({id: id}));
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
-        dispatch(getUserInfoAction({id}))
+        dispatch(getUserInfoAction({id}));
         replace('bottomNavigation');
       } else {
         replace('login');
