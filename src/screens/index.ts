@@ -18,7 +18,7 @@ import EditProfile from './Profile/EditProfile'
 import Favorite from './Favorite/Favorite'
 import Search from './Search/Search'
 import ComicDetail from './Home/ComicDetail'
-import Comment from './Home/Comment'
+import Comments from './Home/Comments'
 import ReadComic from './Home/ReadComic'
 import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
@@ -49,7 +49,7 @@ export {
     Favorite,
     Search,
     ComicDetail,
-    Comment,
+    Comments,
     ReadComic,
     Infomation,
     EditAvtFrame,
