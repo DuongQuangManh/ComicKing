@@ -40,6 +40,7 @@ const initialState = {
         specialList: null,
         categories:[],
         chapters: [],
+        hotComments:[],
         readingChapter:0,
     } as IComicDetails,
     loading:false,

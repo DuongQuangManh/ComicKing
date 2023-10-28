@@ -22,7 +22,7 @@ import {
   Favorite,
   Search,
   ComicDetail,
-  Comment,
+  Comments,
   ReadComic,
   Infomation,
   EditAvtFrame,
@@ -81,7 +81,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="loading" component={Loading} />
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
           {/* <Stack.Screen name="menu" component={Menu} /> */}
-          <Stack.Screen name="comment" component={Comment} />
+          <Stack.Screen name="comments" component={Comments} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
