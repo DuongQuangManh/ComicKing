@@ -12,6 +12,7 @@ import TextCustom from './TextCustom'
 import TextMore from './TextMore'
 import IconText from './IconText'
 import DataEmpty from './DataEmpty'
+import AvatarFrame from './AvatarFrame'
 
 export {
     Button,
@@ -27,5 +28,6 @@ export {
     TextCustom,
     TextMore,
     IconText,
-    DataEmpty
+    DataEmpty,
+    AvatarFrame
 }
