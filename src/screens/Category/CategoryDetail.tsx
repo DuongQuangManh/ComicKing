@@ -119,6 +119,7 @@ const CategoryDetail = () => {
         />
       ) : (
         <FlashList
+        showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 14}}
           data={listComic}
           estimatedItemSize={WINDOW_WIDTH - 28}

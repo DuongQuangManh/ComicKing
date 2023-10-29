@@ -21,7 +21,6 @@ const Level = () => {
   }, []);
 
   const handleViewableItemsChanged = useRef(({viewableItems, changed}: any) => {
-    console.log(viewableItems[0]?.index + 1);
     const item = viewableItems?.[0];
     if (item && changed) {
       setCurrentIndex(item.index + 1);

@@ -1,34 +1,27 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   interpolate,
   Extrapolation,
-  clamp,
 } from 'react-native-reanimated';
-import {Screen} from '../screen';
-import HeaderHome from './components/HeaderHome';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
-import {StackParamList, navigate} from '@navigations';
+import {navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
-import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatListCustom from './components/FlatListCustom';
 import LeaderBoard from './components/LeaderBoard';
-import FastImage from 'react-native-fast-image';
-import homeSlice from '@redux/homeSlice';
-import {Icon, Icons} from '@components';
+import {Icon, Icons, Text} from '@components';
 import SlideShow from './components/SlideShow';
+import SixComicContainer from './components/SixComicContainer';
+import ComicWithDescContainer from './components/ComicWithDescContainer';
 
 const images = [
-  // require('@assets/images/img_slide.jpg'),
-  // require('@assets/images/img_slide_2.jpg'),
-  // require('@assets/images/img_slide_3.jpg'),
   'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
   'https://asianfilmfestival.barcelona/2019/wp-content/uploads/2020/02/Japon-DETECTIVE-CONAN-845x321.jpg',
-  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg'
+  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg',
 ];
 
 export const comicData = [
@@ -102,7 +95,13 @@ const HEADER_HEIGHT = 56;
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const comics = useAppSelector(state => state.homeSlice);
+  const {
+    doneComics = [],
+    hotComic = [],
+    newestComic = [],
+    proposeComics = [],
+    selectComicId = [],
+  } = useAppSelector(state => state.homeSlice);
 
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
@@ -133,6 +132,14 @@ const Home = () => {
     dispatch(getCate());
   }, []);
 
+  const _renderHotComic = useCallback(() => {
+    return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
+  }, [hotComic]);
+
+  const _renderNewComic = useCallback(() => {
+    return <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện mới" />;
+  }, [newestComic]);
+
   return (
     <>
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
@@ -162,17 +169,13 @@ const Home = () => {
           backgroundColor: myColors.background,
         }}
         onScroll={scrollHandler}>
-                  <View style={styles.slider}>
+        <View style={styles.slider}>
           <SlideShow images={images} />
         </View>
         <View>
-          <FlatListCustom label="Đề xuất" data={comics.proposeComics} />
-          <FlatListCustom
-            label="Mới nhất"
-            isMore={true}
-            data={comics.newestComic}
-            isItemLarge={false}
-          />
+          <FlatListCustom label="✨ Đề xuất" data={proposeComics} />
+          {_renderNewComic()}
+          {_renderHotComic()}
           <LeaderBoard />
         </View>
       </Animated.ScrollView>
@@ -201,9 +204,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: 'white',
   },
-  slider:{
+  slider: {
     marginStart: 20,
     marginEnd: 20,
-    height: 100
+    height: 100,
   },
 });
