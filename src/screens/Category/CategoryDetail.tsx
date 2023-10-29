@@ -3,13 +3,12 @@ import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {StackParamList, push} from '@navigations';
-import {Header, Icon, Icons, Text} from '@components';
+import {Header, ListFooter, ListEmpty} from '@components';
 import {FlashList} from '@shopify/flash-list';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {IComic} from '@models';
 import ComicSearchedItem from '../Search/components/ComicSearchedItem';
 import {sendRequest} from '@api';
-import {ListEmpty, ListFooter} from '@items';
 
 type StateType = {
   listComic: IComic[];
