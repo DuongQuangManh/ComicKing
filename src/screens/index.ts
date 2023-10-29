@@ -25,6 +25,7 @@ import EditAvtFrame from './Profile/EditAvtFrame'
 import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
 import Follow from './Home/Follow'
+import Success from './Auth/Success'
 import Level from './Profile/Level'
 import BuyCoins from './Profile/BuyCoins'
 
@@ -57,6 +58,6 @@ export {
     Follow,
     EditAvtTitle,
     Level,
-    BuyCoins
-
+    BuyCoins,
+    Success
 }

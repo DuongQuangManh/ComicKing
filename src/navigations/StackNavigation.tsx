@@ -31,6 +31,7 @@ import {
   Follow,
   Level,
   BuyCoins,
+  Success
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -69,6 +70,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="follow" component={Follow} />
         <Stack.Screen name="level" component={Level} />
         <Stack.Screen name="buycoins" component={BuyCoins} />
+        <Stack.Screen name="success" component={Success} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
