@@ -33,7 +33,6 @@ const ReadComic = () => {
 
   const onViewableItemsChanged = useRef(({viewableItems, changed}: any) => {
     const item = viewableItems?.[0]?.item;
-    console.log(item);
     if (item && changed) {
       const type = typeof item;
       switch (type) {
@@ -98,7 +97,6 @@ const ReadComic = () => {
   };
 
   const showOption = () => {
-    console.log(ref);
     if (!ref.showingOption) {
       ref.showingOption = true;
       Animated.timing(scrollY, {

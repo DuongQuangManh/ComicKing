@@ -7,7 +7,6 @@ interface itemProps {
   item?: any;
 }
 const CommentTop: FC<itemProps> = ({item}) => {
-  console.log(item);
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
