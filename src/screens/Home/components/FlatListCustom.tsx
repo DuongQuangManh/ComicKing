@@ -60,7 +60,7 @@ const FlatListCustom: FC<componetProps> = ({
               {props.data[0].name}
             </Text>
             <Text
-              type="light_13"
+              type="light_12"
               numberOfLines={5}
               ellipsizeMode="tail"
               style={{color: '#4a4747d8'}}>
@@ -89,7 +89,7 @@ export default React.memo(FlatListCustom);
 const styles = StyleSheet.create({
   container: {
     width: WINDOW_WIDTH,
-    marginTop: 18,
+    marginTop: 10,
     minHeight: WINDOW_WIDTH / 3 + 60,
   },
   box1: {

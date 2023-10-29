@@ -4,35 +4,28 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import LinearGradient from 'react-native-linear-gradient';
 import {Icons, Text} from '@components';
 import {IconText} from '@components';
-import {useAppSelector} from '@redux/store';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 
 interface componentProps {
-  // image?: string;
-  // name?: string;
-  // view?: number;
-  // like?: number;
-  // star?: number;
+  image: string;
+  name: string;
+  view: number;
+  like: number;
+  star: number;
 }
 const HeaderDetail: FC<componentProps> = ({
-  // view = 0,
-  // like = 0,
-  // star = 0,
-  ...props
+  view = 0,
+  like = 0,
+  star = 0,
+  image,
+  name,
 }) => {
-  const loading = useAppSelector(state => state.comicSlice.loading);
-  const data = useAppSelector(state => state.comicSlice.data);
+
   return (
-    <ShimmerPlaceholder
-      LinearGradient={LinearGradient}
-      visible={!loading}
-      width={WINDOW_WIDTH}
-      height={WINDOW_HEIGHT / 3 - 20}>
       <ImageBackground
         source={
-          data.image
+          image
             ? {
-                uri: data.image,
+                uri: image,
               }
             : require('@assets/images/error_img.jpg')
         }
@@ -49,7 +42,7 @@ const HeaderDetail: FC<componentProps> = ({
           style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
           <View style={styles.box1}>
             <Text type="bold_22" color={myColors.surfaceVariant}>
-              {data.name}
+              {name}
             </Text>
             <View style={[styles.box3]}>
               <IconText
@@ -57,27 +50,26 @@ const HeaderDetail: FC<componentProps> = ({
                 typeIcon={Icons.MaterialIcons}
                 sizeIcon={18}
                 colorIcon="#f77c00"
-                text={helper.convertToK(data.numOfView)}
+                text={helper.convertToK(view)}
               />
               <IconText
                 nameIcon="like1"
                 typeIcon={Icons.AntDesign}
                 colorIcon={myColors.primary}
                 sizeIcon={18}
-                text={helper.convertToK(data.numOfLike)}
+                text={helper.convertToK(like)}
               />
               <IconText
                 nameIcon="star"
                 typeIcon={Icons.AntDesign}
                 colorIcon="#eff300"
                 sizeIcon={18}
-                text={data.star + ''}
+                text={star + ''}
               />
             </View>
           </View>
         </LinearGradient>
       </ImageBackground>
-    </ShimmerPlaceholder>
   );
 };
 

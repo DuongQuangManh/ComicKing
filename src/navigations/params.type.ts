@@ -56,13 +56,24 @@ export type StackParamList = {
         id: string,
         chapter: number,
     },
-    author:{
-        id:string,
-        type:string,
+    author: {
+        id: string,
+        type: string,
     },
-    follow:{
-        type:'following' | 'follower' | 'comicfollowing',
+    follow: {
+        type: 'following' | 'follower' | 'comicfollowing',
     },
-    level:{},
-    buycoins:{}
+    level: {},
+    buycoins: {},
+    comicWorld: {},
+    listCategory: {},
+    categoryDetail: {
+        title: string;
+        categoryId: string;
+        description: string;
+        numOfComic: number;
+    },
+    authorFollowing: {},
+    comicFollowing: {},
+    readingHistory: {}
 }

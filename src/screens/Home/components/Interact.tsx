@@ -1,48 +1,40 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {FC, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import ButtonInteract from './ButtonInteract';
 import {Icons} from '@components';
 import {WINDOW_WIDTH} from '@utils';
 import {sendRequest} from '@api';
-import {useAppDispatch, useAppSelector} from '@redux/store';
-import {
-  addComicToListFollowing,
-  deleteComicToListFollowing,
-} from '@redux/userSlice';
+import {useAppSelector} from '@redux/store';
 
 interface componentProps {
-  comic: any;
+  isFollowing: boolean;
+  comicId: string;
 }
-const Interact: FC<componentProps> = ({comic}) => {
-  const [follow, setFollow] = useState(comic.isFollowing);
+
+const Interact: FC<componentProps> = ({isFollowing, comicId}) => {
+  const [follow, setFollow] = useState(isFollowing);
   const document = useAppSelector(state => state.userSlice.document);
-  const dispatch = useAppDispatch();
+  const timeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    setFollow(isFollowing);
+  }, [isFollowing]);
+
   //api/user/toggleFollowComic
   const handlerFollow = async () => {
-    let path = 'api/user/toggleFollowComic';
-    const body = {
-      userId: document.id,
-      comicId: comic.id,
-      isFollow: !follow,
-    };
-    const res = await sendRequest(path, body);
-    console.log(res);
-    if (res.err === 200) {
-      if (follow) {
-        dispatch(deleteComicToListFollowing(comic.id));
-      } else {
-        dispatch(
-          addComicToListFollowing({
-            id: comic.id,
-            name: comic?.name,
-            image: comic?.image,
-            isHot: comic.isHot,
-          }),
-        );
-      }
-    }
     setFollow(!follow);
+    if (timeout.current) clearTimeout(timeout.current);
+    timeout.current = setTimeout(() => {
+      let path = 'api/user/toggleFollowComic';
+      const body = {
+        userId: document.id,
+        comicId,
+        isFollow: !follow,
+      };
+      sendRequest(path, body);
+    }, 1500);
   };
+
   return (
     <View style={styles.box3}>
       <ButtonInteract
@@ -69,7 +61,7 @@ const Interact: FC<componentProps> = ({comic}) => {
   );
 };
 
-export default Interact;
+export default React.memo(Interact);
 
 const styles = StyleSheet.create({
   box3: {

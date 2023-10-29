@@ -11,7 +11,6 @@ import {
   Message,
   Loading,
   ConfirmMessage,
-  Home,
   // Menu,
   Notification,
   Setting,
@@ -28,9 +27,15 @@ import {
   EditAvtFrame,
   EditAvtTitle,
   Author,
-  Follow,
+  // Follow,
   Level,
   BuyCoins,
+  ComicWorld,
+  ListCategory,
+  CategoryDetail,
+  AuthorFollowing,
+  ComicFollowing,
+  ReadingHistory,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -66,9 +71,16 @@ export const Stacknavigation = () => {
         <Stack.Screen name="comicdetail" component={ComicDetail} />
         <Stack.Screen name="readcomic" component={ReadComic} />
         <Stack.Screen name="author" component={Author} />
-        <Stack.Screen name="follow" component={Follow} />
+        {/* <Stack.Screen name="follow" component={Follow} /> */}
         <Stack.Screen name="level" component={Level} />
         <Stack.Screen name="buycoins" component={BuyCoins} />
+        <Stack.Screen name="comicWorld" component={ComicWorld} />
+        <Stack.Screen name="listCategory" component={ListCategory} />
+        <Stack.Screen name="categoryDetail" component={CategoryDetail} />
+        <Stack.Screen name="authorFollowing" component={AuthorFollowing} />
+        <Stack.Screen name="comicFollowing" component={ComicFollowing} />
+        <Stack.Screen name="readingHistory" component={ReadingHistory} />
+
         {/* common screens */}
         <Stack.Group
           screenOptions={{

@@ -8,29 +8,26 @@ import React, {useEffect, useState, useRef} from 'react';
 import {Screen} from '../screen';
 import {Button, DataEmpty, Header, Text} from '@components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList, navigate} from '@navigations';
+import {StackParamList} from '@navigations';
 import {sendRequest} from '@api';
 import {IAuthor} from '@models';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
 import {ComicSmall} from '@items';
-import {useAppDispatch, useAppSelector} from '@redux/store';
-import {
-  addAuthorToListFollowing,
-  deleteAuthorToListFollowing,
-} from '@redux/userSlice';
+import {useAppSelector} from '@redux/store';
+
 const Author = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'author'>>().params;
   const document = useAppSelector(state => state.userSlice.document);
   const [data, setData] = useState<IAuthor | any>();
   const [isFollow, setFollow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useAppDispatch();
   const ref = useRef({
     skip: 0,
     limit: 0,
   }).current;
+  const timeout = useRef<NodeJS.Timeout | null>(null);
   const getData = async () => {
     let path = 'api/user/detailAuthor';
     const res = await sendRequest(path, {authorId: id, userId: document.id});
@@ -44,29 +41,28 @@ const Author = () => {
   };
   //api/user/toggleFollowAuthor
   const handlerFollow = async () => {
-    let path = 'api/user/toggleFollowAuthor';
-    const body = {
-      userId: document.id,
-      authorId: id,
-      isFollow: !isFollow,
-    };
-    const res = await sendRequest(path, body);
-    if (res.err === 200) {
-      if (isFollow) {
-        dispatch(deleteAuthorToListFollowing(id));
-        setData((pre: any) => ({...pre, numOfFollow: data.numOfFollow - 1}));
-      } else {
-        dispatch(
-          addAuthorToListFollowing({
-            id: id,
-            name: data?.name,
-            image: data?.image,
-          }),
-        );
-        setData((pre: any) => ({...pre, numOfFollow: data.numOfFollow + 1}));
-      }
+    if (isFollow) {
+      setData((pre: any) => ({...pre, numOfFollow: pre.numOfFollow - 1}));
+    } else {
+      setData((pre: any) => ({...pre, numOfFollow: pre.numOfFollow + 1}));
     }
     setFollow(!isFollow);
+
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
+    timeout.current = setTimeout(() => {
+      let path = 'api/user/toggleFollowAuthor';
+      const body = {
+        userId: document.id,
+        authorId: id,
+        isFollow: !isFollow,
+      };
+      sendRequest(path, body);
+      if (timeout.current) {
+        clearTimeout(timeout.current);
+      }
+    }, 1500);
   };
   useEffect(() => {
     getData();
@@ -81,7 +77,7 @@ const Author = () => {
         />
       ) : (
         <>
-          <Header backgroundColor={myColors.transparent} text={data?.name} />
+          <Header backgroundColor={myColors.transparent} text='Thông tin tác giả' />
           <View style={styles.box1}>
             <FastImage
               source={
@@ -92,14 +88,17 @@ const Author = () => {
               style={{width: 100, height: 100, borderRadius: 180}}
             />
             <View style={styles.box1_1}>
-              <Text type="bold_22">{data?.name}</Text>
+              <Text type="bold_18">{data?.name}</Text>
               <Text
-                numberOfLines={1}
+                color={myColors.textHint}
+                type="light_13"
+                numberOfLines={2}
                 style={{
-                  width: 180,
                   marginTop: 10,
                 }}>{`Giới thiệu: ${data?.description}`}</Text>
-              <Text>{`Cập nhật lần cuối: ${data?.updatedComicAt}`}</Text>
+              <Text
+                color={myColors.textHint}
+                type="light_13">{`Cập nhật lần cuối: ${data?.updatedComicAt}`}</Text>
             </View>
           </View>
           <View style={styles.box2}>
@@ -164,13 +163,14 @@ export default Author;
 const styles = StyleSheet.create({
   box1: {
     width: WINDOW_WIDTH,
-    height: WINDOW_HEIGHT / 5 - 20,
+    height: 110,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
   },
   box1_1: {
     marginStart: 10,
+    flex: 1
   },
   box2: {
     width: WINDOW_WIDTH,

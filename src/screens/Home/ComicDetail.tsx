@@ -12,24 +12,24 @@ import {
   TextMore,
 } from '@components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList, navigate} from '@navigations';
-import {useAppDispatch, useAppSelector} from '@redux/store';
+import {StackParamList, navigate, push} from '@navigations';
+import {useAppSelector} from '@redux/store';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
 import {Chapter, ComicSmall, CommentTop} from '@items';
 import HeaderDetail from './components/HeaderDetail';
 import Interact from './components/Interact';
-import {detailComic} from '@redux/comicSlice';
-import {CateModel} from '@models';
+import {CateModel, IComicDetails} from '@models';
 import {ActivityIndicator} from 'react-native-paper';
+import {sendRequest} from '@api';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
   const user = useAppSelector(state => state.userSlice.document);
-  const dispatch = useAppDispatch();
   const propose = useAppSelector(state => state.homeSlice.proposeComics);
-  const {data, loading} = useAppSelector(state => state.comicSlice);
+  const [detailComic, setDetailComic] = useState<any>({});
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [screen, setScreen] = useState(1);
   const changeScreen = (number: number) => {
@@ -72,10 +72,26 @@ const ComicDetail = () => {
     },
   ];
 
+  const getDetailData = async () => {
+    let path = 'api/user/detailComic';
+    try {
+      setLoading(true);
+      const res = await sendRequest(path, {comicId: id, userId: user?.id});
+      setLoading(false);
+      if (res.err == 200) {
+        setDetailComic(res.data ?? {});
+      } else {
+        helper.showErrorMsg(res.message);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    console.log(id);
-    console.log(user.id);
-    dispatch(detailComic({comicId: id, userId: user.id}));
+    // dispatch(detailComic({comicId: id, userId: user.id}));
+    getDetailData();
   }, []);
 
   const handlerShowModalComment = () => {
@@ -83,31 +99,41 @@ const ComicDetail = () => {
   };
 
   const handlerReadComic = () => {
-    if (data.readingChapter) {
-      navigate('readcomic', {id: data.id, chapter: data.readingChapter});
+    if (detailComic.readingChapter) {
+      navigate('readcomic', {
+        id: detailComic.id,
+        chapter: detailComic.readingChapter,
+      });
     } else {
-      navigate('readcomic', {id: data.id, chapter: 1});
+      if (detailComic.numOfChapter > 0)
+        navigate('readcomic', {id: detailComic.id, chapter: 1});
     }
   };
   const handlerShowAuthor = () => {
-    navigate('author', {id: data.author.id, type: 'author'});
+    push('author', {id: detailComic.author?.id});
   };
   return (
-    <Screen>
+    <>
       <Header
         backgroundColor={myColors.transparent}
         style={{position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10}}
       />
-      {loading ? (
-        <ActivityIndicator
-          size="large"
-          color={myColors.primary}
-          style={{height: WINDOW_HEIGHT * 0.9}}
-        />
-      ) : (
-        <ScrollView nestedScrollEnabled={true}>
+      <Screen preset="scroll" nestedScrollEnabled>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={myColors.primary}
+            style={{height: WINDOW_HEIGHT * 0.9}}
+          />
+        ) : (
           <View style={styles.box2}>
-            <HeaderDetail />
+            <HeaderDetail
+              image={detailComic.image}
+              view={detailComic.numOfView}
+              like={detailComic.numOfLike}
+              name={detailComic.name}
+              star={5}
+            />
 
             <View style={[styles.box3, {padding: 10}]}>
               <Button
@@ -140,11 +166,14 @@ const ComicDetail = () => {
             {screen === 1 ? (
               <View style={[styles.box2]}>
                 <View style={{padding: 5}}>
-                  <Interact comic={data} />
+                  <Interact
+                    comicId={detailComic.id}
+                    isFollowing={detailComic.isFollowing}
+                  />
                   <View style={styles.containerDes}>
-                    <TextMore text={data?.description} />
+                    <TextMore text={detailComic.description} />
                     <FlashList
-                      data={data.categories as CateModel[]}
+                      data={(detailComic.categories as CateModel[]) ?? []}
                       nestedScrollEnabled={true}
                       estimatedItemSize={100}
                       estimatedListSize={{
@@ -171,8 +200,8 @@ const ComicDetail = () => {
                 </View>
                 <Button
                   text={
-                    data.readingChapter
-                      ? `Tiếp tục đọc chapter ${data.readingChapter}`
+                    detailComic.readingChapter
+                      ? `Tiếp tục đọc chapter ${detailComic.readingChapter}`
                       : 'Bắt đầu đọc'
                   }
                   borderRadius={25}
@@ -182,8 +211,8 @@ const ComicDetail = () => {
                 <View style={[styles.box3, styles.author]}>
                   <FastImage
                     source={
-                      data.author?.image
-                        ? {uri: data.author?.image}
+                      detailComic.author?.image
+                        ? {uri: detailComic.author?.image}
                         : require('@assets/images/avatar.png')
                     }
                     style={{
@@ -195,10 +224,12 @@ const ComicDetail = () => {
                     }}
                   />
                   <View style={{flex: 1, justifyContent: 'center'}}>
-                    <Text type="semibold_16">{data?.author?.name}</Text>
+                    <Text type="semibold_16">{detailComic.author?.name}</Text>
                     <Text type="regular_15">
-                      {data?.author?.numOfFollow
-                        ? `${helper.convertToK(data?.author?.numOfFollow)} Fan`
+                      {detailComic.author?.numOfFollow
+                        ? `${helper.convertToK(
+                            detailComic.author?.numOfFollow,
+                          )} Fan`
                         : ''}
                     </Text>
                   </View>
@@ -295,7 +326,7 @@ const ComicDetail = () => {
                     padding: 5,
                   }}>
                   <Text type="bold_16" style={{flex: 1}}>
-                    {`Cập nhật đến chap ${data.chapters.length}`}
+                    {`Cập nhật đến chap ${detailComic.chapters?.length}`}
                   </Text>
                   <View
                     style={{
@@ -314,7 +345,7 @@ const ComicDetail = () => {
                 </View>
                 <FlashList
                   nestedScrollEnabled={true}
-                  data={data.chapters}
+                  data={detailComic.chapters ?? []}
                   renderItem={({item}) => <Chapter item={item} />}
                   estimatedItemSize={100}
                   estimatedListSize={{
@@ -328,9 +359,9 @@ const ComicDetail = () => {
               </View>
             )}
           </View>
-        </ScrollView>
-      )}
-    </Screen>
+        )}
+      </Screen>
+    </>
   );
 };
 
