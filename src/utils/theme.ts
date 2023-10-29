@@ -23,9 +23,11 @@ const getFontType = (
 }
 
 const enFontConfig = {
+  light_12: getFontType(12, '300', 'Fredoka-Light'),
   light_13: getFontType(13, '300', 'Fredoka-Light'),
   light_14: getFontType(14, '300', 'Fredoka-Light'),
 
+  regular_10: getFontType(10, '400', 'Fredoka-Regular'),
   regular_14: getFontType(14, '400', 'Fredoka-Regular'),
   regular_15: getFontType(15, '400', 'Fredoka-Regular'),
   regular_16: getFontType(16, '400', 'Fredoka-Regular'),
@@ -84,7 +86,7 @@ export const myTheme = {
     primary_80: '#fb6d79cb',
     surfaceVariant: 'white',
     background: '#fff',
-    text: '#202020',
+    text: '#282828',
     textHint: '#74747494',
     gray:'#efeeee',
     blackCustom:'#334249',

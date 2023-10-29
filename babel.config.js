@@ -20,11 +20,16 @@ module.exports = {
         },
       },
     ],
-  
     [
       'inline-dotenv',
       {
         systemVar: 'overwrite',
+      },
+    ],
+    [
+      'react-native-reanimated/plugin',
+      {
+        relativeSourceLocation: true,
       },
     ],
   ]

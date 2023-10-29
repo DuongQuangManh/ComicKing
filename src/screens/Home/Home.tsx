@@ -1,16 +1,25 @@
-import { StyleSheet, FlatList, Animated, ScrollView, View, Image } from 'react-native';
-import React, { useRef, useEffect } from 'react';
-import { Screen } from '../screen';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useEffect} from 'react';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolation,
+  clamp,
+} from 'react-native-reanimated';
+import {Screen} from '../screen';
 import HeaderHome from './components/HeaderHome';
-import { WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors } from '@utils';
-import { StackParamList, navigate } from '@navigations';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { getCate } from '@redux/categorySlice';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
+import {StackParamList, navigate} from '@navigations';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {getCate} from '@redux/categorySlice';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import FlatListCustom from './components/FlatListCustom';
 import LeaderBoard from './components/LeaderBoard';
 import FastImage from 'react-native-fast-image';
 import homeSlice from '@redux/homeSlice';
+import {Icon, Icons} from '@components';
 import SlideShow from './components/SlideShow';
 
 const images = [
@@ -89,62 +98,85 @@ export const comicData = [
   },
 ];
 
-const Home = () => {
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
+const HEADER_HEIGHT = 56;
 
+const Home = () => {
   const dispatch = useAppDispatch();
-  const dataCate = useAppSelector(state => state.categorySlice.data);
   const comics = useAppSelector(state => state.homeSlice);
+
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
+    onBeginDrag: (event, ctx) => {
+      if (ctx) ctx.prevY = event.contentOffset.y;
+    },
+    onScroll: (event, ctx) => {
+      if (ctx) {
+        let {y} = event.contentOffset;
+        if (y < 0) y = 0;
+        const dy = y - (ctx?.prevY ?? 0);
+        scrollY.value = helper.clamp(scrollY.value + dy, 0, HEADER_HEIGHT);
+        ctx.prevY = y;
+      }
+    },
+  });
+  const animatedStyles = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      scrollY.value,
+      [0, HEADER_HEIGHT],
+      [0, -HEADER_HEIGHT],
+      Extrapolation.CLAMP,
+    );
+    return {transform: [{translateY: translateY}]};
+  });
 
   useEffect(() => {
     dispatch(getCate());
   }, []);
-  const offsetY = useRef(70);
 
   return (
-    <Screen preset="scroll">
-      <HeaderHome onClick={() => navigate('menu')} />
-      <View style={{ paddingBottom: 70 }}>
-        {/* <Carousel
-            nestedScrollEnabled={true}
-            data={comics.sliderComic}
-            renderItem={({item}) => (
-              <FastImage
-                source={{
-                  uri: item.image,
-                }}
-                style={{
-                  width: WINDOW_WIDTH - 30,
-                  height: WINDOW_HEIGHT / 3 - 10,
-                  borderRadius: 18,
-                }}
-              />
-            )}
-            sliderWidth={WINDOW_WIDTH}
-            itemWidth={WINDOW_WIDTH - 25}
-            itemHeight={WINDOW_HEIGHT / 3}
-            loop={true}
-            autoplay={true}
-            autoplayDelay={3000}
-          /> */}
-        <View style={styles.slider}>
+    <>
+      <Animated.View style={[styles.headerStyle, animatedStyles]}>
+        <View style={{flex: 1}}></View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => navigate('search')}>
+            <Icon type={Icons.Ionicons} name="search-outline" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigate('comicWorld')}
+            style={{marginHorizontal: 10}}>
+            <Icon
+              type={Icons.MaterialCommunityIcons}
+              name="view-dashboard-outline"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('notification')}>
+            <Icon type={Icons.Ionicons} name="notifications-outline" />
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+      <Animated.ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 100,
+          paddingTop: HEADER_HEIGHT,
+          backgroundColor: myColors.background,
+        }}
+        onScroll={scrollHandler}>
+                  <View style={styles.slider}>
           <SlideShow images={images} />
         </View>
-        <FlatListCustom label="Propose" data={comics.proposeComics} />
-        <FlatListCustom
-          label="Newest"
-          isMore={true}
-          data={comics.newestComic}
-          isItemLarge={false}
-        />
-        <FlatListCustom label="Hot" data={comicData} />
-
-        <FlatListCustom label="Popular" data={comicData} />
-        <FlatListCustom label="Popular" data={comicData} isItemLarge={true} />
-        <LeaderBoard />
-      </View>
-    </Screen>
+        <View>
+          <FlatListCustom label="Đề xuất" data={comics.proposeComics} />
+          <FlatListCustom
+            label="Mới nhất"
+            isMore={true}
+            data={comics.newestComic}
+            isItemLarge={false}
+          />
+          <LeaderBoard />
+        </View>
+      </Animated.ScrollView>
+    </>
   );
 };
 
@@ -157,6 +189,17 @@ const styles = StyleSheet.create({
   },
   type: {
     marginTop: 10,
+  },
+  headerStyle: {
+    height: HEADER_HEIGHT,
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
   },
   slider:{
     marginStart: 20,

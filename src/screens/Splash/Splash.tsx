@@ -57,7 +57,7 @@ const Splash = () => {
         <Text
           type="bold_28"
           style={{marginTop: 10, color: myColors.background}}>
-          COMIC BOOK
+          Comic King
         </Text>
       </View>
     </Screen>

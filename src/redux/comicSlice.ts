@@ -1,27 +1,27 @@
 import { sendRequest } from '@api'
 import { IComicDetails } from '@models'
-import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { helper } from '@utils'
 
-export const detailComic = createAsyncThunk ("comicSlice/detailComic",async (body:any)=>{
+export const detailComic = createAsyncThunk("comicSlice/detailComic", async (body: any) => {
     let path = "api/user/detailComic"
-    try{
-        const res =await sendRequest(path,body);
-        if(res.err!==200){
+    try {
+        const res = await sendRequest(path, body);
+        if (res.err !== 200) {
             helper.showErrorMsg(res.message);
-        }else{
-            
+            return false
+        } else {
             return res.data;
         }
-    }catch(error:any){
+    } catch (error: any) {
         console.log(error.message)
         return false;
     }
 })
 
 const initialState = {
-    data:{
-        updatedAt:"",
+    data: {
+        updatedAt: "",
         id: "",
         name: "",
         description: "",
@@ -38,26 +38,28 @@ const initialState = {
         updatedChapterAt: 0,
         author: {},
         specialList: null,
-        categories:[],
+        categories: [],
         chapters: [],
+        readingChapter: 0,
         hotComments:[],
-        readingChapter:0,
     } as IComicDetails,
-    loading:false,
+    loading: false,
 }
 
 
 const comicSlice = createSlice({
-    name:"comicSlice",
+    name: "comicSlice",
     initialState,
-    reducers:{},
-    extraReducers:builder=>{
-        builder.addCase(detailComic.pending,state=>{
+    reducers: {},
+    extraReducers: builder => {
+        builder.addCase(detailComic.pending, state => {
             state.loading = true;
-        }).addCase(detailComic.fulfilled,(state,action)=>{
+        }).addCase(detailComic.fulfilled, (state, action) => {
             state.loading = false;
-            state.data = action.payload
-        }).addCase(detailComic.rejected,state=>{
+            if (action.payload) {
+                state.data = action.payload
+            }
+        }).addCase(detailComic.rejected, state => {
             state.loading = false;
         })
     }

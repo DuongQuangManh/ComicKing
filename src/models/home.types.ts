@@ -14,6 +14,8 @@ export interface IComic{
 
     numOfFavorite:number,
 
+    numOfLike:number,
+
     image: string,
 
     numOfComment: number,

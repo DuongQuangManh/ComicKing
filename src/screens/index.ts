@@ -24,10 +24,18 @@ import Infomation from './Profile/Infomation'
 import EditAvtFrame from './Profile/EditAvtFrame'
 import EditAvtTitle from './Profile/EditAvtTitle'
 import Author from './Home/Author'
+// import Follow from './Home/Follow'
 import Follow from './Home/Follow'
 import Success from './Auth/Success'
 import Level from './Profile/Level'
 import BuyCoins from './Profile/BuyCoins'
+import ComicWorld from './Search/ComicWorld'
+import ListCategory from './Category/ListCategory'
+import Rank from './Rank/Rank'
+import CategoryDetail from './Category/CategoryDetail'
+import AuthorFollowing from './User/AuthorFollowing'
+import ComicFollowing from './User/ComicFollowing'
+import ReadingHistory from './User/ReadingHistory'
 
 export {
     Splash,
@@ -55,9 +63,16 @@ export {
     Infomation,
     EditAvtFrame,
     Author,
-    Follow,
+    // Follow,
     EditAvtTitle,
     Level,
     BuyCoins,
+    ComicWorld,
+    ListCategory,
+    CategoryDetail,
+    Rank,
+    AuthorFollowing,
+    ReadingHistory,
+    ComicFollowing,
     Success
 }
