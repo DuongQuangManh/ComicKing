@@ -41,6 +41,7 @@ const initialState = {
         categories: [],
         chapters: [],
         readingChapter: 0,
+        hotComments:[],
     } as IComicDetails,
     loading: false,
 }

@@ -21,7 +21,7 @@ import {
   Favorite,
   Search,
   ComicDetail,
-  Comment,
+  Comments,
   ReadComic,
   Infomation,
   EditAvtFrame,
@@ -36,6 +36,7 @@ import {
   AuthorFollowing,
   ComicFollowing,
   ReadingHistory,
+  Success
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -80,6 +81,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="authorFollowing" component={AuthorFollowing} />
         <Stack.Screen name="comicFollowing" component={ComicFollowing} />
         <Stack.Screen name="readingHistory" component={ReadingHistory} />
+        <Stack.Screen name="success" component={Success} />
 
         {/* common screens */}
         <Stack.Group
@@ -91,7 +93,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="loading" component={Loading} />
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
           {/* <Stack.Screen name="menu" component={Menu} /> */}
-          <Stack.Screen name="comment" component={Comment} />
+          <Stack.Screen name="comments" component={Comments} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

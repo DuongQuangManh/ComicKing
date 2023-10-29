@@ -1,7 +1,7 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
-import {Header, Icon, Icons, Text} from '@components';
+import {AvatarFrame, Header, Icon, Icons, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import InfoItem from './Components/InfoItem';
 import {helper, myColors} from '@utils';
@@ -41,38 +41,12 @@ const Profile = () => {
         style={{padding: 18}}>
         <View style={{height: 40}}></View>
         <View style={{flexDirection: 'row', paddingBottom: 20}}>
-          <View style={styles.imgContainer}>
-            <FastImage
-              source={
-                avatarTitle?.image
-                  ? {uri: avatarTitle.image}
-                  : require('@assets/images/avatarTitle.png')
-              }
-              style={{
-                width: 110,
-                height: 30,
-                zIndex: 10,
-                position: 'absolute',
-                top: -25,
-              }}
-              resizeMode="contain"
-            />
-            <FastImage
-              source={
-                image ? {uri: image} : require('@assets/images/avatar.png')
-              }
-              style={{width: 72, height: 72, borderRadius: 35}}
-              resizeMode="contain"
-            />
-            <FastImage
-              source={
-                avatarFrame?.image
-                  ? {uri: avatarFrame.image}
-                  : require('@assets/images/avatarFrame.png')
-              }
-              style={{position: 'absolute', width: 88, height: 88}}
-            />
-          </View>
+          <AvatarFrame
+            title={avatarTitle?.image}
+            image={image}
+            frame={avatarFrame?.image}
+            isTitle
+          />
           <View style={{paddingStart: 15, flex: 1}}>
             <Text style={{marginVertical: 8}}>{fullName}</Text>
             <TouchableOpacity style={styles.lvlBtn} onPress={() => navigate('level')}>

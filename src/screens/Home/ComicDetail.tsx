@@ -95,7 +95,7 @@ const ComicDetail = () => {
   }, []);
 
   const handlerShowModalComment = () => {
-    navigate('comment');
+    navigate('comments', {comicId: detailComic.id});
   };
 
   const handlerReadComic = () => {
@@ -107,6 +107,9 @@ const ComicDetail = () => {
     } else {
       if (detailComic.numOfChapter > 0)
         navigate('readcomic', {id: detailComic.id, chapter: 1});
+      else {
+        helper.showErrorMsg('Tác giả chưa cập nhật chapter!');
+      }
     }
   };
   const handlerShowAuthor = () => {
@@ -273,7 +276,7 @@ const ComicDetail = () => {
                     </TouchableOpacity>
                   </View>
                   <FlashList
-                    data={listCm}
+                    data={detailComic?.hotComments}
                     renderItem={({item}) => <CommentTop item={item} />}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}

@@ -58,6 +58,7 @@ export interface IComicDetails{
     categories:any,
     chapters: any,
     readingChapter:number,
+    hotComments:[],
 }
 
 export interface IChapterDetails{
