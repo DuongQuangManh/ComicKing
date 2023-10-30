@@ -17,6 +17,7 @@ import {Icon, Icons, Text} from '@components';
 import SlideShow from './components/SlideShow';
 import SixComicContainer from './components/SixComicContainer';
 import ComicWithDescContainer from './components/ComicWithDescContainer';
+import FourComicContainer from './components/FourComicContainer';
 
 const images = [
   'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
@@ -132,13 +133,27 @@ const Home = () => {
     dispatch(getCate());
   }, []);
 
+  const _renderSlide = useCallback(() => {
+    return <SlideShow listComic={hotComic} />
+  }, [hotComic])
+
+  const _renderProposeComic = useCallback(() => {
+    return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
+  }, []);
+
   const _renderHotComic = useCallback(() => {
     return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
   }, [hotComic]);
 
   const _renderNewComic = useCallback(() => {
-    return <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện mới" />;
+    return (
+      <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện Mới" />
+    );
   }, [newestComic]);
+
+  const _renderDoneComic = useCallback(() => {
+    return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
+  }, [doneComics]);
 
   return (
     <>
@@ -169,13 +184,12 @@ const Home = () => {
           backgroundColor: myColors.background,
         }}
         onScroll={scrollHandler}>
-        <View style={styles.slider}>
-          <SlideShow images={images} />
-        </View>
         <View>
-          <FlatListCustom label="✨ Đề xuất" data={proposeComics} />
+          {_renderSlide()}
+          <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
           {_renderNewComic()}
           {_renderHotComic()}
+          {_renderDoneComic()}
           <LeaderBoard />
         </View>
       </Animated.ScrollView>
@@ -203,10 +217,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     backgroundColor: 'white',
-  },
-  slider: {
-    marginStart: 20,
-    marginEnd: 20,
-    height: 100,
-  },
+  }
 });

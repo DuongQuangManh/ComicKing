@@ -14,8 +14,8 @@ import PrivilegeItem from './Components/PrivilegeItem';
 const Level = () => {
   const document = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
-  const data: any = useAppSelector(state => state.levelSlice.data);
-  const [currentIndex, setCurrentIndex] = useState(data.currentLevelIndex);
+  const data: any = useAppSelector(state => state.levelSlice.data ?? {});
+  const [currentIndex, setCurrentIndex] = useState(data.currentLevelIndex ?? 0);
   useEffect(() => {
     dispatch(getLevel({id: document.id}));
   }, []);
