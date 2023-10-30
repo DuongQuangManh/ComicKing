@@ -131,7 +131,7 @@ const ComicDetail = () => {
         ) : (
           <View style={styles.box2}>
             <HeaderDetail
-              image={detailComic.image}
+              image={detailComic.banner ? detailComic.banner : detailComic.image}
               view={detailComic.numOfView}
               like={detailComic.numOfLike}
               name={detailComic.name}

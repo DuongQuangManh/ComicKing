@@ -119,7 +119,7 @@ const CategoryDetail = () => {
         />
       ) : (
         <FlashList
-        showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 14}}
           data={listComic}
           estimatedItemSize={WINDOW_WIDTH - 28}
@@ -127,6 +127,7 @@ const CategoryDetail = () => {
             <ComicSearchedItem
               onPress={() => push('comicdetail', {id: item.id})}
               name={item.name}
+              numOfFollow={item.numOfFollow}
               numOfChapter={item.numOfChapter}
               numOfLike={item.numOfLike}
               description={item.description}

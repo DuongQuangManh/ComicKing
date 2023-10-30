@@ -12,7 +12,7 @@ type ComponentProps = {
 };
 
 const WINDOW_WIDTH_33 = Math.round(WINDOW_WIDTH / 3);
-const ITEM_WIDTH_33 = WINDOW_WIDTH_33 - 12;
+const ITEM_WIDTH_33 = WINDOW_WIDTH_33 - 11;
 
 const SixComicView: React.FC<ComponentProps> = ({listComic = [], title}) => {
   return (
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 16,
+    minHeight: 300
   },
   image: {
     width: ITEM_WIDTH_33,

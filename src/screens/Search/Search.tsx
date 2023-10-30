@@ -145,6 +145,7 @@ const Search = () => {
             onSubmitEditing={onSubmit}
             placeholder="Tác giả / Tác phẩm"
             cursorColor={myColors.primary}
+            placeholderTextColor={myColors.textHint}
             autoFocus
           />
           {txtSearch && (
@@ -205,6 +206,7 @@ const Search = () => {
                   numOfLike={item.numOfLike}
                   description={item.description}
                   image={item.image}
+                  numOfFollow={item.numOfFollow}
                   numOfView={item.numOfView}
                 />
               )}
@@ -242,6 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingStart: 8,
     fontSize: 13,
+    color: myColors.text
   },
   searchContainer: {
     flex: 1,

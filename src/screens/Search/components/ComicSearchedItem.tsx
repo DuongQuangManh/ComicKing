@@ -11,7 +11,8 @@ type ItemProps = {
   numOfView: number;
   numOfChapter: number;
   description: string;
-  onPress: () => void
+  numOfFollow: number;
+  onPress: () => void;
 };
 
 const IMAGE_WIDTH = 100;
@@ -20,14 +21,18 @@ const IMAGE_RAITO = 1.47;
 const ComicSearchedItem: React.FC<ItemProps> = ({
   image,
   name,
-  numOfChapter,
-  numOfLike,
-  numOfView,
+  numOfFollow = 0,
+  numOfChapter = 0,
+  numOfLike = 0,
+  numOfView = 0,
   description,
-  onPress
+  onPress,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.6} style={styles.container}>
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.6}
+      style={styles.container}>
       <FastImage source={{uri: image}} style={styles.image} />
       <View
         style={{
@@ -47,7 +52,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             {description}
           </Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent:'flex-end'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
           <IconText
             textType="regular_10"
             nameIcon="local-fire-department"
@@ -66,6 +71,16 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             sizeIcon={11}
             colorText={myColors.textHint}
             text={helper.convertToK(numOfLike)}
+            textStyle={{marginStart: 2}}
+          />
+          <IconText
+            textType="regular_10"
+            nameIcon="favorite"
+            typeIcon={Icons.MaterialIcons}
+            sizeIcon={11}
+            colorIcon={myColors.primary}
+            colorText={myColors.textHint}
+            text={helper.convertToK(numOfFollow)}
             textStyle={{marginStart: 2}}
           />
           <IconText
