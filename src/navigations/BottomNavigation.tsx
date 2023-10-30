@@ -1,7 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Icon, Icons, Text} from '@components';
-import {Home, ListCategory, Profile, Rank} from '@screens';
+import {Home, ListCategory, Operation, Profile, Rank} from '@screens';
 import {
   BottomTabBarButtonProps,
   createBottomTabNavigator,
@@ -32,24 +32,33 @@ const tabArr: ButtonTab[] = [
     component: Home,
     badge: 0,
   },
+  // {
+  //   route: 'category',
+  //   label: 'Thể loại',
+  //   type: Icons.AntDesign,
+  //   activeIcon: 'appstore1',
+  //   inActiveIcon: 'appstore-o',
+  //   component: ListCategory,
+  //   badge: 0,
+  // },
   {
-    route: 'category',
-    label: 'Thể loại',
-    type: Icons.AntDesign,
-    activeIcon: 'appstore1',
-    inActiveIcon: 'appstore-o',
-    component: ListCategory,
+    route: 'operation',
+    label: 'Hoạt động',
+    type: Icons.MaterialCommunityIcons,
+    activeIcon: 'star-four-points',
+    inActiveIcon: 'star-four-points-outline',
+    component: Operation,
     badge: 0,
   },
-  {
-    route: 'rank',
-    label: 'Xếp hạng',
-    type: Icons.Ionicons,
-    activeIcon: 'stats-chart',
-    inActiveIcon: 'stats-chart-outline',
-    component: Rank,
-    badge: 0,
-  },
+  // {
+  //   route: 'rank',
+  //   label: 'Xếp hạng',
+  //   type: Icons.Ionicons,
+  //   activeIcon: 'stats-chart',
+  //   inActiveIcon: 'stats-chart-outline',
+  //   component: Rank,
+  //   badge: 0,
+  // },
   {
     route: 'profile',
     label: 'Cá nhân',
@@ -86,11 +95,11 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
           type={item.type}
           name={focused ? item.activeIcon : item.inActiveIcon}
           color={focused ? myColors.primary : myColors.textHint}
-          size={20}
+          size={18}
         />
         <Text
           style={{marginTop: 3}}
-          type={focused ? 'medium_14' : 'regular_14'}
+          type={focused ? 'medium_12' : 'regular_12'}
           color={focused ? myColors.primary : myColors.textHint}>
           {item.label}
         </Text>

@@ -45,12 +45,13 @@ const Search = () => {
     skip: 0,
     limit: 15,
     name: '',
-    sort: 'new',
+    sort: 'hot',
   }).current;
 
   const searchComic = async () => {
     let path = 'api/user/findComic';
     dataReq.name = txtSearch;
+    dataReq.skip = 0
     setState(pre => ({...pre, isLoading: true}));
     const respone = await sendRequest(path, dataReq);
     if (respone?.err == 200) {
