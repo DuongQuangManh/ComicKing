@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -6,6 +7,7 @@ import {
   StatusBar,
   View,
   ScrollViewProps,
+  useColorScheme
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ScreenProps } from './screen.props';
@@ -15,6 +17,8 @@ import { myColors } from '@utils';
 const isIos = Platform.OS === 'ios';
 
 function ScreenWithoutScrolling(props: ScreenProps) {
+  const [ColorScheme, setColorScheme] = useState(useColorScheme())
+  console.log("Giao diện:",ColorScheme);
   const insets = useSafeAreaInsets();
   const preset = presets.fixed;
   const style = props.style || {};
@@ -35,7 +39,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       />
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: myColors.background }}
+          style={{ height: insets.top, backgroundColor: ColorScheme === 'dark' ? myColors.background_dark : myColors.background }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -44,6 +48,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 }
 
 function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
+  const [ColorScheme, setColorScheme] = useState(useColorScheme())
   const insets = useSafeAreaInsets();
   const preset = presets.scroll;
   const style = props.style || {};
@@ -63,7 +68,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       />
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: myColors.background }}
+          style={{ height: insets.top, backgroundColor: ColorScheme === 'dark' ? myColors.background_dark : myColors.background }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>
