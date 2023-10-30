@@ -84,6 +84,13 @@ const SlideShow: React.FC<ComponentProps> = ({listComic = []}) => {
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
+        initialScrollIndex={0}
+        onScrollToIndexFailed={info => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            flatListRef.current?.scrollToIndex({index: info.index});
+          });
+        }}
         onMomentumScrollEnd={event => {
           const slideIndex = Math.floor(
             event.nativeEvent.contentOffset.x /
@@ -92,8 +99,7 @@ const SlideShow: React.FC<ComponentProps> = ({listComic = []}) => {
           setState(pre => ({...pre, currentIndex: slideIndex}));
         }}
       />
-      <View
-        style={styles.paginationContainer}>
+      <View style={styles.paginationContainer}>
         {listComic.map((_, index) => {
           return (
             <View
@@ -119,8 +125,8 @@ export default SlideShow;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
-    minHeight: 220
+    paddingTop: 14,
+    minHeight: 220,
   },
   slide: {
     width: WINDOW_WIDTH,
@@ -151,5 +157,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 20,
-  }
+  },
 });

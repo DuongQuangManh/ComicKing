@@ -15,8 +15,8 @@ type ItemProps = {
   onPress: () => void;
 };
 
-const IMAGE_WIDTH = 100;
-const IMAGE_RAITO = 1.47;
+const IMAGE_WIDTH = 110;
+const IMAGE_RAITO = 1.45;
 
 const ComicSearchedItem: React.FC<ItemProps> = ({
   image,
