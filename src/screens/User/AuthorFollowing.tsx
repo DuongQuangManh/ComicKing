@@ -37,6 +37,7 @@ const AuthorFollowing = () => {
 
   const getListAuthor = async () => {
     setState(pre => ({...pre, isLoading: true}));
+    dataReq.skip = 0;
     try {
       const respone = await sendRequest('api/user/getAuthorFollowing', {
         userId: id,

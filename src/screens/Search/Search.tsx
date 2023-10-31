@@ -45,12 +45,13 @@ const Search = () => {
     skip: 0,
     limit: 15,
     name: '',
-    sort: 'new',
+    sort: 'hot',
   }).current;
 
   const searchComic = async () => {
     let path = 'api/user/findComic';
     dataReq.name = txtSearch;
+    dataReq.skip = 0
     setState(pre => ({...pre, isLoading: true}));
     const respone = await sendRequest(path, dataReq);
     if (respone?.err == 200) {
@@ -145,6 +146,7 @@ const Search = () => {
             onSubmitEditing={onSubmit}
             placeholder="Tác giả / Tác phẩm"
             cursorColor={myColors.primary}
+            placeholderTextColor={myColors.textHint}
             autoFocus
           />
           {txtSearch && (
@@ -205,6 +207,7 @@ const Search = () => {
                   numOfLike={item.numOfLike}
                   description={item.description}
                   image={item.image}
+                  numOfFollow={item.numOfFollow}
                   numOfView={item.numOfView}
                 />
               )}
@@ -242,6 +245,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingStart: 8,
     fontSize: 13,
+    color: myColors.text
   },
   searchContainer: {
     flex: 1,

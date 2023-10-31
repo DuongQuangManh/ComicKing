@@ -17,6 +17,8 @@ import {Icon, Icons, Text} from '@components';
 import SlideShow from './components/SlideShow';
 import SixComicContainer from './components/SixComicContainer';
 import ComicWithDescContainer from './components/ComicWithDescContainer';
+import FourComicContainer from './components/FourComicContainer';
+import FastImage from 'react-native-fast-image';
 
 const images = [
   'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
@@ -91,7 +93,7 @@ export const comicData = [
   },
 ];
 
-const HEADER_HEIGHT = 56;
+const HEADER_HEIGHT = 60;
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -100,7 +102,6 @@ const Home = () => {
     hotComic = [],
     newestComic = [],
     proposeComics = [],
-    selectComicId = [],
   } = useAppSelector(state => state.homeSlice);
 
   const scrollY = useSharedValue(0);
@@ -132,35 +133,105 @@ const Home = () => {
     dispatch(getCate());
   }, []);
 
-  const _renderHotComic = useCallback(() => {
-    return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
-  }, [hotComic]);
-
-  const _renderNewComic = useCallback(() => {
-    return <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện mới" />;
-  }, [newestComic]);
-
-  return (
-    <>
+  const _renderHeader = useCallback(() => {
+    return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
-        <View style={{flex: 1}}></View>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>Đặt đồ ăn nhanh</Text>
+        </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => navigate('search')}>
             <Icon type={Icons.Ionicons} name="search-outline" />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigate('comicWorld')}
-            style={{marginHorizontal: 10}}>
-            <Icon
-              type={Icons.MaterialCommunityIcons}
-              name="view-dashboard-outline"
-            />
-          </TouchableOpacity>
+          {/* <TouchableOpacity
+          onPress={() => navigate('comicWorld')}
+          style={{marginHorizontal: 10}}>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="view-dashboard-outline"
+          />
+        </TouchableOpacity> */}
+          <View style={{width: 10}}/>
           <TouchableOpacity onPress={() => navigate('notification')}>
             <Icon type={Icons.Ionicons} name="notifications-outline" />
           </TouchableOpacity>
         </View>
       </Animated.View>
+    );
+  }, []);
+
+  const _renderOptions = useCallback(() => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          marginTop: 12,
+          marginBottom: 8,
+        }}>
+        <TouchableOpacity
+          onPress={() => navigate('comicWorld')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/explore.png')}
+          />
+          <Text type="medium_12">Khám phá</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('listCategory')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/category.png')}
+          />
+          <Text type="medium_12">Thể loại</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigate('rank')} style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/rank.png')}
+          />
+          <Text type="medium_12">Xếp hạng</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigate('buycoins')} style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/diamond.png')}
+          />
+          <Text type="medium_12">Nạp xu</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }, []);
+
+  const _renderSlide = useCallback(() => {
+    return <SlideShow listComic={hotComic} />;
+  }, [hotComic]);
+
+  const _renderProposeComic = useCallback(() => {
+    return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
+  }, []);
+
+  const _renderHotComic = useCallback(() => {
+    return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
+  }, [hotComic]);
+
+  const _renderNewComic = useCallback(() => {
+    return (
+      <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện Mới" />
+    );
+  }, [newestComic]);
+
+  const _renderDoneComic = useCallback(() => {
+    return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
+  }, [doneComics]);
+
+  return (
+    <>
+      {_renderHeader()}
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
@@ -169,13 +240,13 @@ const Home = () => {
           backgroundColor: myColors.background,
         }}
         onScroll={scrollHandler}>
-        <View style={styles.slider}>
-          <SlideShow images={images} />
-        </View>
         <View>
-          <FlatListCustom label="✨ Đề xuất" data={proposeComics} />
+          {_renderSlide()}
+          {_renderOptions()}
+          <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
           {_renderNewComic()}
           {_renderHotComic()}
+          {_renderDoneComic()}
           <LeaderBoard />
         </View>
       </Animated.ScrollView>
@@ -203,10 +274,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     backgroundColor: 'white',
+    elevation: 2
   },
-  slider: {
-    marginStart: 20,
-    marginEnd: 20,
-    height: 100,
+  optionBtn: {
+    width: WINDOW_WIDTH / 4 - 32,
+    height: WINDOW_WIDTH / 4 - 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionImg: {
+    width: '80%',
+    height: '80%',
   },
 });

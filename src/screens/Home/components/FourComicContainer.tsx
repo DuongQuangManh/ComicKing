@@ -1,17 +1,20 @@
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Icon, Icons, Text} from '@components';
-import {WINDOW_WIDTH, myColors} from '@utils';
 import {IComic} from '@models';
-import FastImage from 'react-native-fast-image';
+import {Icon, Icons, Text} from '@components';
 import {push} from '@navigations';
+import FastImage from 'react-native-fast-image';
+import {WINDOW_WIDTH, myColors} from '@utils';
 
 type ComponentProps = {
   listComic: IComic[];
   title: string;
 };
 
-const ComicWithDescContainer: React.FC<ComponentProps> = ({
+const WINDOW_WIDTH_33 = Math.round(WINDOW_WIDTH / 3);
+const ITEM_WIDTH_33 = WINDOW_WIDTH_33 - 11;
+
+const FourComicContainer: React.FC<ComponentProps> = ({
   listComic = [],
   title,
 }) => {
@@ -20,27 +23,43 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
       <Text type="semibold_17" style={{paddingHorizontal: 4}}>
         {title}
       </Text>
-      <ScrollView horizontal pagingEnabled snapToInterval={280}>
-        {listComic.slice(0, 6)?.map((item, index) => (
+      <View style={styles.comicContainer}>
+        {listComic[0] && (
           <TouchableOpacity
-            activeOpacity={0.7}
             onPress={() => {
-              push('comicdetail', {id: item.id});
+              push('comicdetail', {id: listComic[0].id});
             }}
-            style={styles.btnContainer}
-            key={index}>
-            <FastImage source={{uri: item.image}} style={styles.image} />
-            <View style={styles.infoContainer}>
-              <View style={{flex: 1}}>
-                <Text numberOfLines={1} ellipsizeMode="tail" type="medium_12">
-                  {item.name}
+            activeOpacity={0.7}
+            style={styles.firstItemBtn}>
+            <FastImage
+              source={{uri: listComic[0].image}}
+              style={{
+                width: 160,
+                height: 200,
+                borderRadius: 8,
+              }}
+            />
+            <View
+              style={{
+                flex: 1,
+                paddingHorizontal: 12,
+                paddingVertical: 14,
+                justifyContent: 'space-between',
+              }}>
+              <View>
+                <Text
+                  style={{width: '100%', marginBottom: 5}}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                  type="medium_16">
+                  {listComic[0].name}
                 </Text>
                 <Text
                   type="light_12"
-                  color={myColors.textHint}
-                  numberOfLines={4}
-                  ellipsizeMode="tail">
-                  {item.description}
+                  numberOfLines={5}
+                  ellipsizeMode="tail"
+                  color={myColors.textHint}>
+                  {listComic[0].description}
                 </Text>
               </View>
               <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
@@ -60,7 +79,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfView ?? 0}
+                    {listComic[0].numOfView ?? 0}
                   </Text>
                 </View>
                 <View
@@ -79,7 +98,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfView ?? 0}
+                    {listComic[0].numOfView ?? 0}
                   </Text>
                 </View>
                 <View
@@ -98,7 +117,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfFollow ?? 0}
+                    {listComic[0].numOfFollow ?? 0}
                   </Text>
                 </View>
                 <View
@@ -117,41 +136,61 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfView ?? 0}
+                    {listComic[0].numOfView ?? 0}
                   </Text>
                 </View>
               </View>
             </View>
           </TouchableOpacity>
+        )}
+        {listComic.slice(1, 4)?.map((item, index) => (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              push('comicdetail', {id: item.id});
+            }}
+            style={{
+              width: ITEM_WIDTH_33,
+              alignItems: 'center',
+              marginHorizontal: index % 2 == 0 ? 8 : 0,
+            }}
+            key={index}>
+            <FastImage source={{uri: item.image}} style={styles.image} />
+            <Text
+              style={{width: '100%'}}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+              type="medium_12">
+              {item.name}
+            </Text>
+          </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };
 
-export default ComicWithDescContainer;
+export default FourComicContainer;
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 16,
-    minHeight: 150
-  },
-  btnContainer: {
-    width: 280,
-    marginTop: 8,
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingStart: 8,
+    marginTop: 18,
+    minHeight: 400
   },
   image: {
-    width: 100,
-    height: 100 * 1.47,
+    width: ITEM_WIDTH_33,
+    height: ITEM_WIDTH_33 * 1.47,
     borderRadius: 4,
   },
-  infoContainer: {
-    flex: 1,
-    paddingHorizontal: 8,
-    paddingVertical: 12,
+  comicContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  firstItemBtn: {
+    width: '100%',
+    padding: 10,
+    flexDirection: 'row',
   },
 });
