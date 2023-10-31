@@ -84,6 +84,18 @@ export const getComicFollowing = createAsyncThunk("userSlice/getComicFollowing",
     }
 })
 
+export const getHistoryReading = createAsyncThunk('userSlice/getHistoryReading', async (body: { id: string }) => {
+    let path = 'api/user/getHistoryReading'
+    try {
+        const res = await sendRequest(path, body)
+        if (res.err == 200) {
+            return res.data
+        }
+    } catch (error: any) {
+        return false
+    }
+})
+
 interface IUserState {
     document: IDocument,
     loading:boolean;
@@ -225,6 +237,8 @@ const userSlice = createSlice({
             if (action.payload) {
                 state.avatarTitle = action.payload
             }
+        }).addCase(getHistoryReading.fulfilled, (state, action)=>{
+
         })
     }
 })
