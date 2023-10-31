@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 5,
     alignSelf: 'center',
     flexDirection: 'row',
+    minHeight: 350,
   },
 
   box1: {

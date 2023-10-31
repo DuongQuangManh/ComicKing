@@ -15,11 +15,9 @@ const ReadComic = () => {
   const {id, chapter} =
     useRoute<RouteProp<StackParamList, 'readcomic'>>().params;
   const userId = useAppSelector(state => state.userSlice.document.id);
-  const comic = useAppSelector(state => state.comicSlice.data);
   const flashlistRef = useRef<FlashList<any>>(null);
   const [cmt, setCmt] = useState('');
   const [loading, setLoading] = useState(false);
-  const dispatch = useAppDispatch();
   const [data, setData] = useState<any[]>([]);
   const [isLike, setLike] = useState(false);
 
@@ -54,9 +52,10 @@ const ReadComic = () => {
     setLoading(true);
     const res = await sendRequest(path, {
       userId: userId,
-      comicId: comic.id,
+      comicId: id,
       chapterIndex: index,
     });
+    console.log(id);
     setLoading(false);
     if (res.err == 200) {
       const newChapter = res.data;
@@ -67,6 +66,7 @@ const ReadComic = () => {
       };
       ref.currentChapter = newChapter.index ?? 1;
       setLike(newChapter.isLike);
+
       setData(pre => [...pre, newChapter.index, ...newChapter.images, endView]);
     } else {
       helper.showErrorMsg(res.message);
@@ -165,7 +165,7 @@ const ReadComic = () => {
       userId: userId,
       chapterIndex: chapter,
       isLike: !isLike,
-      comicId: comic.id,
+      comicId: id,
     };
     const res = await sendRequest(path, obj);
     if (res.err === 200) {
@@ -174,6 +174,19 @@ const ReadComic = () => {
     setLike(!isLike);
   };
 
+  const handlerComment = async () => {
+    let path = 'api/user/sendCommentInChapter';
+    const body = {
+      senderId: userId,
+      content: cmt,
+      chapterIndex: ref.currentChapter,
+      comicId: id,
+    };
+    const res = await sendRequest(path, body);
+    if (res.err === 200) {
+      console.log('comment thành công');
+    }
+  };
   return (
     <Screen>
       <Animated.View
@@ -253,7 +266,7 @@ const ReadComic = () => {
               color: myColors.surfaceVariant,
             }}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handlerComment}>
             <Icon type={Icons.Ionicons} name="send" />
           </TouchableOpacity>
         </View>

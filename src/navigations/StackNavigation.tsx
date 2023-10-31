@@ -37,6 +37,7 @@ import {
   ComicFollowing,
   ReadingHistory,
   Success,
+  CommentDetail,
   Rank,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
@@ -96,6 +97,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
           {/* <Stack.Screen name="menu" component={Menu} /> */}
           <Stack.Screen name="comments" component={Comments} />
+          <Stack.Screen name="commentdetail" component={CommentDetail} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

@@ -79,5 +79,8 @@ export type StackParamList = {
     comicFollowing: {},
     readingHistory: {},
     success: {},
+    commentdetail:{
+        item:any
+    }
     rank: {}
 }
