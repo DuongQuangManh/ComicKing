@@ -137,7 +137,7 @@ const Home = () => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text>Đặt đồ ăn nhanh</Text>
+          <Text>Comic King</Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => navigate('search')}>
@@ -151,7 +151,7 @@ const Home = () => {
             name="view-dashboard-outline"
           />
         </TouchableOpacity> */}
-          <View style={{width: 10}}/>
+          <View style={{width: 10}} />
           <TouchableOpacity onPress={() => navigate('notification')}>
             <Icon type={Icons.Ionicons} name="notifications-outline" />
           </TouchableOpacity>
@@ -189,14 +189,18 @@ const Home = () => {
           <Text type="medium_12">Thể loại</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigate('rank')} style={styles.optionBtn}>
+        <TouchableOpacity
+          onPress={() => navigate('rank')}
+          style={styles.optionBtn}>
           <FastImage
             style={styles.optionImg}
             source={require('@assets/icons/home-options/rank.png')}
           />
           <Text type="medium_12">Xếp hạng</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigate('buycoins')} style={styles.optionBtn}>
+        <TouchableOpacity
+          onPress={() => navigate('buycoins')}
+          style={styles.optionBtn}>
           <FastImage
             style={styles.optionImg}
             source={require('@assets/icons/home-options/diamond.png')}
@@ -274,7 +278,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 10,
     backgroundColor: 'white',
-    elevation: 2
+    elevation: 2,
   },
   optionBtn: {
     width: WINDOW_WIDTH / 4 - 32,
