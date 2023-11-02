@@ -1,7 +1,7 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {FC, useState} from 'react';
 import FastImage from 'react-native-fast-image';
-import {WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {AvatarFrame, IconText, Icons, Text} from '@components';
 import {sendRequest} from '@api';
 import {useAppDispatch, useAppSelector} from '@redux/store';
@@ -64,7 +64,9 @@ const CommentTop: FC<itemProps> = ({item}) => {
 
         <View style={styles.box2_1}>
           <Text style={{flex: 1}}>
-            {item?.time ? item.time : '15:36 27/10/2023'}
+            {item?.createdAt
+              ? helper.convertTimestamp(item.time)
+              : 'hh:mm dd/MM/yy'}
           </Text>
           <View
             style={[

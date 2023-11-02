@@ -82,5 +82,6 @@ export type StackParamList = {
     commentdetail:{
         item:any
     }
-    rank: {}
+    rank: {},
+    commented:{}
 }

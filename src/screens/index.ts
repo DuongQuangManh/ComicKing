@@ -38,6 +38,7 @@ import ComicFollowing from './User/ComicFollowing'
 import ReadingHistory from './User/ReadingHistory'
 import CommentDetail from './Home/CommentDetail'
 import Operation from './Operation/Operation'
+import Commented from './Profile/Commented'
 
 export {
     Splash,
@@ -77,6 +78,7 @@ export {
     ReadingHistory,
     ComicFollowing,
     Success,
-    CommentDetail
-    Operation
+    CommentDetail,
+    Operation,
+    Commented
 }
