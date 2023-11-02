@@ -2,6 +2,7 @@ import { getCurrentRouter, goBack, navigate } from "@navigations"
 import { store } from "@redux/store"
 import { Platform, PermissionsAndroid } from 'react-native';
 import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import Moment from 'moment';
 export const helper = {
     // you can pass 'message' param only
     showErrorMsg: (
@@ -124,5 +125,9 @@ export const helper = {
     clamp: (value: number, lowerBound: number, upperBound: number) => {
         'worklet';
         return Math.min(Math.max(lowerBound, value), upperBound);
+    },
+    convertTimestamp:(timestamp:number) => {
+        const formattedTime = Moment(timestamp).format('HH:mm, DD/MM/YYYY');
+        return formattedTime;
     }
 }

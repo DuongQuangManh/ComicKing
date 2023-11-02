@@ -39,6 +39,7 @@ import {
   Success,
   CommentDetail,
   Rank,
+  Commented,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -85,7 +86,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="readingHistory" component={ReadingHistory} />
         <Stack.Screen name="success" component={Success} />
         <Stack.Screen name="rank" component={Rank} />
-
+        <Stack.Screen name="commented" component={Commented} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{

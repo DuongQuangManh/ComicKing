@@ -36,14 +36,13 @@ const CommentDetail = () => {
     const body = {
       userId: item?.sender,
       commentId: item?.id,
-      comicId: '653a1787f6ed060033d6b3af', //item?.comicId,
+      comicId: item.comic,
     };
     setLoading(true);
     const res = await sendRequest(path, body);
     if (res.err === 200) {
-      setLoading(false);
-
       setData(res.data);
+      setLoading(false);
     }
   };
 
@@ -70,7 +69,18 @@ const CommentDetail = () => {
     }
     setIsLike(!isLike);
   };
-  const handlerSendCmt = () => {};
+  const handlerSendCmt = async () => {
+    let path = 'api/user/sendCommentInComment';
+    const body = {
+      senderId: item?.sender,
+      content: cmt,
+      commentId: item?.id,
+    };
+    const res = await sendRequest(path, body);
+    if (res.err === 200) {
+      console.log('trả lời cmt thành công');
+    }
+  };
   return (
     <Modal
       isVisible

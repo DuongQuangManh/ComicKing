@@ -49,7 +49,9 @@ const Profile = () => {
           />
           <View style={{paddingStart: 15, flex: 1}}>
             <Text style={{marginVertical: 8}}>{fullName}</Text>
-            <TouchableOpacity style={styles.lvlBtn} onPress={() => navigate('level')}>
+            <TouchableOpacity
+              style={styles.lvlBtn}
+              onPress={() => navigate('level')}>
               <Text color="#fff" type="medium_14">
                 Lv1
               </Text>
@@ -112,6 +114,14 @@ const Profile = () => {
           />
           <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
             Nạp xu
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.rowOption}
+          onPress={() => navigate('commented')}>
+          <Icon type={Icons.FontAwesome} name="comment-o" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Bình luận của tôi
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
