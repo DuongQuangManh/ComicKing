@@ -31,7 +31,6 @@ const chapterSlice = createSlice({
                 state.data = [];
             }
             state.data.push(newComic);
-            console.log(state.data.length)
         }
     },
     extraReducers:builder=>{

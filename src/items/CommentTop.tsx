@@ -1,13 +1,39 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import FastImage from 'react-native-fast-image';
-import {WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {AvatarFrame, IconText, Icons, Text} from '@components';
+import {sendRequest} from '@api';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {navigate} from '@navigations';
 interface itemProps {
   item?: any;
 }
 const CommentTop: FC<itemProps> = ({item}) => {
-  console.log(item);
+  const [isLike, setIsLike] = useState(item?.isLike);
+  const [like, setLike] = useState<number>(item?.numOfLike);
+  const handlerLikeComment = async () => {
+    let path = 'api/user/toggleLikeComment';
+    const body = {
+      userId: item?.sender,
+      commentId: item?.id,
+      comicId: '653a1787f6ed060033d6b3af', //item?.comicId,
+      isLike: !isLike,
+    };
+    const res = await sendRequest(path, body);
+    if (res.err === 200) {
+      console.log('like thành công');
+      if (isLike) {
+        setLike(pre => pre - 1);
+      } else {
+        setLike(pre => pre + 1);
+      }
+    }
+    setIsLike(!isLike);
+  };
+  const handlerShowCmtDetails = () => {
+    navigate('commentdetail', {item: item});
+  };
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -38,7 +64,9 @@ const CommentTop: FC<itemProps> = ({item}) => {
 
         <View style={styles.box2_1}>
           <Text style={{flex: 1}}>
-            {item?.time ? item.time : '15:36 27/10/2023'}
+            {item?.createdAt
+              ? helper.convertTimestamp(item.time)
+              : 'hh:mm dd/MM/yy'}
           </Text>
           <View
             style={[
@@ -48,16 +76,17 @@ const CommentTop: FC<itemProps> = ({item}) => {
             <View
               style={{width: 1, backgroundColor: myColors.text, marginEnd: 10}}
             />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handlerLikeComment}>
               <IconText
                 nameIcon="like1"
                 typeIcon={Icons.AntDesign}
-                text={item?.numOfLike}
+                text={like + ''}
                 sizeIcon={16}
-                colorText={myColors.text}
+                colorText={isLike ? myColors.primary : myColors.text}
+                colorIcon={isLike ? myColors.primary : myColors.text}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handlerShowCmtDetails}>
               <IconText
                 nameIcon="commenting-o"
                 typeIcon={Icons.FontAwesome}

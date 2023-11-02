@@ -5,7 +5,7 @@ export const navigationRef = createNavigationContainerRef<StackParamList>()
 
 export const navigate = (name: ScreensName, params?: StackParamList[typeof name]) => {
     if (navigationRef.isReady()) {
-        navigationRef.navigate(name, params as any);
+        navigationRef.navigate(name as any, params as any);
     }
 }
 export const push = (name: ScreensName, params?: StackParamList[typeof name]) => {

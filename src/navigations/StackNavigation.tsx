@@ -11,7 +11,6 @@ import {
   Message,
   Loading,
   ConfirmMessage,
-  Home,
   // Menu,
   Notification,
   Setting,
@@ -28,10 +27,19 @@ import {
   EditAvtFrame,
   EditAvtTitle,
   Author,
-  Follow,
+  // Follow,
   Level,
   BuyCoins,
-  Success
+  ComicWorld,
+  ListCategory,
+  CategoryDetail,
+  AuthorFollowing,
+  ComicFollowing,
+  ReadingHistory,
+  Success,
+  CommentDetail,
+  Rank,
+  Commented,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -67,10 +75,18 @@ export const Stacknavigation = () => {
         <Stack.Screen name="comicdetail" component={ComicDetail} />
         <Stack.Screen name="readcomic" component={ReadComic} />
         <Stack.Screen name="author" component={Author} />
-        <Stack.Screen name="follow" component={Follow} />
+        {/* <Stack.Screen name="follow" component={Follow} /> */}
         <Stack.Screen name="level" component={Level} />
         <Stack.Screen name="buycoins" component={BuyCoins} />
+        <Stack.Screen name="comicWorld" component={ComicWorld} />
+        <Stack.Screen name="listCategory" component={ListCategory} />
+        <Stack.Screen name="categoryDetail" component={CategoryDetail} />
+        <Stack.Screen name="authorFollowing" component={AuthorFollowing} />
+        <Stack.Screen name="comicFollowing" component={ComicFollowing} />
+        <Stack.Screen name="readingHistory" component={ReadingHistory} />
         <Stack.Screen name="success" component={Success} />
+        <Stack.Screen name="rank" component={Rank} />
+        <Stack.Screen name="commented" component={Commented} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
@@ -82,6 +98,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
           {/* <Stack.Screen name="menu" component={Menu} /> */}
           <Stack.Screen name="comments" component={Comments} />
+          <Stack.Screen name="commentdetail" component={CommentDetail} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

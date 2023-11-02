@@ -10,7 +10,7 @@ const DataEmpty: FC<componentProps> = ({text}) => {
     <View
       style={{
         width: WINDOW_WIDTH,
-        height: WINDOW_HEIGHT,
+        minHeight: 300,
         alignItems: 'center',
         justifyContent: 'center',
       }}>

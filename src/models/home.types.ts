@@ -12,9 +12,13 @@ export interface IComic{
 
     status: string,
 
-    numOfFavorite:number,
+    numOfFollow:number,
+
+    numOfLike:number,
 
     image: string,
+
+    banner?: string,
 
     numOfComment: number,
 

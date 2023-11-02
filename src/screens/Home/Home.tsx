@@ -1,25 +1,29 @@
-import { StyleSheet, FlatList, Animated, ScrollView, View, Image } from 'react-native';
-import React, { useRef, useEffect } from 'react';
-import { Screen } from '../screen';
-import HeaderHome from './components/HeaderHome';
-import { WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors } from '@utils';
-import { StackParamList, navigate } from '@navigations';
-import { useAppDispatch, useAppSelector } from '@redux/store';
-import { getCate } from '@redux/categorySlice';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolation,
+} from 'react-native-reanimated';
+import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
+import {navigate} from '@navigations';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {getCate} from '@redux/categorySlice';
 import FlatListCustom from './components/FlatListCustom';
 import LeaderBoard from './components/LeaderBoard';
-import FastImage from 'react-native-fast-image';
-import homeSlice from '@redux/homeSlice';
+import {Icon, Icons, Text} from '@components';
 import SlideShow from './components/SlideShow';
+import SixComicContainer from './components/SixComicContainer';
+import ComicWithDescContainer from './components/ComicWithDescContainer';
+import FourComicContainer from './components/FourComicContainer';
+import FastImage from 'react-native-fast-image';
 
 const images = [
-  // require('@assets/images/img_slide.jpg'),
-  // require('@assets/images/img_slide_2.jpg'),
-  // require('@assets/images/img_slide_3.jpg'),
   'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
   'https://asianfilmfestival.barcelona/2019/wp-content/uploads/2020/02/Japon-DETECTIVE-CONAN-845x321.jpg',
-  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg'
+  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg',
 ];
 
 export const comicData = [
@@ -89,62 +93,168 @@ export const comicData = [
   },
 ];
 
-const Home = () => {
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const animatedHeaderVisible = useRef(new Animated.Value(0)).current;
+const HEADER_HEIGHT = 60;
 
+const Home = () => {
   const dispatch = useAppDispatch();
-  const dataCate = useAppSelector(state => state.categorySlice.data);
-  const comics = useAppSelector(state => state.homeSlice);
+  const {
+    doneComics = [],
+    hotComic = [],
+    newestComic = [],
+    proposeComics = [],
+  } = useAppSelector(state => state.homeSlice);
+
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
+    onBeginDrag: (event, ctx) => {
+      if (ctx) ctx.prevY = event.contentOffset.y;
+    },
+    onScroll: (event, ctx) => {
+      if (ctx) {
+        let {y} = event.contentOffset;
+        if (y < 0) y = 0;
+        const dy = y - (ctx?.prevY ?? 0);
+        scrollY.value = helper.clamp(scrollY.value + dy, 0, HEADER_HEIGHT);
+        ctx.prevY = y;
+      }
+    },
+  });
+  const animatedStyles = useAnimatedStyle(() => {
+    const translateY = interpolate(
+      scrollY.value,
+      [0, HEADER_HEIGHT],
+      [0, -HEADER_HEIGHT],
+      Extrapolation.CLAMP,
+    );
+    return {transform: [{translateY: translateY}]};
+  });
 
   useEffect(() => {
     dispatch(getCate());
   }, []);
-  const offsetY = useRef(70);
+
+  const _renderHeader = useCallback(() => {
+    return (
+      <Animated.View style={[styles.headerStyle, animatedStyles]}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text>Comic King</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={() => navigate('search')}>
+            <Icon type={Icons.Ionicons} name="search-outline" />
+          </TouchableOpacity>
+          {/* <TouchableOpacity
+          onPress={() => navigate('comicWorld')}
+          style={{marginHorizontal: 10}}>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="view-dashboard-outline"
+          />
+        </TouchableOpacity> */}
+          <View style={{width: 10}} />
+          <TouchableOpacity onPress={() => navigate('notification')}>
+            <Icon type={Icons.Ionicons} name="notifications-outline" />
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+    );
+  }, []);
+
+  const _renderOptions = useCallback(() => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          marginTop: 12,
+          marginBottom: 8,
+        }}>
+        <TouchableOpacity
+          onPress={() => navigate('comicWorld')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/explore.png')}
+          />
+          <Text type="medium_12">Khám phá</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('listCategory')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/category.png')}
+          />
+          <Text type="medium_12">Thể loại</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => navigate('rank')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/rank.png')}
+          />
+          <Text type="medium_12">Xếp hạng</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('buycoins')}
+          style={styles.optionBtn}>
+          <FastImage
+            style={styles.optionImg}
+            source={require('@assets/icons/home-options/diamond.png')}
+          />
+          <Text type="medium_12">Nạp xu</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }, []);
+
+  const _renderSlide = useCallback(() => {
+    return <SlideShow listComic={hotComic} />;
+  }, [hotComic]);
+
+  const _renderProposeComic = useCallback(() => {
+    return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
+  }, []);
+
+  const _renderHotComic = useCallback(() => {
+    return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
+  }, [hotComic]);
+
+  const _renderNewComic = useCallback(() => {
+    return (
+      <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện Mới" />
+    );
+  }, [newestComic]);
+
+  const _renderDoneComic = useCallback(() => {
+    return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
+  }, [doneComics]);
 
   return (
-    <Screen preset="scroll">
-      <HeaderHome onClick={() => navigate('menu')} />
-      <View style={{ paddingBottom: 70 }}>
-        {/* <Carousel
-            nestedScrollEnabled={true}
-            data={comics.sliderComic}
-            renderItem={({item}) => (
-              <FastImage
-                source={{
-                  uri: item.image,
-                }}
-                style={{
-                  width: WINDOW_WIDTH - 30,
-                  height: WINDOW_HEIGHT / 3 - 10,
-                  borderRadius: 18,
-                }}
-              />
-            )}
-            sliderWidth={WINDOW_WIDTH}
-            itemWidth={WINDOW_WIDTH - 25}
-            itemHeight={WINDOW_HEIGHT / 3}
-            loop={true}
-            autoplay={true}
-            autoplayDelay={3000}
-          /> */}
-        <View style={styles.slider}>
-          <SlideShow images={images} />
+    <>
+      {_renderHeader()}
+      <Animated.ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: 100,
+          paddingTop: HEADER_HEIGHT,
+          backgroundColor: myColors.background,
+        }}
+        onScroll={scrollHandler}>
+        <View>
+          {_renderSlide()}
+          {_renderOptions()}
+          <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
+          {_renderNewComic()}
+          {_renderHotComic()}
+          {_renderDoneComic()}
+          <LeaderBoard />
         </View>
-        <FlatListCustom label="Propose" data={comics.proposeComics} />
-        <FlatListCustom
-          label="Newest"
-          isMore={true}
-          data={comics.newestComic}
-          isItemLarge={false}
-        />
-        <FlatListCustom label="Hot" data={comicData} />
-
-        <FlatListCustom label="Popular" data={comicData} />
-        <FlatListCustom label="Popular" data={comicData} isItemLarge={true} />
-        <LeaderBoard />
-      </View>
-    </Screen>
+      </Animated.ScrollView>
+    </>
   );
 };
 
@@ -158,9 +268,26 @@ const styles = StyleSheet.create({
   type: {
     marginTop: 10,
   },
-  slider:{
-    marginStart: 20,
-    marginEnd: 20,
-    height: 100
+  headerStyle: {
+    height: HEADER_HEIGHT,
+    position: 'absolute',
+    zIndex: 10,
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    elevation: 2,
+  },
+  optionBtn: {
+    width: WINDOW_WIDTH / 4 - 32,
+    height: WINDOW_WIDTH / 4 - 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionImg: {
+    width: '80%',
+    height: '80%',
   },
 });
