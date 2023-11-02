@@ -28,6 +28,7 @@ const enFontConfig = {
   light_14: getFontType(14, '300', 'Fredoka-Light'),
 
   regular_10: getFontType(10, '400', 'Fredoka-Regular'),
+  regular_12:getFontType(12, '400', 'Fredoka-Regular'),
   regular_14: getFontType(14, '400', 'Fredoka-Regular'),
   regular_15: getFontType(15, '400', 'Fredoka-Regular'),
   regular_16: getFontType(16, '400', 'Fredoka-Regular'),

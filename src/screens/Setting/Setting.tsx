@@ -43,7 +43,6 @@ const Setting = () => {
         iconName='logout'
         onPress={() => {
           helper.showConfirmMsg('Do you want logout?', () => {
-            console.log('logout')
             dispatch(logoutAction());
           });
         }}

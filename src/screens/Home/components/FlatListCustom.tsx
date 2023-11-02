@@ -89,7 +89,7 @@ export default React.memo(FlatListCustom);
 const styles = StyleSheet.create({
   container: {
     width: WINDOW_WIDTH,
-    marginTop: 10,
+    marginTop: 16,
     minHeight: WINDOW_WIDTH / 3 + 60,
   },
   box1: {
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingStart: 4,
+    marginBottom: 3
   },
   box2: {
     flexDirection: 'row',

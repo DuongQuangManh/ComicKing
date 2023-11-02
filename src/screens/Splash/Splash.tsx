@@ -8,6 +8,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {
   getDoneComics,
+  getHotComic,
   getNewestComics,
   getProposeComics,
   getSliderComics,
@@ -29,6 +30,7 @@ const Splash = () => {
     dispatch(getNewestComics());
     dispatch(getProposeComics());
     dispatch(getDoneComics());
+    dispatch(getHotComic())
     dispatch(getAuthorFollowing({userId: id}));
     dispatch(getComicFollowing({userId: id}));
     dispatch(getLevel({id: id}));

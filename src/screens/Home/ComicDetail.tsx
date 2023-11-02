@@ -30,56 +30,26 @@ const ComicDetail = () => {
   const propose = useAppSelector(state => state.homeSlice.proposeComics);
   const [detailComic, setDetailComic] = useState<any>({});
   const [loading, setLoading] = useState<boolean>(true);
-
+  const [cates, setCates] = useState([]);
+  const [cmts, setCmts] = useState([]);
   const [screen, setScreen] = useState(1);
   const changeScreen = (number: number) => {
     if (number != screen) {
       setScreen(number);
     }
   };
-  const listCm = [
-    {
-      id: 1,
-      image:
-        'https://facts.net/wp-content/uploads/2023/08/25-facts-about-ultra-instinct-goku-dragon-ball-super-1692311277.jpg',
-      name: 'Le Gia Tuan',
-      comment: 'Truyện như hay',
-      time: '24/09/2023 11:02',
-    },
-    {
-      id: 2,
-      image:
-        'https://facts.net/wp-content/uploads/2023/08/25-facts-about-ultra-instinct-goku-dragon-ball-super-1692311277.jpg',
-      name: 'Le Gia Tuan',
-      comment: 'Truyện như hay',
-      time: '24/09/2023 11:02',
-    },
-    {
-      id: 3,
-      image:
-        'https://facts.net/wp-content/uploads/2023/08/25-facts-about-ultra-instinct-goku-dragon-ball-super-1692311277.jpg',
-      name: 'Le Gia Tuan',
-      comment: 'Truyện như hay',
-      time: '24/09/2023 11:02',
-    },
-    {
-      id: 4,
-      image:
-        'https://facts.net/wp-content/uploads/2023/08/25-facts-about-ultra-instinct-goku-dragon-ball-super-1692311277.jpg',
-      name: 'Le Gia Tuan',
-      comment: 'Truyện như hay',
-      time: '24/09/2023 11:02',
-    },
-  ];
 
   const getDetailData = async () => {
     let path = 'api/user/detailComic';
     try {
       setLoading(true);
       const res = await sendRequest(path, {comicId: id, userId: user?.id});
-      setLoading(false);
+
       if (res.err == 200) {
+        setCates(res?.data?.categories);
+        setCmts(res?.data?.hotComments);
         setDetailComic(res.data ?? {});
+        setLoading(false);
       } else {
         helper.showErrorMsg(res.message);
       }
@@ -90,23 +60,22 @@ const ComicDetail = () => {
   };
 
   useEffect(() => {
-    // dispatch(detailComic({comicId: id, userId: user.id}));
     getDetailData();
   }, []);
 
   const handlerShowModalComment = () => {
-    navigate('comments', {comicId: detailComic.id});
+    navigate('comments', {comicId: id});
   };
 
   const handlerReadComic = () => {
     if (detailComic.readingChapter) {
       navigate('readcomic', {
-        id: detailComic.id,
+        id: id,
         chapter: detailComic.readingChapter,
       });
     } else {
       if (detailComic.numOfChapter > 0)
-        navigate('readcomic', {id: detailComic.id, chapter: 1});
+        navigate('readcomic', {id: id, chapter: 1});
       else {
         helper.showErrorMsg('Tác giả chưa cập nhật chapter!');
       }
@@ -131,7 +100,7 @@ const ComicDetail = () => {
         ) : (
           <View style={styles.box2}>
             <HeaderDetail
-              image={detailComic.image}
+              image={detailComic.banner ? detailComic.banner : detailComic.image}
               view={detailComic.numOfView}
               like={detailComic.numOfLike}
               name={detailComic.name}
@@ -176,7 +145,7 @@ const ComicDetail = () => {
                   <View style={styles.containerDes}>
                     <TextMore text={detailComic.description} />
                     <FlashList
-                      data={(detailComic.categories as CateModel[]) ?? []}
+                      data={(cates as CateModel[]) ?? []}
                       nestedScrollEnabled={true}
                       estimatedItemSize={100}
                       estimatedListSize={{
@@ -266,7 +235,9 @@ const ComicDetail = () => {
                         justifyContent: 'center',
                       }}>
                       <Text type="semibold_14" style={{color: '#555555'}}>
-                        Tổng 138.3k bình luận
+                        {`Tổng ${helper.convertToK(
+                          detailComic?.numOfComment,
+                        )} bình luận`}
                       </Text>
                       <Icon
                         type={Icons.Entypo}
@@ -276,7 +247,7 @@ const ComicDetail = () => {
                     </TouchableOpacity>
                   </View>
                   <FlashList
-                    data={detailComic?.hotComments}
+                    data={cmts}
                     renderItem={({item}) => <CommentTop item={item} />}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
@@ -349,7 +320,7 @@ const ComicDetail = () => {
                 <FlashList
                   nestedScrollEnabled={true}
                   data={detailComic.chapters ?? []}
-                  renderItem={({item}) => <Chapter item={item} />}
+                  renderItem={({item}) => <Chapter item={item} comicId={id} />}
                   estimatedItemSize={100}
                   estimatedListSize={{
                     width: WINDOW_WIDTH,

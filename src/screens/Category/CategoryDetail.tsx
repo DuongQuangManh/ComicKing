@@ -3,13 +3,12 @@ import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {StackParamList, push} from '@navigations';
-import {Header, Icon, Icons, Text} from '@components';
+import {Header, ListFooter, ListEmpty} from '@components';
 import {FlashList} from '@shopify/flash-list';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {IComic} from '@models';
 import ComicSearchedItem from '../Search/components/ComicSearchedItem';
 import {sendRequest} from '@api';
-import {ListEmpty, ListFooter} from '@items';
 
 type StateType = {
   listComic: IComic[];
@@ -36,6 +35,7 @@ const CategoryDetail = () => {
 
   const getListComic = async () => {
     setState(pre => ({...pre, isLoading: true}));
+    dataReq.skip = 0
     try {
       const respone = await sendRequest('api/user/category/getListComic', {
         categoryId,
@@ -120,6 +120,7 @@ const CategoryDetail = () => {
         />
       ) : (
         <FlashList
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingHorizontal: 14}}
           data={listComic}
           estimatedItemSize={WINDOW_WIDTH - 28}
@@ -127,6 +128,7 @@ const CategoryDetail = () => {
             <ComicSearchedItem
               onPress={() => push('comicdetail', {id: item.id})}
               name={item.name}
+              numOfFollow={item.numOfFollow}
               numOfChapter={item.numOfChapter}
               numOfLike={item.numOfLike}
               description={item.description}

@@ -63,7 +63,6 @@ export const getAuthorFollowing = createAsyncThunk("userSlice/getAuthorFollowing
     try{
         const res = await sendRequest(path,body);
         if(res.err === 200){
-            console.log(res)
             return res
         }
     }catch(error:any){
@@ -76,7 +75,6 @@ export const getComicFollowing = createAsyncThunk("userSlice/getComicFollowing",
     try{
         const res = await sendRequest(path,body);
         if(res.err === 200){
-            console.log(res)
             return res
         }
     }catch(error:any){
@@ -216,10 +214,8 @@ const userSlice = createSlice({
             state.document.birthday = action.payload.birthday;
             state.document.fullName = action.payload.fullName;
         }).addCase(getAuthorFollowing.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.authorFollowing = action.payload
         }).addCase(getComicFollowing.fulfilled, (state, action) => {
-            console.log(action.payload)
             state.comicFollowing = action.payload
         }).addCase(getUserInfoAction.fulfilled, (state, action) => {
             if (action.payload) {

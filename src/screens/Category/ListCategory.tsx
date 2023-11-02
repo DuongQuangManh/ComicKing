@@ -11,7 +11,7 @@ import {getCate} from '@redux/categorySlice';
 import {FlashList} from '@shopify/flash-list';
 import CategoryItem from './components/CategoryItem';
 import {WINDOW_WIDTH, myColors} from '@utils';
-import {Text} from '@components';
+import {Header, Text} from '@components';
 import {navigate} from '@navigations';
 
 const ITEM_WIDTH = WINDOW_WIDTH / 2;
@@ -28,10 +28,7 @@ const ListCategory = () => {
 
   return (
     <Screen>
-      <View
-        style={{height: 50, alignItems: 'center', justifyContent: 'center'}}>
-        <Text type="semibold_18">Thể Loại</Text>
-      </View>
+      <Header text='Thể loại'/>
       {loading ? (
         <ActivityIndicator
           style={{height: '85%'}}
