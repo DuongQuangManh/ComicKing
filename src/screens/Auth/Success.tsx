@@ -1,17 +1,16 @@
 import { Button, Icon, Icons, Text } from "@components"
 import { Screen } from "../screen"
-import { goBack, navigate } from '@navigations';
+import { goBack, navigate, StackParamList } from '@navigations';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { helper, myColors } from '@utils';
 import { useState } from "react";
 
 
 const Success = () => {
-    const [screen, setscreen] = useState(0)
+    const { message } = useRoute<RouteProp<StackParamList, 'editprofile'>>().params;
 
     const nextScreen = () => {
-        if (screen == 0 || screen == 1)
-            navigate('login')
-        else
+        if (message == 'changePass')
             navigate('profile')
     }
 
@@ -25,12 +24,11 @@ const Success = () => {
             />
             <Text
                 style={{ fontSize: 20, fontWeight: "bold", color: "black" }}>
-                {screen == 0 ? "Register Success" : "Change Password Success"}
-                {screen == 1 ? "Password Retrieval Success" : "Change Password Success"}
-                </Text>
+                {message == 'changePass' ? "Change Password Success" : ""}
+            </Text>
             <Button
                 text={
-                    screen == 0 || screen == 1 ? "Back To Login" : "Continue"
+                    message == 'changePassword' ? "Back To Profile" : ""
                 }
                 borderRadius={10}
                 height={35}

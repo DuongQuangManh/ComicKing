@@ -315,11 +315,11 @@ export const changePassVerifyOtpAction = createAsyncThunk('auth/changePassVerify
         if (res.err != 200) {
             helper.showErrorMsg(res.message)
             return false;
+        } else {
+            helper.hideLoading();
+            navigate('success', { message: 'changePass' })
         }
-        helper.hideLoading();
-        helper.showSuccessMsg(
-            res.message,
-            () => goBack(3))
+
     } catch (error: any) {
         helper.hideLoading();
         return false;
