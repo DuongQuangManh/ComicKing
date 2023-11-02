@@ -77,6 +77,6 @@ export {
     ReadingHistory,
     ComicFollowing,
     Success,
-    CommentDetail
+    CommentDetail,
     Operation
 }

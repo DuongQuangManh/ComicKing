@@ -4,7 +4,7 @@ import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
 
-import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument } from '@models';
+import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument, IComic } from '@models';
 
 
 interface IProfile {
@@ -149,7 +149,8 @@ interface IUserState {
     avatarFrame: Decorate | null,
     avatarTitle: Decorate | null,
     vipPoint: number,
-    levelPoint: number
+    levelPoint: number,
+    historyReading: IComic[]
 
 }
 
@@ -169,6 +170,7 @@ const initialState: IUserState = {
     avatarTitle: null,
     vipPoint: 0,
     levelPoint: 0,
+    historyReading:[]
 }
 
 const userSlice = createSlice({
@@ -233,8 +235,13 @@ const userSlice = createSlice({
             if (action.payload) {
                 state.avatarTitle = action.payload
             }
-        }).addCase(getHistoryReading.fulfilled, (state, action)=>{
-
+        }).addCase(getHistoryReading.pending, state => {
+            state.loading = true
+        }).addCase(getHistoryReading.fulfilled, (state, action) => {
+            state.loading = false
+            if(action.payload){
+                state.historyReading = action.payload
+            }
         })
     }
 })
