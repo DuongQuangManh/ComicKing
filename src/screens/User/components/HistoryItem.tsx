@@ -9,21 +9,22 @@ import { IComic } from "@models";
 
 
 type ItemProps = {
-    name:string
-    readingChapterIndex:number
-    description:string
+    name: string
+    readingChapterIndex: number
+    description: string
     image: string
+    onPress: () => void
 };
 
-const HistoryItem: React.FC<ItemProps> = ({ name,readingChapterIndex,description,image }) => {
+const HistoryItem: React.FC<ItemProps> = ({ name, readingChapterIndex, description, image, onPress }) => {
     const dispatch = useAppDispatch();
     const { historyReading = [] } = useAppSelector(state => state.userSlice);
 
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <FastImage
                 style={styles.image}
-                source={{uri:image}}/>
+                source={{ uri: image }} />
             <View style={styles.docContainer}>
                 <Text type="medium_12">{name}</Text>
                 <Text type="light_12" color={myColors.textHint}>{description}</Text>
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     container: {
         width: "100%",
         marginTop: 10,
-        flexDirection:"row"
+        flexDirection: "row"
     },
     docContainer: {
         flex: 1,

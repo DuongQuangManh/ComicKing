@@ -55,8 +55,9 @@ export interface IPrivilege{
 
 export interface IReadingHistory{
     id: string,
-    chapterIndex: number,
-    user: any,
-    comic: any,
-    chapter: any
+    name:string,
+    description: string,
+    readingChapterIndex: number,
+    image:string,
+    isHot:boolean
 }

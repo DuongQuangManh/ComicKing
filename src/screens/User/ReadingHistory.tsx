@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Screen } from '../screen'
 import { Header } from '@components'
@@ -7,6 +7,8 @@ import { WINDOW_WIDTH, helper, myColors } from '@utils';
 import { FlashList } from '@shopify/flash-list'
 import { useAppDispatch, useAppSelector } from '@redux/store';
 import { sendRequest } from '@api';
+import { push } from '@navigations';
+import HistoryItem from './components/HistoryItem';
 
 type StateType = {
   listHistory: IReadingHistory[]
@@ -62,6 +64,27 @@ const ReadingHistory = () => {
     <Screen>
       <Header text="History" />
 
+      {isLoading ? (
+        <ActivityIndicator
+          color={myColors.primary}
+          size="large"
+          style={{ height: '85%' }}
+        />
+      ) : (
+        <FlashList
+          contentContainerStyle={{ paddingTop: 10 }}
+          data={listHistory}
+          estimatedItemSize={WINDOW_WIDTH}
+          renderItem={({ item }) => (
+            <HistoryItem
+              name={item.name}
+              readingChapterIndex={item.readingChapterIndex}
+              description={item.description}
+              image={item.image}
+              onPress={() => { push('comicdetail', { id: item.id }) }} />
+          )}
+        />
+      )}
 
     </Screen>
   )
