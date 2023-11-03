@@ -52,3 +52,11 @@ export interface IPrivilege{
     image:string,
     title:string,
 }
+
+export interface IReadingHistory{
+    id: string,
+    chapterIndex: number,
+    user: any,
+    comic: any,
+    chapter: any
+}

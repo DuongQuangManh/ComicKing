@@ -4,7 +4,7 @@ import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
 
-import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument, IComic } from '@models';
+import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument, IReadingHistory } from '@models';
 
 
 interface IProfile {
@@ -150,7 +150,7 @@ interface IUserState {
     avatarTitle: Decorate | null,
     vipPoint: number,
     levelPoint: number,
-    historyReading: IComic[]
+    historyReading: IReadingHistory[]
 
 }
 
