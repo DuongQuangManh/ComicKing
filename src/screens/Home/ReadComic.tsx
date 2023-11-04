@@ -4,7 +4,7 @@ import {Screen} from '../screen';
 import {Header, Icon, Icons, Input, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList, goBack} from '@navigations';
+import {StackParamList, goBack, navigate} from '@navigations';
 import {FlashList} from '@shopify/flash-list';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors, myTheme} from '@utils';
 import {sendRequest} from '@api';
@@ -36,6 +36,7 @@ const ReadComic = () => {
       switch (type) {
         case 'number':
           ref.currentChapter = item;
+
           break;
         case 'object':
           if (item.chapterIndex) {
@@ -97,6 +98,7 @@ const ReadComic = () => {
   };
 
   const showOption = () => {
+    console.log(ref.currentChapter);
     if (!ref.showingOption) {
       ref.showingOption = true;
       Animated.timing(scrollY, {
@@ -187,6 +189,9 @@ const ReadComic = () => {
       console.log('comment thành công');
     }
   };
+  const handlerShowComment = () => {
+    navigate('comments', {comicId: id, chapterIndex: ref.currentChapter});
+  };
   return (
     <Screen>
       <Animated.View
@@ -276,6 +281,9 @@ const ReadComic = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={handlerLike}>
             <Icon type={Icons.AntDesign} name={isLike ? 'like1' : 'like2'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handlerShowComment}>
+            <Icon type={Icons.FontAwesome} name="comment-o" />
           </TouchableOpacity>
           <TouchableOpacity>
             <Icon type={Icons.Ionicons} name="chevron-forward-outline" />
