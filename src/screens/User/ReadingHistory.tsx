@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Screen } from '../screen'
 import { Header } from '@components'
 import { IReadingHistory } from '@models';
@@ -22,16 +22,18 @@ const ReadingHistory = () => {
     isLoading: true
   });
   const { listHistory, isLoading } = state;
+  const dataReq = useRef({
+    skip: 0,
+    limit: 8,
+  }).current;
 
-  useEffect(() => {
-    getListHistory();
-  }, []);
 
   const getListHistory = async () => {
     setState(pre => ({ ...pre, isLoading: true }))
     try {
       const res = await sendRequest('api/user/getHistoryReading', {
         userId: id,
+        ...dataReq
       })
       if (res.err == 200) {
         setState(pre => ({
@@ -55,10 +57,9 @@ const ReadingHistory = () => {
     }
   }
 
-  // const dispatch = useAppDispatch();
-  // const { historyReading = [] } = useAppSelector(state => state.userSlice);
-
-
+  useEffect(() => {
+    getListHistory();
+  }, []);
 
   return (
     <Screen>
