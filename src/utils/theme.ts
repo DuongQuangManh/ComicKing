@@ -88,6 +88,7 @@ export const myTheme = {
     surfaceVariant: 'white',
     background: '#fff',
     text: '#282828',
+    black_60: '#00000095',
     textHint: '#74747494',
     gray:'#efeeee',
     blackCustom:'#334249',

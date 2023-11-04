@@ -23,9 +23,11 @@ const Profile = () => {
 
   return (
     <Screen
+      unsafe
       backgroundColor={myColors.gray}
       preset="scroll"
-      statusBarColor={myColors.primary_60}>
+      translucent
+      statusBarColor="transparent">
       <TouchableOpacity
         style={{position: 'absolute', top: 10, right: 10, zIndex: 10}}
         onPress={() => navigate('setting')}>
@@ -38,7 +40,7 @@ const Profile = () => {
       </TouchableOpacity>
       <LinearGradient
         colors={[myColors.primary_60, myColors.gray]}
-        style={{padding: 18}}>
+        style={{paddingTop: 28, paddingHorizontal: 18, paddingBottom :18}}>
         <View style={{height: 40}}></View>
         <View style={{flexDirection: 'row', paddingBottom: 20}}>
           <AvatarFrame

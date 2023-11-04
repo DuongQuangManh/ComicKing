@@ -20,8 +20,12 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
       <Text type="semibold_17" style={{paddingHorizontal: 4}}>
         {title}
       </Text>
-      <ScrollView horizontal pagingEnabled snapToInterval={280}>
-        {listComic.slice(0, 6)?.map((item, index) => (
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        pagingEnabled
+        snapToInterval={280}>
+        {listComic?.slice(0, 6)?.map((item, index) => (
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
@@ -79,7 +83,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfView ?? 0}
+                    {item.numOfLike ?? 0}
                   </Text>
                 </View>
                 <View
@@ -117,7 +121,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {item.numOfView ?? 0}
+                    {item.numOfChapter ?? 0}
                   </Text>
                 </View>
               </View>
@@ -135,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 16,
-    minHeight: 150
+    minHeight: 150,
   },
   btnContainer: {
     width: 280,

@@ -31,6 +31,8 @@ export interface ScreenProps {
 
   statusBarColor?: string
 
+  translucent?: boolean
+
   /**
    * Should we not wrap in SafeAreaView? Defaults to false.
    */
