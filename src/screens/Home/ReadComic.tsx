@@ -1,4 +1,10 @@
-import {Animated, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  BackHandler,
+} from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {Screen} from '../screen';
 import {Header, Icon, Icons, Input, Text} from '@components';
@@ -10,9 +16,12 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors, myTheme} from '@utils';
 import {sendRequest} from '@api';
 import {ActivityIndicator} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
+import {unshiftHistoryItem} from '@redux/homeSlice';
+
 // api/user/detailChapter
 const ReadComic = () => {
-  const {id, chapter} =
+  const dispatch = useAppDispatch();
+  const {id, name, image, numOfChapter, chapter, needLoadComic} =
     useRoute<RouteProp<StackParamList, 'readcomic'>>().params;
   const userId = useAppSelector(state => state.userSlice.document.id);
   const flashlistRef = useRef<FlashList<any>>(null);
@@ -56,10 +65,18 @@ const ReadComic = () => {
       comicId: id,
       chapterIndex: index,
     });
-    console.log(id);
     setLoading(false);
     if (res.err == 200) {
       const newChapter = res.data;
+      dispatch(
+        unshiftHistoryItem({
+          id,
+          readingChapter: index,
+          name,
+          image,
+          numOfChapter,
+        }),
+      );
       const endView = newChapter.hotCmt ?? {
         chapterIndex: newChapter.index,
         comments: [],
@@ -74,8 +91,21 @@ const ReadComic = () => {
     }
   };
 
+  const handleBack = () => {
+    goBack();
+    if (needLoadComic) {
+      navigate('comicdetail', {id});
+    }
+    return true;
+  };
+
   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBack);
     getData(chapter);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBack);
+    };
   }, []);
 
   const renderFooter = () => {
@@ -193,7 +223,7 @@ const ReadComic = () => {
     navigate('comments', {comicId: id, chapterIndex: ref.currentChapter});
   };
   return (
-    <Screen>
+    <Screen unsafe translucent statusBarColor="transparent">
       <Animated.View
         style={{
           position: 'absolute',
@@ -205,16 +235,17 @@ const ReadComic = () => {
             {
               translateY: scrollY.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, -75],
+                outputRange: [0, -70],
                 extrapolate: 'clamp',
               }),
             },
           ],
         }}>
         <Header
+          style={{height: 70}}
           backgroundColor={myColors.transparentGray}
           text={`Chapter ${ref.currentChapter}`}
-          onBack={goBack}
+          onBack={handleBack}
         />
       </Animated.View>
       {loading && ref.currentChapter == -1 ? (
@@ -226,11 +257,10 @@ const ReadComic = () => {
       ) : (
         <FlashList
           ref={flashlistRef}
-          onTouchStart={hideOption}
+          onTouchMove={hideOption}
           onTouchEnd={showOption}
           showsVerticalScrollIndicator={false}
           estimatedItemSize={WINDOW_HEIGHT}
-          decelerationRate="fast"
           removeClippedSubviews={true}
           data={data}
           renderItem={_renderItem}

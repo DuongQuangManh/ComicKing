@@ -32,7 +32,7 @@ const Interact: FC<componentProps> = ({isFollowing, comicId}) => {
         isFollow: !follow,
       };
       sendRequest(path, body);
-    }, 1500);
+    }, 1000);
   };
 
   return (

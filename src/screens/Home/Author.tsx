@@ -62,7 +62,7 @@ const Author = () => {
       if (timeout.current) {
         clearTimeout(timeout.current);
       }
-    }, 1500);
+    }, 1000);
   };
   useEffect(() => {
     getData();
@@ -77,7 +77,10 @@ const Author = () => {
         />
       ) : (
         <>
-          <Header backgroundColor={myColors.transparent} text='Thông tin tác giả' />
+          <Header
+            backgroundColor={myColors.transparent}
+            text="Thông tin tác giả"
+          />
           <View style={styles.box1}>
             <FastImage
               source={
@@ -170,7 +173,7 @@ const styles = StyleSheet.create({
   },
   box1_1: {
     marginStart: 10,
-    flex: 1
+    flex: 1,
   },
   box2: {
     width: WINDOW_WIDTH,

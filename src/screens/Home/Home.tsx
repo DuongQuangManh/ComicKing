@@ -26,6 +26,7 @@ import ComicWithDescContainer from './components/ComicWithDescContainer';
 import FourComicContainer from './components/FourComicContainer';
 import FastImage from 'react-native-fast-image';
 import {getHotComic, getNewestComics} from '@redux/homeSlice';
+import HistoryListContainer from './components/HistoryListContainer';
 
 export const comicData = [
   {
@@ -103,6 +104,7 @@ const Home = () => {
     hotComic = [],
     newestComic = [],
     proposeComics = [],
+    readingHistory,
   } = useAppSelector(state => state.homeSlice);
 
   const scrollY = useSharedValue(0);
@@ -137,8 +139,19 @@ const Home = () => {
   const _renderHeader = useMemo(() => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text>Comic King</Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+          <FastImage
+            style={{width: 30, height: 30}}
+            source={require('@assets/images/logo3.png')}
+          />
+          <Text style={{marginStart: 6}} type="medium_17">
+            Comic Stuff
+          </Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => navigate('search')}>
@@ -227,6 +240,14 @@ const Home = () => {
     return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
   }, [doneComics]);
 
+  console.log(readingHistory);
+
+  const _renderHistoryComic = useMemo(() => {
+    return (
+      <HistoryListContainer title="📚 Lịch Sử" listComic={readingHistory} />
+    );
+  }, [readingHistory]);
+
   return (
     <>
       <StatusBar
@@ -240,8 +261,8 @@ const Home = () => {
         style={{
           paddingTop: HEADER_HEIGHT,
           backgroundColor: myColors.background,
-          paddingBottom: 100,
         }}
+        contentContainerStyle={{paddingBottom: 150}}
         refreshControl={
           <RefreshControl
             style={{position: 'absolute'}}
@@ -257,11 +278,17 @@ const Home = () => {
         <View>
           {_renderSlide}
           {_renderOptions}
+          {_renderHistoryComic}
           <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
           {_renderNewComic}
           {_renderHotComic}
           {_renderDoneComic}
-          <LeaderBoard />
+        </View>
+        <View
+          style={{alignItems: 'center', justifyContent: 'center', height: 60}}>
+          <Text color={myColors.textHint} type="regular_14">
+            Không còn nội dung
+          </Text>
         </View>
       </Animated.ScrollView>
     </>
