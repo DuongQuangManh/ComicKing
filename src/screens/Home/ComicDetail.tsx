@@ -88,9 +88,14 @@ const ComicDetail = () => {
     <>
       <Header
         backgroundColor={myColors.transparent}
-        style={{position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10}}
+        style={{position: 'absolute', top: 20, left: 0, right: 0, zIndex: 10}}
       />
-      <Screen preset="scroll" nestedScrollEnabled>
+      <Screen
+        unsafe
+        preset="scroll"
+        translucent
+        nestedScrollEnabled
+        statusBarColor="transparent">
         {loading ? (
           <ActivityIndicator
             size="large"
@@ -100,7 +105,9 @@ const ComicDetail = () => {
         ) : (
           <View style={styles.box2}>
             <HeaderDetail
-              image={detailComic.banner ? detailComic.banner : detailComic.image}
+              image={
+                detailComic.banner ? detailComic.banner : detailComic.image
+              }
               view={detailComic.numOfView}
               like={detailComic.numOfLike}
               name={detailComic.name}

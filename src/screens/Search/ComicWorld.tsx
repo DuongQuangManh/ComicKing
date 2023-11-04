@@ -1,13 +1,13 @@
 import {Animated, StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {Header, ListEmpty, ListFooter, Text} from '@components';
+import React, {useMemo, useEffect, useRef, useState} from 'react';
+import {Header, Icons, ListEmpty, ListFooter, Text} from '@components';
 import {Screen} from '../screen';
 import {WINDOW_WIDTH, constants, helper, myColors} from '@utils';
 import {ActivityIndicator} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import {IComic} from '@models';
 import ComicSearchedItem from './components/ComicSearchedItem';
-import {push} from '@navigations';
+import {navigate, push} from '@navigations';
 import {sendRequest} from '@api';
 
 type TabType = {
@@ -87,12 +87,12 @@ const ComicWorld = () => {
     skip: number;
     limit: number;
     status: string | undefined;
-    sort: string
+    sort: string;
   }>({
     skip: 0,
     limit: 15,
     status: TABS[0].status,
-    sort: TABS[0].type
+    sort: TABS[0].type,
   }).current;
 
   const animatedValue = useRef(new Animated.Value(1)).current;
@@ -113,7 +113,7 @@ const ComicWorld = () => {
   const getComic = async () => {
     let path = 'api/user/findComic';
     setState(pre => ({...pre, loading: true}));
-    dataReq.skip = 0
+    dataReq.skip = 0;
     const respone = await sendRequest(path, {...dataReq});
     if (respone?.err == 200) {
       if (respone.data?.length >= dataReq.limit) {
@@ -175,7 +175,7 @@ const ComicWorld = () => {
     }
   };
 
-  const _renderListSort = useCallback(() => {
+  const _renderListSort = useMemo(() => {
     return (
       <View
         style={{
@@ -212,17 +212,17 @@ const ComicWorld = () => {
     );
   }, [sortBy]);
 
-  const _renderTabs = useCallback(() => {
+  const _renderTabs = useMemo(() => {
     return (
       <View style={{flexDirection: 'row', elevation: 2}}>
-        {TABS.map(item => (
+        {TABS.map((item, index) => (
           <TouchableOpacity
             activeOpacity={0.7}
-            key={item.type}
+            key={index}
             onPress={() => {
               if (loading || selectedTab.type == item.type) return;
               dataReq.status = item.status;
-              dataReq.sort = item.type
+              dataReq.sort = item.type;
               setState(pre => ({...pre, selectedTab: item}));
             }}
             style={styles.tabBtn}>
@@ -242,9 +242,15 @@ const ComicWorld = () => {
 
   return (
     <Screen>
-      <Header text="Kênh Thế Giới" />
+      <Header
+        text="Kênh Thế Giới"
+        isIconEnd
+        onClickIconEnd={() => navigate('search')}
+        nameIconEnd="search"
+        typeIconEnd={Icons.Ionicons}
+      />
       {/* {_renderListSort()} */}
-      {_renderTabs()}
+      {_renderTabs}
       {loading ? (
         <ActivityIndicator
           size="large"
@@ -257,6 +263,7 @@ const ComicWorld = () => {
           showsVerticalScrollIndicator={false}
           estimatedItemSize={WINDOW_WIDTH - 28}
           data={listComic}
+          keyExtractor={(item, index) => item.id ?? index}
           renderItem={({item}) => (
             <ComicSearchedItem
               onPress={() => push('comicdetail', {id: item.id})}
