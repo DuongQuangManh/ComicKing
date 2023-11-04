@@ -17,63 +17,61 @@ import {FlashList} from '@shopify/flash-list';
 
 const LeaderBoard = () => {
   return (
-    <Screen backgroundColor={myColors.background}>
-      <View style={styles.container}>
-        <View style={styles.box1}>
-          <View style={styles.box2}>
-            <Text type="bold_24">BXH Hot</Text>
-            <Image
-              source={require('@assets/icons/fire.png')}
-              style={styles.iconHot}
-            />
-            <Image
-              source={require('@assets/icons/fire.png')}
-              style={styles.iconHot}
-            />
-          </View>
-          <TouchableOpacity style={styles.box3}>
-            <Text type="semibold_16">Thêm</Text>
-            <Icon type={Icons.Entypo} name="chevron-right" size={16} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.type}>
-          <FlashList
-            estimatedItemSize={40}
-            estimatedListSize={{
-              height: 40,
-              width: WINDOW_WIDTH,
-            }}
-            nestedScrollEnabled={true}
-            data={bxh}
-            renderItem={({item}) => <Category item={item} isBXH={true} />}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+    <View style={styles.container}>
+      <View style={styles.box1}>
+        <View style={styles.box2}>
+          <Text type="bold_24">BXH Hot</Text>
+          <Image
+            source={require('@assets/icons/fire.png')}
+            style={styles.iconHot}
+          />
+          <Image
+            source={require('@assets/icons/fire.png')}
+            style={styles.iconHot}
           />
         </View>
-
+        <TouchableOpacity style={styles.box3}>
+          <Text type="semibold_16">Thêm</Text>
+          <Icon type={Icons.Entypo} name="chevron-right" size={16} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.type}>
         <FlashList
-          nestedScrollEnabled={true}
-          data={comicData}
-          renderItem={({item, index}) => <Rank item={item} index={index + 1} />}
-          showsVerticalScrollIndicator={false}
-          estimatedItemSize={WINDOW_HEIGHT}
+          estimatedItemSize={40}
           estimatedListSize={{
-            height: WINDOW_HEIGHT,
+            height: 40,
             width: WINDOW_WIDTH,
           }}
+          nestedScrollEnabled={true}
+          data={bxh}
+          renderItem={({item}) => <Category item={item} isBXH={true} />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
         />
-        <LinearGradient
-          style={styles.box4}
-          colors={['rgba(255, 255, 255, 0.227)', 'white']}>
-          <TouchableOpacity style={{alignSelf: 'center', marginTop: 10}}>
-            <View style={styles.box5}>
-              <Text type="semibold_14">See more</Text>
-              <Icon type={Icons.Entypo} name="chevron-down" size={14} />
-            </View>
-          </TouchableOpacity>
-        </LinearGradient>
       </View>
-    </Screen>
+
+      <FlashList
+        nestedScrollEnabled={true}
+        data={comicData}
+        renderItem={({item, index}) => <Rank item={item} index={index + 1} />}
+        showsVerticalScrollIndicator={false}
+        estimatedItemSize={WINDOW_HEIGHT}
+        estimatedListSize={{
+          height: WINDOW_HEIGHT,
+          width: WINDOW_WIDTH,
+        }}
+      />
+      <LinearGradient
+        style={styles.box4}
+        colors={['rgba(255, 255, 255, 0.227)', 'white']}>
+        <TouchableOpacity style={{alignSelf: 'center', marginTop: 10}}>
+          <View style={styles.box5}>
+            <Text type="semibold_14">See more</Text>
+            <Icon type={Icons.Entypo} name="chevron-down" size={14} />
+          </View>
+        </TouchableOpacity>
+      </LinearGradient>
+    </View>
   );
 };
 

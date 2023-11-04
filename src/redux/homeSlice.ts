@@ -103,19 +103,19 @@ const homeSlice = createSlice({
         }
     },
     extraReducers: builder => builder.addCase(getSliderComics.fulfilled, (state, action) => {
-        if(action.payload)
+        if(Array.isArray(action.payload))
             state.sliderComic = action.payload;
     }).addCase(getNewestComics.fulfilled, (state, action) => {
-        if(action.payload)
+        if(Array.isArray(action.payload))
             state.newestComic = action.payload;
     }).addCase(getProposeComics.fulfilled, (state, action) => {
-        if(action.payload)
+        if(Array.isArray(action.payload))
             state.proposeComics = action.payload;
     }).addCase(getDoneComics.fulfilled, (state, action) => {
-        if(action.payload)
+        if(Array.isArray(action.payload))
             state.doneComics = action.payload;
     }).addCase(getHotComic.fulfilled,(state, action) => {
-        if(action.payload)
+        if(Array.isArray(action.payload))
             state.hotComic = action.payload
     })
 })
