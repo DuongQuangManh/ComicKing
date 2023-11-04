@@ -37,7 +37,9 @@ import {
   ComicFollowing,
   ReadingHistory,
   Success,
+  CommentDetail,
   Rank,
+  Commented,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -84,7 +86,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="readingHistory" component={ReadingHistory} />
         <Stack.Screen name="success" component={Success} />
         <Stack.Screen name="rank" component={Rank} />
-
+        <Stack.Screen name="commented" component={Commented} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
@@ -96,6 +98,7 @@ export const Stacknavigation = () => {
           <Stack.Screen name="confirmMessage" component={ConfirmMessage} />
           {/* <Stack.Screen name="menu" component={Menu} /> */}
           <Stack.Screen name="comments" component={Comments} />
+          <Stack.Screen name="commentdetail" component={CommentDetail} />
         </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

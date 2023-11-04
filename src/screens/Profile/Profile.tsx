@@ -120,6 +120,14 @@ const Profile = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.rowOption}
+          onPress={() => navigate('commented')}>
+          <Icon type={Icons.FontAwesome} name="comment-o" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Bình luận của tôi
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.rowOption}
           onPress={() => navigate('level')}>
           <Icon type={Icons.Ionicons} name="layers" size={18} />
           <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>

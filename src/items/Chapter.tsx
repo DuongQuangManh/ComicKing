@@ -7,10 +7,11 @@ import {navigate} from '@navigations';
 interface itemProps {
   item?: any;
   index?: number;
+  comicId?: string;
 }
-const Chapter: FC<itemProps> = ({item}) => {
+const Chapter: FC<itemProps> = ({item, comicId}) => {
   const handlerClick = () => {
-    navigate('readcomic', {id: item.id, chapter: item.index});
+    navigate('readcomic', {id: comicId, chapter: item.index});
   };
   return (
     <TouchableOpacity onPress={handlerClick}>

@@ -138,7 +138,7 @@ const Home = () => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <Text>Đặt đồ ăn nhanh</Text>
+          <Text>Comic King</Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity onPress={() => navigate('search')}>

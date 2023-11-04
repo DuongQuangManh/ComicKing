@@ -64,18 +64,18 @@ const ComicDetail = () => {
   }, []);
 
   const handlerShowModalComment = () => {
-    navigate('comments', {comicId: detailComic.id});
+    navigate('comments', {comicId: id});
   };
 
   const handlerReadComic = () => {
     if (detailComic.readingChapter) {
       navigate('readcomic', {
-        id: detailComic.id,
+        id: id,
         chapter: detailComic.readingChapter,
       });
     } else {
       if (detailComic.numOfChapter > 0)
-        navigate('readcomic', {id: detailComic.id, chapter: 1});
+        navigate('readcomic', {id: id, chapter: 1});
       else {
         helper.showErrorMsg('Tác giả chưa cập nhật chapter!');
       }
@@ -242,7 +242,9 @@ const ComicDetail = () => {
                         justifyContent: 'center',
                       }}>
                       <Text type="semibold_14" style={{color: '#555555'}}>
-                        Tổng 138.3k bình luận
+                        {`Tổng ${helper.convertToK(
+                          detailComic?.numOfComment,
+                        )} bình luận`}
                       </Text>
                       <Icon
                         type={Icons.Entypo}
@@ -325,7 +327,7 @@ const ComicDetail = () => {
                 <FlashList
                   nestedScrollEnabled={true}
                   data={detailComic.chapters ?? []}
-                  renderItem={({item}) => <Chapter item={item} />}
+                  renderItem={({item}) => <Chapter item={item} comicId={id} />}
                   estimatedItemSize={100}
                   estimatedListSize={{
                     width: WINDOW_WIDTH,

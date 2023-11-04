@@ -53,6 +53,7 @@ export type StackParamList = {
     }
     comments: {
         comicId:string,
+        chapterIndex:number
     },
     readcomic: {
         id: string,
@@ -79,5 +80,9 @@ export type StackParamList = {
     comicFollowing: {},
     readingHistory: {},
     success: {},
-    rank: {}
+    commentdetail:{
+        item:any
+    }
+    rank: {},
+    commented:{}
 }
