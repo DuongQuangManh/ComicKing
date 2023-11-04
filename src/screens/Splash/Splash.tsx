@@ -15,8 +15,6 @@ import {
 } from '@redux/homeSlice';
 
 import {
-  getAuthorFollowing,
-  getComicFollowing,
   getUserInfoAction,
 } from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
@@ -26,14 +24,14 @@ const Splash = () => {
   const {id = ''} = useAppSelector(state => state.userSlice.document);
   useEffect(() => {
     SplashScreen.hide();
+
     dispatch(getSliderComics());
     dispatch(getNewestComics());
     dispatch(getProposeComics());
     dispatch(getDoneComics());
     dispatch(getHotComic())
-    dispatch(getAuthorFollowing({userId: id}));
-    dispatch(getComicFollowing({userId: id}));
     dispatch(getLevel({id: id}));
+
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
         dispatch(getUserInfoAction({id}));
@@ -42,10 +40,11 @@ const Splash = () => {
         replace('login');
       }
       clearTimeout(this);
-    }, 300);
+    }, 500);
   }, []);
   return (
     <Screen
+      statusBarColor={myColors.primary}
       style={{
         justifyContent: 'center',
         alignItems: 'center',

@@ -1,5 +1,11 @@
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  StatusBar,
+  RefreshControl,
+} from 'react-native';
+import React, {useMemo, useEffect} from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -7,7 +13,7 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
-import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
+import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getCate} from '@redux/categorySlice';
@@ -19,12 +25,7 @@ import SixComicContainer from './components/SixComicContainer';
 import ComicWithDescContainer from './components/ComicWithDescContainer';
 import FourComicContainer from './components/FourComicContainer';
 import FastImage from 'react-native-fast-image';
-
-const images = [
-  'https://doraemonworld2018.files.wordpress.com/2018/01/cropped-doraemon-wallpaper-hd1.jpg',
-  'https://asianfilmfestival.barcelona/2019/wp-content/uploads/2020/02/Japon-DETECTIVE-CONAN-845x321.jpg',
-  'https://frpnet.net/wp-content/uploads/2014/01/batman-banner.jpg',
-];
+import {getHotComic, getNewestComics} from '@redux/homeSlice';
 
 export const comicData = [
   {
@@ -93,7 +94,7 @@ export const comicData = [
   },
 ];
 
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = 84;
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -133,7 +134,7 @@ const Home = () => {
     dispatch(getCate());
   }, []);
 
-  const _renderHeader = useCallback(() => {
+  const _renderHeader = useMemo(() => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
         <View style={{flex: 1, justifyContent: 'center'}}>
@@ -160,16 +161,9 @@ const Home = () => {
     );
   }, []);
 
-  const _renderOptions = useCallback(() => {
+  const _renderOptions = useMemo(() => {
     return (
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          marginTop: 12,
-          marginBottom: 8,
-        }}>
+      <View style={styles.optionContainer}>
         <TouchableOpacity
           onPress={() => navigate('comicWorld')}
           style={styles.optionBtn}>
@@ -211,46 +205,62 @@ const Home = () => {
     );
   }, []);
 
-  const _renderSlide = useCallback(() => {
+  const _renderSlide = useMemo(() => {
     return <SlideShow listComic={hotComic} />;
   }, [hotComic]);
 
-  const _renderProposeComic = useCallback(() => {
+  const _renderProposeComic = useMemo(() => {
     return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
   }, []);
 
-  const _renderHotComic = useCallback(() => {
+  const _renderHotComic = useMemo(() => {
     return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
   }, [hotComic]);
 
-  const _renderNewComic = useCallback(() => {
+  const _renderNewComic = useMemo(() => {
     return (
       <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện Mới" />
     );
   }, [newestComic]);
 
-  const _renderDoneComic = useCallback(() => {
+  const _renderDoneComic = useMemo(() => {
     return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
   }, [doneComics]);
 
   return (
     <>
-      {_renderHeader()}
+      <StatusBar
+        translucent
+        backgroundColor={'transparent'}
+        barStyle="dark-content"
+      />
+      {_renderHeader}
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: 100,
+        style={{
           paddingTop: HEADER_HEIGHT,
           backgroundColor: myColors.background,
+          paddingBottom: 100,
         }}
+        refreshControl={
+          <RefreshControl
+            style={{position: 'absolute'}}
+            onRefresh={() => {
+              dispatch(getNewestComics());
+              dispatch(getHotComic());
+            }}
+            refreshing={false}
+            colors={[myColors.primary]}
+          />
+        }
         onScroll={scrollHandler}>
         <View>
-          {_renderSlide()}
-          {_renderOptions()}
+          {_renderSlide}
+          {_renderOptions}
           <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
-          {_renderNewComic()}
-          {_renderHotComic()}
-          {_renderDoneComic()}
+          {_renderNewComic}
+          {_renderHotComic}
+          {_renderDoneComic}
           <LeaderBoard />
         </View>
       </Animated.ScrollView>
@@ -269,6 +279,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   headerStyle: {
+    paddingTop: 24,
     height: HEADER_HEIGHT,
     position: 'absolute',
     zIndex: 10,
@@ -287,7 +298,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   optionImg: {
-    width: '80%',
-    height: '80%',
+    width: '70%',
+    height: '70%',
+    marginBottom: 3,
+  },
+  optionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: 12,
+    marginBottom: 8,
   },
 });

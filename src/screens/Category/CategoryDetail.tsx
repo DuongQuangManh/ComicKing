@@ -2,8 +2,8 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Screen} from '../screen';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList, push} from '@navigations';
-import {Header, ListFooter, ListEmpty} from '@components';
+import {StackParamList, navigate, push} from '@navigations';
+import {Header, ListFooter, ListEmpty, Icons} from '@components';
 import {FlashList} from '@shopify/flash-list';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {IComic} from '@models';
@@ -71,7 +71,7 @@ const CategoryDetail = () => {
 
   const loadMoreComic = async () => {
     dataReq.skip = listComic.length;
-    setState(pre => ({...pre, isLoading: true}));
+    setState(pre => ({...pre, isLoadMore: true}));
     try {
       const respone = await sendRequest('api/user/category/getListComic', {
         categoryId,
@@ -111,7 +111,13 @@ const CategoryDetail = () => {
 
   return (
     <Screen>
-      <Header text={title} />
+      <Header
+        text={title}
+        isIconEnd
+        onClickIconEnd={() => navigate('search')}
+        nameIconEnd="search"
+        typeIconEnd={Icons.Ionicons}
+      />
       {isLoading ? (
         <ActivityIndicator
           color={myColors.primary}
