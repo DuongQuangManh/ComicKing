@@ -13,17 +13,21 @@ import {TouchableOpacity} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
 
 const Comments = () => {
-  const {comicId} = useRoute<RouteProp<StackParamList, 'comments'>>().params;
+  const {comicId, chapterIndex} =
+    useRoute<RouteProp<StackParamList, 'comments'>>().params;
   const {document, avatarFrame} = useAppSelector(state => state.userSlice);
   const level = useAppSelector(state => state.levelSlice);
   const [data, setData] = useState<any[]>([]);
   const [cmt, setCmt] = useState('');
   const [loading, setLoading] = useState(true);
   const getData = async () => {
-    let path = 'api/user/comic/getListComment';
+    let path = chapterIndex
+      ? 'api/user/chapter/getListComment'
+      : 'api/user/comic/getListComment';
     const body = {
       userId: document.id,
       comicId: comicId,
+      chapterIndex: chapterIndex,
     };
     const res = await sendRequest(path, body);
     if (res.err === 200) {
@@ -35,11 +39,14 @@ const Comments = () => {
     getData();
   }, []);
   const handlerSendCmt = async () => {
-    let path = 'api/user/sendCommentInComic';
+    let path = chapterIndex
+      ? 'api/user/sendCommentInChapter'
+      : 'api/user/sendCommentInComic';
     const body = {
       senderId: document.id,
       content: cmt,
       comicId: comicId,
+      chapterIndex: chapterIndex,
     };
     const myCmt = {
       createdAt: 'now',

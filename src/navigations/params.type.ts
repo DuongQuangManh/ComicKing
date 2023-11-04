@@ -53,6 +53,7 @@ export type StackParamList = {
     }
     comments: {
         comicId:string,
+        chapterIndex:number
     },
     readcomic: {
         id: string,
