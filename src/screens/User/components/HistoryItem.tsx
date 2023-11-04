@@ -26,9 +26,15 @@ const HistoryItem: React.FC<ItemProps> = ({ name, readingChapterIndex, descripti
                 style={styles.image}
                 source={{ uri: image }} />
             <View style={styles.docContainer}>
-                <Text type="medium_12">{name}</Text>
-                <Text type="light_12" color={myColors.textHint}>{description}</Text>
-                <Text type="light_12" color={myColors.text}>{readingChapterIndex}</Text>
+                <View style={{flex:1}}>
+                    <Text type="medium_17">{name}</Text>
+                    <Text type="regular_14" numberOfLines={2} ellipsizeMode="tail">{description}</Text>
+                </View>
+
+                <View style={{width:"100%"}}>
+                    <Text style={{textAlign:"right"}} type="medium_16" >Chapter: {readingChapterIndex}</Text>
+                </View>
+
             </View>
         </TouchableOpacity>
     )
@@ -38,16 +44,21 @@ export default HistoryItem
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
-        marginTop: 10,
-        flexDirection: "row"
+        paddingVertical: 6,
+        margin: 6,
+        paddingStart:5,
+        flexDirection: "row",
     },
     docContainer: {
+        paddingVertical: 12,
         flex: 1,
+        paddingStart: 15,
+        paddingEnd: 20,
+        height: '100%',
     },
     image: {
         width: 100,
-        height: 100 * 1.47,
+        height: 100 * 1.40,
         borderRadius: 5,
     },
 })
