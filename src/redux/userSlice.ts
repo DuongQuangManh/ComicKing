@@ -4,7 +4,7 @@ import { helper } from '@utils';
 import { AppDispatch } from './store';
 import { goBack } from '@navigations';
 
-import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument } from '@models';
+import { IAuthor, Decorate,IAuthorFollowing, IComicFollowing, IDocument, IReadingHistory } from '@models';
 
 
 interface IProfile {
@@ -82,6 +82,18 @@ export const getComicFollowing = createAsyncThunk("userSlice/getComicFollowing",
     }
 })
 
+export const getHistoryReading = createAsyncThunk('userSlice/getHistoryReading', async (body: { id: string }) => {
+    let path = 'api/user/getHistoryReading'
+    try {
+        const res = await sendRequest(path, body)
+        if (res.err == 200) {
+            return res.data
+        }
+    } catch (error: any) {
+        return false
+    }
+})
+
 interface IUserState {
     document: IDocument,
     loading:boolean;
@@ -137,7 +149,8 @@ interface IUserState {
     avatarFrame: Decorate | null,
     avatarTitle: Decorate | null,
     vipPoint: number,
-    levelPoint: number
+    levelPoint: number,
+    historyReading: IReadingHistory[]
 
 }
 
@@ -157,6 +170,7 @@ const initialState: IUserState = {
     avatarTitle: null,
     vipPoint: 0,
     levelPoint: 0,
+    historyReading:[]
 }
 
 const userSlice = createSlice({
@@ -220,6 +234,13 @@ const userSlice = createSlice({
         }).addCase(changeAvatarTitleAction.fulfilled, (state, action) => {
             if (action.payload) {
                 state.avatarTitle = action.payload
+            }
+        }).addCase(getHistoryReading.pending, state => {
+            state.loading = true
+        }).addCase(getHistoryReading.fulfilled, (state, action) => {
+            state.loading = false
+            if(action.payload){
+                state.historyReading = action.payload
             }
         })
     }

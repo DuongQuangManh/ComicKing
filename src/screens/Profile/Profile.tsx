@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from '@redux/store';
 import InfoItem from './Components/InfoItem';
 import {helper, myColors} from '@utils';
 import {goBack, navigate} from '@navigations';
-import {getProfileAction} from '@redux/userSlice';
+import {getHistoryReading, getProfileAction} from '@redux/userSlice';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
@@ -156,6 +156,20 @@ const Profile = () => {
           />
           <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
             Danh hiệu
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>{
+            navigate('readingHistory')
+          }}
+          style={styles.rowOption}>
+          <Icon
+            type={Icons.MaterialCommunityIcons}
+            name="history"
+            size={18}
+          />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Lịch sử đọc truyện
           </Text>
         </TouchableOpacity>
       </View>
