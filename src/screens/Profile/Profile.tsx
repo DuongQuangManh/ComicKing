@@ -159,7 +159,6 @@ const Profile = () => {
         <TouchableOpacity
           onPress={() =>{
             navigate('readingHistory')
-            dispatch(getHistoryReading({id}))
           }}
           style={styles.rowOption}>
           <Icon
