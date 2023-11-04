@@ -317,7 +317,7 @@ export const changePassVerifyOtpAction = createAsyncThunk('auth/changePassVerify
             return false;
         } else {
             helper.hideLoading();
-            navigate('success', { message: 'changePass' })
+            return reset([{name: 'success', params: { message: "changePassSuccess" }}]);
         }
 
     } catch (error: any) {
