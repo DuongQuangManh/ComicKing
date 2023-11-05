@@ -1,71 +1,73 @@
-export interface IComic{
-    id:string,
-    name: string,
+export interface IComic {
+  id: string;
+  name: string;
 
-    description:string,
+  description: string;
 
-    categories: any,
+  categories: any;
 
-    author: any,
+  author: any;
 
-    numOfChapter: number,
+  numOfChapter: number;
 
-    status: string,
+  status: string;
 
-    numOfFollow:number,
+  numOfFollow: number;
 
-    numOfLike:number,
+  numOfLike: number;
 
-    image: string,
+  image: string;
 
-    banner?: string,
+  banner?: string;
 
-    numOfComment: number,
+  numOfComment: number;
 
-    numOfView: number,
+  numOfView: number;
 
-    isHot: boolean,
+  isHot: boolean;
 
-    uId: string,
+  uId: string;
 
-    chapters: any,
+  chapters: any;
 
-    specialList:any,
+  specialList: any;
 
-    star: number,
+  star: number;
 
-    numOfRate: number,
+  numOfRate: number;
 
-    publishedAt: number
+  publishedAt: number;
+
+  readingChapter: number;
 }
 
-export interface IComicDetails{
-    updatedAt:string,
-    id: string,
-    name: string,
-    description: string,
-    numOfChapter: number,
-    numOfFavorite: number,
-    image: string,
-    numOfComment: number,
-    numOfView: number,
-    isHot: boolean,
-    star: number,
-    numOfRate: number,
-    publishedAt: string,
-    numOfLike: number,
-    updatedChapterAt: number,
-    author: any,
-    specialList: null,
-    categories:any,
-    chapters: any,
-    readingChapter:number,
-    hotComments:[],
+export interface IComicDetails {
+  updatedAt: string;
+  id: string;
+  name: string;
+  description: string;
+  numOfChapter: number;
+  numOfFavorite: number;
+  image: string;
+  numOfComment: number;
+  numOfView: number;
+  isHot: boolean;
+  star: number;
+  numOfRate: number;
+  publishedAt: string;
+  numOfLike: number;
+  updatedChapterAt: number;
+  author: any;
+  specialList: null;
+  categories: any;
+  chapters: any;
+  readingChapter: number;
+  hotComments: [];
 }
 
-export interface IChapterDetails{
-    id:string,
-    images:[] ,
-    comic:string,
-    index:string
+export interface IChapterDetails {
+  id: string;
+  images: [];
+  comic: string;
+  index: string;
 }

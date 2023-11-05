@@ -67,23 +67,34 @@ const ComicDetail = () => {
     navigate('comments', {comicId: id});
   };
 
-  const handlerReadComic = () => {
-    if (detailComic.readingChapter) {
-      navigate('readcomic', {
-        id: id,
-        chapter: detailComic.readingChapter,
-      });
+  const handlerReadComic = (index?: number) => {
+    let navigateIndex = 0;
+    if (index) {
+      navigateIndex = index;
     } else {
-      if (detailComic.numOfChapter > 0)
-        navigate('readcomic', {id: id, chapter: 1});
-      else {
-        helper.showErrorMsg('Tác giả chưa cập nhật chapter!');
+      if (detailComic.readingChapter) {
+        navigateIndex = detailComic.readingChapter;
+      } else if (detailComic.numOfChapter > 0) {
+        navigateIndex = 1;
       }
     }
+    if (navigateIndex) {
+      navigate('readcomic', {
+        id: id,
+        image: detailComic.image,
+        name: detailComic.name,
+        numOfChapter: detailComic.numOfChapter,
+        chapter: navigateIndex,
+      });
+    } else {
+      helper.showErrorMsg('Tác giả chưa cập nhật chapter!');
+    }
   };
+
   const handlerShowAuthor = () => {
     push('author', {id: detailComic.author?.id});
   };
+
   return (
     <>
       <Header
@@ -185,7 +196,7 @@ const ComicDetail = () => {
                   }
                   borderRadius={25}
                   style={{marginTop: 20, alignSelf: 'center'}}
-                  onPress={handlerReadComic}
+                  onPress={() => handlerReadComic()}
                 />
                 <View style={[styles.box3, styles.author]}>
                   <FastImage
@@ -327,7 +338,15 @@ const ComicDetail = () => {
                 <FlashList
                   nestedScrollEnabled={true}
                   data={detailComic.chapters ?? []}
-                  renderItem={({item}) => <Chapter item={item} comicId={id} />}
+                  renderItem={({item}: any) => (
+                    <Chapter
+                      onPress={() => {
+                        handlerReadComic(item?.index);
+                      }}
+                      readingChapter={detailComic.readingChapter}
+                      item={item}
+                    />
+                  )}
                   estimatedItemSize={100}
                   estimatedListSize={{
                     width: WINDOW_WIDTH,

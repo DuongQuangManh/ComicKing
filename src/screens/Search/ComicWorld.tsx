@@ -185,7 +185,9 @@ const ComicWorld = () => {
           paddingHorizontal: 12,
         }}>
         {SORTS.map((item, index) => (
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            key={index}
+            style={{flexDirection: 'row', alignItems: 'center'}}>
             {index > 0 && <Text> | </Text>}
             <TouchableOpacity
               onPress={() => {

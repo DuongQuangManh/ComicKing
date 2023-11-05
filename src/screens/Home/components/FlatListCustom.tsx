@@ -26,12 +26,16 @@ const FlatListCustom: FC<componetProps> = ({
         <Text type="semibold_17">{props.label}</Text>
         {isMore && (
           <TouchableOpacity style={styles.box2}>
-            <Text type='regular_14' color='gray' >Thêm</Text>
-            <Icon color='gray'
-             type={Icons.Entypo} 
-             name="chevron-right" 
-             size={14}
-              style={{paddingTop: 2}} />
+            <Text type="regular_14" color="gray">
+              Thêm
+            </Text>
+            <Icon
+              color="gray"
+              type={Icons.Entypo}
+              name="chevron-right"
+              size={14}
+              style={{paddingTop: 2}}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -89,7 +93,7 @@ export default React.memo(FlatListCustom);
 const styles = StyleSheet.create({
   container: {
     width: WINDOW_WIDTH,
-    marginTop: 16,
+    marginTop: 10,
     minHeight: WINDOW_WIDTH / 3 + 60,
   },
   box1: {
@@ -97,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingStart: 4,
-    marginBottom: 3
+    marginBottom: 3,
   },
   box2: {
     flexDirection: 'row',

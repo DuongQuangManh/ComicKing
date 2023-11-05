@@ -98,7 +98,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {listComic[0].numOfView ?? 0}
+                    {listComic[0].numOfLike ?? 0}
                   </Text>
                 </View>
                 <View
@@ -136,7 +136,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                     style={{paddingStart: 1}}
                     color={myColors.textHint}
                     type="light_12">
-                    {listComic[0].numOfView ?? 0}
+                    {listComic[0].numOfChapter ?? 0}
                   </Text>
                 </View>
               </View>
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginTop: 18,
-    minHeight: 400
+    minHeight: 400,
   },
   image: {
     width: ITEM_WIDTH_33,
