@@ -14,9 +14,7 @@ import {
   getSliderComics,
 } from '@redux/homeSlice';
 
-import {
-  getUserInfoAction,
-} from '@redux/userSlice';
+import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
 
 const Splash = () => {
@@ -29,8 +27,9 @@ const Splash = () => {
     dispatch(getNewestComics());
     dispatch(getProposeComics());
     dispatch(getDoneComics());
-    dispatch(getHotComic())
+    dispatch(getHotComic());
     dispatch(getLevel({id: id}));
+    dispatch(getHistoryReading({userId: id}));
 
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
@@ -58,7 +57,7 @@ const Splash = () => {
         <Text
           type="bold_28"
           style={{marginTop: 10, color: myColors.background}}>
-          Comic King
+          Comic Stuff
         </Text>
       </View>
     </Screen>
