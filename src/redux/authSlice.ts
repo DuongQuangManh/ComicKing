@@ -288,9 +288,9 @@ export const resendOtp = createAsyncThunk(
   },
 );
 
-export const logoutAction = createAsyncThunk<void, void, {state: RootState}>(
+export const logoutAction = createAsyncThunk<void, void, {state: RootState,dispatch:AppDispatch}>(
   'auth/logout',
-  async (_, {getState}) => {
+  async (_, {getState,dispatch}) => {
     try {
       let loginSource = getState().authSlice.loginSource;
       if (loginSource == 'facebook') {
@@ -298,6 +298,7 @@ export const logoutAction = createAsyncThunk<void, void, {state: RootState}>(
       } else if (loginSource == 'google') {
         await GoogleSignin.signOut();
       }
+      dispatch(resetTokenWhenLogout(""))
       reset([{name: 'login'}]);
       return;
     } catch (error: any) {
@@ -371,7 +372,11 @@ const initialState: IAuthState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    resetTokenWhenLogout:(state,action)=>{
+      state.token = '';
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(loginWithGoogleAction.fulfilled, (state, action) => {
@@ -404,4 +409,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { resetTokenWhenLogout} = authSlice.actions
 export default authSlice.reducer;

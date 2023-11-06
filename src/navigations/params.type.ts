@@ -83,7 +83,9 @@ export type StackParamList = {
   authorFollowing: {};
   comicFollowing: {};
   readingHistory: {};
-  success: {};
+  success: {
+    message:string
+  };
   commentdetail: {
     item: any;
   };
