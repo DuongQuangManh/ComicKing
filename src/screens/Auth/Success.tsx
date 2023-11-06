@@ -1,42 +1,51 @@
-import { Button, Icon, Icons, Text } from "@components"
+import { Button, Text } from "@components"
 import { Screen } from "../screen"
-import { goBack, navigate } from '@navigations';
-import { helper, myColors } from '@utils';
-import { useState } from "react";
-
+import { navigate, StackParamList, reset } from '@navigations';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { Image, StyleSheet } from "react-native";
+import { useAppDispatch } from '@redux/store';
+import { logoutAction } from '@redux/authSlice';
 
 const Success = () => {
-    const [screen, setscreen] = useState(0)
+    const { message } = useRoute<RouteProp<StackParamList, 'success'>>().params;
+    const dispatch = useAppDispatch()
 
     const nextScreen = () => {
-        if (screen == 0 || screen == 1)
-            navigate('login')
-        else
-            navigate('profile')
+        if (message == "changePassSuccess")
+            dispatch(logoutAction());
+        else if (message == "registerSuccess" || message == "forgotPassSuccess")
+            reset([{ name: 'login' }])
     }
 
     return (
-        <Screen backgroundColor={myColors.background}>
-            <Icon
-                name="checkmark-circle"
-                size={30}
-                color="red"
-                type={Icons.Ionicons}
+        <Screen style={{ alignItems: "center" }}>
+            <Image
+                style={styles.image}
+                source={require('@assets/images/img_success.jpeg')}
             />
             <Text
-                style={{ fontSize: 20, fontWeight: "bold", color: "black" }}>
-                {screen == 0 ? "Register Success" : "Change Password Success"}
-                {screen == 1 ? "Password Retrieval Success" : "Change Password Success"}
-                </Text>
+                type="bold_24"
+                style={{ marginTop: 30, marginBottom: 70 }}>
+                {message == 'changePassSuccess' ? "Change Password Success" : ""}
+                {message == 'registerSuccess' ? "Register Success" : ""}
+                {message == 'forgotPassSuccess' ? "Password Retrieval Success" : ""}
+            </Text>
             <Button
-                text={
-                    screen == 0 || screen == 1 ? "Back To Login" : "Continue"
-                }
+                text={"Back To Login"}
                 borderRadius={10}
-                height={35}
+                height={45}
+                width={200}
                 onPress={nextScreen}
             />
         </Screen>
     )
 }
 export default Success
+
+const styles = StyleSheet.create({
+    image: {
+        width: "80%",
+        height: 200,
+        marginTop: 190,
+    }
+})
