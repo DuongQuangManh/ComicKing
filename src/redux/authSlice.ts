@@ -245,26 +245,27 @@ export const forgotPassAction = createAsyncThunk(
 );
 
 export const forgotPassVerifyOtpAction = createAsyncThunk(
-  'auth/forgotPassVerifyOtp',
-  async (body: IVerifyOtpBody) => {
-    let path = 'api/user/forgotPasswordVerifyOtp';
-    try {
-      helper.showLoading();
-      const respone = await sendRequest(path, body);
-      helper.hideLoading();
-      if (respone.err != 200) {
-        helper.showErrorMsg(respone.message);
-        return false;
-      }
-      helper.showSuccessMsg(respone.message, () => {
-        reset([{name: 'login', params: {email: body.email}}]);
-      });
-      return;
-    } catch (error: any) {
-      helper.hideLoading();
-      return false;
+    'auth/forgotPassVerifyOtp', async (body: IVerifyOtpBody) => {
+        let path = 'api/user/forgotPasswordVerifyOtp'
+        try {
+            helper.showLoading()
+            const respone = await sendRequest(path, body)
+            helper.hideLoading()
+            if (respone.err != 200) {
+                helper.showErrorMsg(respone.message)
+                return false
+            }
+            // helper.showSuccessMsg(
+            //     respone.message,
+            //     () => {
+            //         reset([{ name: 'login', params: { email: body.email } }])
+            //     })
+            navigate('success', { message: "forgotPassSuccess" })
+        } catch (error: any) {
+            helper.hideLoading()
+            return false
+        }
     }
-  },
 );
 
 export const resendOtp = createAsyncThunk(
@@ -339,14 +340,17 @@ export const changePassVerifyOtpAction = createAsyncThunk(
   async (body: IVerifyOtpBody) => {
     let path = 'api/user/changePasswordVerifyOtp';
     try {
-      helper.showLoading();
-      const res = await sendRequest(path, body);
-      if (res.err != 200) {
-        helper.showErrorMsg(res.message);
-        return false;
-      }
-      helper.hideLoading();
-      helper.showSuccessMsg(res.message, () => goBack(3));
+        helper.showLoading();
+        const res = await sendRequest(path, body);
+        if (res.err != 200) {
+            helper.showErrorMsg(res.message)
+            return false;
+        }
+        helper.hideLoading();
+        // helper.showSuccessMsg(
+        //     res.message,
+        //     () => goBack(3))
+        navigate('success',{ message: "changePassSuccess" })
     } catch (error: any) {
       helper.hideLoading();
       return false;

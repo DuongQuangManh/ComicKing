@@ -34,7 +34,7 @@ const Setting = () => {
         name="Nigh mode"
         iconName="light-down"
         onPress={() => {
-          navigate('changePassword');
+          navigate('success');
         }}
         iconType={Icons.Entypo}
       />
