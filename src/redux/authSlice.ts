@@ -260,7 +260,7 @@ export const forgotPassVerifyOtpAction = createAsyncThunk(
             //     () => {
             //         reset([{ name: 'login', params: { email: body.email } }])
             //     })
-            return reset([{ name: 'success', params: { message: "fotgotPassSuccess" } }])
+            navigate('success', { message: "fotgotPassSuccess" })
         } catch (error: any) {
             helper.hideLoading()
             return false
@@ -347,9 +347,10 @@ export const changePassVerifyOtpAction = createAsyncThunk(
             return false;
         }
         helper.hideLoading();
-        helper.showSuccessMsg(
-            res.message,
-            () => goBack(3))
+        // helper.showSuccessMsg(
+        //     res.message,
+        //     () => goBack(3))
+        navigate('success',{ message: "changePassSuccess" })
     } catch (error: any) {
       helper.hideLoading();
       return false;

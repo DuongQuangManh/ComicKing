@@ -1,19 +1,20 @@
-import { Button, Icon, Icons, Text } from "@components"
+import { Button, Text } from "@components"
 import { Screen } from "../screen"
 import { navigate, StackParamList, reset } from '@navigations';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet } from "react-native";
-
+import { useAppDispatch } from '@redux/store';
+import { logoutAction } from '@redux/authSlice';
 
 const Success = () => {
     const { message } = useRoute<RouteProp<StackParamList, 'success'>>().params;
+    const dispatch = useAppDispatch()
 
     const nextScreen = () => {
-        // if (message == "changePassSuccess")
-        //     navigate('profile')
-        // else if (message == "registerSuccess" || message == "forgotPassSuccess")
-        //     navigate('login')
-        navigate('login')
+        if (message == "changePassSuccess")
+            dispatch(logoutAction());
+        else if (message == "registerSuccess" || message == "fotgotPassSuccess")
+            reset([{ name: 'login' }])
     }
 
     return (
@@ -24,20 +25,16 @@ const Success = () => {
             />
             <Text
                 type="bold_24"
-                style={{ marginVertical: 50 }}>
+                style={{ marginTop: 30, marginBottom: 70 }}>
                 {message == 'changePassSuccess' ? "Change Password Success" : ""}
                 {message == 'registerSuccess' ? "Register Success" : ""}
                 {message == 'fotgotPassSuccess' ? "Password Retrieval Success" : ""}
             </Text>
             <Button
-                text={"Back To Login"
-                    // message == 'fotgotPassSuccess' || message == "registerSuccess" ? "Back To Login" : "Back To ProFile"
-                }
+                text={"Back To Login"}
                 borderRadius={10}
                 height={45}
                 width={200}
-                textColor="black"
-                buttonColor="white"
                 onPress={nextScreen}
             />
         </Screen>
@@ -49,6 +46,6 @@ const styles = StyleSheet.create({
     image: {
         width: "80%",
         height: 200,
-        marginTop: 200,
+        marginTop: 190,
     }
 })
