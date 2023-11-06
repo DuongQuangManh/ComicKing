@@ -260,7 +260,7 @@ export const forgotPassVerifyOtpAction = createAsyncThunk(
             //     () => {
             //         reset([{ name: 'login', params: { email: body.email } }])
             //     })
-            navigate('success', { message: "fotgotPassSuccess" })
+            navigate('success', { message: "forgotPassSuccess" })
         } catch (error: any) {
             helper.hideLoading()
             return false

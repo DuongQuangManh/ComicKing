@@ -13,7 +13,7 @@ const Success = () => {
     const nextScreen = () => {
         if (message == "changePassSuccess")
             dispatch(logoutAction());
-        else if (message == "registerSuccess" || message == "fotgotPassSuccess")
+        else if (message == "registerSuccess" || message == "forgotPassSuccess")
             reset([{ name: 'login' }])
     }
 
@@ -28,7 +28,7 @@ const Success = () => {
                 style={{ marginTop: 30, marginBottom: 70 }}>
                 {message == 'changePassSuccess' ? "Change Password Success" : ""}
                 {message == 'registerSuccess' ? "Register Success" : ""}
-                {message == 'fotgotPassSuccess' ? "Password Retrieval Success" : ""}
+                {message == 'forgotPassSuccess' ? "Password Retrieval Success" : ""}
             </Text>
             <Button
                 text={"Back To Login"}
