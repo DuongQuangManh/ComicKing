@@ -1,7 +1,7 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, StyleProp} from 'react-native';
 import React, {FC} from 'react';
 import {Icon, Text} from '@components';
-import {myColors} from '@utils';
+import {KeyFontType, myColors} from '@utils';
 interface componentProps {
   text?: string;
   nameIcon?: string;
@@ -9,9 +9,13 @@ interface componentProps {
   sizeIcon?: number;
   colorIcon?: string;
   colorText?: string;
+  textType?: KeyFontType;
+  textStyle?: StyleProp<Text>;
 }
 const IconText: FC<componentProps> = ({
   colorText = myColors.surfaceVariant,
+  textType = 'semibold_16',
+  textStyle = {marginStart: 5},
   ...props
 }) => {
   return (
@@ -22,7 +26,7 @@ const IconText: FC<componentProps> = ({
         size={props.sizeIcon}
         color={props.colorIcon}
       />
-      <Text type="semibold_16" color={colorText} style={{marginStart: 5}}>
+      <Text type={textType} color={colorText} style={textStyle}>
         {props.text}
       </Text>
     </View>

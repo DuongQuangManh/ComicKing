@@ -8,16 +8,13 @@ import SplashScreen from 'react-native-splash-screen';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {
   getDoneComics,
+  getHotComic,
   getNewestComics,
   getProposeComics,
   getSliderComics,
 } from '@redux/homeSlice';
 
-import {
-  getAuthorFollowing,
-  getComicFollowing,
-  getUserInfoAction,
-} from '@redux/userSlice';
+import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
 
 const Splash = () => {
@@ -25,13 +22,15 @@ const Splash = () => {
   const {id = ''} = useAppSelector(state => state.userSlice.document);
   useEffect(() => {
     SplashScreen.hide();
+
     dispatch(getSliderComics());
     dispatch(getNewestComics());
     dispatch(getProposeComics());
     dispatch(getDoneComics());
-    dispatch(getAuthorFollowing({userId: id}));
-    dispatch(getComicFollowing({userId: id}));
+    dispatch(getHotComic());
     dispatch(getLevel({id: id}));
+    dispatch(getHistoryReading({userId: id}));
+
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
         dispatch(getUserInfoAction({id}));
@@ -40,10 +39,11 @@ const Splash = () => {
         replace('login');
       }
       clearTimeout(this);
-    }, 300);
+    }, 500);
   }, []);
   return (
     <Screen
+      statusBarColor={myColors.primary}
       style={{
         justifyContent: 'center',
         alignItems: 'center',
@@ -57,7 +57,7 @@ const Splash = () => {
         <Text
           type="bold_28"
           style={{marginTop: 10, color: myColors.background}}>
-          COMIC BOOK
+          Comic Stuff
         </Text>
       </View>
     </Screen>

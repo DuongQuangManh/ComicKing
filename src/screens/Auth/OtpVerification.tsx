@@ -39,7 +39,7 @@ const OtpVerification = () => {
         case 'login':
           return reset([{name: 'bottomNavigation'}]);
         case 'register':
-          return reset([{name: 'bottomNavigation', params: {registerSuccess: true}}]);
+          return reset([{name: 'bottomNavigation'}]);
         case 'changePass':
         case 'forgotPass':
       }

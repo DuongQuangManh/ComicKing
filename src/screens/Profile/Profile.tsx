@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from '@redux/store';
 import InfoItem from './Components/InfoItem';
 import {helper, myColors} from '@utils';
 import {goBack, navigate} from '@navigations';
-import {getProfileAction} from '@redux/userSlice';
+import {getHistoryReading, getProfileAction} from '@redux/userSlice';
 import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
 import LinearGradient from 'react-native-linear-gradient';
 import FastImage from 'react-native-fast-image';
@@ -23,11 +23,14 @@ const Profile = () => {
 
   return (
     <Screen
+      unsafe
       backgroundColor={myColors.gray}
       preset="scroll"
-      statusBarColor={myColors.primary_60}>
+      translucent
+      statusBarColor="transparent"
+      style={{paddingBottom: 100}}>
       <TouchableOpacity
-        style={{position: 'absolute', top: 10, right: 10, zIndex: 10}}
+        style={{position: 'absolute', top: 34, right: 10, zIndex: 10}}
         onPress={() => navigate('setting')}>
         <Icon
           name={'settings-sharp'}
@@ -38,7 +41,7 @@ const Profile = () => {
       </TouchableOpacity>
       <LinearGradient
         colors={[myColors.primary_60, myColors.gray]}
-        style={{padding: 18}}>
+        style={{paddingTop: 28, paddingHorizontal: 18, paddingBottom: 18}}>
         <View style={{height: 40}}></View>
         <View style={{flexDirection: 'row', paddingBottom: 20}}>
           <AvatarFrame
@@ -49,7 +52,9 @@ const Profile = () => {
           />
           <View style={{paddingStart: 15, flex: 1}}>
             <Text style={{marginVertical: 8}}>{fullName}</Text>
-            <TouchableOpacity style={styles.lvlBtn}>
+            <TouchableOpacity
+              style={styles.lvlBtn}
+              onPress={() => navigate('level')}>
               <Text color="#fff" type="medium_14">
                 Lv1
               </Text>
@@ -62,32 +67,6 @@ const Profile = () => {
             }}
             style={styles.editBtn}>
             <Icon type={Icons.FontAwesome} name="edit" size={22} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.containerFl}>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => navigate('follow', {type: 'following'})}>
-            <View style={styles.itemFl}>
-              <Text type="bold_22">
-                {authorFollowing ? authorFollowing.data.length : 0}
-              </Text>
-              <Text type="medium_14" color="#555454df">
-                Đang theo dõi
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.6}
-            onPress={() => navigate('follow', {type: 'comicfollowing'})}>
-            <View style={styles.itemFl}>
-              <Text type="bold_22">
-                {comicFollowing ? comicFollowing.data.length : 0}
-              </Text>
-              <Text type="medium_14" color="#555454df">
-                Truyện theo dõi
-              </Text>
-            </View>
           </TouchableOpacity>
         </View>
       </LinearGradient>
@@ -112,6 +91,14 @@ const Profile = () => {
           />
           <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
             Nạp xu
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.rowOption}
+          onPress={() => navigate('commented')}>
+          <Icon type={Icons.FontAwesome} name="comment-o" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Bình luận của tôi
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -147,7 +134,36 @@ const Profile = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={{height: 500}} />
+      <View style={styles.containerOption}>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('comicFollowing');
+          }}
+          style={styles.rowOption}>
+          <Icon type={Icons.FontAwesome6} name="book-quran" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Truyện đang theo dõi
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigate('authorFollowing')}
+          style={styles.rowOption}>
+          <Icon type={Icons.FontAwesome5} name="user-astronaut" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Tác giả đang theo dõi
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            navigate('readingHistory');
+          }}
+          style={styles.rowOption}>
+          <Icon type={Icons.MaterialCommunityIcons} name="history" size={18} />
+          <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
+            Lịch sử đọc truyện
+          </Text>
+        </TouchableOpacity>
+      </View>
     </Screen>
   );
 };
@@ -171,6 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     elevation: 1,
     padding: 12,
+    marginTop: 20,
   },
   imgContainer: {
     width: 90,

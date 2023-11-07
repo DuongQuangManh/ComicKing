@@ -1,7 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Icon, Icons, Text} from '@components';
-import {Home, Notification, Profile, Search} from '@screens';
+import {Home, ListCategory, Operation, Profile, Rank} from '@screens';
 import {
   BottomTabBarButtonProps,
   createBottomTabNavigator,
@@ -25,34 +25,43 @@ interface ButtonTab {
 const tabArr: ButtonTab[] = [
   {
     route: 'home',
-    label: 'Home',
+    label: 'Trang chủ',
     type: Icons.Ionicons,
     activeIcon: 'home',
     inActiveIcon: 'home-outline',
     component: Home,
     badge: 0,
   },
+  // {
+  //   route: 'category',
+  //   label: 'Thể loại',
+  //   type: Icons.AntDesign,
+  //   activeIcon: 'appstore1',
+  //   inActiveIcon: 'appstore-o',
+  //   component: ListCategory,
+  //   badge: 0,
+  // },
   {
-    route: 'search',
-    label: 'Search',
-    type: Icons.Ionicons,
-    activeIcon: 'search',
-    inActiveIcon: 'search-outline',
-    component: Search,
+    route: 'operation',
+    label: 'Hoạt động',
+    type: Icons.MaterialCommunityIcons,
+    activeIcon: 'star-four-points',
+    inActiveIcon: 'star-four-points-outline',
+    component: Operation,
     badge: 0,
   },
-  {
-    route: 'notification',
-    label: 'Notification',
-    type: Icons.Octicons,
-    activeIcon: 'bell-fill',
-    inActiveIcon: 'bell',
-    component: Notification,
-    badge: 0,
-  },
+  // {
+  //   route: 'rank',
+  //   label: 'Xếp hạng',
+  //   type: Icons.Ionicons,
+  //   activeIcon: 'stats-chart',
+  //   inActiveIcon: 'stats-chart-outline',
+  //   component: Rank,
+  //   badge: 0,
+  // },
   {
     route: 'profile',
-    label: 'Profile',
+    label: 'Cá nhân',
     type: Icons.Ionicons,
     activeIcon: 'happy',
     inActiveIcon: 'happy-outline',
@@ -79,17 +88,18 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
         justifyContent: 'center',
       }}>
       <TouchableOpacity
-      activeOpacity={0.6}
+        activeOpacity={0.6}
         style={{alignItems: 'center', justifyContent: 'center'}}
         onPress={onPress}>
         <Icon
           type={item.type}
           name={focused ? item.activeIcon : item.inActiveIcon}
           color={focused ? myColors.primary : myColors.textHint}
-          size={20}
+          size={18}
         />
         <Text
-          type={focused ? 'medium_14' : 'regular_14'}
+          style={{marginTop: 3}}
+          type={focused ? 'medium_12' : 'regular_12'}
           color={focused ? myColors.primary : myColors.textHint}>
           {item.label}
         </Text>

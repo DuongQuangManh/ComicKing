@@ -3,5 +3,5 @@ import { usePreviousRouteName } from "./usePreviousRouteName";
 
 export {
     useLayout,
-    usePreviousRouteName
+    usePreviousRouteName,
 }

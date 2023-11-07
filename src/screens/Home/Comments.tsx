@@ -10,33 +10,43 @@ import {Comment} from '@items';
 import {sendRequest} from '@api';
 import {useAppSelector} from '@redux/store';
 import {TouchableOpacity} from 'react-native';
+import {ActivityIndicator} from 'react-native-paper';
 
 const Comments = () => {
-  const {comicId} = useRoute<RouteProp<StackParamList, 'comments'>>().params;
+  const {comicId, chapterIndex} =
+    useRoute<RouteProp<StackParamList, 'comments'>>().params;
   const {document, avatarFrame} = useAppSelector(state => state.userSlice);
   const level = useAppSelector(state => state.levelSlice);
   const [data, setData] = useState<any[]>([]);
   const [cmt, setCmt] = useState('');
+  const [loading, setLoading] = useState(true);
   const getData = async () => {
-    let path = 'api/user/comic/getListComment';
+    let path = chapterIndex
+      ? 'api/user/chapter/getListComment'
+      : 'api/user/comic/getListComment';
     const body = {
       userId: document.id,
       comicId: comicId,
+      chapterIndex: chapterIndex,
     };
     const res = await sendRequest(path, body);
     if (res.err === 200) {
       setData(res.data);
     }
+    setLoading(false);
   };
   useEffect(() => {
     getData();
   }, []);
   const handlerSendCmt = async () => {
-    let path = 'api/user/sendCommentInComic';
+    let path = chapterIndex
+      ? 'api/user/sendCommentInChapter'
+      : 'api/user/sendCommentInComic';
     const body = {
       senderId: document.id,
       content: cmt,
       comicId: comicId,
+      chapterIndex: chapterIndex,
     };
     const myCmt = {
       createdAt: 'now',
@@ -71,35 +81,45 @@ const Comments = () => {
       }}>
       <View style={styles.container}>
         <Header text="Bình luận" />
-        <Text>Tổng 120 comment</Text>
-        <FlashList
-          data={data}
-          renderItem={({item}) => <Comment item={item} />}
-          estimatedItemSize={WINDOW_WIDTH}
-          estimatedListSize={{
-            width: WINDOW_WIDTH,
-            height: (WINDOW_HEIGHT * 2) / 3,
-          }}
-          contentContainerStyle={{paddingBottom: 70}}
-        />
-        <View style={styles.box1}>
-          <Input
-            value={cmt}
-            onChangeText={setCmt}
-            placeholder="Nhập bình luận của bạn"
-            placeholderTextColor={myColors.text}
-            style={{
-              width: (WINDOW_WIDTH * 6) / 7,
-              height: 35,
-              backgroundColor: myColors.transparentGray,
-              borderRadius: 8,
-              color: myColors.surfaceVariant,
-            }}
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color={myColors.primary}
+            style={{height: WINDOW_HEIGHT * 0.9}}
           />
-          <TouchableOpacity onPress={handlerSendCmt}>
-            <Icon type={Icons.Ionicons} name="send" />
-          </TouchableOpacity>
-        </View>
+        ) : (
+          <>
+            <Text>{`Tổng ${data?.length} comment`}</Text>
+            <FlashList
+              data={data}
+              renderItem={({item}) => <Comment item={item} />}
+              estimatedItemSize={WINDOW_WIDTH}
+              estimatedListSize={{
+                width: WINDOW_WIDTH,
+                height: (WINDOW_HEIGHT * 2) / 3,
+              }}
+              contentContainerStyle={{paddingBottom: 70}}
+            />
+            <View style={styles.box1}>
+              <Input
+                value={cmt}
+                onChangeText={setCmt}
+                placeholder="Nhập bình luận của bạn"
+                placeholderTextColor={myColors.text}
+                style={{
+                  width: (WINDOW_WIDTH * 6) / 7,
+                  height: 35,
+                  backgroundColor: myColors.transparentGray,
+                  borderRadius: 8,
+                  color: myColors.surfaceVariant,
+                }}
+              />
+              <TouchableOpacity onPress={handlerSendCmt}>
+                <Icon type={Icons.Ionicons} name="send" />
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </View>
     </Modal>
   );

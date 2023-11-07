@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
 import { Screen } from '../screen'
 import { Header, Icon, Icons, Text } from '@components'
 import { WINDOW_WIDTH, helper, myColors, myTheme } from '@utils'
@@ -117,7 +117,7 @@ const EditAvtTitle = () => {
     }, [selectedTab])
 
 
-    const _renderTabs = useCallback(() => {
+    const _renderTabs = useMemo(() => {
         return (
             <View style={{ flexDirection: 'row' }}>
                 {TABS.map(item => (
@@ -213,7 +213,7 @@ const EditAvtTitle = () => {
                     </View>
                 </View>
             </LinearGradient>
-            {_renderTabs()}
+            {_renderTabs}
             {loading
                 ? <ActivityIndicator
                     color={myColors.primary}

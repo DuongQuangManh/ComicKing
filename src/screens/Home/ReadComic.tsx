@@ -1,25 +1,32 @@
-import {Animated, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  BackHandler,
+} from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {Screen} from '../screen';
 import {Header, Icon, Icons, Input, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList, goBack} from '@navigations';
+import {StackParamList, goBack, navigate} from '@navigations';
 import {FlashList} from '@shopify/flash-list';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors, myTheme} from '@utils';
 import {sendRequest} from '@api';
 import {ActivityIndicator} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
+import {unshiftHistoryItem} from '@redux/homeSlice';
+
 // api/user/detailChapter
 const ReadComic = () => {
-  const {id, chapter} =
+  const dispatch = useAppDispatch();
+  const {id, name, image, numOfChapter, chapter, needLoadComic} =
     useRoute<RouteProp<StackParamList, 'readcomic'>>().params;
   const userId = useAppSelector(state => state.userSlice.document.id);
-  const comic = useAppSelector(state => state.comicSlice.data);
   const flashlistRef = useRef<FlashList<any>>(null);
   const [cmt, setCmt] = useState('');
   const [loading, setLoading] = useState(false);
-  const dispatch = useAppDispatch();
   const [data, setData] = useState<any[]>([]);
   const [isLike, setLike] = useState(false);
 
@@ -33,12 +40,12 @@ const ReadComic = () => {
 
   const onViewableItemsChanged = useRef(({viewableItems, changed}: any) => {
     const item = viewableItems?.[0]?.item;
-    console.log(item);
     if (item && changed) {
       const type = typeof item;
       switch (type) {
         case 'number':
           ref.currentChapter = item;
+
           break;
         case 'object':
           if (item.chapterIndex) {
@@ -55,12 +62,21 @@ const ReadComic = () => {
     setLoading(true);
     const res = await sendRequest(path, {
       userId: userId,
-      comicId: comic.id,
+      comicId: id,
       chapterIndex: index,
     });
     setLoading(false);
     if (res.err == 200) {
       const newChapter = res.data;
+      dispatch(
+        unshiftHistoryItem({
+          id,
+          readingChapter: index,
+          name,
+          image,
+          numOfChapter,
+        }),
+      );
       const endView = newChapter.hotCmt ?? {
         chapterIndex: newChapter.index,
         comments: [],
@@ -68,14 +84,28 @@ const ReadComic = () => {
       };
       ref.currentChapter = newChapter.index ?? 1;
       setLike(newChapter.isLike);
+
       setData(pre => [...pre, newChapter.index, ...newChapter.images, endView]);
     } else {
       helper.showErrorMsg(res.message);
     }
   };
 
+  const handleBack = () => {
+    goBack();
+    if (needLoadComic) {
+      navigate('comicdetail', {id});
+    }
+    return true;
+  };
+
   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBack);
     getData(chapter);
+
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBack);
+    };
   }, []);
 
   const renderFooter = () => {
@@ -98,7 +128,7 @@ const ReadComic = () => {
   };
 
   const showOption = () => {
-    console.log(ref);
+    console.log(ref.currentChapter);
     if (!ref.showingOption) {
       ref.showingOption = true;
       Animated.timing(scrollY, {
@@ -167,7 +197,7 @@ const ReadComic = () => {
       userId: userId,
       chapterIndex: chapter,
       isLike: !isLike,
-      comicId: comic.id,
+      comicId: id,
     };
     const res = await sendRequest(path, obj);
     if (res.err === 200) {
@@ -176,8 +206,24 @@ const ReadComic = () => {
     setLike(!isLike);
   };
 
+  const handlerComment = async () => {
+    let path = 'api/user/sendCommentInChapter';
+    const body = {
+      senderId: userId,
+      content: cmt,
+      chapterIndex: ref.currentChapter,
+      comicId: id,
+    };
+    const res = await sendRequest(path, body);
+    if (res.err === 200) {
+      console.log('comment thành công');
+    }
+  };
+  const handlerShowComment = () => {
+    navigate('comments', {comicId: id, chapterIndex: ref.currentChapter});
+  };
   return (
-    <Screen>
+    <Screen unsafe translucent statusBarColor="transparent">
       <Animated.View
         style={{
           position: 'absolute',
@@ -189,16 +235,17 @@ const ReadComic = () => {
             {
               translateY: scrollY.interpolate({
                 inputRange: [0, 1],
-                outputRange: [0, -75],
+                outputRange: [0, -70],
                 extrapolate: 'clamp',
               }),
             },
           ],
         }}>
         <Header
+          style={{height: 70}}
           backgroundColor={myColors.transparentGray}
           text={`Chapter ${ref.currentChapter}`}
-          onBack={goBack}
+          onBack={handleBack}
         />
       </Animated.View>
       {loading && ref.currentChapter == -1 ? (
@@ -210,11 +257,10 @@ const ReadComic = () => {
       ) : (
         <FlashList
           ref={flashlistRef}
-          onTouchStart={hideOption}
+          onTouchMove={hideOption}
           onTouchEnd={showOption}
           showsVerticalScrollIndicator={false}
           estimatedItemSize={WINDOW_HEIGHT}
-          decelerationRate="fast"
           removeClippedSubviews={true}
           data={data}
           renderItem={_renderItem}
@@ -255,7 +301,7 @@ const ReadComic = () => {
               color: myColors.surfaceVariant,
             }}
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handlerComment}>
             <Icon type={Icons.Ionicons} name="send" />
           </TouchableOpacity>
         </View>
@@ -265,6 +311,9 @@ const ReadComic = () => {
           </TouchableOpacity>
           <TouchableOpacity onPress={handlerLike}>
             <Icon type={Icons.AntDesign} name={isLike ? 'like1' : 'like2'} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handlerShowComment}>
+            <Icon type={Icons.FontAwesome} name="comment-o" />
           </TouchableOpacity>
           <TouchableOpacity>
             <Icon type={Icons.Ionicons} name="chevron-forward-outline" />

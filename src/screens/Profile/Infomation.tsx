@@ -28,7 +28,6 @@ const Infomation = () => {
             cropping: true,
             includeBase64: true,
         }).then(image => {
-            console.log(image);
             navigate('editprofile', {
                 value: image,
                 message: 'hello',

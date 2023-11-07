@@ -3,7 +3,7 @@ import { CateModel } from '@models'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const getCate = createAsyncThunk('cate/get', async (_, { rejectWithValue }) => {
-    let path = "api/category/get";
+    let path = "api/user/findCategory";
     try {
         const res = await sendRequest(path);
         if (res.err != 200) {

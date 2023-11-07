@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ComicApp</string>
+    <string name="app_name">Comic Stuff</string>
     <string name="facebook_app_id">3574275326223175</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>

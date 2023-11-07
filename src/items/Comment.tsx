@@ -1,12 +1,16 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {FC} from 'react';
-import {WINDOW_WIDTH, myColors} from '@utils';
+import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import FastImage from 'react-native-fast-image';
 import {AvatarFrame, IconText, Icons, Text} from '@components';
+import {navigate} from '@navigations';
 interface itemProps {
   item?: any;
 }
 const Comment: FC<itemProps> = ({item}) => {
+  const handerShowCommentDetail = () => {
+    navigate('commentdetail', {item: item});
+  };
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -30,7 +34,9 @@ const Comment: FC<itemProps> = ({item}) => {
         </View>
         <View style={styles.box2_1}>
           <Text style={{flex: 1}}>
-            {item?.time ? item.time : '15:36 27/10/2023'}
+            {item?.createdAt
+              ? helper.convertTimestamp(item.time)
+              : 'hh:mm dd/MM/yy'}
           </Text>
           <View
             style={[
@@ -49,7 +55,7 @@ const Comment: FC<itemProps> = ({item}) => {
                 colorText={myColors.text}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handerShowCommentDetail}>
               <IconText
                 nameIcon="commenting-o"
                 typeIcon={Icons.FontAwesome}
@@ -73,6 +79,7 @@ const styles = StyleSheet.create({
     padding: 5,
     alignSelf: 'center',
     flexDirection: 'row',
+    minHeight: 180,
   },
 
   box1: {

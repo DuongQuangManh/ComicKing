@@ -14,14 +14,13 @@ import PrivilegeItem from './Components/PrivilegeItem';
 const Level = () => {
   const document = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
-  const data: any = useAppSelector(state => state.levelSlice.data);
-  const [currentIndex, setCurrentIndex] = useState(data.currentLevelIndex);
+  const data: any = useAppSelector(state => state.levelSlice.data ?? {});
+  const [currentIndex, setCurrentIndex] = useState(data.currentLevelIndex ?? 0);
   useEffect(() => {
     dispatch(getLevel({id: document.id}));
   }, []);
 
   const handleViewableItemsChanged = useRef(({viewableItems, changed}: any) => {
-    console.log(viewableItems[0]?.index + 1);
     const item = viewableItems?.[0];
     if (item && changed) {
       setCurrentIndex(item.index + 1);
