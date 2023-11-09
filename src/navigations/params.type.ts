@@ -33,7 +33,7 @@ export type StackParamList = {
     onCancel: () => void;
   };
   menu: undefined;
-  notification: undefined;
+  notifications: undefined;
   profile: undefined;
   infomation: undefined;
   editAvtFrame: {avatarFrame: Decorate | null};

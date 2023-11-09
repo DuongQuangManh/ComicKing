@@ -1,14 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {Screen} from '../screen';
 
 const Operation = () => {
   return (
-    <View>
-      <Text>Operation</Text>
-    </View>
-  )
-}
+    <Screen>
+      <Text>abc</Text>
+    </Screen>
+  );
+};
 
-export default Operation
+export default Operation;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

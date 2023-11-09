@@ -12,7 +12,7 @@ import {
   Loading,
   ConfirmMessage,
   // Menu,
-  Notification,
+  Notifications,
   Setting,
   Profile,
   Language,
@@ -59,7 +59,7 @@ export const Stacknavigation = () => {
 
         <Stack.Screen name="bottomNavigation" component={BottomNavigation} />
 
-        <Stack.Screen name="notification" component={Notification} />
+        <Stack.Screen name="notifications" component={Notifications} />
 
         <Stack.Screen name="setting" component={Setting} />
         <Stack.Screen name="changePassword" component={ChangePassword} />
