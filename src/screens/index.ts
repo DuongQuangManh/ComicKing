@@ -10,7 +10,7 @@ import Home from './Home/Home'
 import Profile from './Profile/Profile'
 import ConfirmMessage from './Common/ConfirmMessage'
 // import Menu from './Home/Menu'
-import Notification from './Notification/Notification'
+import Notifications from './Notification/Notifications'
 import Setting from './Setting/Setting'
 import Language from './Setting/Language'
 import NighMode from './Setting/NighMode'
@@ -53,7 +53,7 @@ export {
     Profile,
     ConfirmMessage,
     // Menu,
-    Notification,
+    Notifications,
     Setting,
     NighMode,
     Language,

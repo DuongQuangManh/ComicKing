@@ -7,6 +7,7 @@ import Chapter from './Chapter'
 import PageChapter from './PageChapter'
 import ComicRead from './ComicRead'
 import Comment from './Comment'
+import Notification from './Notification'
 export {
     Category,
     Comic,
@@ -16,5 +17,6 @@ export {
     Chapter,
     PageChapter,
     ComicRead,
-    Comment
+    Comment,
+    Notification
 }

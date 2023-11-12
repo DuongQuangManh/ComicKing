@@ -166,7 +166,7 @@ const Home = () => {
           />
         </TouchableOpacity> */}
           <View style={{width: 10}} />
-          <TouchableOpacity onPress={() => navigate('notification')}>
+          <TouchableOpacity onPress={() => navigate('notifications')}>
             <Icon type={Icons.Ionicons} name="notifications-outline" />
           </TouchableOpacity>
         </View>
