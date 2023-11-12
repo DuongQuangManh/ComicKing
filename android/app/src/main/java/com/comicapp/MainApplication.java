@@ -9,9 +9,11 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import com.sdk.zpmodule.PayZaloBridge;
-import com.sdk.zpmodule.ZPModule;
 
 import java.util.List;
+
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPaySDK;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -63,5 +65,6 @@ public class MainApplication extends Application implements ReactApplication {
       DefaultNewArchitectureEntryPoint.load();
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    ZaloPaySDK.init(2554, Environment.SANDBOX);
   }
 }

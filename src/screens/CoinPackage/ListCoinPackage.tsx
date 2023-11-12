@@ -1,15 +1,53 @@
-import {Image, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {
+  Image,
+  StyleSheet,
+  View,
+  NativeModules,
+  NativeEventEmitter,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import {useAppSelector} from '@redux/store';
-import {WINDOW_WIDTH, helper, myColors} from '@utils';
+import {WINDOW_WIDTH, createOrder, helper, myColors} from '@utils';
 import {Screen} from '../screen';
 import {Header, Text} from '@components';
 import {TouchableOpacity} from 'react-native';
+
+const {PayZaloBridge} = NativeModules;
 
 const ITEM_WIDTH = WINDOW_WIDTH - 32;
 
 const ListCoinPackage = () => {
   const {listCoinPackage = []} = useAppSelector(state => state.paymentSlice);
+
+  useEffect(() => {
+    const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
+    const payZaloListener = payZaloBridgeEmitter.addListener(
+      'EventPayZalo',
+      (data: any) => {
+        console.log(data);
+        if (data.returnCode == 1) {
+          console.log('pay success');
+        } else {
+          console.log('Pay errror! ' + data.returnCode);
+        }
+      },
+    );
+    return () => {
+      payZaloListener.remove();
+    };
+  }, []);
+
+  const onBuyCoin = async (amount: number) => {
+    const transData = await createOrder(amount);
+    if (transData?.returnCode == 1) {
+      payOrder(transData.token);
+    }
+  };
+
+  const payOrder = (token: string) => {
+    var payZP = NativeModules.PayZaloBridge;
+    payZP.payOrder(token);
+  };
 
   return (
     <Screen
@@ -25,6 +63,7 @@ const ListCoinPackage = () => {
         }}>
         {listCoinPackage.map((item, index) => (
           <TouchableOpacity
+            onPress={() => onBuyCoin(item.price)}
             activeOpacity={0.6}
             key={index}
             style={[

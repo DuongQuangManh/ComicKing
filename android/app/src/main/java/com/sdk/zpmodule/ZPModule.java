@@ -27,6 +27,8 @@ public class ZPModule extends ReactContextBaseJavaModule {
         public void onPaymentSucceeded(String transactionId, String transToken, String appTransID) {
             // Handle Success
             WritableMap params = Arguments.createMap();
+            params.putString("abcd","abcd");
+            sendEvent(mReactContext, "EventPayZalo", params);
             params.putString("transactionId", transactionId);
             params.putString("transToken", transToken);
             params.putString("appTransID", appTransID);
@@ -76,7 +78,36 @@ public class ZPModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void payOrder(String zpTransToken) {
         Activity currentActivity = getCurrentActivity();
-        ZaloPaySDK.getInstance().payOrder(currentActivity, zpTransToken, "demozpdk://app", listener);
+        ZaloPaySDK.getInstance().payOrder(currentActivity, zpTransToken, "demozpdk://app", new PayOrderListener() {
+            @Override
+            public void onPaymentSucceeded(String transactionId, String transToken, String appTransID) {
+                // Handle Success
+                WritableMap params = Arguments.createMap();
+                params.putString("transactionId", transactionId);
+                params.putString("transToken", transToken);
+                params.putString("appTransID", appTransID);
+                params.putString("returnCode", PAYMENTSUCCESS);
+                sendEvent(mReactContext, "EventPayZalo", params);
+            }
+            @Override
+            public void onPaymentCanceled(String transToken, String appTransID) {
+                // Handle Cancel
+                WritableMap params = Arguments.createMap();
+                params.putString("returnCode",  PAYMENTCANCELED);
+                params.putString("zpTranstoken", transToken);
+                params.putString("appTransID", appTransID);
+                sendEvent(mReactContext, "EventPayZalo", params);
+            }
+
+            @Override
+            public void onPaymentError(ZaloPayError zaloPayError, String transToken, String appTransID) {
+                WritableMap params = Arguments.createMap();
+                params.putString("returnCode",  PAYMENTFAILED);
+                params.putString("zpTranstoken", transToken);
+                params.putString("appTransID", appTransID);
+                sendEvent(mReactContext, "EventPayZalo", params);
+            }
+        });
     }
 
     @ReactMethod
