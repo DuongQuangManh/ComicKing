@@ -16,6 +16,7 @@ import {
 
 import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
+import {getCoinPackage, getVipTicket} from '@redux/paymentSlice';
 import {getAttendance} from '@redux/attendanceSlice';
 
 const Splash = () => {
@@ -31,6 +32,8 @@ const Splash = () => {
     dispatch(getHotComic());
     dispatch(getLevel({id: id}));
     dispatch(getHistoryReading({userId: id}));
+    dispatch(getVipTicket());
+    dispatch(getCoinPackage());
     dispatch(getAttendance());
 
     setTimeout(() => {
@@ -41,7 +44,7 @@ const Splash = () => {
         replace('login');
       }
       clearTimeout(this);
-    }, 500);
+    }, 1000);
   }, []);
   return (
     <Screen

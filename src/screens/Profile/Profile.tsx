@@ -71,19 +71,21 @@ const Profile = () => {
         </View>
       </LinearGradient>
       <View style={styles.containerOption}>
-        <TouchableOpacity style={styles.rowOption}>
+        <TouchableOpacity
+          onPress={() => navigate('listVipTicket')}
+          style={styles.rowOption}>
           <Icon
             type={Icons.MaterialCommunityIcons}
             name="crown-outline"
             size={18}
           />
           <Text type="medium_14" style={{flex: 1, paddingStart: 12}}>
-            Vip
+            Thẻ tháng
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.rowOption}
-          onPress={() => navigate('buycoins')}>
+          onPress={() => navigate('listCoinPackage')}>
           <Icon
             type={Icons.MaterialCommunityIcons}
             name="star-shooting-outline"

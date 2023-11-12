@@ -108,6 +108,7 @@ dependencies {
     implementation project(':react-native-vector-icons')
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    implementation fileTree(dir: 'D:\\CaodangFPT\\DATN\\sdk', include: ['*.aar', '*.jar'], exclude: [])
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
@@ -125,6 +126,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+//    implementation files('libs/zpdk.aar')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
