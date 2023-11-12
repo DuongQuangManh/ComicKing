@@ -84,11 +84,14 @@ export type StackParamList = {
   comicFollowing: {};
   readingHistory: {};
   success: {
-    message:string
+    message: string;
   };
   commentdetail: {
     item: any;
   };
   rank: {};
   commented: {};
+  listVipTicket: undefined;
+  vipTicketDetail: undefined;
+  listCoinPackage: undefined;
 };

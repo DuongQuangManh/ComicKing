@@ -9,6 +9,8 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
 import org.devio.rn.splashscreen.SplashScreen;
 
+import vn.zalopay.sdk.ZaloPaySDK;
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -20,6 +22,7 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen.show(this);
     super.onCreate(savedInstanceState);
+
   }
 
   @Override
