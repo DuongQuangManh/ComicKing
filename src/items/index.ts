@@ -8,6 +8,7 @@ import PageChapter from './PageChapter'
 import ComicRead from './ComicRead'
 import Comment from './Comment'
 import Notification from './Notification'
+import AttenDance from './AttenDance'
 export {
     Category,
     Comic,
@@ -18,5 +19,6 @@ export {
     PageChapter,
     ComicRead,
     Comment,
-    Notification
+    Notification,
+    AttenDance
 }

@@ -16,6 +16,7 @@ import {
 
 import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
+import {getAttendance} from '@redux/attendanceSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ const Splash = () => {
     dispatch(getHotComic());
     dispatch(getLevel({id: id}));
     dispatch(getHistoryReading({userId: id}));
+    dispatch(getAttendance());
 
     setTimeout(() => {
       if (helper.getAccessToken() && id) {

@@ -7,6 +7,7 @@ import homeSlice from './homeSlice'
 import comicSlice from './comicSlice'
 import chapterSlice from './chapterSlice'
 import levelSlice from './levelSlice'
+import attendanceSlice from './attendanceSlice'
 
 const rootReducer = combineReducers({
     authSlice,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     homeSlice,
     comicSlice,
     chapterSlice,
-    levelSlice
+    levelSlice,
+    attendanceSlice
 })
 
 export default rootReducer
