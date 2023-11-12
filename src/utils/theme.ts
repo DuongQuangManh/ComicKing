@@ -49,6 +49,7 @@ const enFontConfig = {
   semibold_20: getFontType(20, '600', 'Fredoka-SemiBold'),
   semibold_22: getFontType(22, '600', 'Fredoka-SemiBold'),
   
+  bold_14: getFontType(14, '800', 'Fredoka-Bold'),
   bold_16: getFontType(16, '800', 'Fredoka-Bold'),
   bold_18: getFontType(18, '800', 'Fredoka-Bold'),
   bold_20: getFontType(20, '800', 'Fredoka-Bold'),

@@ -17,6 +17,7 @@ import {
 import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
 import {getCoinPackage, getVipTicket} from '@redux/paymentSlice';
+import {getAttendance} from '@redux/attendanceSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const Splash = () => {
     dispatch(getHistoryReading({userId: id}));
     dispatch(getVipTicket());
     dispatch(getCoinPackage());
+    dispatch(getAttendance());
 
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
