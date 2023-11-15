@@ -3,10 +3,10 @@ import { IAttendance } from '@models'
 import {createAsyncThunk,createSlice} from '@reduxjs/toolkit'
 
 
-export const getAttendance = createAsyncThunk("attenDanceSlice/getAttendance",async ()=>{
+export const getAttendance = createAsyncThunk("attenDanceSlice/getAttendance",async (id:string)=>{
     let path = "api/user/findAttendance";
     try{
-        const res = await sendRequest(path);
+        const res = await sendRequest(path,{userId:id});
     if(res.err === 200){
         return res.data
     }else{

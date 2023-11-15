@@ -34,7 +34,7 @@ const Splash = () => {
     dispatch(getHistoryReading({userId: id}));
     dispatch(getVipTicket());
     dispatch(getCoinPackage());
-    dispatch(getAttendance());
+    dispatch(getAttendance(id));
 
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
