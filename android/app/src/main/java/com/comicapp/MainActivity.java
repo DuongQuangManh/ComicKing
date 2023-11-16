@@ -1,5 +1,6 @@
 package com.comicapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
@@ -8,6 +9,8 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
 
 import org.devio.rn.splashscreen.SplashScreen;
+
+import vn.zalopay.sdk.ZaloPaySDK;
 
 public class MainActivity extends ReactActivity {
 
@@ -20,6 +23,7 @@ public class MainActivity extends ReactActivity {
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen.show(this);
     super.onCreate(savedInstanceState);
+
   }
 
   @Override
@@ -39,5 +43,11 @@ public class MainActivity extends ReactActivity {
         getMainComponentName(),
         // If you opted-in for the New Architecture, we enable the Fabric Renderer.
         DefaultNewArchitectureEntryPoint.getFabricEnabled());
+  }
+
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    ZaloPaySDK.getInstance().onResult(intent);
   }
 }

@@ -71,3 +71,11 @@ export interface IChapterDetails {
   comic: string;
   index: string;
 }
+export interface IAttendance{
+    id: string,
+    label: string,
+    index: number,
+    coinExtra: number,
+    expExtra: number,
+    priority: number
+}

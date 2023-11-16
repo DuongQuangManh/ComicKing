@@ -40,6 +40,9 @@ import {
   CommentDetail,
   Rank,
   Commented,
+  ListVipTicket,
+  ListCoinPackage,
+  VipTicketDetail,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -87,6 +90,10 @@ export const Stacknavigation = () => {
         <Stack.Screen name="success" component={Success} />
         <Stack.Screen name="rank" component={Rank} />
         <Stack.Screen name="commented" component={Commented} />
+        <Stack.Screen name="listVipTicket" component={ListVipTicket} />
+        <Stack.Screen name="listCoinPackage" component={ListCoinPackage} />
+        <Stack.Screen name="vipTicketDetail" component={VipTicketDetail} />
+
         {/* common screens */}
         <Stack.Group
           screenOptions={{

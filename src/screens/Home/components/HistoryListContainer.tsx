@@ -20,64 +20,75 @@ const HistoryListContainer: React.FC<ComponentProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text type="semibold_14" style={{paddingHorizontal: 4}}>
-        {title}
-      </Text>
-      <ScrollView
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        style={{paddingVertical: 8}}>
-        {listComic.length >= 1 &&
-          listComic.slice(0, 8).map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                activeOpacity={0.8}
-                style={styles.btn}
-                onPress={() => {
-                  if (item.readingChapter) {
-                    navigate('readcomic', {
-                      id: item.id,
-                      chapter: item.readingChapter,
-                      needLoadComic: true,
-                      name: item.name,
-                      image: item.image,
-                      numOfChapter: item.numOfChapter,
-                    });
-                  } else {
-                    push('comicdetail', {id: item.id});
-                  }
-                }}>
-                <FastImage style={styles.image} source={{uri: item.image}} />
-                <LinearGradient
-                  style={styles.numChapterContainer}
-                  colors={[myColors.primary, '#b4135c']}
-                  start={{x: 0, y: 0}}>
-                  <Icon name="list" type={Icons.Entypo} size={9} color="#fff" />
-                  <Text style={{marginStart: 2}} color="#fff" type="regular_10">
-                    {item.numOfChapter}
-                  </Text>
-                </LinearGradient>
-                <LinearGradient
-                  style={styles.textReadingContainer}
-                  colors={['transparent', 'black']}>
-                  <Text type="regular_10" style={styles.textReading}>
-                    Đọc tiếp chapter {item.readingChapter}
-                  </Text>
-                </LinearGradient>
-                <View style={{width: ITEM_WIDTH}}>
-                  <Text
-                    type="regular_12"
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                    style={{width: '100%'}}>
-                    {item.name}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-      </ScrollView>
+      {listComic.length >= 1 && (
+        <>
+          <Text type="semibold_14" style={{paddingHorizontal: 4}}>
+            {title}
+          </Text>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{paddingVertical: 8}}>
+            {listComic.slice(0, 8).map((item, index) => {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  activeOpacity={0.8}
+                  style={styles.btn}
+                  onPress={() => {
+                    if (item.readingChapter) {
+                      navigate('readcomic', {
+                        id: item.id,
+                        chapter: item.readingChapter,
+                        needLoadComic: true,
+                        name: item.name,
+                        image: item.image,
+                        numOfChapter: item.numOfChapter,
+                      });
+                    } else {
+                      push('comicdetail', {id: item.id});
+                    }
+                  }}>
+                  <FastImage style={styles.image} source={{uri: item.image}} />
+                  <LinearGradient
+                    style={styles.numChapterContainer}
+                    colors={[myColors.primary, '#b4135c']}
+                    start={{x: 0, y: 0}}>
+                    <Icon
+                      name="list"
+                      type={Icons.Entypo}
+                      size={9}
+                      color="#fff"
+                    />
+                    <Text
+                      style={{marginStart: 2}}
+                      color="#fff"
+                      type="regular_10">
+                      {item.numOfChapter}
+                    </Text>
+                  </LinearGradient>
+                  <LinearGradient
+                    style={styles.textReadingContainer}
+                    colors={['transparent', 'black']}>
+                    <Text type="regular_10" style={styles.textReading}>
+                      Đọc tiếp chapter {item.readingChapter}
+                    </Text>
+                  </LinearGradient>
+                  <View style={{width: ITEM_WIDTH}}>
+                    <Text
+                      type="regular_12"
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      style={{width: '100%'}}>
+                      {item.name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 };
