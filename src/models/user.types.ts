@@ -44,7 +44,7 @@ export interface IComicFollowing {
 
 export interface ILevel {
   currentLevelIndex: number;
-  levelPoint: number;
+  exp: number;
   reachedMax: boolean;
   listLevel: [];
 }

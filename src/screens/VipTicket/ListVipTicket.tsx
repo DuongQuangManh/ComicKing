@@ -1,14 +1,20 @@
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Screen} from '../screen';
-import {useAppSelector} from '@redux/store';
+import {useAppDispatch, useAppSelector} from '@redux/store';
 import {Header, Text} from '@components';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
+import {getVipTicket} from '@redux/paymentSlice';
 
 const ITEM_WIDTH = WINDOW_WIDTH - 32;
 
 const ListVipTicket = () => {
+  const dispatch = useAppDispatch();
   const {listVipTicket = []} = useAppSelector(state => state.paymentSlice);
+
+  useEffect(() => {
+    dispatch(getVipTicket());
+  }, []);
 
   return (
     <Screen

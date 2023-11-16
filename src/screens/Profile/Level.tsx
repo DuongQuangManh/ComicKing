@@ -17,7 +17,7 @@ const Level = () => {
   const data: any = useAppSelector(state => state.levelSlice.data ?? {});
   const [currentIndex, setCurrentIndex] = useState(data.currentLevelIndex ?? 0);
   useEffect(() => {
-    dispatch(getLevel({id: document.id}));
+    dispatch(getLevel({userId: document.id}));
   }, []);
 
   const handleViewableItemsChanged = useRef(({viewableItems, changed}: any) => {
@@ -76,7 +76,7 @@ const Level = () => {
             width: WINDOW_WIDTH - 40,
             height: 80,
           }}
-          data={data?.listLevel[currentIndex - 1]?.listPrivilege}
+          data={data?.listLevel?.[currentIndex - 1]?.listPrivilege}
           renderItem={({item}) => <PrivilegeItem item={item} />}
           numColumns={4}
         />

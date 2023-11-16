@@ -1,5 +1,6 @@
 import {sendRequest} from '@api';
 import {TCoinPackage, TVipTicket} from '@models';
+import {navigate} from '@navigations';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {helper} from '@utils';
 
@@ -45,6 +46,60 @@ export const getCoinPackage = createAsyncThunk(
       helper.showErrorMsg(res.message);
     } catch (error: any) {
       return rejectWithValue(error.message);
+    }
+  },
+);
+
+export const createCoinPackageTransaction = createAsyncThunk(
+  'payment/createCoinPackageTransaction',
+  async body => {
+    const path = '/api/user/createCoinPackageTransaction';
+    try {
+      helper.showLoading();
+      const res = await sendRequest(path, body);
+      helper.hideLoading();
+      if (res.err == 200) {
+      } else {
+        helper.showErrorMsg(res.message);
+      }
+    } catch (error) {
+      helper.hideLoading();
+    }
+  },
+);
+
+export const createVipTicketTransaction = createAsyncThunk(
+  'payment/createVipTicketTransaction',
+  async body => {
+    const path = '/api/user/createVipTicketTransaction';
+    try {
+      helper.showLoading();
+      const res = await sendRequest(path, body);
+      helper.hideLoading();
+      if (res.err == 200) {
+      } else {
+        helper.showErrorMsg(res.message);
+      }
+    } catch (error) {
+      helper.hideLoading();
+    }
+  },
+);
+
+export const requestEndTransaction = createAsyncThunk(
+  'payment/requestEndTransaction',
+  async body => {
+    const path = '/api/user/requestEndTransaction';
+    try {
+      helper.showLoading();
+      const res = await sendRequest(path, body);
+      helper.hideLoading();
+      if (res.err == 200) {
+      } else {
+        helper.showErrorMsg(res.message);
+      }
+    } catch (error) {
+      helper.hideLoading();
     }
   },
 );

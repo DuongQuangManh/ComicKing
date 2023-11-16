@@ -11,6 +11,7 @@ import {
   IComicFollowing,
   IDocument,
   IReadingHistory,
+  TVipTicket,
 } from '@models';
 import {setReadingHistory} from './homeSlice';
 
@@ -67,6 +68,21 @@ export const getUserInfoAction = createAsyncThunk(
         return res.data;
       }
     } catch (error: any) {
+      return false;
+    }
+  },
+);
+
+export const getUserWalletAction = createAsyncThunk(
+  'userSlice/getUserWallet',
+  async (body: any) => {
+    let path = 'api/user/getWalletInfo';
+    try {
+      const res = await sendRequest(path, body);
+      if (res.err == 200) {
+        return res.data;
+      }
+    } catch (error) {
       return false;
     }
   },
@@ -175,9 +191,15 @@ interface IUserState {
   loading: boolean;
   avatarFrame: Decorate | null;
   avatarTitle: Decorate | null;
-  vipPoint: number;
-  levelPoint: number;
+  // vipPoint: number;
+  // levelPoint: number;
   historyReading: IReadingHistory[];
+  wallet: {
+    exp: number;
+    coin: number;
+    vipTicket: TVipTicket | null;
+    level: number;
+  };
 }
 
 const initialState: IUserState = {
@@ -189,13 +211,19 @@ const initialState: IUserState = {
     birthday: '',
     gender: '',
   },
+  wallet: {
+    exp: 0,
+    coin: 0,
+    vipTicket: null,
+    level: 0,
+  },
   avatarFrame: null,
   authorFollowing: null,
   comicFollowing: null,
   loading: false,
   avatarTitle: null,
-  vipPoint: 0,
-  levelPoint: 0,
+  // vipPoint: 0,
+  // levelPoint: 0,
   historyReading: [],
 };
 
@@ -257,12 +285,11 @@ const userSlice = createSlice({
       })
       .addCase(getUserInfoAction.fulfilled, (state, action) => {
         if (action.payload) {
-          const {avatarFrame, vipPoint, levelPoint, avatarTitle} =
-            action.payload;
+          const {avatarFrame, avatarTitle} = action.payload;
           state.avatarFrame = avatarFrame;
           state.avatarTitle = avatarTitle;
-          state.vipPoint = vipPoint;
-          state.levelPoint = levelPoint;
+          // state.vipPoint = vipPoint;
+          // state.levelPoint = levelPoint;
         }
       })
       .addCase(changeAvatarFrameAction.fulfilled, (state, action) => {
@@ -282,6 +309,11 @@ const userSlice = createSlice({
         state.loading = false;
         if (action.payload) {
           state.historyReading = action.payload;
+        }
+      })
+      .addCase(getUserWalletAction.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.wallet = action.payload;
         }
       });
   },

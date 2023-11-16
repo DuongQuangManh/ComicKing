@@ -1,4 +1,5 @@
 export type TVipTicket = {
+  id: string;
   price: number;
   duration: number;
   coinExtraDaily: number;
@@ -11,6 +12,7 @@ export type TVipTicket = {
 };
 
 export type TCoinPackage = {
+  id: string;
   price: number;
   exp: number;
   coin: number;
