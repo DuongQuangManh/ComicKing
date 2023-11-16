@@ -39,7 +39,7 @@ const Splash = () => {
         dispatch(getDoneComics());
         dispatch(getHotComic());
         dispatch(getHistoryReading({userId: id}));
-        dispatch(getAttendance());
+        dispatch(getAttendance(id));
         replace('bottomNavigation');
       } else {
         replace('login');
