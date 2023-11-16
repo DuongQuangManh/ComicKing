@@ -42,6 +42,9 @@ import Commented from './Profile/Commented';
 import VipTicketDetail from './VipTicket/VipTicketDetail';
 import ListVipTicket from './VipTicket/ListVipTicket';
 import ListCoinPackage from './CoinPackage/ListCoinPackage';
+import TransactionDetail from './Transaction/TransactionDetail';
+import TransactionHistory from './Transaction/TransactionHistory';
+import TransactionStatus from './Transaction/TransactionStatus';
 
 export {
   Splash,
@@ -87,4 +90,7 @@ export {
   VipTicketDetail,
   ListCoinPackage,
   ListVipTicket,
+  TransactionDetail,
+  TransactionHistory,
+  TransactionStatus,
 };

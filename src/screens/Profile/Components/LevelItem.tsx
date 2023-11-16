@@ -39,14 +39,14 @@ const LevelItem: FC<itemProps> = ({item, index}) => {
                 width: WINDOW_WIDTH - 70,
               }}>
               <Text type="semibold_14">{`Lv ${index}`}</Text>
-              <Text type="semibold_14">{`${level.levelPoint}/${item.nextLevelPoint}`}</Text>
+              <Text type="semibold_14">{`${level.exp}/${item.nextLevelPoint}`}</Text>
               <Text type="semibold_14">{`Lv ${index + 1}`}</Text>
             </View>
             <Slider
               style={{width: WINDOW_WIDTH - 50}}
               minimumValue={item.point}
               maximumValue={item.nextLevelPoint}
-              value={level.levelPoint}
+              value={level.exp}
               disabled={true}
               thumbTintColor={myColors.background}
               minimumTrackTintColor={myColors.gray}
@@ -58,7 +58,7 @@ const LevelItem: FC<itemProps> = ({item, index}) => {
       <Text
         style={{
           marginTop: 10,
-        }}>{`Còn cần ${item.needPoint} kinh nghiệm để nâng Level`}</Text>
+        }}>{`Còn cần ${item.needExp} kinh nghiệm để nâng Level`}</Text>
     </LinearGradient>
   );
 };

@@ -5,30 +5,41 @@ import {
   NativeModules,
   NativeEventEmitter,
 } from 'react-native';
-import React, {useEffect} from 'react';
-import {useAppSelector} from '@redux/store';
-import {WINDOW_WIDTH, createOrder, helper, myColors} from '@utils';
+import React, {useEffect, useRef} from 'react';
+import {useAppDispatch, useAppSelector} from '@redux/store';
+import {WINDOW_WIDTH, constants, createOrder, helper, myColors} from '@utils';
 import {Screen} from '../screen';
 import {Header, Text} from '@components';
 import {TouchableOpacity} from 'react-native';
+import {sendRequest} from '@api';
+import {getCoinPackage} from '@redux/paymentSlice';
+import {navigate} from '@navigations';
 
 const {PayZaloBridge} = NativeModules;
 
 const ITEM_WIDTH = WINDOW_WIDTH - 32;
 
+var refTxnId = '';
 const ListCoinPackage = () => {
+  const dispatch = useAppDispatch();
   const {listCoinPackage = []} = useAppSelector(state => state.paymentSlice);
+  const {id} = useAppSelector(state => state.userSlice.document ?? {});
+
+  useEffect(() => {
+    dispatch(getCoinPackage());
+  }, []);
 
   useEffect(() => {
     const payZaloBridgeEmitter = new NativeEventEmitter(PayZaloBridge);
     const payZaloListener = payZaloBridgeEmitter.addListener(
       'EventPayZalo',
       (data: any) => {
-        console.log(data);
         if (data.returnCode == 1) {
-          console.log('pay success');
+          requestEndTransaction(constants.TRANSACTION_STATUS.SUCCESS);
+        } else if (data.returnCode == -1) {
+          requestEndTransaction(constants.TRANSACTION_STATUS.FAILED);
         } else {
-          console.log('Pay errror! ' + data.returnCode);
+          requestEndTransaction(constants.TRANSACTION_STATUS.CANCELED);
         }
       },
     );
@@ -37,10 +48,50 @@ const ListCoinPackage = () => {
     };
   }, []);
 
-  const onBuyCoin = async (amount: number) => {
+  const requestEndTransaction = async (status: string) => {
+    helper.showLoading();
+    try {
+      const respone = await sendRequest('api/user/requestEndTransaction', {
+        status,
+        txnId: refTxnId,
+      });
+      helper.hideLoading();
+      if (respone.err == 200) {
+        navigate('transactionStatus', respone.data);
+      } else {
+        helper.showErrorMsg(respone.message);
+      }
+    } catch (error) {
+      helper.hideLoading();
+      console.log(error);
+    }
+  };
+
+  const onBuyCoin = async (amount: number, coinPackageId: string) => {
     const transData = await createOrder(amount);
     if (transData?.returnCode == 1) {
-      payOrder(transData.token);
+      helper.showLoading();
+      try {
+        const respone = await sendRequest(
+          'api/user/createCoinPackageTransaction',
+          {
+            txnToken: transData.token,
+            amount,
+            coinPackageId,
+            userId: id,
+          },
+        );
+        helper.hideLoading();
+        if (respone.err == 200) {
+          refTxnId = respone.data?.txnId || '';
+          payOrder(transData.token);
+        } else {
+          helper.showErrorMsg(respone.message);
+        }
+      } catch (error) {
+        helper.hideLoading();
+        console.log(error);
+      }
     }
   };
 
@@ -63,7 +114,7 @@ const ListCoinPackage = () => {
         }}>
         {listCoinPackage.map((item, index) => (
           <TouchableOpacity
-            onPress={() => onBuyCoin(item.price)}
+            onPress={() => onBuyCoin(item.price, item.id)}
             activeOpacity={0.6}
             key={index}
             style={[

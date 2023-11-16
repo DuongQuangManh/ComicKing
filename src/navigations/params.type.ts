@@ -94,4 +94,11 @@ export type StackParamList = {
   listVipTicket: undefined;
   vipTicketDetail: undefined;
   listCoinPackage: undefined;
+  transactionStatus: {
+    status: string;
+    price: number;
+    transactionName: string;
+  };
+  transactionHistory: {};
+  transactiotrnDetail: {};
 };

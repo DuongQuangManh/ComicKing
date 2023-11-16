@@ -14,7 +14,11 @@ import {
   getSliderComics,
 } from '@redux/homeSlice';
 
-import {getHistoryReading, getUserInfoAction} from '@redux/userSlice';
+import {
+  getHistoryReading,
+  getUserInfoAction,
+  getUserWalletAction,
+} from '@redux/userSlice';
 import {getLevel} from '@redux/levelSlice';
 import {getCoinPackage, getVipTicket} from '@redux/paymentSlice';
 import {getAttendance} from '@redux/attendanceSlice';
@@ -25,20 +29,17 @@ const Splash = () => {
   useEffect(() => {
     SplashScreen.hide();
 
-    dispatch(getSliderComics());
-    dispatch(getNewestComics());
-    dispatch(getProposeComics());
-    dispatch(getDoneComics());
-    dispatch(getHotComic());
-    dispatch(getLevel({id: id}));
-    dispatch(getHistoryReading({userId: id}));
-    dispatch(getVipTicket());
-    dispatch(getCoinPackage());
-    dispatch(getAttendance());
-
     setTimeout(() => {
       if (helper.getAccessToken() && id) {
         dispatch(getUserInfoAction({id}));
+        dispatch(getUserWalletAction({userId: id}));
+        dispatch(getSliderComics());
+        dispatch(getNewestComics());
+        dispatch(getProposeComics());
+        dispatch(getDoneComics());
+        dispatch(getHotComic());
+        dispatch(getHistoryReading({userId: id}));
+        dispatch(getAttendance());
         replace('bottomNavigation');
       } else {
         replace('login');
@@ -47,14 +48,14 @@ const Splash = () => {
     }, 1000);
   }, []);
   return (
-    <Screen
-      statusBarColor={myColors.primary}
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-      backgroundColor={myColors.primary}>
-      <View style={{alignItems: 'center'}}>
+    <Screen statusBarColor={myColors.primary}>
+      <View
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          flex: 1,
+          backgroundColor: myColors.primary,
+        }}>
         <Image
           source={require('@assets/images/logo3.png')}
           style={styles.img}
