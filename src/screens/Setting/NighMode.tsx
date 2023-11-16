@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, useColorScheme } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useColorScheme } from 'react';
 import { Screen } from '../screen';
 import { Header, Icons } from '@components';
 import MenuItem from '../Home/components/MenuItem';
 const NighMode = () => {
-  const [ColorScheme, setColorScheme] = useState(useColorScheme());
+  const [ColorScheme, setColorScheme] = useColorScheme();
 
   // const colorScheme = useColorScheme();
 
