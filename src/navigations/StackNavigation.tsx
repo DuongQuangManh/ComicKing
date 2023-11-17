@@ -97,10 +97,7 @@ export const Stacknavigation = () => {
         <Stack.Screen name="listVipTicket" component={ListVipTicket} />
         <Stack.Screen name="listCoinPackage" component={ListCoinPackage} />
         <Stack.Screen name="vipTicketDetail" component={VipTicketDetail} />
-        <Stack.Screen
-          name="transactiotrnDetail"
-          component={TransactionDetail}
-        />
+        <Stack.Screen name="transactionDetail" component={TransactionDetail} />
         <Stack.Screen
           name="transactionHistory"
           component={TransactionHistory}

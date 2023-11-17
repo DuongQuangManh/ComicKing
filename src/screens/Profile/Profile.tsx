@@ -19,6 +19,7 @@ const Profile = () => {
     avatarTitle,
     authorFollowing,
     comicFollowing,
+    wallet,
   } = useAppSelector(state => state.userSlice);
 
   return (
@@ -56,7 +57,7 @@ const Profile = () => {
               style={styles.lvlBtn}
               onPress={() => navigate('level')}>
               <Text color="#fff" type="medium_14">
-                Lv1
+                Lv{wallet.level}
               </Text>
             </TouchableOpacity>
           </View>

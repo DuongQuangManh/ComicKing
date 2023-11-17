@@ -1,4 +1,4 @@
-import {Decorate} from '@models';
+import {Decorate, TVipTicket} from '@models';
 
 // list name of routes of rootStack
 export type ScreensName = keyof StackParamList;
@@ -92,7 +92,11 @@ export type StackParamList = {
   rank: {};
   commented: {};
   listVipTicket: undefined;
-  vipTicketDetail: undefined;
+  vipTicketDetail: {
+    vipTicket: TVipTicket;
+    listAvatarFrame: Decorate[];
+    listAvatarTitle: Decorate[];
+  };
   listCoinPackage: undefined;
   transactionStatus: {
     status: string;
@@ -100,8 +104,8 @@ export type StackParamList = {
     transactionName: string;
   };
   transactionHistory: {};
-  transactiotrnDetail: {};
-  comicMore:{
+  transactionDetail: {};
+  comicMore: {
     type: 'new' | 'hot' | 'done';
   };
 };
