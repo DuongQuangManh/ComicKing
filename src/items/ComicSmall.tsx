@@ -14,6 +14,7 @@ const ComicItemSmall: FC<itemProps> = ({item}) => {
   const handlerClick = () => {
     push('comicdetail', {id: item.id});
   };
+  console.log(item);
   return (
     <TouchableOpacity
       style={styles.container}
