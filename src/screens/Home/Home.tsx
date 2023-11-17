@@ -227,17 +227,25 @@ const Home = () => {
   }, []);
 
   const _renderHotComic = useMemo(() => {
-    return <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" />;
+    return (
+      <SixComicContainer listComic={hotComic} title="🔥 Truyện Hot" isMore />
+    );
   }, [hotComic]);
 
   const _renderNewComic = useMemo(() => {
     return (
-      <ComicWithDescContainer listComic={newestComic} title="🏵️ Tryện Mới" />
+      <ComicWithDescContainer
+        listComic={newestComic}
+        title="🏵️ Tryện Mới"
+        isMore
+      />
     );
   }, [newestComic]);
 
   const _renderDoneComic = useMemo(() => {
-    return <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" />;
+    return (
+      <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" isMore />
+    );
   }, [doneComics]);
 
   console.log(readingHistory);

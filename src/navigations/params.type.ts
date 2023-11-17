@@ -101,4 +101,7 @@ export type StackParamList = {
   };
   transactionHistory: {};
   transactiotrnDetail: {};
+  comicMore:{
+    type: 'new' | 'hot' | 'done';
+  };
 };

@@ -4,22 +4,42 @@ import {Icon, Icons, Text} from '@components';
 import {WINDOW_WIDTH, myColors} from '@utils';
 import {IComic} from '@models';
 import FastImage from 'react-native-fast-image';
-import {push} from '@navigations';
+import {navigate, push} from '@navigations';
 
 type ComponentProps = {
   listComic: IComic[];
   title: string;
+  isMore?: boolean;
 };
 
 const ComicWithDescContainer: React.FC<ComponentProps> = ({
   listComic = [],
   title,
+  isMore = false,
 }) => {
+  const handlerSeeMore = () => {
+    navigate('comicMore', {type: 'new'});
+  };
   return (
     <View style={styles.container}>
-      <Text type="semibold_17" style={{paddingHorizontal: 4}}>
-        {title}
-      </Text>
+      <View style={{width: WINDOW_WIDTH, flexDirection: 'row'}}>
+        <Text type="semibold_17" style={{paddingHorizontal: 4, flex: 1}}>
+          {title}
+        </Text>
+        {isMore && (
+          <TouchableOpacity onPress={handlerSeeMore}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text type="bold_14">Thêm</Text>
+              <Icon type={Icons.AntDesign} name="right" size={16} />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
       <ScrollView
         showsHorizontalScrollIndicator={false}
         horizontal
