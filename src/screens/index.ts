@@ -45,7 +45,8 @@ import ListCoinPackage from './CoinPackage/ListCoinPackage';
 import TransactionDetail from './Transaction/TransactionDetail';
 import TransactionHistory from './Transaction/TransactionHistory';
 import TransactionStatus from './Transaction/TransactionStatus';
-import ComicMore from './Home/ComicMore'
+import ComicMore from './Home/ComicMore';
+import MyVipTicket from './VipTicket/MyVipTicket';
 
 export {
   Splash,
@@ -94,5 +95,6 @@ export {
   TransactionDetail,
   TransactionHistory,
   TransactionStatus,
-  ComicMore
+  ComicMore,
+  MyVipTicket,
 };

@@ -5,6 +5,8 @@ import {useAppDispatch, useAppSelector} from '@redux/store';
 import {Header, Text} from '@components';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {getVipTicket} from '@redux/paymentSlice';
+import {sendRequest} from '@api';
+import {navigate} from '@navigations';
 
 const ITEM_WIDTH = WINDOW_WIDTH - 32;
 
@@ -15,6 +17,25 @@ const ListVipTicket = () => {
   useEffect(() => {
     dispatch(getVipTicket());
   }, []);
+
+  const onShowDetail = async (vipTicketId: string) => {
+    helper.showLoading();
+    try {
+      const respone = await sendRequest('api/user/detailVipTicket', {
+        vipTicketId,
+      });
+      helper.hideLoading();
+
+      if (respone.err == 200) {
+        navigate('vipTicketDetail', respone.data);
+      } else {
+        helper.showErrorMsg(respone.message);
+      }
+    } catch (error) {
+      helper.showLoading();
+      console.log('Error : ', error);
+    }
+  };
 
   return (
     <Screen
@@ -72,7 +93,9 @@ const ListVipTicket = () => {
                 </View>
               </View>
             </View>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity
+              onPress={() => onShowDetail(item.id)}
+              style={styles.btn}>
               <Text color="#fff">Chi tiết</Text>
             </TouchableOpacity>
           </View>
