@@ -3,7 +3,7 @@ import React from 'react';
 import {Screen} from '../screen';
 import {AvatarFrame, Icon, Icons, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
-import {myColors} from '@utils';
+import {helper, myColors} from '@utils';
 import {navigate} from '@navigations';
 import {getProfileAction} from '@redux/userSlice';
 import LinearGradient from 'react-native-linear-gradient';
@@ -64,6 +64,26 @@ const Profile = () => {
             style={styles.editBtn}>
             <Icon type={Icons.FontAwesome} name="edit" size={22} />
           </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              bottom: 5,
+              right: 0,
+            }}>
+            <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
+              <Text>Xu</Text>
+              <Text type="medium_18">
+                {helper.displayMoney(wallet?.coin || 0)}
+              </Text>
+            </View>
+            <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
+              <Text>Exp</Text>
+              <Text type="medium_18">
+                {helper.displayMoney(wallet?.exp || 0)}
+              </Text>
+            </View>
+          </View>
         </View>
       </LinearGradient>
       <View style={styles.containerOption}>

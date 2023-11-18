@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, useMemo} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {WINDOW_WIDTH, myColors} from '@utils';
 import {Text} from '@components';
@@ -12,53 +12,102 @@ interface itemProps {
 }
 const LevelItem: FC<itemProps> = ({item, index}) => {
   const level = useAppSelector(state => state.levelSlice.data);
+  const {currentLevelIndex, exp, reachedMax} = level || {};
   const checkLevel = () => {
     let stt = 'Chưa đạt';
-    if (level.currentLevelIndex === index) {
+    if (currentLevelIndex === index) {
       stt = 'Level hiện tại';
-    } else if (level.currentLevelIndex > index) {
+    } else if (currentLevelIndex > index) {
       stt = 'Đã đạt';
     }
     return stt;
   };
+
+  const renderColor = useMemo(() => {
+    if (reachedMax || currentLevelIndex > index) {
+      return ['#c1f9dbea', '#0fd472'];
+    } else {
+      if (currentLevelIndex == index) {
+        return ['#f9c1c5ea', '#dc4854'];
+      } else {
+        return ['#e6dddeea', '#9f9a9a'];
+      }
+    }
+  }, [currentLevelIndex]);
+
+  const getPercent = () => {
+    if (reachedMax || currentLevelIndex > index) return 100;
+    if (currentLevelIndex == index) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+  const percent = getPercent();
+
   return (
     <LinearGradient
-      colors={['#f9c1c5ea', '#fa5d6a']}
+      colors={renderColor}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}
       style={styles.container}>
       <Text>{checkLevel()}</Text>
       <Text type="bold_22">{item.description}</Text>
       <View style={{alignItems: 'center', marginTop: 10, minHeight: 40}}>
-        {level.currentLevelIndex >= index ? (
-          <>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: WINDOW_WIDTH - 70,
-              }}>
-              <Text type="semibold_14">{`Lv ${index}`}</Text>
-              <Text type="semibold_14">{`${level.exp}/${item.nextLevelPoint}`}</Text>
-              <Text type="semibold_14">{`Lv ${index + 1}`}</Text>
-            </View>
-            <Slider
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: WINDOW_WIDTH - 70,
+          }}>
+          <Text type="semibold_14">{`Lv ${index}`}</Text>
+          <Text type="semibold_14">{`${exp}/${
+            item.nextLevelPoint == -1 ? '♾️' : item.nextLevelPoint
+          }`}</Text>
+          <Text type="semibold_14">{`Lv ${index + 1}`}</Text>
+        </View>
+        {/* <Slider
               style={{width: WINDOW_WIDTH - 50}}
               minimumValue={item.point}
               maximumValue={item.nextLevelPoint}
-              value={level.exp}
+              value={exp}
               disabled={true}
               thumbTintColor={myColors.background}
               minimumTrackTintColor={myColors.gray}
               maximumTrackTintColor={myColors.text}
-            />
-          </>
-        ) : null}
+            /> */}
+        <View style={{width: '100%', height: 3, marginTop: 15}}>
+          <View
+            style={{flex: 1, borderRadius: 2, backgroundColor: '#ffffff'}}
+          />
+          <View
+            style={{
+              position: 'absolute',
+              height: '100%',
+              width: `${
+                percent == -1
+                  ? Math.floor((item.point / item.nextLevelPoint) * 100)
+                  : percent
+              }%`,
+              backgroundColor: 'black',
+              borderRadius: 2,
+            }}
+          />
+        </View>
       </View>
-      <Text
-        style={{
-          marginTop: 10,
-        }}>{`Còn cần ${item.needExp} kinh nghiệm để nâng Level`}</Text>
+      {currentLevelIndex == index && !reachedMax && (
+        <Text
+          style={{
+            marginTop: 10,
+          }}>{`Còn cần ${
+          item.nextLevelPoint - exp
+        } kinh nghiệm để nâng Level`}</Text>
+      )}
+      {reachedMax && (
+        <Text style={{alignSelf: 'center', marginTop: 20}}>
+          Đã đạt đến level max
+        </Text>
+      )}
     </LinearGradient>
   );
 };

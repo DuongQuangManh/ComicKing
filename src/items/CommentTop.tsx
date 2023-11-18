@@ -22,7 +22,6 @@ const CommentTop: FC<itemProps> = ({item}) => {
     };
     const res = await sendRequest(path, body);
     if (res.err === 200) {
-      console.log('like thành công');
       if (isLike) {
         setLike(pre => pre - 1);
       } else {
