@@ -3,7 +3,7 @@ import React, {useState, useMemo} from 'react';
 import {Screen} from '../screen';
 import {DatePicker, Header, Icons, Input, Text} from '@components';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {StackParamList} from '@navigations';
+import {StackParamList, goBack} from '@navigations';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, helper, myColors} from '@utils';
 import RadioGroup from 'react-native-radio-buttons-group';
 import {useAppDispatch, useAppSelector} from '@redux/store';
@@ -102,6 +102,7 @@ const EditProfile = () => {
         nameIconEnd="save"
         onClickIconEnd={handlerSave}
         typeIconEnd={Icons.Entypo}
+        onBack={birthday ? goBack : () => {}}
       />
       <View style={styles.box1}>
         <Text type="bold_22">{label}</Text>
