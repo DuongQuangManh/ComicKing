@@ -67,7 +67,7 @@ export const loginAction = createAsyncThunk<
     dispatch(getDoneComics());
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance());
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -162,7 +162,7 @@ export const registerVerifyOtpAction = createAsyncThunk<
     dispatch(getDoneComics());
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance());
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -208,7 +208,7 @@ export const loginWithGoogleAction = createAsyncThunk<
     dispatch(getDoneComics());
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance());
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -260,7 +260,7 @@ export const loginWithFacebookAction = createAsyncThunk<
     dispatch(getDoneComics());
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance());
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();

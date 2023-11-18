@@ -78,6 +78,7 @@ export const getUserWalletAction = createAsyncThunk(
     let path = 'api/user/getWalletInfo';
     try {
       const res = await sendRequest(path, body);
+      console.log('Res : ', res);
       if (res.err == 200) {
         return res.data;
       }

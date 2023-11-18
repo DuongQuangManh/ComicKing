@@ -53,8 +53,6 @@ export const createOrder = async (amount: number) => {
       body: formBody,
     }).then(response => response.json());
 
-    console.log(data);
-
     return {
       token: data.zp_trans_token,
       returnCode: data.return_code,
