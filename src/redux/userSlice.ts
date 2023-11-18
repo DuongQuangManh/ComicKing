@@ -5,7 +5,6 @@ import {AppDispatch} from './store';
 import {goBack} from '@navigations';
 
 import {
-  IAuthor,
   Decorate,
   IAuthorFollowing,
   IComicFollowing,
@@ -137,13 +136,6 @@ export const getHistoryReading = createAsyncThunk<
   }
 });
 
-interface IUserState {
-  document: IDocument;
-  loading: boolean;
-  avatarFrame: Decorate | null;
-  authorFollowing: IAuthorFollowing | null | any;
-  comicFollowing: IComicFollowing | null | any;
-}
 export const changeAvatarFrameAction = createAsyncThunk(
   'auth/changeAvatarFrame',
   async (body: {userId: string; avatarFrameId: string}) => {
@@ -187,6 +179,8 @@ export const changeAvatarTitleAction = createAsyncThunk(
 );
 
 interface IUserState {
+  authorFollowing: IAuthorFollowing | null | any;
+  comicFollowing: IComicFollowing | null | any;
   document: IDocument;
   loading: boolean;
   avatarFrame: Decorate | null;
@@ -197,7 +191,12 @@ interface IUserState {
   wallet: {
     exp: number;
     coin: number;
-    vipTicket: TVipTicket | null;
+    ticket?: {
+      vipTicket: TVipTicket | null;
+      coinExtraDaily: number;
+      expExtraDaily: number;
+      expiredAt: number;
+    };
     level: number;
   };
 }
@@ -214,7 +213,6 @@ const initialState: IUserState = {
   wallet: {
     exp: 0,
     coin: 0,
-    vipTicket: null,
     level: 0,
   },
   avatarFrame: null,

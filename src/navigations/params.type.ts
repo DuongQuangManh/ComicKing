@@ -108,4 +108,7 @@ export type StackParamList = {
   comicMore: {
     type: 'new' | 'hot' | 'done';
   };
+  myVipTicket: {
+    vipTicketId: string;
+  };
 };

@@ -206,7 +206,7 @@ const Home = () => {
           <Text type="medium_12">Xếp hạng</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigate('buycoins')}
+          onPress={() => navigate('listCoinPackage')}
           style={styles.optionBtn}>
           <FastImage
             style={styles.optionImg}
@@ -222,9 +222,9 @@ const Home = () => {
     return <SlideShow listComic={hotComic} />;
   }, [hotComic]);
 
-  const _renderProposeComic = useMemo(() => {
-    return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
-  }, []);
+  // const _renderProposeComic = useMemo(() => {
+  //   return <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />;
+  // }, []);
 
   const _renderHotComic = useMemo(() => {
     return (
@@ -247,8 +247,6 @@ const Home = () => {
       <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" isMore />
     );
   }, [doneComics]);
-
-  console.log(readingHistory);
 
   const _renderHistoryComic = useMemo(() => {
     return (

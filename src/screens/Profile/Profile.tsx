@@ -1,15 +1,12 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Screen} from '../screen';
-import {AvatarFrame, Header, Icon, Icons, Text} from '@components';
+import {AvatarFrame, Icon, Icons, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
-import InfoItem from './Components/InfoItem';
-import {helper, myColors} from '@utils';
-import {goBack, navigate} from '@navigations';
-import {getHistoryReading, getProfileAction} from '@redux/userSlice';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import {myColors} from '@utils';
+import {navigate} from '@navigations';
+import {getProfileAction} from '@redux/userSlice';
 import LinearGradient from 'react-native-linear-gradient';
-import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +14,6 @@ const Profile = () => {
     document: {id, fullName, image},
     avatarFrame,
     avatarTitle,
-    authorFollowing,
-    comicFollowing,
     wallet,
   } = useAppSelector(state => state.userSlice);
 
@@ -57,7 +52,7 @@ const Profile = () => {
               style={styles.lvlBtn}
               onPress={() => navigate('level')}>
               <Text color="#fff" type="medium_14">
-                Lv{wallet.level}
+                Lv{wallet?.level}
               </Text>
             </TouchableOpacity>
           </View>
@@ -73,7 +68,15 @@ const Profile = () => {
       </LinearGradient>
       <View style={styles.containerOption}>
         <TouchableOpacity
-          onPress={() => navigate('listVipTicket')}
+          onPress={() => {
+            if (wallet.ticket?.vipTicket?.id) {
+              navigate('myVipTicket', {
+                vipTicketId: wallet?.ticket.vipTicket?.id,
+              });
+            } else {
+              navigate('listVipTicket');
+            }
+          }}
           style={styles.rowOption}>
           <Icon
             type={Icons.MaterialCommunityIcons}

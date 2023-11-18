@@ -47,6 +47,7 @@ import {
   TransactionHistory,
   TransactionStatus,
   ComicMore,
+  MyVipTicket,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -104,6 +105,7 @@ export const Stacknavigation = () => {
         />
         <Stack.Screen name="transactionStatus" component={TransactionStatus} />
         <Stack.Screen name="comicMore" component={ComicMore} />
+        <Stack.Screen name="myVipTicket" component={MyVipTicket} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
