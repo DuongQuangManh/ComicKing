@@ -9,6 +9,7 @@ import chapterSlice from './chapterSlice';
 import levelSlice from './levelSlice';
 import paymentSlice from './paymentSlice';
 import attendanceSlice from './attendanceSlice';
+import walletSlice from './walletSlice'
 
 const rootReducer = combineReducers({
   authSlice,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
   levelSlice,
   paymentSlice,
   attendanceSlice,
+  walletSlice
 });
 
 export default rootReducer;
