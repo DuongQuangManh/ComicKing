@@ -22,6 +22,7 @@ import {
 import {getLevel} from '@redux/levelSlice';
 import {getCoinPackage, getVipTicket} from '@redux/paymentSlice';
 import {getAttendance} from '@redux/attendanceSlice';
+import {getUserWallet} from '@redux/walletSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,7 @@ const Splash = () => {
         dispatch(getHotComic());
         dispatch(getHistoryReading({userId: id}));
         dispatch(getAttendance(id));
+        dispatch(getUserWallet(id));
         replace('bottomNavigation');
       } else {
         replace('login');
