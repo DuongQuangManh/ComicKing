@@ -5,12 +5,12 @@ import {AppDispatch} from './store';
 import {goBack} from '@navigations';
 
 import {
-  IAuthor,
   Decorate,
   IAuthorFollowing,
   IComicFollowing,
   IDocument,
   IReadingHistory,
+  TVipTicket,
 } from '@models';
 import {setReadingHistory} from './homeSlice';
 
@@ -72,6 +72,22 @@ export const getUserInfoAction = createAsyncThunk(
   },
 );
 
+export const getUserWalletAction = createAsyncThunk(
+  'userSlice/getUserWallet',
+  async (body: any) => {
+    let path = 'api/user/getWalletInfo';
+    try {
+      const res = await sendRequest(path, body);
+      console.log('Res : ', res);
+      if (res.err == 200) {
+        return res.data;
+      }
+    } catch (error) {
+      return false;
+    }
+  },
+);
+
 export const getAuthorFollowing = createAsyncThunk(
   'userSlice/getAuthorFollowing',
   async (body: any) => {
@@ -121,13 +137,6 @@ export const getHistoryReading = createAsyncThunk<
   }
 });
 
-interface IUserState {
-  document: IDocument;
-  loading: boolean;
-  avatarFrame: Decorate | null;
-  authorFollowing: IAuthorFollowing | null | any;
-  comicFollowing: IComicFollowing | null | any;
-}
 export const changeAvatarFrameAction = createAsyncThunk(
   'auth/changeAvatarFrame',
   async (body: {userId: string; avatarFrameId: string}) => {
@@ -171,13 +180,26 @@ export const changeAvatarTitleAction = createAsyncThunk(
 );
 
 interface IUserState {
+  authorFollowing: IAuthorFollowing | null | any;
+  comicFollowing: IComicFollowing | null | any;
   document: IDocument;
   loading: boolean;
   avatarFrame: Decorate | null;
   avatarTitle: Decorate | null;
-  vipPoint: number;
-  levelPoint: number;
+  // vipPoint: number;
+  // levelPoint: number;
   historyReading: IReadingHistory[];
+  wallet: {
+    exp: number;
+    coin: number;
+    ticket?: {
+      vipTicket: TVipTicket | null;
+      coinExtraDaily: number;
+      expExtraDaily: number;
+      expiredAt: number;
+    };
+    level: number;
+  };
 }
 
 const initialState: IUserState = {
@@ -189,13 +211,18 @@ const initialState: IUserState = {
     birthday: '',
     gender: '',
   },
+  wallet: {
+    exp: 0,
+    coin: 0,
+    level: 0,
+  },
   avatarFrame: null,
   authorFollowing: null,
   comicFollowing: null,
   loading: false,
   avatarTitle: null,
-  vipPoint: 0,
-  levelPoint: 0,
+  // vipPoint: 0,
+  // levelPoint: 0,
   historyReading: [],
 };
 
@@ -257,12 +284,11 @@ const userSlice = createSlice({
       })
       .addCase(getUserInfoAction.fulfilled, (state, action) => {
         if (action.payload) {
-          const {avatarFrame, vipPoint, levelPoint, avatarTitle} =
-            action.payload;
+          const {avatarFrame, avatarTitle} = action.payload;
           state.avatarFrame = avatarFrame;
           state.avatarTitle = avatarTitle;
-          state.vipPoint = vipPoint;
-          state.levelPoint = levelPoint;
+          // state.vipPoint = vipPoint;
+          // state.levelPoint = levelPoint;
         }
       })
       .addCase(changeAvatarFrameAction.fulfilled, (state, action) => {
@@ -282,6 +308,11 @@ const userSlice = createSlice({
         state.loading = false;
         if (action.payload) {
           state.historyReading = action.payload;
+        }
+      })
+      .addCase(getUserWalletAction.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.wallet = action.payload;
         }
       });
   },

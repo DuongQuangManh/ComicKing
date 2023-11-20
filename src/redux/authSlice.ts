@@ -13,7 +13,20 @@ import {sendRequest} from '@api';
 import {goBack, navigate, replace, reset} from '@navigations';
 import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
 import {AppDispatch, RootState} from './store';
-import {setDocumentInfo} from './userSlice';
+import {
+  getHistoryReading,
+  getUserInfoAction,
+  getUserWalletAction,
+  setDocumentInfo,
+} from './userSlice';
+import {
+  getDoneComics,
+  getHotComic,
+  getNewestComics,
+  getProposeComics,
+  getSliderComics,
+} from './homeSlice';
+import {getAttendance} from './attendanceSlice';
 
 export const loginAction = createAsyncThunk<
   any,
@@ -46,6 +59,15 @@ export const loginAction = createAsyncThunk<
         email: data.email,
       }),
     );
+    dispatch(getUserInfoAction({id: data.id}));
+    dispatch(getUserWalletAction({userId: data.id}));
+    dispatch(getSliderComics());
+    dispatch(getNewestComics());
+    dispatch(getProposeComics());
+    dispatch(getDoneComics());
+    dispatch(getHotComic());
+    dispatch(getHistoryReading({userId: data.id}));
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -132,6 +154,15 @@ export const registerVerifyOtpAction = createAsyncThunk<
         email: data.email,
       }),
     );
+    dispatch(getUserInfoAction({id: data.id}));
+    dispatch(getUserWalletAction({userId: data.id}));
+    dispatch(getSliderComics());
+    dispatch(getNewestComics());
+    dispatch(getProposeComics());
+    dispatch(getDoneComics());
+    dispatch(getHotComic());
+    dispatch(getHistoryReading({userId: data.id}));
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -169,6 +200,15 @@ export const loginWithGoogleAction = createAsyncThunk<
         email: data.email,
       }),
     );
+    dispatch(getUserInfoAction({id: data.id}));
+    dispatch(getUserWalletAction({userId: data.id}));
+    dispatch(getSliderComics());
+    dispatch(getNewestComics());
+    dispatch(getProposeComics());
+    dispatch(getDoneComics());
+    dispatch(getHotComic());
+    dispatch(getHistoryReading({userId: data.id}));
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -212,6 +252,15 @@ export const loginWithFacebookAction = createAsyncThunk<
         email: data.email,
       }),
     );
+    dispatch(getUserInfoAction({id: data.id}));
+    dispatch(getUserWalletAction({userId: data.id}));
+    dispatch(getSliderComics());
+    dispatch(getNewestComics());
+    dispatch(getProposeComics());
+    dispatch(getDoneComics());
+    dispatch(getHotComic());
+    dispatch(getHistoryReading({userId: data.id}));
+    dispatch(getAttendance(data.id));
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -245,27 +294,28 @@ export const forgotPassAction = createAsyncThunk(
 );
 
 export const forgotPassVerifyOtpAction = createAsyncThunk(
-    'auth/forgotPassVerifyOtp', async (body: IVerifyOtpBody) => {
-        let path = 'api/user/forgotPasswordVerifyOtp'
-        try {
-            helper.showLoading()
-            const respone = await sendRequest(path, body)
-            helper.hideLoading()
-            if (respone.err != 200) {
-                helper.showErrorMsg(respone.message)
-                return false
-            }
-            // helper.showSuccessMsg(
-            //     respone.message,
-            //     () => {
-            //         reset([{ name: 'login', params: { email: body.email } }])
-            //     })
-            navigate('success', { message: "forgotPassSuccess" })
-        } catch (error: any) {
-            helper.hideLoading()
-            return false
-        }
+  'auth/forgotPassVerifyOtp',
+  async (body: IVerifyOtpBody) => {
+    let path = 'api/user/forgotPasswordVerifyOtp';
+    try {
+      helper.showLoading();
+      const respone = await sendRequest(path, body);
+      helper.hideLoading();
+      if (respone.err != 200) {
+        helper.showErrorMsg(respone.message);
+        return false;
+      }
+      // helper.showSuccessMsg(
+      //     respone.message,
+      //     () => {
+      //         reset([{ name: 'login', params: { email: body.email } }])
+      //     })
+      navigate('success', {message: 'forgotPassSuccess'});
+    } catch (error: any) {
+      helper.hideLoading();
+      return false;
     }
+  },
 );
 
 export const resendOtp = createAsyncThunk(
@@ -288,24 +338,25 @@ export const resendOtp = createAsyncThunk(
   },
 );
 
-export const logoutAction = createAsyncThunk<void, void, {state: RootState,dispatch:AppDispatch}>(
-  'auth/logout',
-  async (_, {getState,dispatch}) => {
-    try {
-      let loginSource = getState().authSlice.loginSource;
-      if (loginSource == 'facebook') {
-        LoginManager?.logOut();
-      } else if (loginSource == 'google') {
-        await GoogleSignin.signOut();
-      }
-      dispatch(resetTokenWhenLogout(""))
-      reset([{name: 'login'}]);
-      return;
-    } catch (error: any) {
-      return;
+export const logoutAction = createAsyncThunk<
+  void,
+  void,
+  {state: RootState; dispatch: AppDispatch}
+>('auth/logout', async (_, {getState, dispatch}) => {
+  try {
+    let loginSource = getState().authSlice.loginSource;
+    if (loginSource == 'facebook') {
+      LoginManager?.logOut();
+    } else if (loginSource == 'google') {
+      await GoogleSignin.signOut();
     }
-  },
-);
+    dispatch(resetTokenWhenLogout(''));
+    reset([{name: 'login'}]);
+    return;
+  } catch (error: any) {
+    return;
+  }
+});
 
 //POST /api/user/changePassword': 'AuthController.changePassword',
 //'POST /api/user/changePasswordVerifyOtp': 'AuthController.changePasswordVerifyOtp',
@@ -341,17 +392,17 @@ export const changePassVerifyOtpAction = createAsyncThunk(
   async (body: IVerifyOtpBody) => {
     let path = 'api/user/changePasswordVerifyOtp';
     try {
-        helper.showLoading();
-        const res = await sendRequest(path, body);
-        if (res.err != 200) {
-            helper.showErrorMsg(res.message)
-            return false;
-        }
-        helper.hideLoading();
-        // helper.showSuccessMsg(
-        //     res.message,
-        //     () => goBack(3))
-        navigate('success',{ message: "changePassSuccess" })
+      helper.showLoading();
+      const res = await sendRequest(path, body);
+      if (res.err != 200) {
+        helper.showErrorMsg(res.message);
+        return false;
+      }
+      helper.hideLoading();
+      // helper.showSuccessMsg(
+      //     res.message,
+      //     () => goBack(3))
+      navigate('success', {message: 'changePassSuccess'});
     } catch (error: any) {
       helper.hideLoading();
       return false;
@@ -373,9 +424,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    resetTokenWhenLogout:(state,action)=>{
+    resetTokenWhenLogout: (state, action) => {
       state.token = '';
-    }
+    },
   },
   extraReducers(builder) {
     builder
@@ -409,5 +460,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { resetTokenWhenLogout} = authSlice.actions
+export const {resetTokenWhenLogout} = authSlice.actions;
 export default authSlice.reducer;

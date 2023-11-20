@@ -1,15 +1,12 @@
 import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Screen} from '../screen';
-import {AvatarFrame, Header, Icon, Icons, Text} from '@components';
+import {AvatarFrame, Icon, Icons, Text} from '@components';
 import {useAppDispatch, useAppSelector} from '@redux/store';
-import InfoItem from './Components/InfoItem';
 import {helper, myColors} from '@utils';
-import {goBack, navigate} from '@navigations';
-import {getHistoryReading, getProfileAction} from '@redux/userSlice';
-import ShimmerPlaceholder from 'react-native-shimmer-placeholder';
+import {navigate} from '@navigations';
+import {getProfileAction} from '@redux/userSlice';
 import LinearGradient from 'react-native-linear-gradient';
-import FastImage from 'react-native-fast-image';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -17,8 +14,7 @@ const Profile = () => {
     document: {id, fullName, image},
     avatarFrame,
     avatarTitle,
-    authorFollowing,
-    comicFollowing,
+    wallet,
   } = useAppSelector(state => state.userSlice);
 
   return (
@@ -56,7 +52,7 @@ const Profile = () => {
               style={styles.lvlBtn}
               onPress={() => navigate('level')}>
               <Text color="#fff" type="medium_14">
-                Lv1
+                Lv{wallet?.level}
               </Text>
             </TouchableOpacity>
           </View>
@@ -68,11 +64,39 @@ const Profile = () => {
             style={styles.editBtn}>
             <Icon type={Icons.FontAwesome} name="edit" size={22} />
           </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              position: 'absolute',
+              bottom: 5,
+              right: 0,
+            }}>
+            <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
+              <Text>Xu</Text>
+              <Text type="medium_18">
+                {helper.displayMoney(wallet?.coin || 0)}
+              </Text>
+            </View>
+            <View style={{paddingHorizontal: 10, alignItems: 'center'}}>
+              <Text>Exp</Text>
+              <Text type="medium_18">
+                {helper.displayMoney(wallet?.exp || 0)}
+              </Text>
+            </View>
+          </View>
         </View>
       </LinearGradient>
       <View style={styles.containerOption}>
         <TouchableOpacity
-          onPress={() => navigate('listVipTicket')}
+          onPress={() => {
+            if (wallet.ticket?.vipTicket?.id) {
+              navigate('myVipTicket', {
+                vipTicketId: wallet?.ticket.vipTicket?.id,
+              });
+            } else {
+              navigate('listVipTicket');
+            }
+          }}
           style={styles.rowOption}>
           <Icon
             type={Icons.MaterialCommunityIcons}

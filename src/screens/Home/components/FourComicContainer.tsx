@@ -2,13 +2,14 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {IComic} from '@models';
 import {Icon, Icons, Text} from '@components';
-import {push} from '@navigations';
+import {navigate, push} from '@navigations';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_WIDTH, myColors} from '@utils';
 
 type ComponentProps = {
   listComic: IComic[];
   title: string;
+  isMore?: boolean;
 };
 
 const WINDOW_WIDTH_33 = Math.round(WINDOW_WIDTH / 3);
@@ -17,12 +18,31 @@ const ITEM_WIDTH_33 = WINDOW_WIDTH_33 - 11;
 const FourComicContainer: React.FC<ComponentProps> = ({
   listComic = [],
   title,
+  isMore = false,
 }) => {
+  const handlerSeeMore = () => {
+    navigate('comicMore', {type: 'done'});
+  };
   return (
     <View style={styles.container}>
-      <Text type="semibold_17" style={{paddingHorizontal: 4}}>
-        {title}
-      </Text>
+      <View style={{width: WINDOW_WIDTH, flexDirection: 'row'}}>
+        <Text type="semibold_17" style={{paddingHorizontal: 4, flex: 1}}>
+          {title}
+        </Text>
+        {isMore && (
+          <TouchableOpacity onPress={handlerSeeMore}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text type="bold_14">Thêm</Text>
+              <Icon type={Icons.AntDesign} name="right" size={16} />
+            </View>
+          </TouchableOpacity>
+        )}
+      </View>
       <View style={styles.comicContainer}>
         {listComic[0] && (
           <TouchableOpacity

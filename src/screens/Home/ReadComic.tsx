@@ -128,7 +128,6 @@ const ReadComic = () => {
   };
 
   const showOption = () => {
-    console.log(ref.currentChapter);
     if (!ref.showingOption) {
       ref.showingOption = true;
       Animated.timing(scrollY, {
@@ -201,7 +200,6 @@ const ReadComic = () => {
     };
     const res = await sendRequest(path, obj);
     if (res.err === 200) {
-      console.log('like thành công');
     }
     setLike(!isLike);
   };
@@ -216,7 +214,6 @@ const ReadComic = () => {
     };
     const res = await sendRequest(path, body);
     if (res.err === 200) {
-      console.log('comment thành công');
     }
   };
   const handlerShowComment = () => {

@@ -53,7 +53,6 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
-      console.log(token);
       reset([{name: 'bottomNavigation'}]);
     }
   }, [token]);

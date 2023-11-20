@@ -43,6 +43,11 @@ import {
   ListVipTicket,
   ListCoinPackage,
   VipTicketDetail,
+  TransactionDetail,
+  TransactionHistory,
+  TransactionStatus,
+  ComicMore,
+  MyVipTicket,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -93,7 +98,14 @@ export const Stacknavigation = () => {
         <Stack.Screen name="listVipTicket" component={ListVipTicket} />
         <Stack.Screen name="listCoinPackage" component={ListCoinPackage} />
         <Stack.Screen name="vipTicketDetail" component={VipTicketDetail} />
-
+        <Stack.Screen name="transactionDetail" component={TransactionDetail} />
+        <Stack.Screen
+          name="transactionHistory"
+          component={TransactionHistory}
+        />
+        <Stack.Screen name="transactionStatus" component={TransactionStatus} />
+        <Stack.Screen name="comicMore" component={ComicMore} />
+        <Stack.Screen name="myVipTicket" component={MyVipTicket} />
         {/* common screens */}
         <Stack.Group
           screenOptions={{
