@@ -3,6 +3,7 @@ import React, { useState, useColorScheme } from 'react';
 import { Screen } from '../screen';
 import { Header, Icons } from '@components';
 import MenuItem from '../Home/components/MenuItem';
+import NightItem from './components/NightItem';
 const NighMode = () => {
   const [ColorScheme, setColorScheme] = useColorScheme();
 
@@ -16,9 +17,9 @@ const NighMode = () => {
   }
   return (
     <View>
-      <Screen style={{ paddingHorizontal: 10, backgroundColor: ColorScheme === 'dark' ? '#000' : '#fff' }}>
+      <Screen style={{ paddingHorizontal: 10, backgroundColor: useColorScheme === 'dark' ? '#000' : '#fff' }}>
         <Header text='Night Mode' />
-        <MenuItem
+        {/* <MenuItem
           name="Off"
           iconName="sunny-outline"
           iconType={Icons.Ionicons}
@@ -29,12 +30,23 @@ const NighMode = () => {
           iconName="moon-outline"
           iconType={Icons.Ionicons}
           onPress={handleTurnOn}
-        />
-        <Text>Giao diện: {ColorScheme}</Text>
-        <View style={{ height: 200 }}>
-          <Text>Giao diện hiện tại: {ColorScheme}</Text>
+        /> */}
+        <NightItem
+          name='Off'
+          value="light"
+          onPress={handleTurnOff} />
 
-          {ColorScheme === 'dark' ? (
+        <NightItem
+          name='On'
+          value="dark"
+          onPress={handleTurnOn} />
+
+
+        <Text>Giao diện: {useColorScheme}</Text>
+        <View style={{ height: 200 }}>
+          <Text>Giao diện hiện tại: {useColorScheme}</Text>
+
+          {useColorScheme === 'dark' ? (
             <Text>Đang ở chế độ tối</Text>
           ) : (
             <Text>Đang ở chế độ sáng</Text>
