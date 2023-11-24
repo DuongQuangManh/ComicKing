@@ -9,6 +9,7 @@ import {
   ScrollViewProps,
   useColorScheme
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused} from '@react-navigation/native';
 import {ScreenProps} from './screen.props';
@@ -18,8 +19,8 @@ import {myColors} from '@utils';
 const isIos = Platform.OS === 'ios';
 
 function ScreenWithoutScrolling(props: ScreenProps) {
-  const [ColorScheme, setColorScheme] = useState(useColorScheme())
-  console.log("Giao diện:",ColorScheme);
+  const {colors} = useTheme()
+  console.log("Giao diện:",colors);
   const insets = useSafeAreaInsets();
   const preset = presets.fixed;
   const style = props.style || {};

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Icon, Icons, Text } from '@components';
 import { StyleSheet, TouchableOpacity, View } from "react-native"
 import { RadioButton } from "react-native-paper";
@@ -16,16 +16,21 @@ const NightItem: React.FC<NightItemProps> = ({
     onPress,
     value
 }) => {
+    const [isChecked, setIsChecked] = useState(isSelect);
+    const handlePress = () => {
+        setIsChecked(!isChecked);
+        onPress();
+      }
     return (
-        <TouchableOpacity style={{ height: 60 }} onPress={onPress}>
+        <TouchableOpacity style={{ height: 60 }} onPress={handlePress}>
             <View style={styles.container}>
                 <Text type="semibold_16" style={styles.text}>
                     {name}
                 </Text>
                 <RadioButton
                     value={value}
-                    status={isSelect ? 'checked' : 'unchecked'}
-                    onPress={onPress}
+                    status={isChecked ? "checked" : "unchecked"}
+                    onPress={handlePress}
                 />
             </View>
         </TouchableOpacity>
@@ -40,9 +45,11 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingHorizontal: 20,
         paddingVertical: 10,
-        alignItems: "center"
+        alignItems: "center",
+        marginTop:5
     },
     text: {
+        width:"85%",
         marginStart: 15
     }
 })
