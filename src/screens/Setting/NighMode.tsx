@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, Appearance,useColorScheme } from 'react-native';
-import React, { useState,useEffect} from 'react';
+import { StyleSheet, Text, View, Appearance, useColorScheme } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Screen } from '../screen';
 import { Header, Icons } from '@components';
 import MenuItem from '../Home/components/MenuItem';
@@ -7,8 +7,8 @@ import NightItem from './components/NightItem';
 import { useTheme } from '@react-navigation/native';
 // import { useColorScheme } from 'nativewind';
 const NighMode = () => {
-  const [colorScheme, setColorScheme] = useState(useColorScheme()) ;
-  const [selectedValue, setSelectedValue] = useState(colorScheme);
+  const colorScheme = useColorScheme();
+  // const [selectedValue, setSelectedValue] = useState(colorScheme);
   // const [theme,setTheme] = useState(Appearance.getColorScheme());
   // Appearance.addChangeListener((scheme)=>{
   //   console.log(scheme);
@@ -16,16 +16,16 @@ const NighMode = () => {
   // })
 
   const handleTurnOff = () => {
-    setColorScheme('light')
+    Appearance.setColorScheme('light');
   }
   const handleTurnOn = () => {
-    setColorScheme('dark')
+    Appearance.setColorScheme('dark');
   }
 
-  
+
   return (
     <View>
-      <Screen style={{ paddingHorizontal: 10}}>
+      <Screen style={{ paddingHorizontal: 10 }}>
         <Header text='Night Mode' />
         {/* <MenuItem
           name="Off"
@@ -48,6 +48,10 @@ const NighMode = () => {
           name='On'
           value="dark"
           onPress={handleTurnOn} />
+
+        <View>
+          <Text>Chế độ: {colorScheme}</Text>
+        </View>
 
       </Screen>
     </View>

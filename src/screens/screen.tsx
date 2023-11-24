@@ -17,7 +17,8 @@ import {isNonScrolling, offsets, presets} from './screen.presets';
 import {myColors} from '@utils';
 
 const isIos = Platform.OS === 'ios';
-
+const theme = useColorScheme();
+console.log("Giao diện: ",theme);
 function ScreenWithoutScrolling(props: ScreenProps) {
   const {colors} = useTheme()
   console.log("Giao diện:",colors);
@@ -46,7 +47,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: myColors.background }}
+          style={{ height: insets.top, backgroundColor: theme == 'light' ? myColors.background : myColors.background_dark }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -55,7 +56,6 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 }
 
 function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
-  const [ColorScheme, setColorScheme] = useState(useColorScheme())
   const insets = useSafeAreaInsets();
   const preset = presets.scroll;
   const style = props.style || {};
@@ -79,7 +79,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: myColors.background }}
+          style={{ height: insets.top, backgroundColor: theme == 'light' ? myColors.background : myColors.background_dark }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>
