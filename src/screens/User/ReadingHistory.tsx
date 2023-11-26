@@ -1,7 +1,7 @@
 import {StyleSheet, ActivityIndicator} from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import {Screen} from '../screen';
-import {Header} from '@components';
+import {Header, ListEmpty} from '@components';
 import {IReadingHistory} from '@models';
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
