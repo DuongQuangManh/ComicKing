@@ -10,7 +10,7 @@ import {Screen} from '../../screen';
 import {WINDOW_HEIGHT, WINDOW_WIDTH, bxh, myColors} from '@utils';
 import {Icon, Icons, Text} from '@components';
 import {Category} from '@items';
-import {comicData} from '../Home';
+// import {comicData} from '../Home';
 import {Rank} from '@items';
 import LinearGradient from 'react-native-linear-gradient';
 import {FlashList} from '@shopify/flash-list';
@@ -52,7 +52,7 @@ const LeaderBoard = () => {
 
       <FlashList
         nestedScrollEnabled={true}
-        data={comicData}
+        data={[]}
         renderItem={({item, index}) => <Rank item={item} index={index + 1} />}
         showsVerticalScrollIndicator={false}
         estimatedItemSize={WINDOW_HEIGHT}

@@ -26,6 +26,7 @@ const HistoryListContainer: React.FC<ComponentProps> = ({
             {title}
           </Text>
           <ScrollView
+            contentContainerStyle={{paddingEnd: 10}}
             showsHorizontalScrollIndicator={false}
             horizontal
             style={{paddingVertical: 8}}>

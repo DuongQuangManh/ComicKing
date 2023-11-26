@@ -22,6 +22,7 @@ import {
 import {
   getDoneComics,
   getHotComic,
+  getNewestComicUpdatedChapter,
   getNewestComics,
   getProposeComics,
   getSliderComics,
@@ -59,15 +60,7 @@ export const loginAction = createAsyncThunk<
         email: data.email,
       }),
     );
-    dispatch(getUserInfoAction({id: data.id}));
-    dispatch(getUserWalletAction({userId: data.id}));
-    dispatch(getSliderComics());
-    dispatch(getNewestComics());
-    dispatch(getProposeComics());
-    dispatch(getDoneComics());
-    dispatch(getHotComic());
-    dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance(data.id));
+    helper.getAsset(dispatch, data.id);
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -154,15 +147,7 @@ export const registerVerifyOtpAction = createAsyncThunk<
         email: data.email,
       }),
     );
-    dispatch(getUserInfoAction({id: data.id}));
-    dispatch(getUserWalletAction({userId: data.id}));
-    dispatch(getSliderComics());
-    dispatch(getNewestComics());
-    dispatch(getProposeComics());
-    dispatch(getDoneComics());
-    dispatch(getHotComic());
-    dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance(data.id));
+    helper.getAsset(dispatch, data.id);
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -200,15 +185,7 @@ export const loginWithGoogleAction = createAsyncThunk<
         email: data.email,
       }),
     );
-    dispatch(getUserInfoAction({id: data.id}));
-    dispatch(getUserWalletAction({userId: data.id}));
-    dispatch(getSliderComics());
-    dispatch(getNewestComics());
-    dispatch(getProposeComics());
-    dispatch(getDoneComics());
-    dispatch(getHotComic());
-    dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance(data.id));
+    helper.getAsset(dispatch, data.id);
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();
@@ -252,15 +229,7 @@ export const loginWithFacebookAction = createAsyncThunk<
         email: data.email,
       }),
     );
-    dispatch(getUserInfoAction({id: data.id}));
-    dispatch(getUserWalletAction({userId: data.id}));
-    dispatch(getSliderComics());
-    dispatch(getNewestComics());
-    dispatch(getProposeComics());
-    dispatch(getDoneComics());
-    dispatch(getHotComic());
-    dispatch(getHistoryReading({userId: data.id}));
-    dispatch(getAttendance(data.id));
+    helper.getAsset(dispatch, data.id);
     return data.accessToken;
   } catch (error: any) {
     helper.hideLoading();

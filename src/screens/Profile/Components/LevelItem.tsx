@@ -86,7 +86,7 @@ const LevelItem: FC<itemProps> = ({item, index}) => {
               height: '100%',
               width: `${
                 percent == -1
-                  ? Math.floor((item.point / item.nextLevelPoint) * 100)
+                  ? Math.floor(((exp || 0) / item.nextLevelPoint) * 100)
                   : percent
               }%`,
               backgroundColor: 'black',
