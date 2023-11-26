@@ -20,3 +20,18 @@ export type TCoinPackage = {
   image: string;
   suggest: boolean;
 };
+
+export type TWallet = {
+  id: string,
+  coin: number,
+  exp: number,
+  ticket: {
+      vipTicket: string,
+      coinExtraDaily: number,
+      expExtraDaily: number,
+      expiredAt: number,
+      status: string
+  },
+  user: string,
+  level: number
+}

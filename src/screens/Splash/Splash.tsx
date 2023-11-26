@@ -21,6 +21,7 @@ import {
   getUserWalletAction,
 } from '@redux/userSlice';
 import {getAttendance} from '@redux/attendanceSlice';
+import {getUserWallet} from '@redux/walletSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
