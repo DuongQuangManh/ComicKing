@@ -158,7 +158,7 @@ export default ComicWithDescContainer;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 16,
+    marginTop: 24,
     minHeight: 150,
   },
   btnContainer: {

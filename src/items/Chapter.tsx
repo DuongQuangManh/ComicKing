@@ -64,7 +64,7 @@ const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
   );
 };
 
-export default Chapter;
+export default React.memo(Chapter);
 
 const styles = StyleSheet.create({
   container: {

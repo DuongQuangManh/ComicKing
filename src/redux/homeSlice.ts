@@ -82,7 +82,24 @@ export const getHotComic = createAsyncThunk(
         helper.showErrorMsg(res.message);
         return false;
       }
-      console.log(res.data);
+      return res.data;
+    } catch (error: any) {
+      console.log(error.message);
+      return false;
+    }
+  },
+);
+
+export const getNewestComicUpdatedChapter = createAsyncThunk(
+  'homeSlice/getNewestComicUpdatedChapter',
+  async () => {
+    let path = 'api/user/getNewestComicUpdatedChapter';
+    try {
+      const res = await sendRequest(path);
+      if (res.err !== 200) {
+        helper.showErrorMsg(res.message);
+        return false;
+      }
       return res.data;
     } catch (error: any) {
       console.log(error.message);
@@ -97,6 +114,7 @@ type StateType = {
   hotComic: IComic[];
   proposeComics: IComic[];
   doneComics: IComic[];
+  newestComicUpdatedChapter: IComic[];
   readingHistory: IReadingHistory[];
   selectComicId: string;
 };
@@ -109,6 +127,7 @@ const initialState: StateType = {
   doneComics: [],
   readingHistory: [],
   selectComicId: '',
+  newestComicUpdatedChapter: [],
 };
 
 const homeSlice = createSlice({
@@ -163,6 +182,10 @@ const homeSlice = createSlice({
       })
       .addCase(getHotComic.fulfilled, (state, action) => {
         if (Array.isArray(action.payload)) state.hotComic = action.payload;
+      })
+      .addCase(getNewestComicUpdatedChapter.fulfilled, (state, action) => {
+        if (Array.isArray(action.payload))
+          state.newestComicUpdatedChapter = action.payload;
       }),
 });
 export const {setSelectComicId, setReadingHistory, unshiftHistoryItem} =

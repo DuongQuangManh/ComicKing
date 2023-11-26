@@ -19,57 +19,56 @@ const HeaderDetail: FC<componentProps> = ({
   image,
   name,
 }) => {
-
   return (
-      <ImageBackground
-        source={
-          image
-            ? {
-                uri: image,
-              }
-            : require('@assets/images/error_img.jpg')
-        }
-        borderBottomLeftRadius={5}
-        borderBottomRightRadius={5}
-        style={{
-          width: WINDOW_WIDTH,
-          height: WINDOW_HEIGHT / 3 - 20,
-          alignItems: 'flex-start',
-          justifyContent: 'flex-end',
-        }}>
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0.051)', '#030303e0']}
-          style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
-          <View style={styles.box1}>
-            <Text type="bold_22" color={myColors.surfaceVariant}>
-              {name}
-            </Text>
-            <View style={[styles.box3]}>
-              <IconText
-                nameIcon="local-fire-department"
-                typeIcon={Icons.MaterialIcons}
-                sizeIcon={18}
-                colorIcon="#f77c00"
-                text={helper.convertToK(view)}
-              />
-              <IconText
-                nameIcon="like1"
-                typeIcon={Icons.AntDesign}
-                colorIcon={myColors.primary}
-                sizeIcon={18}
-                text={helper.convertToK(like)}
-              />
-              <IconText
-                nameIcon="star"
-                typeIcon={Icons.AntDesign}
-                colorIcon="#eff300"
-                sizeIcon={18}
-                text={star + ''}
-              />
-            </View>
+    <ImageBackground
+      source={
+        image
+          ? {
+              uri: image,
+            }
+          : require('@assets/images/error_img.jpg')
+      }
+      borderBottomLeftRadius={5}
+      borderBottomRightRadius={5}
+      style={{
+        width: WINDOW_WIDTH,
+        height: WINDOW_HEIGHT / 3 - 20,
+        alignItems: 'flex-start',
+        justifyContent: 'flex-end',
+      }}>
+      <LinearGradient
+        colors={['rgba(0, 0, 0, 0.051)', '#030303e0']}
+        style={{borderBottomLeftRadius: 5, borderBottomRightRadius: 5}}>
+        <View style={styles.box1}>
+          <Text type="semibold_18" color={myColors.surfaceVariant}>
+            {name}
+          </Text>
+          <View style={[styles.box3]}>
+            <IconText
+              nameIcon="local-fire-department"
+              typeIcon={Icons.MaterialIcons}
+              sizeIcon={18}
+              colorIcon="#f77c00"
+              text={helper.convertToK(view)}
+            />
+            <IconText
+              nameIcon="like1"
+              typeIcon={Icons.AntDesign}
+              colorIcon={myColors.primary}
+              sizeIcon={18}
+              text={helper.convertToK(like)}
+            />
+            <IconText
+              nameIcon="star"
+              typeIcon={Icons.AntDesign}
+              colorIcon="#eff300"
+              sizeIcon={18}
+              text={star + ''}
+            />
           </View>
-        </LinearGradient>
-      </ImageBackground>
+        </View>
+      </LinearGradient>
+    </ImageBackground>
   );
 };
 
