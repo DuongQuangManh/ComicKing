@@ -9,6 +9,7 @@ import { setColorTheme } from '@redux/userSlice';
 
 const NighMode = () => {
   const dispatch = useAppDispatch();
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme ?? '');
   const colorScheme = useColorScheme();
   const theme = Appearance.getColorScheme();
   // const [selectedValue, setSelectedValue] = useState(colorScheme);
@@ -29,30 +30,17 @@ const NighMode = () => {
   return (
     <Screen>
       <Header text='Night Mode' />
-      {/* <MenuItem
-          name="Off"
-          iconName="sunny-outline"
-          iconType={Icons.Ionicons}
-          onPress={handleTurnOff}
-        />
-        <MenuItem
-          name="On"
-          iconName="moon-outline"
-          iconType={Icons.Ionicons}
-          onPress={handleTurnOn}
-        /> */}
       <NightItem
         name='Off'
         value="light"
-        isSelect={theme === 'light' ? true : false}
+        isSelect={colorTheme === 'light' ? true : false}
         onPress={handleTurnOff} />
 
       <NightItem
         name='On'
         value="dark"
-        isSelect={theme === 'dark' ? true : false}
+        isSelect={colorTheme === 'dark' ? true : false}
         onPress={handleTurnOn} />
-
     </Screen>
   );
 };
