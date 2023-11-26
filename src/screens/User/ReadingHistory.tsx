@@ -101,6 +101,7 @@ const ReadingHistory = () => {
               }}
             />
           )}
+          ListEmptyComponent={() => <ListEmpty />}
         />
       )}
     </Screen>
