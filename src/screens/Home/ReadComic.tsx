@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   BackHandler,
+  Image,
 } from 'react-native';
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {Screen} from '../screen';
@@ -149,22 +150,22 @@ const ReadComic = () => {
     }
   };
 
-  const _renderItem = useCallback(({item, index}: any) => {
+  const _renderItem = ({item, index}: any) => {
     let jsxItem = null;
     const type = typeof item;
     switch (type) {
       case 'string':
         jsxItem = (
-          <FastImage
+          <Image
             key={index}
             source={
               item ? {uri: item} : require('@assets/images/error_img.jpg')
             }
             style={{
               width: WINDOW_WIDTH,
-              height: WINDOW_WIDTH * 1.5,
+              height: WINDOW_WIDTH * 2,
+              resizeMode: 'contain',
             }}
-            resizeMode="contain"
           />
         );
         break;
@@ -180,7 +181,7 @@ const ReadComic = () => {
           </View>
         );
         break;
-      case 'object':
+        // case 'object':
         jsxItem = (
           <View
             style={{backgroundColor: 'black', height: 600, width: '100%'}}
@@ -188,7 +189,7 @@ const ReadComic = () => {
         );
     }
     return jsxItem;
-  }, []);
+  };
 
   const handlerLike = async () => {
     let path = 'api/user/toggleLikeChapter';

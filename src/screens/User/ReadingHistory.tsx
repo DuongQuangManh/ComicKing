@@ -26,7 +26,7 @@ const ReadingHistory = () => {
   const {listHistory, isLoading} = state;
   const dataReq = useRef({
     skip: 0,
-    limit: 8,
+    limit: 20,
   }).current;
 
   const getListHistory = async () => {

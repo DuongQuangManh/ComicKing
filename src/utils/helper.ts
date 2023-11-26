@@ -1,8 +1,22 @@
 import {getCurrentRouter, goBack, navigate} from '@navigations';
-import {store} from '@redux/store';
+import {AppDispatch, store} from '@redux/store';
 import {Platform, PermissionsAndroid} from 'react-native';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import Moment from 'moment';
+import {
+  getHistoryReading,
+  getUserInfoAction,
+  getUserWalletAction,
+} from '@redux/userSlice';
+import {
+  getDoneComics,
+  getHotComic,
+  getNewestComicUpdatedChapter,
+  getNewestComics,
+  getProposeComics,
+  getSliderComics,
+} from '@redux/homeSlice';
+import {getAttendance} from '@redux/attendanceSlice';
 export const helper = {
   // you can pass 'message' param only
   showErrorMsg: (
@@ -136,5 +150,17 @@ export const helper = {
   getCurrentDateYYMMDD: () => {
     const todayDate = new Date().toISOString().slice(2, 10);
     return todayDate.split('-').join('');
+  },
+  getAsset: (dispatch: AppDispatch, userId: string) => {
+    dispatch(getUserInfoAction({id: userId}));
+    dispatch(getUserWalletAction({userId}));
+    dispatch(getSliderComics());
+    dispatch(getNewestComics());
+    dispatch(getProposeComics());
+    dispatch(getDoneComics());
+    dispatch(getNewestComicUpdatedChapter());
+    dispatch(getHotComic());
+    dispatch(getHistoryReading({userId}));
+    dispatch(getAttendance(userId));
   },
 };

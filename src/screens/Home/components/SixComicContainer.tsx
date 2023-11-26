@@ -77,7 +77,7 @@ export default SixComicView;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 16,
+    marginTop: 24,
     minHeight: 300,
   },
   image: {
