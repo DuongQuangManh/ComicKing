@@ -32,6 +32,8 @@ const HEADER_HEIGHT = 84;
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
+
   const {
     doneComics = [],
     hotComic = [],
@@ -208,7 +210,7 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         style={{
           paddingTop: HEADER_HEIGHT,
-          backgroundColor: myColors.background,
+          backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark,
         }}
         contentContainerStyle={{paddingBottom: 150}}
         refreshControl={

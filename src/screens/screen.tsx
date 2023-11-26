@@ -17,6 +17,7 @@ import { useAppSelector } from '@redux/store';
 const isIos = Platform.OS === 'ios';
 
 
+
 function ScreenWithoutScrolling(props: ScreenProps) {
   const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   const insets = useSafeAreaInsets();
@@ -30,7 +31,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
   
   return (
     <KeyboardAvoidingView
-      style={[preset.outer, backgroundStyle]}
+      style={[preset.outer, backgroundStyle,{backgroundColor:colorTheme == 'light'? myColors.background:myColors.backgroundDark}]}
       behavior={
         props.removekeyBoard ? undefined : isIos ? 'padding' : undefined
       }
@@ -44,7 +45,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: colorTheme === 'light' ? myColors.background : myColors.backgroundDark }}
+          style={{ height: insets.top, backgroundColor: myColors.background }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -77,7 +78,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: colorTheme === 'light' ? myColors.background : myColors.backgroundDark }}
+          style={{ height: insets.top, backgroundColor: myColors.background }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>
