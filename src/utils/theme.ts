@@ -90,6 +90,7 @@ export const myTheme = {
     background: '#fff',
     background_dark: '#000',
     text: '#202020',
+    text_dark: '#fff',
     textHint: '#74747494',
     gray:'#efeeee',
     blackCustom:'#334249',

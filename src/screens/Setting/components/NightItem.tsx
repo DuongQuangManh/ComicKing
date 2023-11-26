@@ -30,8 +30,7 @@ const NightItem: React.FC<NightItemProps> = ({
                 <RadioButton
                     value={value}
                     status={isChecked ? "checked" : "unchecked"}
-                    onPress={handlePress}
-                />
+                    onPress={handlePress}/>
             </View>
         </TouchableOpacity>
     )

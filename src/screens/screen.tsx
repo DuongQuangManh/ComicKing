@@ -7,21 +7,23 @@ import {
   StatusBar,
   View,
   ScrollViewProps,
-  useColorScheme
+  useColorScheme,
+  Appearance
 } from 'react-native';
-import { useTheme } from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused} from '@react-navigation/native';
 import {ScreenProps} from './screen.props';
 import {isNonScrolling, offsets, presets} from './screen.presets';
 import {myColors} from '@utils';
+import { useSelector } from 'react-redux';
 
 const isIos = Platform.OS === 'ios';
+
 const theme = useColorScheme();
-console.log("Giao diện: ",theme);
+const color = Appearance.getColorScheme();
+// const colorScheme = useSelector(state => state.colorScheme);
+
 function ScreenWithoutScrolling(props: ScreenProps) {
-  const {colors} = useTheme()
-  console.log("Giao diện:",colors);
   const insets = useSafeAreaInsets();
   const preset = presets.fixed;
   const style = props.style || {};
@@ -47,7 +49,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: theme == 'light' ? myColors.background : myColors.background_dark }}
+          style={{ height: insets.top, backgroundColor: color == 'light' ? myColors.background : myColors.background_dark }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -79,7 +81,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: theme == 'light' ? myColors.background : myColors.background_dark }}
+          style={{ height: insets.top, backgroundColor: color == 'light' ? myColors.background : myColors.background_dark }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>
