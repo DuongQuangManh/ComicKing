@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -7,23 +6,19 @@ import {
   StatusBar,
   View,
   ScrollViewProps,
-  useColorScheme,
-  Appearance
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useIsFocused} from '@react-navigation/native';
 import {ScreenProps} from './screen.props';
 import {isNonScrolling, offsets, presets} from './screen.presets';
 import {myColors} from '@utils';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '@redux/store';
 
 const isIos = Platform.OS === 'ios';
 
-const theme = useColorScheme();
-const color = Appearance.getColorScheme();
-// const colorScheme = useSelector(state => state.colorScheme);
 
 function ScreenWithoutScrolling(props: ScreenProps) {
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   const insets = useSafeAreaInsets();
   const preset = presets.fixed;
   const style = props.style || {};
@@ -49,7 +44,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: color == 'light' ? myColors.background : myColors.background_dark }}
+          style={{ height: insets.top, backgroundColor: colorTheme === 'light' ? myColors.background : myColors.backgroundDark }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -58,6 +53,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 }
 
 function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   const insets = useSafeAreaInsets();
   const preset = presets.scroll;
   const style = props.style || {};
@@ -81,7 +77,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{ height: insets.top, backgroundColor: color == 'light' ? myColors.background : myColors.background_dark }}
+          style={{ height: insets.top, backgroundColor: colorTheme === 'light' ? myColors.background : myColors.backgroundDark }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>

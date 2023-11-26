@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Screen } from '../screen';
 import { Header, Icons } from '@components';
 import NightItem from './components/NightItem';
-import { useTheme } from '@react-navigation/native';
+import {useAppDispatch, useAppSelector} from '@redux/store';
 import { myColors } from '@utils';
-// import { useColorScheme } from 'nativewind';
+import { setColorTheme } from '@redux/userSlice';
+
 const NighMode = () => {
+  const dispatch = useAppDispatch();
   const colorScheme = useColorScheme();
   const theme = Appearance.getColorScheme();
   // const [selectedValue, setSelectedValue] = useState(colorScheme);
@@ -17,17 +19,15 @@ const NighMode = () => {
   // })
 
   const handleTurnOff = () => {
-    if(theme === 'dark') Appearance.setColorScheme('light');
-    // console.log(Appearance.getColorScheme());
+    dispatch(setColorTheme('light'))
   }
   const handleTurnOn = () => {
-    if(theme === 'light') Appearance.setColorScheme('dark');
-    // console.log(Appearance.getColorScheme());
+    dispatch(setColorTheme('dark'))
   }
 
 
   return (
-    <Screen style={{ paddingHorizontal: 10, backgroundColor: theme === 'light' ? myColors.background : myColors.background_dark }}>
+    <Screen>
       <Header text='Night Mode' />
       {/* <MenuItem
           name="Off"
@@ -52,10 +52,6 @@ const NighMode = () => {
         value="dark"
         isSelect={theme === 'dark' ? true : false}
         onPress={handleTurnOn} />
-
-      <View style={{ margin: 20 }}>
-        <Text>Chế độ: {Appearance.getColorScheme()}</Text>
-      </View>
 
     </Screen>
   );
