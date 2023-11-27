@@ -22,6 +22,8 @@ import {sendRequest} from '@api';
 import ComicRankItem from './components/ComicRankItem';
 import {navigate} from '@navigations';
 import UserRankItem from './components/UserRankItem';
+import { useAppSelector } from '@redux/store';
+import { useAppTheme } from '@hooks';
 
 type TabType = {
   index: number;
@@ -80,13 +82,14 @@ const TAB_WIDTH = 110;
 
 const Rank = () => {
   const scrollRef = useRef<ScrollView>(null);
+  const theme = useAppTheme()
   const [state, setState] = useState<StateType>({
     selectedTab: TABS?.[0],
     listComic: [],
     isLoading: true,
   });
   const {selectedTab, listComic, isLoading} = state;
-
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   const dividerAnimated = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     const translateX = interpolate(
@@ -139,6 +142,7 @@ const Rank = () => {
   const _renderTabsBar = useMemo(
     () => (
       <ScrollView
+        style={{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}}
         ref={scrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}>
@@ -164,8 +168,8 @@ const Rank = () => {
               style={{
                 color:
                   selectedTab.name == item.name
-                    ? myColors.primary
-                    : myColors.text,
+                    ? theme.primary
+                    : theme.text,
               }}
               type={selectedTab.name == item.name ? 'medium_16' : 'regular_16'}>
               {item.title}
@@ -207,7 +211,6 @@ const Rank = () => {
             right: 0,
             left: 0,
             bottom: 0,
-            backgroundColor: myColors.black_60,
           }}>
           <Header
             text="Bảng Xếp Hạng"
@@ -226,11 +229,11 @@ const Rank = () => {
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           paddingTop: 6,
-          backgroundColor: '#fff',
+          backgroundColor: theme.background,
         }}>
         {_renderTabsBar}
       </View>
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
+      <View style={{flex: 1, backgroundColor: colorTheme == 'light' ? '#fff' : myColors.backgroundDark}}>
         {isLoading ? (
           <ActivityIndicator
             color={myColors.primary}

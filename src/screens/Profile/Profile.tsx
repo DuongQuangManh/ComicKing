@@ -16,7 +16,7 @@ const Profile = () => {
     avatarTitle,
     wallet,
   } = useAppSelector(state => state.userSlice);
-
+  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   return (
     <Screen
       unsafe
@@ -86,7 +86,7 @@ const Profile = () => {
           </View>
         </View>
       </LinearGradient>
-      <View style={styles.containerOption}>
+      <View style={[styles.containerOption,{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}]}>
         <TouchableOpacity
           onPress={() => {
             if (wallet.ticket?.vipTicket?.id) {
@@ -160,7 +160,7 @@ const Profile = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.containerOption}>
+      <View style={[styles.containerOption,{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}]}>
         <TouchableOpacity
           onPress={() => {
             navigate('comicFollowing');

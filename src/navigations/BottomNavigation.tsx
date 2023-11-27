@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {myColors} from '@utils';
 import {StatusBar} from 'react-native';
+import { useAppTheme } from '@hooks';
 
 const BottomTab = createBottomTabNavigator();
 const TABBAR_HEIEGHT = 60;
@@ -109,6 +110,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
 };
 
 const BottomNavigation = () => {
+  const theme = useAppTheme();
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -116,7 +118,7 @@ const BottomNavigation = () => {
         tabBarStyle: {
           height: TABBAR_HEIEGHT,
           position: 'absolute',
-          backgroundColor: 'white',
+          backgroundColor: theme.background,
         },
       }}>
       {tabArr.map(item => (

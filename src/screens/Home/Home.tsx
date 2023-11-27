@@ -5,7 +5,7 @@ import {
   StatusBar,
   RefreshControl,
 } from 'react-native';
-import React, {useMemo, useEffect} from 'react';
+import React, { useMemo, useEffect } from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -13,26 +13,28 @@ import Animated, {
   interpolate,
   Extrapolation,
 } from 'react-native-reanimated';
-import {WINDOW_WIDTH, helper, myColors} from '@utils';
-import {navigate} from '@navigations';
-import {useAppDispatch, useAppSelector} from '@redux/store';
-import {getCate} from '@redux/categorySlice';
+import { WINDOW_WIDTH, helper, myColors } from '@utils';
+import { navigate } from '@navigations';
+import { useAppDispatch, useAppSelector } from '@redux/store';
+import { getCate } from '@redux/categorySlice';
 import FlatListCustom from './components/FlatListCustom';
 import LeaderBoard from './components/LeaderBoard';
-import {Icon, Icons, Text} from '@components';
+import { Icon, Icons, Text } from '@components';
 import SlideShow from './components/SlideShow';
 import SixComicContainer from './components/SixComicContainer';
 import ComicWithDescContainer from './components/ComicWithDescContainer';
 import FourComicContainer from './components/FourComicContainer';
 import FastImage from 'react-native-fast-image';
-import {getHotComic, getNewestComics} from '@redux/homeSlice';
+import { getHotComic, getNewestComics } from '@redux/homeSlice';
 import HistoryListContainer from './components/HistoryListContainer';
+import { useAppTheme } from '@hooks';
 
 const HEADER_HEIGHT = 84;
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
+  // const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
+  const theme = useAppTheme()
 
   const {
     doneComics = [],
@@ -42,16 +44,15 @@ const Home = () => {
     newestComicUpdatedChapter = [],
     readingHistory,
   } = useAppSelector(state => state.homeSlice);
-  const {id} = useAppSelector(state => state.userSlice.document ?? {});
-
+  const { id } = useAppSelector(state => state.userSlice.document ?? {});
   const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
+  const scrollHandler = useAnimatedScrollHandler<{ prevY?: number }>({
     onBeginDrag: (event, ctx) => {
       if (ctx) ctx.prevY = event.contentOffset.y;
     },
     onScroll: (event, ctx) => {
       if (ctx) {
-        let {y} = event.contentOffset;
+        let { y } = event.contentOffset;
         if (y < 0) y = 0;
         const dy = y - (ctx?.prevY ?? 0);
         scrollY.value = helper.clamp(scrollY.value + dy, 0, HEADER_HEIGHT);
@@ -66,31 +67,35 @@ const Home = () => {
       [0, -HEADER_HEIGHT],
       Extrapolation.CLAMP,
     );
-    return {transform: [{translateY: translateY}]};
+    return { transform: [{ translateY: translateY }] };
   });
 
   const _renderHeader = useMemo(() => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
-          <FastImage
-            style={{width: 30, height: 30}}
-            source={require('@assets/images/logo3.png')}
-          />
-          <Text style={{marginStart: 6}} type="medium_17">
-            Comic Stuff
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => navigate('search')}>
-            <Icon type={Icons.Ionicons} name="search-outline" />
-          </TouchableOpacity>
-          {/* <TouchableOpacity
+        <View style={{ paddingTop: 24, paddingHorizontal: 10, flex: 1, 
+              alignItems: 'center',
+          
+          flexDirection: 'row', backgroundColor: theme.background, }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+            <FastImage
+              style={{ width: 30, height: 30 }}
+              source={require('@assets/images/logo3.png')}
+            />
+            <Text style={{ marginStart: 6 }} type="medium_17">
+              Comic Stuff
+            </Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: theme.background }}>
+            <TouchableOpacity onPress={() => navigate('search')}>
+              <Icon type={Icons.Ionicons} name="search-outline" />
+            </TouchableOpacity>
+            {/* <TouchableOpacity
           onPress={() => navigate('comicWorld')}
           style={{marginHorizontal: 10}}>
           <Icon
@@ -98,10 +103,11 @@ const Home = () => {
             name="view-dashboard-outline"
           />
         </TouchableOpacity> */}
-          <View style={{width: 10}} />
-          <TouchableOpacity onPress={() => navigate('notifications')}>
-            <Icon type={Icons.Ionicons} name="notifications-outline" />
-          </TouchableOpacity>
+            <View style={{ width: 10 }} />
+            <TouchableOpacity onPress={() => navigate('notifications')}>
+              <Icon type={Icons.Ionicons} name="notifications-outline" />
+            </TouchableOpacity>
+          </View>
         </View>
       </Animated.View>
     );
@@ -210,12 +216,12 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         style={{
           paddingTop: HEADER_HEIGHT,
-          backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark,
+          backgroundColor: theme.background,
         }}
-        contentContainerStyle={{paddingBottom: 150}}
+        contentContainerStyle={{ paddingBottom: 150 }}
         refreshControl={
           <RefreshControl
-            style={{position: 'absolute'}}
+            style={{ position: 'absolute' }}
             onRefresh={() => {
               helper.getAsset(dispatch, id);
             }}
@@ -235,7 +241,7 @@ const Home = () => {
           {_renderDoneComic}
         </View>
         <View
-          style={{alignItems: 'center', justifyContent: 'center', height: 60}}>
+          style={{ alignItems: 'center', justifyContent: 'center', height: 60 }}>
           <Text color={myColors.textHint} type="regular_14">
             Không còn nội dung
           </Text>
@@ -256,7 +262,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   headerStyle: {
-    paddingTop: 24,
     height: HEADER_HEIGHT,
     position: 'absolute',
     zIndex: 10,
@@ -264,7 +269,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    paddingHorizontal: 10,
     backgroundColor: 'white',
     elevation: 2,
   },
