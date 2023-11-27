@@ -88,7 +88,6 @@ export const myTheme = {
     primary_80: '#fb6d79cb',
     surfaceVariant: 'white',
     background: '#fff',
-    backgroundDark: '#242526',
     text: '#202020',
     textHint: '#74747494',
     gray:'#efeeee',

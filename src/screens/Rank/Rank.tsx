@@ -89,7 +89,6 @@ const Rank = () => {
     isLoading: true,
   });
   const {selectedTab, listComic, isLoading} = state;
-  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
   const dividerAnimated = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => {
     const translateX = interpolate(
@@ -142,7 +141,7 @@ const Rank = () => {
   const _renderTabsBar = useMemo(
     () => (
       <ScrollView
-        style={{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}}
+        style={{backgroundColor: theme.background}}
         ref={scrollRef}
         horizontal
         showsHorizontalScrollIndicator={false}>
@@ -233,7 +232,7 @@ const Rank = () => {
         }}>
         {_renderTabsBar}
       </View>
-      <View style={{flex: 1, backgroundColor: colorTheme == 'light' ? '#fff' : myColors.backgroundDark}}>
+      <View style={{flex: 1, backgroundColor: theme.background}}>
         {isLoading ? (
           <ActivityIndicator
             color={myColors.primary}

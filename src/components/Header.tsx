@@ -34,7 +34,7 @@ const Header: FC<propsComponent> = ({
       <TouchableOpacity
         style={{position: 'absolute', zIndex: 10, left: 8}}
         onPress={onBack}>
-        <Icon color={theme.transparentWhite} name="chevron-back-outline" type={Icons.Ionicons} size={22} />
+        <Icon color={theme.text} name="chevron-back-outline" type={Icons.Ionicons} size={22} />
       </TouchableOpacity>
       <Text style={{flex: 1, textAlign: 'center'}} color={color || theme.text} type="bold_18">
         {props.text}

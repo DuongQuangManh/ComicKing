@@ -12,7 +12,7 @@ const Setting = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <Screen backgroundColor={myColors.background}>
+    <Screen>
       <Header text="Setting" />
       <MenuItem
         name="Change Password"

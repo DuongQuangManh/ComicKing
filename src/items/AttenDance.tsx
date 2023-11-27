@@ -7,6 +7,7 @@ import {Text} from '@components';
 import {sendRequest} from '@api';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {getUserWalletAction} from '@redux/userSlice';
+import { useAppTheme } from '@hooks';
 interface itemProps {
   item?: any;
 }
@@ -15,7 +16,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
   const {coinExtraDaily = 0, expExtraDaily = 0} = item;
   const document = useAppSelector(state => state.userSlice.document);
   const dispatch = useAppDispatch();
-
+  const theme = useAppTheme();
   const handlerCheckIn = async () => {
     if (!isCheckIn) {
       setIsCheckIn(true);
@@ -42,7 +43,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
   // };
 
   const getBgColor = () => {
-    let color = '#d4d4d4';
+    let color = theme.textHint;
     if (!isCheckIn && !item.isExpired && item.canAttendance) {
       color = myColors.primary;
     }
@@ -124,7 +125,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
             style={[
               styles.box1,
               {
-                backgroundColor: !item.isCurrentDay ? '#fff' : '#ffe6e8',
+                backgroundColor: !item.isCurrentDay ? theme.background : '#ffe6e8',
               },
             ]}>
             <Text type="regular_12">{item.label}</Text>

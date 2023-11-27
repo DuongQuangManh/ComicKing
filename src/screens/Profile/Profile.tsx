@@ -7,6 +7,7 @@ import {helper, myColors} from '@utils';
 import {navigate} from '@navigations';
 import {getProfileAction} from '@redux/userSlice';
 import LinearGradient from 'react-native-linear-gradient';
+import { useAppTheme } from '@hooks';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -16,11 +17,11 @@ const Profile = () => {
     avatarTitle,
     wallet,
   } = useAppSelector(state => state.userSlice);
-  const colorTheme = useAppSelector(state => state.userSlice.colorTheme);
+  const theme = useAppTheme();
   return (
     <Screen
       unsafe
-      backgroundColor={myColors.gray}
+      backgroundColor={theme.gray}
       preset="scroll"
       translucent
       statusBarColor="transparent"
@@ -30,13 +31,13 @@ const Profile = () => {
         onPress={() => navigate('setting')}>
         <Icon
           name={'settings-sharp'}
-          color={myColors.text}
+          color={theme.text}
           type={Icons.Ionicons}
           size={20}
         />
       </TouchableOpacity>
       <LinearGradient
-        colors={[myColors.primary_60, myColors.gray]}
+        colors={[theme.primary_60, theme.gray]}
         style={{paddingTop: 28, paddingHorizontal: 18, paddingBottom: 18}}>
         <View style={{height: 40}}></View>
         <View style={{flexDirection: 'row', paddingBottom: 20}}>
@@ -86,7 +87,7 @@ const Profile = () => {
           </View>
         </View>
       </LinearGradient>
-      <View style={[styles.containerOption,{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}]}>
+      <View style={[styles.containerOption,{backgroundColor: theme.background}]}>
         <TouchableOpacity
           onPress={() => {
             if (wallet.ticket?.vipTicket?.id) {
@@ -160,7 +161,7 @@ const Profile = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={[styles.containerOption,{backgroundColor: colorTheme == 'light' ? myColors.background : myColors.backgroundDark}]}>
+      <View style={[styles.containerOption,{backgroundColor: theme.background}]}>
         <TouchableOpacity
           onPress={() => {
             navigate('comicFollowing');

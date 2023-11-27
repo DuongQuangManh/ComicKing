@@ -40,7 +40,7 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       {isFocused ? (
         <StatusBar
           translucent={props.translucent}
-          backgroundColor={props.statusBarColor ?? '#fff'}
+          backgroundColor={props.statusBarColor ?? theme.background}
           barStyle={props.statusBar ?? 'dark-content'}
         />
       ) : null}
@@ -73,7 +73,7 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       {isFocused ? (
         <StatusBar
           translucent={props.translucent}
-          backgroundColor={props.statusBarColor ?? '#fff'}
+          backgroundColor={props.statusBarColor ?? theme.background}
           barStyle={props.statusBar ?? 'dark-content'}
         />
       ) : null}

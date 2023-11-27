@@ -2,11 +2,10 @@ import { useAppSelector } from "@redux/store"
 import { myColors } from "@utils"
 
 export const useAppTheme = () => {
-    const {colorTheme} = useAppSelector(state => state.userSlice)
-    if(colorTheme == 'light'){
+    const { colorTheme } = useAppSelector(state => state.userSlice)
+    if (colorTheme == 'light') {
         return {
             ...myColors,
-            textHint: 'red'
         }
     }
 
@@ -14,6 +13,8 @@ export const useAppTheme = () => {
         ...myColors,
         background: '#242526',
         text: '#fffffff0',
-        textHint: 'red'
+        primary_60:'#737373',
+        gray:'#18191a',
+        textHint: '#3e3e3e'
     }
 }
