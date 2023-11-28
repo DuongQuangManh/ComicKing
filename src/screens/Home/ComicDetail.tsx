@@ -178,7 +178,7 @@ const ComicDetail = () => {
                           text={item?.title}
                           style={{
                             borderWidth: 1,
-                            borderColor: myColors.gray,
+                            borderColor: theme.gray,
                             borderRadius: 18,
                             marginStart: 5,
                             minWidth: 100,
