@@ -135,7 +135,7 @@ const ComicDetail = () => {
                   screen === 1 ? myColors.background : myColors.primary
                 }
                 buttonColor={
-                  screen === 1 ? myColors.primary : theme.textHint
+                  screen === 1 ? myColors.primary : theme.itemCustom
                 }
                 style={{flex: 1}}
                 borderRadius={40}
@@ -148,7 +148,7 @@ const ComicDetail = () => {
                   screen === 2 ? myColors.background : myColors.primary
                 }
                 buttonColor={
-                  screen === 2 ? theme.primary : theme.textHint
+                  screen === 2 ? theme.primary : theme.itemCustom
                 }
                 style={{flex: 1, marginStart: 10}}
                 borderRadius={40}
@@ -162,7 +162,7 @@ const ComicDetail = () => {
                     comicId={detailComic.id}
                     isFollowing={detailComic.isFollowing}
                   />
-                  <View style={[styles.containerDes,{backgroundColor: theme.textHint}]}>
+                  <View style={[styles.containerDes,]}>
                     <TextMore text={detailComic.description} />
                     <FlashList
                       data={(cates as CateModel[]) ?? []}
@@ -238,7 +238,7 @@ const ComicDetail = () => {
                     <Icon type={Icons.Entypo} name="chevron-right" size={16} />
                   </TouchableOpacity>
                 </View>
-                <View style={[styles.box4,{backgroundColor: theme.textHint}]}>
+                <View style={[styles.box4,]}>
                   <View
                     style={{
                       justifyContent: 'space-between',

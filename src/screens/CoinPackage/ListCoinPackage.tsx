@@ -14,6 +14,7 @@ import {TouchableOpacity} from 'react-native';
 import {sendRequest} from '@api';
 import {getCoinPackage} from '@redux/paymentSlice';
 import {navigate} from '@navigations';
+import { useAppTheme } from '@hooks';
 
 const {PayZaloBridge} = NativeModules;
 
@@ -24,7 +25,7 @@ const ListCoinPackage = () => {
   const dispatch = useAppDispatch();
   const {listCoinPackage = []} = useAppSelector(state => state.paymentSlice);
   const {id} = useAppSelector(state => state.userSlice.document ?? {});
-
+  const theme = useAppTheme();
   useEffect(() => {
     dispatch(getCoinPackage());
   }, []);
@@ -102,8 +103,6 @@ const ListCoinPackage = () => {
 
   return (
     <Screen
-      statusBarColor="#f9f9f9bc"
-      style={{backgroundColor: '#f9f9f9bc'}}
       preset="scroll"
       showsVerticalScrollIndicator={false}>
       <Header text="Nạp Xu" style={{backgroundColor: 'transparent'}} />
@@ -135,7 +134,7 @@ const ListCoinPackage = () => {
               <View style={{marginStart: 20}}>
                 <View style={{flexDirection: 'row'}}>
                   <Text type="medium_18">{item.coin}</Text>
-                  <Text color={myColors.textHint} style={{marginStart: 4}}>
+                  <Text color={theme.text} style={{marginStart: 4}}>
                     xu
                   </Text>
                 </View>

@@ -131,11 +131,11 @@ const Search = () => {
     <Screen
       style={{paddingHorizontal: 14}}>
       <View style={styles.headerContainer}>
-        <View style={[styles.searchContainer,{backgroundColor: theme.textHint}]}>
+        <View style={[styles.searchContainer,{backgroundColor: theme.gray}]}>
           <Icon
             name="search"
             type={Icons.Ionicons}
-            color={theme.text}
+            color={theme.textHint}
             size={20}
           />
           <TextInput
@@ -147,7 +147,7 @@ const Search = () => {
             onSubmitEditing={onSubmit}
             placeholder="Tác giả / Tác phẩm"
             cursorColor={myColors.primary}
-            placeholderTextColor={theme.text}
+            placeholderTextColor={theme.textHint}
             autoFocus
           />
           {txtSearch && (

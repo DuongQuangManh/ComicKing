@@ -96,7 +96,8 @@ export const myTheme = {
     transparentGray: '#8787878d',
     transparent: 'transparent',
     backgroundMsg: '#0000002d',
-    disablePrimary: '#fb6d798f'
+    disablePrimary: '#fb6d798f',
+    itemCustom: '#fff'
   },
   fonts: configureFonts({ config: fontConfig as any, isV3: false }) as any,
   roundness: 5

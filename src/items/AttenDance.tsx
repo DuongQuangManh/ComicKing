@@ -43,7 +43,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
   // };
 
   const getBgColor = () => {
-    let color = theme.textHint;
+    let color = '#d4d4d4';
     if (!isCheckIn && !item.isExpired && item.canAttendance) {
       color = myColors.primary;
     }
@@ -73,8 +73,8 @@ const AttenDance: FC<itemProps> = ({item}) => {
                 padding: 10,
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: !item.isCurrentDay ? theme.textHint : '#ffe6e8',
-                borderColor: theme.textHint
+                backgroundColor: !item.isCurrentDay ? '#fff' : '#ffe6e8',
+                
               },
             ]}>
             <Text type="regular_12">{item.label}</Text>
@@ -126,8 +126,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
             style={[
               styles.box1,
               {
-                backgroundColor: !item.isCurrentDay ? theme.textHint : '#9e575d',
-                borderColor: theme.textHint
+                backgroundColor: !item.isCurrentDay ? '#fff' : '#ffe6e8',
               },
             ]}>
             <Text type="regular_12">{item.label}</Text>
