@@ -166,7 +166,7 @@ const Search = () => {
               <Icon
                 name="close-circle"
                 type={Icons.Ionicons}
-                color={theme.text}
+                color={theme.textHint}
               />
             </TouchableOpacity>
           )}
@@ -176,7 +176,7 @@ const Search = () => {
           <Icon
             name={'close-outline'}
             type={Icons.Ionicons}
-            color={myColors.textHint}
+            color={theme.textHint}
           />
         </TouchableOpacity>
       </View>

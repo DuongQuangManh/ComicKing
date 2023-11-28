@@ -21,7 +21,7 @@ const Profile = () => {
   return (
     <Screen
       unsafe
-      backgroundColor={myColors.gray}
+      backgroundColor={theme.gray}
       preset="scroll"
       translucent
       statusBarColor="transparent"

@@ -119,7 +119,7 @@ const ListCoinPackage = () => {
             style={[
               styles.itemContainer,
               {
-                backgroundColor: item.suggest ? '#fff2f3' : '#fff',
+                backgroundColor: item.suggest ? '#fff2f3' : theme.itemCustom,
               },
             ]}>
             <View style={{alignItems: 'center', flexDirection: 'row'}}>
@@ -134,7 +134,7 @@ const ListCoinPackage = () => {
               <View style={{marginStart: 20}}>
                 <View style={{flexDirection: 'row'}}>
                   <Text type="medium_18">{item.coin}</Text>
-                  <Text color={theme.text} style={{marginStart: 4}}>
+                  <Text color={theme.textHint} style={{marginStart: 4}}>
                     xu
                   </Text>
                 </View>
