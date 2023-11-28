@@ -47,7 +47,7 @@ const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
               colorIcon={myColors.primary}
               sizeIcon={15}
               text={item.numOfComment}
-              colorText={myColors.text}
+              colorText={theme.text}
               textType="medium_14"
             />
             <IconText
@@ -56,7 +56,7 @@ const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
               sizeIcon={15}
               colorIcon="#f77c00"
               text={item.numOfView}
-              colorText={myColors.text}
+              colorText={theme.text}
               textType="medium_14"
             />
           </View>
