@@ -113,7 +113,7 @@ const Author = () => {
             onPress={() => navigate('follow', {type: 'follower'})}> */}
               <View style={styles.box2_1}>
                 <Text type="bold_22">{data?.numOfFollow}</Text>
-                <Text type="medium_14" color="#555454df">
+                <Text type="medium_14" color={theme.textHint}>
                   Người theo dõi
                 </Text>
               </View>
@@ -121,7 +121,7 @@ const Author = () => {
 
               <View style={styles.box2_1}>
                 <Text type="bold_22">{data?.numOfComic}</Text>
-                <Text type="medium_14" color="#555454df">
+                <Text type="medium_14" color={theme.textHint}>
                   Truyện
                 </Text>
               </View>
@@ -132,7 +132,7 @@ const Author = () => {
               width={90}
               height={30}
               borderRadius={18}
-              buttonColor={isFollow ? myColors.gray : myColors.primary}
+              buttonColor={isFollow ? theme.gray : myColors.primary}
             />
           </View>
           <View

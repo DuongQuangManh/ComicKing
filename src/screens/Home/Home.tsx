@@ -175,7 +175,7 @@ const Home = () => {
     return (
       <ComicWithDescContainer
         listComic={newestComic}
-        title="🏵️ Tryện Mới"
+        title="🏵️ Truyện Mới"
         isMore
       />
     );

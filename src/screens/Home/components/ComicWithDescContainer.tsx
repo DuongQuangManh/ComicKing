@@ -5,6 +5,7 @@ import {WINDOW_WIDTH, myColors} from '@utils';
 import {IComic} from '@models';
 import FastImage from 'react-native-fast-image';
 import {navigate, push} from '@navigations';
+import { useAppTheme } from '@hooks';
 
 type ComponentProps = {
   listComic: IComic[];
@@ -17,6 +18,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
   title,
   isMore = false,
 }) => {
+  const theme = useAppTheme();
   const handlerSeeMore = () => {
     navigate('comicMore', {type: 'new'});
   };
@@ -61,7 +63,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                 </Text>
                 <Text
                   type="light_12"
-                  color={myColors.textHint}
+                  color={theme.textHint}
                   numberOfLines={4}
                   ellipsizeMode="tail">
                   {item.description}
@@ -78,11 +80,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="eye"
                     type={Icons.Ionicons}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfView ?? 0}
                   </Text>
