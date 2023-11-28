@@ -249,7 +249,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfFollow ?? 0}
                       </Text>
@@ -264,11 +264,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="list"
                         type={Icons.Entypo}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfChapter ?? 0}
                       </Text>

@@ -242,7 +242,7 @@ const Home = () => {
         </View>
         <View
           style={{ alignItems: 'center', justifyContent: 'center', height: 60 }}>
-          <Text color={myColors.textHint} type="regular_14">
+          <Text color={theme.textHint} type="regular_14">
             Không còn nội dung
           </Text>
         </View>
