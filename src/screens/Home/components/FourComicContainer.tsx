@@ -5,6 +5,7 @@ import {Icon, Icons, Text} from '@components';
 import {navigate, push} from '@navigations';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_WIDTH, myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 
 type ComponentProps = {
   listComic: IComic[];
@@ -22,6 +23,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
   isMore = false,
   visibleType = 'right',
 }) => {
+  const theme = useAppTheme();
   const handlerSeeMore = () => {
     navigate('comicMore', {type: 'done'});
   };
@@ -82,7 +84,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                       type="light_12"
                       numberOfLines={5}
                       ellipsizeMode="tail"
-                      color={myColors.textHint}>
+                      color={theme.textHint}>
                       {listComic[0].description}
                     </Text>
                   </View>
@@ -98,11 +100,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="eye"
                         type={Icons.Ionicons}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfView ?? 0}
                       </Text>
@@ -117,11 +119,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="like1"
                         type={Icons.AntDesign}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfLike ?? 0}
                       </Text>
@@ -136,11 +138,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="favorite"
                         type={Icons.MaterialIcons}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfFollow ?? 0}
                       </Text>
@@ -155,11 +157,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="list"
                         type={Icons.Entypo}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfChapter ?? 0}
                       </Text>
@@ -189,7 +191,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                       type="light_12"
                       numberOfLines={5}
                       ellipsizeMode="tail"
-                      color={myColors.textHint}>
+                      color={theme.textHint}>
                       {listComic[0].description}
                     </Text>
                   </View>
