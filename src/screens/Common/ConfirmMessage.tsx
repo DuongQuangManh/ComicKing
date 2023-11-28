@@ -42,7 +42,7 @@ const ConfirmMessage = () => {
                 <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around' }}>
                     <Button
                         buttonColor={theme.background}
-                        textColor={myColors.textHint}
+                        textColor={theme.text}
                         width={'40%'}
                         text='Cancel'
                         onPress={onCancel} />

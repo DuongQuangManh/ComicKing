@@ -27,7 +27,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <Screen backgroundColor={myColors.background} preset="scroll">
+    <Screen preset="scroll">
       <Header text="Change Password" />
       <View style={styles.box1}>
         <Text type="semibold_17">{document.fullName}</Text>

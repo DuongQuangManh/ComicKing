@@ -5,6 +5,7 @@ import { Button, Text } from '@components'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { StackParamList } from '@navigations'
 import Modal from 'react-native-modal'
+import { useAppTheme } from '@hooks'
 
 const Message = () => {
     const {
@@ -13,7 +14,7 @@ const Message = () => {
         onOk,
         message
     } = useRoute<RouteProp<StackParamList, 'message'>>().params
-
+    const theme = useAppTheme();
     return (
         <Modal
             isVisible
@@ -23,7 +24,7 @@ const Message = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-            <View style={styles.centeredView}>
+            <View style={[styles.centeredView,{backgroundColor: theme.background}]}>
                 <View style={{ alignItems: 'center' }}>
                     <Text type='semibold_18'>{title}</Text>
                     <Image
