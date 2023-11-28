@@ -99,11 +99,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="like1"
                     type={Icons.AntDesign}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfLike ?? 0}
                   </Text>
@@ -118,11 +118,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="favorite"
                     type={Icons.MaterialIcons}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfFollow ?? 0}
                   </Text>
@@ -137,11 +137,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="list"
                     type={Icons.Entypo}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfChapter ?? 0}
                   </Text>
