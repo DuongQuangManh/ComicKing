@@ -4,6 +4,7 @@ import {Item} from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
 import {IconText, Icons, Text} from '@components';
 import {myColors} from '@utils';
 import {navigate} from '@navigations';
+import { useAppTheme } from '@hooks';
 interface itemProps {
   item?: any;
   index?: number;
@@ -11,6 +12,7 @@ interface itemProps {
   onPress: () => void;
 }
 const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
+  const theme = useAppTheme();
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -21,12 +23,12 @@ const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
               ? myColors.primary
               : item.isRead
               ? '#616161dc'
-              : myColors.text
+              : theme.text
           }>{`${item.index}. Chapter ${item.index}`}</Text>
         <View style={styles.box1}>
           <Text
             type="regular_14"
-            color={item.isRead ? '#616161dc' : myColors.text}>
+            color={item.isRead ? '#616161dc' : theme.text}>
             {item.updatedAt}
           </Text>
           <View style={{flexDirection: 'row'}}>
@@ -36,7 +38,7 @@ const Chapter: FC<itemProps> = ({item, readingChapter, onPress}) => {
               colorIcon={myColors.primary}
               sizeIcon={15}
               text={item.numOfLike}
-              colorText={myColors.text}
+              colorText={theme.text}
               textType="medium_14"
             />
             <IconText
