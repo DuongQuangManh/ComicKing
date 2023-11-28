@@ -162,7 +162,7 @@ const ComicDetail = () => {
                     comicId={detailComic.id}
                     isFollowing={detailComic.isFollowing}
                   />
-                  <View style={[styles.containerDes,]}>
+                  <View style={[styles.containerDes,{backgroundColor: theme.gray}]}>
                     <TextMore text={detailComic.description} />
                     <FlashList
                       data={(cates as CateModel[]) ?? []}
@@ -238,7 +238,7 @@ const ComicDetail = () => {
                     <Icon type={Icons.Entypo} name="chevron-right" size={16} />
                   </TouchableOpacity>
                 </View>
-                <View style={[styles.box4,]}>
+                <View style={[styles.box4,{backgroundColor: theme.gray}]}>
                   <View
                     style={{
                       justifyContent: 'space-between',
