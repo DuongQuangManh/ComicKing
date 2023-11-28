@@ -16,6 +16,7 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
 import {ComicSmall} from '@items';
 import {useAppSelector} from '@redux/store';
+import { useAppTheme } from '@hooks';
 
 const Author = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'author'>>().params;
@@ -23,6 +24,7 @@ const Author = () => {
   const [data, setData] = useState<IAuthor | any>();
   const [isFollow, setFollow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const theme = useAppTheme();
   const ref = useRef({
     skip: 0,
     limit: 0,
@@ -93,14 +95,14 @@ const Author = () => {
             <View style={styles.box1_1}>
               <Text type="bold_18">{data?.name}</Text>
               <Text
-                color={myColors.textHint}
+                color={theme.textHint}
                 type="light_13"
                 numberOfLines={2}
                 style={{
                   marginTop: 10,
                 }}>{`Giới thiệu: ${data?.description}`}</Text>
               <Text
-                color={myColors.textHint}
+                color={theme.textHint}
                 type="light_13">{`Cập nhật lần cuối: ${data?.updatedComicAt}`}</Text>
             </View>
           </View>
