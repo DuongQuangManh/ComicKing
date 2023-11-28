@@ -207,11 +207,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="eye"
                         type={Icons.Ionicons}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfView ?? 0}
                       </Text>
@@ -226,11 +226,11 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="like1"
                         type={Icons.AntDesign}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                         type="light_12">
                         {listComic[0].numOfLike ?? 0}
                       </Text>
@@ -245,7 +245,7 @@ const FourComicContainer: React.FC<ComponentProps> = ({
                         name="favorite"
                         type={Icons.MaterialIcons}
                         size={11}
-                        color={myColors.textHint}
+                        color={theme.textHint}
                       />
                       <Text
                         style={{paddingStart: 1}}
