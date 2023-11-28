@@ -21,7 +21,7 @@ const Profile = () => {
   return (
     <Screen
       unsafe
-      backgroundColor={theme.gray}
+      backgroundColor={theme.textHint}
       preset="scroll"
       translucent
       statusBarColor="transparent"
@@ -37,7 +37,7 @@ const Profile = () => {
         />
       </TouchableOpacity>
       <LinearGradient
-        colors={[theme.primary_60, theme.gray]}
+        colors={[theme.primary_60, theme.textHint]}
         style={{paddingTop: 28, paddingHorizontal: 18, paddingBottom: 18}}>
         <View style={{height: 40}}></View>
         <View style={{flexDirection: 'row', paddingBottom: 20}}>

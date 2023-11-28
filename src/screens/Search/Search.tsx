@@ -14,6 +14,7 @@ import {IComic} from '@models';
 import {sendRequest} from '@api';
 import {FlashList} from '@shopify/flash-list';
 import ComicSearchedItem from './components/ComicSearchedItem';
+import { useAppTheme } from '@hooks';
 
 type StateType = {
   txtSearch: string;
@@ -25,6 +26,7 @@ type StateType = {
 };
 
 const Search = () => {
+  const theme = useAppTheme();
   const [state, setState] = useState<StateType>({
     txtSearch: '',
     txtSearching: '',
@@ -127,14 +129,13 @@ const Search = () => {
 
   return (
     <Screen
-      style={{paddingHorizontal: 14}}
-      backgroundColor={myColors.background}>
+      style={{paddingHorizontal: 14}}>
       <View style={styles.headerContainer}>
-        <View style={styles.searchContainer}>
+        <View style={[styles.searchContainer,{backgroundColor: theme.textHint}]}>
           <Icon
             name="search"
             type={Icons.Ionicons}
-            color={myColors.textHint}
+            color={theme.text}
             size={20}
           />
           <TextInput
@@ -142,11 +143,11 @@ const Search = () => {
             onChangeText={value =>
               setState(pre => ({...pre, txtSearch: value}))
             }
-            style={styles.inputSearch}
+            style={[styles.inputSearch,{color: theme.text}]}
             onSubmitEditing={onSubmit}
             placeholder="Tác giả / Tác phẩm"
             cursorColor={myColors.primary}
-            placeholderTextColor={myColors.textHint}
+            placeholderTextColor={theme.text}
             autoFocus
           />
           {txtSearch && (
@@ -165,7 +166,7 @@ const Search = () => {
               <Icon
                 name="close-circle"
                 type={Icons.Ionicons}
-                color={myColors.textHint}
+                color={theme.text}
               />
             </TouchableOpacity>
           )}
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingStart: 8,
     fontSize: 13,
-    color: myColors.text
+    color: myColors.text,
   },
   searchContainer: {
     flex: 1,

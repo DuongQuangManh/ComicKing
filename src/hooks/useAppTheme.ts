@@ -15,6 +15,6 @@ export const useAppTheme = () => {
         text: '#fffffff0',
         primary_60:'#737373',
         gray:'#18191a',
-        textHint: '#323232'
+        textHint: '#303134'
     }
 }

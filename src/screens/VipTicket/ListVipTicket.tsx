@@ -45,7 +45,7 @@ const ListVipTicket = () => {
       <Header text="Thẻ Tháng" style={{backgroundColor: 'transparent'}} />
       <View style={{paddingHorizontal: 16, paddingBottom: 20}}>
         {listVipTicket.map((item, index) => (
-          <View key={index} style={[styles.itemContainer,{backgroundColor: theme.gray}]}>
+          <View key={index} style={[styles.itemContainer,{backgroundColor: theme.textHint}]}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text type="medium_18">{item.name}</Text>
