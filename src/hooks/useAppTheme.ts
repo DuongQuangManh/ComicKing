@@ -18,5 +18,6 @@ export const useAppTheme = () => {
         textHint: '#787878',
         itemCustom: '#303134',
         transparentWhite: '#3e3f40',
+        special: '#692b30',
     }
 }
