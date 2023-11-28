@@ -74,7 +74,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 backgroundColor: !item.isCurrentDay ? theme.itemCustom : theme.special,
-                borderColor: theme.gray
+                borderColor: theme.transparentGray
               },
             ]}>
             <Text type="regular_12">{item.label}</Text>
@@ -127,7 +127,7 @@ const AttenDance: FC<itemProps> = ({item}) => {
               styles.box1,
               {
                 backgroundColor: !item.isCurrentDay ? theme.itemCustom : theme.special,
-                borderColor: theme.gray
+                borderColor: theme.transparentGray
               },
             ]}>
             <Text type="regular_12">{item.label}</Text>

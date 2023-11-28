@@ -13,7 +13,7 @@ export const useAppTheme = () => {
         ...myColors,
         background: '#242526',
         text: '#fffffff0',
-        primary_60:'#737373',
+        primary_60:'#7d373d',
         gray: '#313233',
         textHint: '#787878',
         itemCustom: '#303134',
