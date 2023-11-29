@@ -28,77 +28,12 @@ import FastImage from 'react-native-fast-image';
 import {getHotComic, getNewestComics} from '@redux/homeSlice';
 import HistoryListContainer from './components/HistoryListContainer';
 
-export const comicData = [
-  {
-    id: 1,
-    name: 'Cuộc phiêu lưu của biệt đội vô cực ',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-    author: 'dqmanh',
-    image:
-      'https://dccomicsnews.com/wp-content/uploads/2022/07/I-Am-Batman-11-2-Banner.jpg',
-    chapter: 330,
-    time: '2 ngày trước',
-    type: 'Manga',
-    view: 120000,
-  },
-  {
-    id: 2,
-    name: 'Biệt đột vô cực và DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
-    chapter: 933,
-    time: '1 ngày trước',
-    type: 'Manga',
-    view: 112000,
-    author: 'dqmanh',
-  },
-  {
-    id: 3,
-    name: 'Sự tích bí ẩn của DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
-    chapter: 1070,
-    time: '3 ngày trước',
-    type: 'Manhwa',
-    view: 109000,
-    author: 'dqmanh',
-  },
-  {
-    id: 4,
-    name: 'Biệt đột vô cực và DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://i.pinimg.com/736x/d4/e3/82/d4e382fcf262bf05754eafa0fdf10bb5--greg-berlanti-arrow-tv-series.jpg',
-    chapter: 933,
-    time: '1 ngày trước',
-    type: 'Manga',
-    view: 92000,
-    author: 'dqmanh',
-  },
-  {
-    id: 5,
-    name: 'Sự tích bí ẩn của DATN',
-    description: 'đây là biệt đội vô cực chuyên đi xử lí xác sống ngoài vũ trụ',
-
-    image:
-      'https://static1.cbrimages.com/wordpress/wp-content/uploads/2020/12/DC-Rebirth-Banner.jpg',
-    chapter: 1070,
-    time: '3 ngày trước',
-    type: 'Manhwa',
-    view: 91000,
-    author: 'dqmanh',
-  },
-];
-
 const HEADER_HEIGHT = 84;
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const document = useAppSelector(state => state.userSlice.document);
+  console.log(document.id);
   const {
     doneComics = [],
     hotComic = [],
