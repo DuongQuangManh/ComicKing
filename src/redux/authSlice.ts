@@ -1,3 +1,4 @@
+import {Platform} from 'react-native';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
   IChangePassBody,
@@ -6,38 +7,29 @@ import {
   IRegisterBody,
   IVerifyOtpBody,
 } from '@models';
-import {constants, helper} from '@utils';
+import {helper} from '@utils';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {sendRequest} from '@api';
-import {goBack, navigate, replace, reset} from '@navigations';
+import {navigate, reset} from '@navigations';
 import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
 import {AppDispatch, RootState} from './store';
-import {
-  getHistoryReading,
-  getUserInfoAction,
-  getUserWalletAction,
-  setDocumentInfo,
-} from './userSlice';
-import {
-  getDoneComics,
-  getHotComic,
-  getNewestComicUpdatedChapter,
-  getNewestComics,
-  getProposeComics,
-  getSliderComics,
-} from './homeSlice';
-import {getAttendance} from './attendanceSlice';
+import {setDocumentInfo} from './userSlice';
+import {getFirebaseToken} from '@notification/index';
+import DeviceInfo from 'react-native-device-info';
 
 export const loginAction = createAsyncThunk<
   any,
   ILoginBody,
-  {dispatch: AppDispatch}
->('auth/login', async (body: ILoginBody, {dispatch}) => {
+  {dispatch: AppDispatch; state: RootState}
+>('auth/login', async (body: ILoginBody, {dispatch, getState}) => {
   let path = 'api/user/login';
   try {
     helper.showLoading();
-    const respone = await sendRequest(path, body);
+    const respone = await sendRequest(path, {
+      ...body,
+      deviceToken: getState().authSlice.firebaseToken,
+    });
     if (respone.err != 200) {
       helper.showErrorMsg(respone.message);
       return false;
@@ -70,11 +62,14 @@ export const loginAction = createAsyncThunk<
 
 export const registerAction = createAsyncThunk(
   'auth/register',
-  async (body: IRegisterBody) => {
+  async (body: IRegisterBody, {getState}: any) => {
     let path = 'api/user/register';
     try {
       helper.showLoading();
-      const respone = await sendRequest(path, body);
+      const respone = await sendRequest(path, {
+        ...body,
+        deviceToken: getState().authSlice.firebaseToken,
+      });
       helper.hideLoading();
       if (respone.err != 200) {
         helper.showErrorMsg(respone.message);
@@ -158,8 +153,8 @@ export const registerVerifyOtpAction = createAsyncThunk<
 export const loginWithGoogleAction = createAsyncThunk<
   any,
   void,
-  {dispatch: AppDispatch}
->('auth/loginWithGoogle', async (_, {dispatch}) => {
+  {dispatch: AppDispatch; state: RootState}
+>('auth/loginWithGoogle', async (_, {dispatch, getState}) => {
   let path = 'api/user/loginWithGoogle';
   try {
     await GoogleSignin.hasPlayServices();
@@ -170,7 +165,10 @@ export const loginWithGoogleAction = createAsyncThunk<
     );
     const userCredential = await auth().signInWithCredential(googleCredential);
     const user = userCredential.user;
-    const respone = await sendRequest(path, {idToken: await user.getIdToken()});
+    const respone = await sendRequest(path, {
+      idToken: await user.getIdToken(),
+      deviceToken: getState().authSlice.firebaseToken,
+    });
     if (respone.err != 200) {
       helper.showErrorMsg(respone.message);
       return false;
@@ -196,8 +194,8 @@ export const loginWithGoogleAction = createAsyncThunk<
 export const loginWithFacebookAction = createAsyncThunk<
   any,
   void,
-  {dispatch: AppDispatch}
->('auth/loginWithFacebook', async (_, {dispatch}) => {
+  {dispatch: AppDispatch; state: RootState}
+>('auth/loginWithFacebook', async (_, {dispatch, getState}) => {
   let path = 'api/user/loginWithFacebook';
   try {
     await LoginManager.logInWithPermissions(['public_profile', 'email']);
@@ -213,7 +211,10 @@ export const loginWithFacebookAction = createAsyncThunk<
     );
     const user = userCredential.user;
 
-    const respone = await sendRequest(path, {idToken: await user.getIdToken()});
+    const respone = await sendRequest(path, {
+      idToken: await user.getIdToken(),
+      deviceToken: getState().authSlice.firebaseToken,
+    });
 
     if (respone.err != 200) {
       helper.showErrorMsg(respone.message);
@@ -313,18 +314,21 @@ export const logoutAction = createAsyncThunk<
   {state: RootState; dispatch: AppDispatch}
 >('auth/logout', async (_, {getState, dispatch}) => {
   try {
+    helper.showLoading();
     let loginSource = getState().authSlice.loginSource;
     if (loginSource == 'facebook') {
       LoginManager?.logOut();
     } else if (loginSource == 'google') {
       await GoogleSignin.signOut();
     }
-    dispatch(resetTokenWhenLogout(''));
-    reset([{name: 'login'}]);
-    return;
+    let path = 'api/user/logout';
+    await sendRequest(path, {userId: getState().userSlice.document?.id});
+    helper.hideLoading();
   } catch (error: any) {
-    return;
+    helper.hideLoading();
   }
+  dispatch(resetTokenWhenLogout(''));
+  reset([{name: 'login'}]);
 });
 
 //POST /api/user/changePassword': 'AuthController.changePassword',
@@ -379,14 +383,52 @@ export const changePassVerifyOtpAction = createAsyncThunk(
   },
 );
 
+export const sendDeviceInfo = createAsyncThunk<
+  any,
+  any,
+  {state: RootState; dispatch: AppDispatch}
+>(
+  'auth/sendDeviceInfoAction',
+  async (getStatus, {getState, rejectWithValue}) => {
+    let firebaseToken = getState().authSlice.firebaseToken;
+    if (!firebaseToken) {
+      firebaseToken = await getFirebaseToken();
+      setFirebaseToken(firebaseToken);
+    }
+    const body = {
+      deviceToken: firebaseToken,
+      deviceId: helper.getDeviceId(),
+      deviceName: DeviceInfo.getBrand() + ' ' + DeviceInfo.getModel(),
+      os: Platform.OS,
+      osVersion: DeviceInfo.getSystemVersion(),
+      appVersion: DeviceInfo.getVersion(),
+    };
+    let path = 'api/user/sendDeviceInfo';
+    try {
+      helper.showLoading();
+      const res = await sendRequest(path, body);
+      getStatus(res);
+      if (res.err != 200) {
+        rejectWithValue(res);
+      }
+      helper.hideLoading();
+    } catch (error: any) {
+      helper.hideLoading();
+      rejectWithValue(error);
+    }
+  },
+);
+
 export interface IAuthState {
   token: string;
   loginSource: 'google' | 'facebook' | 'email';
+  firebaseToken: string;
 }
 
 const initialState: IAuthState = {
   token: '',
   loginSource: 'email',
+  firebaseToken: '',
 };
 
 const authSlice = createSlice({
@@ -395,6 +437,9 @@ const authSlice = createSlice({
   reducers: {
     resetTokenWhenLogout: (state, action) => {
       state.token = '';
+    },
+    setFirebaseToken: (state, action) => {
+      state.firebaseToken = action.payload;
     },
   },
   extraReducers(builder) {
@@ -429,5 +474,5 @@ const authSlice = createSlice({
   },
 });
 
-export const {resetTokenWhenLogout} = authSlice.actions;
+export const {resetTokenWhenLogout, setFirebaseToken} = authSlice.actions;
 export default authSlice.reducer;

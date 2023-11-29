@@ -4,41 +4,34 @@ import {WINDOW_WIDTH, helper, myColors} from '../../utils';
 import {Screen} from '../screen';
 import {replace} from '@navigations';
 import {Text} from '@components';
-import SplashScreen from 'react-native-splash-screen';
 import {useAppDispatch, useAppSelector} from '@redux/store';
-import {
-  getDoneComics,
-  getHotComic,
-  getNewestComicUpdatedChapter,
-  getNewestComics,
-  getProposeComics,
-  getSliderComics,
-} from '@redux/homeSlice';
-
-import {
-  getHistoryReading,
-  getUserInfoAction,
-  getUserWalletAction,
-} from '@redux/userSlice';
-import {getAttendance} from '@redux/attendanceSlice';
-import {getUserWallet} from '@redux/walletSlice';
+import {sendDeviceInfo} from '@redux/authSlice';
 
 const Splash = () => {
   const dispatch = useAppDispatch();
   const {id = ''} = useAppSelector(state => state.userSlice.document);
-  useEffect(() => {
-    SplashScreen.hide();
 
-    setTimeout(() => {
+  const getDeviceInfo = async () => {
+    dispatch(sendDeviceInfo(getStatus));
+  };
+
+  const getStatus = (res: any) => {
+    if (res?.err == 200) {
       if (helper.getAccessToken() && id) {
         helper.getAsset(dispatch, id);
         replace('bottomNavigation');
       } else {
         replace('login');
       }
-      clearTimeout(this);
-    }, 1000);
+    } else {
+      helper.showErrorMsg(res?.message);
+    }
+  };
+
+  useEffect(() => {
+    getDeviceInfo();
   }, []);
+
   return (
     <Screen statusBarColor={myColors.primary}>
       <View

@@ -10,7 +10,7 @@ export const sendRequest = (
   token = process.env.BASIC_TOKEN,
 ) => {
   // let url = `${process.env.HOST_NAME}${path}`;
-  let url = `${'http://192.168.1.2:1337/'}${path}`;
+  let url = `${'http://192.168.1.3:1337/'}${path}`;
   // let url = `${'http://192.168.32.106:1337/'}${path}`;
   return new Promise<ApiResult>(async function (resolve, reject) {
     let option = {
@@ -31,14 +31,14 @@ export const sendRequest = (
         try {
           return response.json();
         } catch (err) {
-          reject({err: 2, message: 'Session expired'});
+          return {err: 2, message: 'Session expired'};
         }
       })
       .then(data => {
         resolve(data);
       })
       .catch(err => {
-        reject({err: 1, message: err.message});
+        return {err: 1, message: err.message};
       });
   });
 };
