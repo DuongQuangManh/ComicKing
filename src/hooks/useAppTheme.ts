@@ -11,13 +11,13 @@ export const useAppTheme = () => {
 
     return {
         ...myColors,
-        background: '#242526',
-        text: '#fffffff0',
+        background: '#000000',
+        text: '#ffffffff',
         primary_60:'#7d373d',
-        gray: '#313233',
-        textHint: '#787878',
+        gray: '#383838',
+        textHint: '#807e7e',
         itemCustom: '#303134',
-        transparentWhite: '#3e3f40',
+        transparentWhite: '#4c4c4c',
         special: '#692b30',
     }
 }

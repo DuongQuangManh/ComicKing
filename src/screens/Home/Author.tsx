@@ -16,7 +16,7 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
 import {ComicSmall} from '@items';
 import {useAppSelector} from '@redux/store';
-import { useAppTheme } from '@hooks';
+import {useAppTheme} from '@hooks';
 
 const Author = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'author'>>().params;
@@ -155,6 +155,7 @@ const Author = () => {
               ListEmptyComponent={() => (
                 <DataEmpty text="Tác giả chưa có bất kì tác phẩm nào" />
               )}
+              removeClippedSubviews={true}
             />
           </View>
         </>
