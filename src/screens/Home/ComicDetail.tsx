@@ -23,6 +23,7 @@ import Interact from './components/Interact';
 import {CateModel, IComicDetails} from '@models';
 import {ActivityIndicator} from 'react-native-paper';
 import {sendRequest} from '@api';
+import { useAppTheme } from '@hooks';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
@@ -33,6 +34,7 @@ const ComicDetail = () => {
   const [cates, setCates] = useState([]);
   const [cmts, setCmts] = useState([]);
   const [screen, setScreen] = useState(1);
+  const theme = useAppTheme();
   const changeScreen = (number: number) => {
     if (number != screen) {
       setScreen(number);
@@ -133,7 +135,7 @@ const ComicDetail = () => {
                   screen === 1 ? myColors.background : myColors.primary
                 }
                 buttonColor={
-                  screen === 1 ? myColors.primary : myColors.background
+                  screen === 1 ? myColors.primary : theme.itemCustom
                 }
                 style={{flex: 1}}
                 borderRadius={40}
@@ -146,7 +148,7 @@ const ComicDetail = () => {
                   screen === 2 ? myColors.background : myColors.primary
                 }
                 buttonColor={
-                  screen === 2 ? myColors.primary : myColors.background
+                  screen === 2 ? theme.primary : theme.itemCustom
                 }
                 style={{flex: 1, marginStart: 10}}
                 borderRadius={40}
@@ -160,7 +162,7 @@ const ComicDetail = () => {
                     comicId={detailComic.id}
                     isFollowing={detailComic.isFollowing}
                   />
-                  <View style={styles.containerDes}>
+                  <View style={[styles.containerDes,{backgroundColor: theme.gray}]}>
                     <TextMore text={detailComic.description} />
                     <FlashList
                       data={(cates as CateModel[]) ?? []}
@@ -176,7 +178,7 @@ const ComicDetail = () => {
                           text={item?.title}
                           style={{
                             borderWidth: 1,
-                            borderColor: myColors.gray,
+                            borderColor: theme.gray,
                             borderRadius: 18,
                             marginStart: 5,
                             minWidth: 100,
@@ -230,13 +232,13 @@ const ComicDetail = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <Text type="semibold_14" style={{color: '#555555'}}>
+                    <Text type="semibold_14">
                       Xem tác giả
                     </Text>
                     <Icon type={Icons.Entypo} name="chevron-right" size={16} />
                   </TouchableOpacity>
                 </View>
-                <View style={styles.box4}>
+                <View style={[styles.box4,{backgroundColor: theme.gray}]}>
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -252,7 +254,7 @@ const ComicDetail = () => {
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}>
-                      <Text type="semibold_14" style={{color: '#555555'}}>
+                      <Text type="semibold_14">
                         {`Tổng ${helper.convertToK(
                           detailComic?.numOfComment,
                         )} bình luận`}
@@ -386,7 +388,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 5,
     backgroundColor: myColors.surfaceVariant,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: myColors.gray,
   },
   author: {

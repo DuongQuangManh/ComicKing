@@ -3,6 +3,7 @@ import React from 'react';
 import FastImage from 'react-native-fast-image';
 import {IconText, Icons, Text} from '@components';
 import {helper, myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 
 type ItemProps = {
   image: string;
@@ -28,6 +29,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
   description,
   onPress,
 }) => {
+  const theme = useAppTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -46,7 +48,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
           <Text
             style={{marginTop: 4}}
             type="light_13"
-            color={myColors.textHint}
+            color={theme.textHint}
             numberOfLines={2}
             ellipsizeMode="tail">
             {description}
@@ -59,7 +61,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             typeIcon={Icons.MaterialIcons}
             sizeIcon={11}
             colorIcon="#f77c00"
-            colorText={myColors.textHint}
+            colorText={theme.textHint}
             text={helper.convertToK(numOfView)}
             textStyle={{marginStart: 2}}
           />
@@ -69,7 +71,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             typeIcon={Icons.AntDesign}
             colorIcon={myColors.primary}
             sizeIcon={11}
-            colorText={myColors.textHint}
+            colorText={theme.textHint}
             text={helper.convertToK(numOfLike)}
             textStyle={{marginStart: 2}}
           />
@@ -79,7 +81,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             typeIcon={Icons.MaterialIcons}
             sizeIcon={11}
             colorIcon={myColors.primary}
-            colorText={myColors.textHint}
+            colorText={theme.textHint}
             text={helper.convertToK(numOfFollow)}
             textStyle={{marginStart: 2}}
           />
@@ -89,7 +91,7 @@ const ComicSearchedItem: React.FC<ItemProps> = ({
             typeIcon={Icons.Octicons}
             colorIcon="#003c5c"
             sizeIcon={11}
-            colorText={myColors.textHint}
+            colorText={theme.textHint}
             text={numOfChapter + ''}
             textStyle={{marginStart: 2}}
           />

@@ -19,6 +19,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {StackParamList} from '@navigations';
 import {changeAvatarFrameAction} from '@redux/userSlice';
+import { useAppTheme } from '@hooks';
 
 type TabType = {
   type: 'level' | 'event' | 'vip';
@@ -52,6 +53,7 @@ const TAB_WIDTH = Math.round(WINDOW_WIDTH / 2);
 
 const EditAvtFrame = () => {
   const dispatch = useAppDispatch();
+  const theme = useAppTheme();
   const {
     wallet,
     avatarFrame,
@@ -252,7 +254,7 @@ const EditAvtFrame = () => {
       ) : (
         <FlatList
           numColumns={3}
-          style={{backgroundColor: '#e8e8e84f'}}
+          style={{backgroundColor: theme.gray}}
           // estimatedItemSize={ITEM_WIDTH}
           data={listAvtFrame}
           renderItem={_renderItem}

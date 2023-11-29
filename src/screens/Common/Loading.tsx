@@ -1,16 +1,17 @@
+import { useAppTheme } from '@hooks'
 import { myColors } from '@utils'
 import React from 'react'
 import { View, ActivityIndicator, StyleSheet, Modal } from 'react-native'
 import { Text } from 'react-native-paper'
 
 const Loading = () => {
-
+    const theme = useAppTheme();
     return (
         <Modal visible transparent>
             <View style={styles.overlay}>
-                <View style={styles.container}>
+                <View style={[styles.container,{backgroundColor: theme.background}]}>
                     <ActivityIndicator size="large" color={myColors.primary} />
-                    <Text style={styles.text}>Loading...</Text>
+                    <Text style={[styles.text,{color: theme.text}]}>Loading...</Text>
                 </View>
             </View>
         </Modal>

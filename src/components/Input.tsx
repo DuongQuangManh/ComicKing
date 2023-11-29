@@ -3,6 +3,7 @@ import { WINDOW_WIDTH, myColors } from '../utils';
 import { TextInput, TextInputProps } from 'react-native-paper'
 import { ViewStyle, View, StyleProp, TouchableOpacity } from 'react-native';
 import Icon, { Icons } from './Icon';
+import { useAppTheme } from '@hooks';
 
 interface propsComponent {
   width?: ViewStyle['width'],
@@ -26,14 +27,15 @@ const Input: FC<TInput> = ({
   isTrim = false,
   ...props
 }) => {
+  const theme = useAppTheme();
   return (
     <View style={containerStyle}>
       <TextInput
         {...props}
         onChangeText={val => props.onChangeText && props.onChangeText(isTrim ? val.trim() : val)}
-        textColor={myColors.text}
-        placeholderTextColor={myColors.textHint}
-        style={[{ width: width, height: height }, props.style]}
+        textColor={theme.text}
+        placeholderTextColor={theme.text}
+        style={[{ width: width, height: height, backgroundColor: theme.background }, props.style]}
       />
       {isRightIcon &&
         <TouchableOpacity
