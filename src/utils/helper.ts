@@ -17,6 +17,7 @@ import {
   getSliderComics,
 } from '@redux/homeSlice';
 import {getAttendance} from '@redux/attendanceSlice';
+import DeviceInfo from 'react-native-device-info';
 export const helper = {
   // you can pass 'message' param only
   showErrorMsg: (
@@ -162,5 +163,8 @@ export const helper = {
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId}));
     dispatch(getAttendance(userId));
+  },
+  getDeviceId: () => {
+    return DeviceInfo.getUniqueIdSync();
   },
 };

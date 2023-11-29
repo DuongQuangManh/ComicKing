@@ -4,16 +4,39 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@components": ["src/components/index"],
-      "@navigations": ["src/navigations/index"],
-      "@screens": ["src/screens/index"],
-      "@utils": ["src/utils/index"],
-      "@redux/*": ["src/redux/*"],
-      "@api": ["src/api/index"],
-      "@models": ["src/models/index"],
-      "@assets/*": ["src/assets/*"],
-      "@hooks": ["src/hooks/index"],
-      "@items":["src/items/index"]
+      "@components": [
+        "src/components/index"
+      ],
+      "@navigations": [
+        "src/navigations/index"
+      ],
+      "@screens": [
+        "src/screens/index"
+      ],
+      "@utils": [
+        "src/utils/index"
+      ],
+      "@redux/*": [
+        "src/redux/*"
+      ],
+      "@api": [
+        "src/api/index"
+      ],
+      "@models": [
+        "src/models/index"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@hooks": [
+        "src/hooks/index"
+      ],
+      "@items": [
+        "src/items/index"
+      ],
+      "@notification/*": [
+        "src/notification/*"
+      ]
     }
   }
 }
