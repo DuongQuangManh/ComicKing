@@ -82,6 +82,7 @@ const FlatListCustom: FC<componetProps> = ({
           renderItem={({item}) => <ComicSmall item={item} />}
           horizontal={horizontal}
           contentContainerStyle={{paddingRight: 8}}
+          removeClippedSubviews={true}
         />
       )}
     </View>

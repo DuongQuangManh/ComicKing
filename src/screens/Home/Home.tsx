@@ -27,6 +27,7 @@ import FourComicContainer from './components/FourComicContainer';
 import FastImage from 'react-native-fast-image';
 import {getHotComic, getNewestComics} from '@redux/homeSlice';
 import HistoryListContainer from './components/HistoryListContainer';
+import {useAppTheme} from '@hooks';
 
 const HEADER_HEIGHT = 84;
 
@@ -120,7 +121,7 @@ const Home = () => {
         </View>
       </Animated.View>
     );
-  }, []);
+  }, [theme]);
 
   const _renderOptions = useMemo(() => {
     return (
