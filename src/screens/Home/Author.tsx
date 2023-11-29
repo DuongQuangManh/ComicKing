@@ -16,6 +16,7 @@ import {WINDOW_HEIGHT, WINDOW_WIDTH, myColors} from '@utils';
 import {FlashList} from '@shopify/flash-list';
 import {ComicSmall} from '@items';
 import {useAppSelector} from '@redux/store';
+import {useAppTheme} from '@hooks';
 
 const Author = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'author'>>().params;
@@ -23,6 +24,7 @@ const Author = () => {
   const [data, setData] = useState<IAuthor | any>();
   const [isFollow, setFollow] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const theme = useAppTheme();
   const ref = useRef({
     skip: 0,
     limit: 0,
@@ -93,14 +95,14 @@ const Author = () => {
             <View style={styles.box1_1}>
               <Text type="bold_18">{data?.name}</Text>
               <Text
-                color={myColors.textHint}
+                color={theme.textHint}
                 type="light_13"
                 numberOfLines={2}
                 style={{
                   marginTop: 10,
                 }}>{`Giới thiệu: ${data?.description}`}</Text>
               <Text
-                color={myColors.textHint}
+                color={theme.textHint}
                 type="light_13">{`Cập nhật lần cuối: ${data?.updatedComicAt}`}</Text>
             </View>
           </View>
@@ -111,7 +113,7 @@ const Author = () => {
             onPress={() => navigate('follow', {type: 'follower'})}> */}
               <View style={styles.box2_1}>
                 <Text type="bold_22">{data?.numOfFollow}</Text>
-                <Text type="medium_14" color="#555454df">
+                <Text type="medium_14" color={theme.textHint}>
                   Người theo dõi
                 </Text>
               </View>
@@ -119,7 +121,7 @@ const Author = () => {
 
               <View style={styles.box2_1}>
                 <Text type="bold_22">{data?.numOfComic}</Text>
-                <Text type="medium_14" color="#555454df">
+                <Text type="medium_14" color={theme.textHint}>
                   Truyện
                 </Text>
               </View>
@@ -130,7 +132,7 @@ const Author = () => {
               width={90}
               height={30}
               borderRadius={18}
-              buttonColor={isFollow ? myColors.gray : myColors.primary}
+              buttonColor={isFollow ? theme.gray : myColors.primary}
             />
           </View>
           <View
@@ -153,6 +155,7 @@ const Author = () => {
               ListEmptyComponent={() => (
                 <DataEmpty text="Tác giả chưa có bất kì tác phẩm nào" />
               )}
+              removeClippedSubviews={true}
             />
           </View>
         </>

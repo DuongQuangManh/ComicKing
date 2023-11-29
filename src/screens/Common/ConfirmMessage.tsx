@@ -5,6 +5,8 @@ import { Button, Text } from '@components'
 import { RouteProp, useRoute } from '@react-navigation/native'
 import { StackParamList } from '@navigations'
 import Modal from 'react-native-modal'
+import { useAppSelector } from '@redux/store'
+import { useAppTheme } from '@hooks'
 
 const ConfirmMessage = () => {
     const {
@@ -13,7 +15,7 @@ const ConfirmMessage = () => {
         message,
         onCancel
     } = useRoute<RouteProp<StackParamList, 'confirmMessage'>>().params
-
+    const theme = useAppTheme();
     return (
         <Modal
             isVisible
@@ -23,7 +25,7 @@ const ConfirmMessage = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
             }}>
-            <View style={styles.centeredView}>
+            <View style={[styles.centeredView,{backgroundColor: theme.background}]}>
                 <View style={{ alignItems: 'center' }}>
                     <Text type='semibold_18'>{title}</Text>
                     <Image
@@ -39,8 +41,8 @@ const ConfirmMessage = () => {
                 >{message}</Text>
                 <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around' }}>
                     <Button
-                        buttonColor={myColors.background}
-                        textColor={myColors.textHint}
+                        buttonColor={theme.background}
+                        textColor={theme.text}
                         width={'40%'}
                         text='Cancel'
                         onPress={onCancel} />

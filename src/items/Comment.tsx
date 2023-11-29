@@ -4,6 +4,7 @@ import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import FastImage from 'react-native-fast-image';
 import {AvatarFrame, IconText, Icons, Text} from '@components';
 import {navigate} from '@navigations';
+import { useAppTheme } from '@hooks';
 interface itemProps {
   item?: any;
 }
@@ -11,6 +12,7 @@ const Comment: FC<itemProps> = ({item}) => {
   const handerShowCommentDetail = () => {
     navigate('commentdetail', {item: item});
   };
+  const theme = useAppTheme();
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -21,7 +23,7 @@ const Comment: FC<itemProps> = ({item}) => {
           height={60}
         />
       </View>
-      <View style={styles.box2}>
+      <View style={[styles.box2,{backgroundColor: theme.gray}]}>
         <Text type="bold_18">{item?.senderInfo.fullName}</Text>
         <View style={styles.lvlBtn}>
           <Text color="#fff" type="medium_12">
@@ -52,7 +54,7 @@ const Comment: FC<itemProps> = ({item}) => {
                 typeIcon={Icons.AntDesign}
                 text={item?.numOfLike}
                 sizeIcon={16}
-                colorText={myColors.text}
+                colorText={theme.text}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={handerShowCommentDetail}>
@@ -61,7 +63,7 @@ const Comment: FC<itemProps> = ({item}) => {
                 typeIcon={Icons.FontAwesome}
                 text={item?.numOfComment}
                 sizeIcon={16}
-                colorText={myColors.text}
+                colorText={theme.text}
               />
             </TouchableOpacity>
           </View>

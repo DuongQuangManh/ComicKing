@@ -3,6 +3,7 @@ import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {helper} from '@utils';
 import {AppDispatch} from './store';
 import {goBack} from '@navigations';
+import { Appearance,useColorScheme } from 'react-native';
 
 import {
   Decorate,
@@ -200,6 +201,7 @@ interface IUserState {
     };
     level: number;
   };
+  colorTheme: any
 }
 
 const initialState: IUserState = {
@@ -224,6 +226,7 @@ const initialState: IUserState = {
   // vipPoint: 0,
   // levelPoint: 0,
   historyReading: [],
+  colorTheme: useColorScheme(),
 };
 
 const userSlice = createSlice({
@@ -254,6 +257,9 @@ const userSlice = createSlice({
       if (index !== -1) {
         state.comicFollowing.data.splice(index, 1);
       }
+    },
+    setColorTheme: (state, action: PayloadAction<string>) => {
+      state.colorTheme = action.payload;
     },
   },
   extraReducers: builder => {
@@ -324,5 +330,6 @@ export const {
   deleteAuthorToListFollowing,
   addComicToListFollowing,
   deleteComicToListFollowing,
+  setColorTheme,
 } = userSlice.actions;
 export default userSlice.reducer;

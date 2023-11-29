@@ -3,6 +3,7 @@ import React from 'react';
 import {Text} from '@components';
 import LinearGradient from 'react-native-linear-gradient';
 import {WINDOW_WIDTH, myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 
 type ItemProps = {
   title: string;
@@ -13,6 +14,7 @@ type ItemProps = {
 const ITEM_WIDTH = WINDOW_WIDTH / 2;
 
 const CategoryItem: React.FC<ItemProps> = ({title, numOfComic, onPress}) => {
+  const theme = useAppTheme();
   return (
     <LinearGradient
       colors={[myColors.primary_80, myColors.primary_60]}
@@ -22,7 +24,7 @@ const CategoryItem: React.FC<ItemProps> = ({title, numOfComic, onPress}) => {
         onPress={onPress}
         style={styles.btn}>
         <Text type="medium_17">{title}</Text>
-        <View style={styles.circleContainer}>
+        <View style={[styles.circleContainer,{backgroundColor: theme.background}]}>
           <Text
             type="semibold_16"
             numberOfLines={2}

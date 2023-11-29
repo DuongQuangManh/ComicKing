@@ -1,9 +1,10 @@
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {FC} from 'react';
-import {WINDOW_WIDTH, myColors} from '../utils';
+import {StyleSheet, View, TouchableOpacity, useColorScheme} from 'react-native';
+import React, {FC, useState, useEffect} from 'react';
+import {WINDOW_WIDTH} from '../utils';
 import {Icons} from './Icon';
 import {Text, Icon} from '@components';
 import {goBack} from '@navigations';
+import { useAppTheme } from '@hooks';
 interface propsComponent {
   text?: string;
   onBack?: () => void;
@@ -18,23 +19,24 @@ interface propsComponent {
 const Header: FC<propsComponent> = ({
   isIconEnd = false,
   onBack = goBack,
-  backgroundColor = myColors.background,
-  color = myColors.text,
+  backgroundColor,
+  color,
   ...props
 }) => {
+  const theme = useAppTheme()
   return (
     <View
       style={[
         styles.container,
-        {backgroundColor: backgroundColor},
+        {backgroundColor: backgroundColor || theme.background },
         props.style,
       ]}>
       <TouchableOpacity
         style={{position: 'absolute', zIndex: 10, left: 8}}
         onPress={onBack}>
-        <Icon color={color} name="chevron-back-outline" type={Icons.Ionicons} size={22} />
+        <Icon color={theme.text} name="chevron-back-outline" type={Icons.Ionicons} size={22} />
       </TouchableOpacity>
-      <Text style={{flex: 1, textAlign: 'center'}} color={color} type="bold_18">
+      <Text style={{flex: 1, textAlign: 'center'}} color={color || theme.text} type="bold_18">
         {props.text}
       </Text>
       {isIconEnd ? (

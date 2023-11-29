@@ -26,6 +26,7 @@ export const getNewestComics = createAsyncThunk(
     let path = 'api/user/getNewestComics';
     try {
       const res = await sendRequest(path);
+      console.log('Newest Respone : ', res)
       if (res.err !== 200) {
         helper.showErrorMsg(res.message);
         return false;

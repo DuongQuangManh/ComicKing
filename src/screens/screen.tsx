@@ -12,16 +12,21 @@ import {useIsFocused} from '@react-navigation/native';
 import {ScreenProps} from './screen.props';
 import {isNonScrolling, offsets, presets} from './screen.presets';
 import {myColors} from '@utils';
+import { useAppSelector } from '@redux/store';
+import { useAppTheme } from '@hooks';
 
 const isIos = Platform.OS === 'ios';
 
+
+
 function ScreenWithoutScrolling(props: ScreenProps) {
+  const theme = useAppTheme();
   const insets = useSafeAreaInsets();
   const preset = presets.fixed;
   const style = props.style || {};
   const backgroundStyle = props.backgroundColor
     ? {backgroundColor: props.backgroundColor}
-    : {};
+    : {backgroundColor: theme.background};
   const insetStyle = {paddingTop: props.unsafe || isIos ? 0 : insets.top};
   const isFocused = useIsFocused();
   
@@ -35,13 +40,13 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       {isFocused ? (
         <StatusBar
           translucent={props.translucent}
-          backgroundColor={props.statusBarColor ?? '#fff'}
+          backgroundColor={props.statusBarColor ?? theme.background}
           barStyle={props.statusBar ?? 'dark-content'}
         />
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{height: insets.top, backgroundColor: myColors.background}}
+          style={{ height: insets.top, backgroundColor: myColors.background }}
         />
       )}
       <View style={[preset.inner, style, insetStyle]}>{props.children}</View>
@@ -50,12 +55,13 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 }
 
 function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
+  const theme = useAppTheme()
   const insets = useSafeAreaInsets();
   const preset = presets.scroll;
   const style = props.style || {};
   const backgroundStyle = props.backgroundColor
     ? {backgroundColor: props.backgroundColor}
-    : {};
+    : {backgroundColor: theme.background};
   const insetStyle = {paddingTop: props.unsafe || isIos ? 0 : insets.top};
   const isFocused = useIsFocused();
 
@@ -67,13 +73,13 @@ function ScreenWithScrolling(props: ScreenProps & ScrollViewProps) {
       {isFocused ? (
         <StatusBar
           translucent={props.translucent}
-          backgroundColor={props.statusBarColor ?? '#fff'}
+          backgroundColor={props.statusBarColor ?? theme.background}
           barStyle={props.statusBar ?? 'dark-content'}
         />
       ) : null}
       {isIos && !props.unsafe && (
         <View
-          style={{height: insets.top, backgroundColor: myColors.background}}
+          style={{ height: insets.top, backgroundColor: myColors.background }}
         />
       )}
       <View style={[preset.outer, backgroundStyle, insetStyle]}>

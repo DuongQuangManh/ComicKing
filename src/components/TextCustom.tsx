@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 interface propsComponent {
   text?: any;
   width?: number;
@@ -20,6 +21,7 @@ const TextCustom: FC<propsComponent> = ({
   activeOpacity = 1,
   ...props
 }) => {
+  const theme = useAppTheme();
   return (
     <TouchableOpacity
       onPress={props.onClick}
@@ -32,10 +34,10 @@ const TextCustom: FC<propsComponent> = ({
             width: width,
             height: height,
             borderRadius: borderRadius,
-            backgroundColor: backgroundColor,
+            backgroundColor: theme.background,
           },
         ]}>
-        <Text style={styles.text}>{text}</Text>
+        <Text style={[styles.text,{color: theme.text}]}>{text}</Text>
       </View>
     </TouchableOpacity>
   );
