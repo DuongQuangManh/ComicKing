@@ -11,6 +11,7 @@ import {sendRequest} from '@api';
 import {useAppSelector} from '@redux/store';
 import {TouchableOpacity} from 'react-native';
 import {ActivityIndicator} from 'react-native-paper';
+import { useAppTheme } from '@hooks';
 
 const Comments = () => {
   const {comicId, chapterIndex} =
@@ -20,6 +21,7 @@ const Comments = () => {
   const [data, setData] = useState<any[]>([]);
   const [cmt, setCmt] = useState('');
   const [loading, setLoading] = useState(true);
+  const theme = useAppTheme();
   const getData = async () => {
     let path = chapterIndex
       ? 'api/user/chapter/getListComment'
@@ -79,7 +81,7 @@ const Comments = () => {
         alignSelf: 'center',
         backgroundColor: myColors.transparent,
       }}>
-      <View style={styles.container}>
+      <View style={[styles.container,{backgroundColor: theme.background}]}>
         <Header text="Bình luận" />
         {loading ? (
           <ActivityIndicator
@@ -100,7 +102,7 @@ const Comments = () => {
               }}
               contentContainerStyle={{paddingBottom: 70}}
             />
-            <View style={styles.box1}>
+            <View style={[styles.box1,{backgroundColor: theme.background}]}>
               <Input
                 value={cmt}
                 onChangeText={setCmt}

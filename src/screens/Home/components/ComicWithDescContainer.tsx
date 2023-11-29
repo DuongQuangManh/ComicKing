@@ -5,6 +5,7 @@ import {WINDOW_WIDTH, myColors} from '@utils';
 import {IComic} from '@models';
 import FastImage from 'react-native-fast-image';
 import {navigate, push} from '@navigations';
+import { useAppTheme } from '@hooks';
 
 type ComponentProps = {
   listComic: IComic[];
@@ -17,6 +18,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
   title,
   isMore = false,
 }) => {
+  const theme = useAppTheme();
   const handlerSeeMore = () => {
     navigate('comicMore', {type: 'new'});
   };
@@ -61,7 +63,7 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                 </Text>
                 <Text
                   type="light_12"
-                  color={myColors.textHint}
+                  color={theme.textHint}
                   numberOfLines={4}
                   ellipsizeMode="tail">
                   {item.description}
@@ -78,11 +80,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="eye"
                     type={Icons.Ionicons}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfView ?? 0}
                   </Text>
@@ -97,11 +99,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="like1"
                     type={Icons.AntDesign}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfLike ?? 0}
                   </Text>
@@ -116,11 +118,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="favorite"
                     type={Icons.MaterialIcons}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfFollow ?? 0}
                   </Text>
@@ -135,11 +137,11 @@ const ComicWithDescContainer: React.FC<ComponentProps> = ({
                     name="list"
                     type={Icons.Entypo}
                     size={11}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                   />
                   <Text
                     style={{paddingStart: 1}}
-                    color={myColors.textHint}
+                    color={theme.textHint}
                     type="light_12">
                     {item.numOfChapter ?? 0}
                   </Text>
@@ -158,7 +160,7 @@ export default ComicWithDescContainer;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 16,
+    marginTop: 24,
     minHeight: 150,
   },
   btnContainer: {

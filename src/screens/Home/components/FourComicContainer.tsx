@@ -5,11 +5,13 @@ import {Icon, Icons, Text} from '@components';
 import {navigate, push} from '@navigations';
 import FastImage from 'react-native-fast-image';
 import {WINDOW_WIDTH, myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 
 type ComponentProps = {
   listComic: IComic[];
   title: string;
   isMore?: boolean;
+  visibleType?: 'left' | 'right';
 };
 
 const WINDOW_WIDTH_33 = Math.round(WINDOW_WIDTH / 3);
@@ -19,7 +21,9 @@ const FourComicContainer: React.FC<ComponentProps> = ({
   listComic = [],
   title,
   isMore = false,
+  visibleType = 'right',
 }) => {
+  const theme = useAppTheme();
   const handlerSeeMore = () => {
     navigate('comicMore', {type: 'done'});
   };
@@ -51,116 +55,236 @@ const FourComicContainer: React.FC<ComponentProps> = ({
             }}
             activeOpacity={0.7}
             style={styles.firstItemBtn}>
-            <FastImage
-              source={{uri: listComic[0].image}}
-              style={{
-                width: 160,
-                height: 200,
-                borderRadius: 8,
-              }}
-            />
-            <View
-              style={{
-                flex: 1,
-                paddingHorizontal: 12,
-                paddingVertical: 14,
-                justifyContent: 'space-between',
-              }}>
-              <View>
-                <Text
-                  style={{width: '100%', marginBottom: 5}}
-                  numberOfLines={2}
-                  ellipsizeMode="tail"
-                  type="medium_16">
-                  {listComic[0].name}
-                </Text>
-                <Text
-                  type="light_12"
-                  numberOfLines={5}
-                  ellipsizeMode="tail"
-                  color={myColors.textHint}>
-                  {listComic[0].description}
-                </Text>
-              </View>
-              <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+            {visibleType == 'right' && (
+              <>
+                <FastImage
+                  source={{uri: listComic[0].image}}
+                  style={{
+                    width: 160,
+                    height: 200,
+                    borderRadius: 8,
+                  }}
+                />
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginEnd: 8,
+                    flex: 1,
+                    paddingHorizontal: 12,
+                    paddingVertical: 14,
+                    justifyContent: 'space-between',
                   }}>
-                  <Icon
-                    name="eye"
-                    type={Icons.Ionicons}
-                    size={11}
-                    color={myColors.textHint}
-                  />
-                  <Text
-                    style={{paddingStart: 1}}
-                    color={myColors.textHint}
-                    type="light_12">
-                    {listComic[0].numOfView ?? 0}
-                  </Text>
+                  <View>
+                    <Text
+                      style={{width: '100%', marginBottom: 5}}
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      type="medium_16">
+                      {listComic[0].name}
+                    </Text>
+                    <Text
+                      type="light_12"
+                      numberOfLines={5}
+                      ellipsizeMode="tail"
+                      color={theme.textHint}>
+                      {listComic[0].description}
+                    </Text>
+                  </View>
+                  <View
+                    style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="eye"
+                        type={Icons.Ionicons}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfView ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="like1"
+                        type={Icons.AntDesign}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfLike ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="favorite"
+                        type={Icons.MaterialIcons}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfFollow ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 12,
+                      }}>
+                      <Icon
+                        name="list"
+                        type={Icons.Entypo}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfChapter ?? 0}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
+              </>
+            )}
+            {visibleType == 'left' && (
+              <>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginEnd: 8,
+                    flex: 1,
+                    paddingHorizontal: 12,
+                    paddingVertical: 14,
+                    justifyContent: 'space-between',
                   }}>
-                  <Icon
-                    name="like1"
-                    type={Icons.AntDesign}
-                    size={11}
-                    color={myColors.textHint}
-                  />
-                  <Text
-                    style={{paddingStart: 1}}
-                    color={myColors.textHint}
-                    type="light_12">
-                    {listComic[0].numOfLike ?? 0}
-                  </Text>
+                  <View>
+                    <Text
+                      style={{width: '100%', marginBottom: 5}}
+                      numberOfLines={2}
+                      ellipsizeMode="tail"
+                      type="medium_16">
+                      {listComic[0].name}
+                    </Text>
+                    <Text
+                      type="light_12"
+                      numberOfLines={5}
+                      ellipsizeMode="tail"
+                      color={theme.textHint}>
+                      {listComic[0].description}
+                    </Text>
+                  </View>
+                  <View
+                    style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="eye"
+                        type={Icons.Ionicons}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfView ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="like1"
+                        type={Icons.AntDesign}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfLike ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 8,
+                      }}>
+                      <Icon
+                        name="favorite"
+                        type={Icons.MaterialIcons}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfFollow ?? 0}
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginEnd: 12,
+                      }}>
+                      <Icon
+                        name="list"
+                        type={Icons.Entypo}
+                        size={11}
+                        color={theme.textHint}
+                      />
+                      <Text
+                        style={{paddingStart: 1}}
+                        color={theme.textHint}
+                        type="light_12">
+                        {listComic[0].numOfChapter ?? 0}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-                <View
+                <FastImage
+                  source={{uri: listComic[0].image}}
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginEnd: 8,
-                  }}>
-                  <Icon
-                    name="favorite"
-                    type={Icons.MaterialIcons}
-                    size={11}
-                    color={myColors.textHint}
-                  />
-                  <Text
-                    style={{paddingStart: 1}}
-                    color={myColors.textHint}
-                    type="light_12">
-                    {listComic[0].numOfFollow ?? 0}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginEnd: 12,
-                  }}>
-                  <Icon
-                    name="list"
-                    type={Icons.Entypo}
-                    size={11}
-                    color={myColors.textHint}
-                  />
-                  <Text
-                    style={{paddingStart: 1}}
-                    color={myColors.textHint}
-                    type="light_12">
-                    {listComic[0].numOfChapter ?? 0}
-                  </Text>
-                </View>
-              </View>
-            </View>
+                    width: 160,
+                    height: 200,
+                    borderRadius: 8,
+                  }}
+                />
+              </>
+            )}
           </TouchableOpacity>
         )}
         {listComic.slice(1, 4)?.map((item, index) => (
@@ -195,7 +319,7 @@ export default FourComicContainer;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 18,
+    marginTop: 24,
     minHeight: 400,
   },
   image: {

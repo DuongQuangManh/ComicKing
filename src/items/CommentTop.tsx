@@ -6,12 +6,14 @@ import {AvatarFrame, IconText, Icons, Text} from '@components';
 import {sendRequest} from '@api';
 import {useAppDispatch, useAppSelector} from '@redux/store';
 import {navigate} from '@navigations';
+import { useAppTheme } from '@hooks';
 interface itemProps {
   item?: any;
 }
 const CommentTop: FC<itemProps> = ({item}) => {
   const [isLike, setIsLike] = useState(item?.isLike);
   const [like, setLike] = useState<number>(item?.numOfLike);
+  const theme = useAppTheme();
   const handlerLikeComment = async () => {
     let path = 'api/user/toggleLikeComment';
     const body = {
@@ -34,7 +36,7 @@ const CommentTop: FC<itemProps> = ({item}) => {
     navigate('commentdetail', {item: item});
   };
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor: theme.transparentWhite}]}>
       <View style={styles.box1}>
         <AvatarFrame
           image={item?.senderInfo?.image}
@@ -81,8 +83,8 @@ const CommentTop: FC<itemProps> = ({item}) => {
                 typeIcon={Icons.AntDesign}
                 text={like + ''}
                 sizeIcon={16}
-                colorText={isLike ? myColors.primary : myColors.text}
-                colorIcon={isLike ? myColors.primary : myColors.text}
+                colorText={isLike ? myColors.primary : theme.text}
+                colorIcon={isLike ? myColors.primary : theme.text}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={handlerShowCmtDetails}>
@@ -91,7 +93,7 @@ const CommentTop: FC<itemProps> = ({item}) => {
                 typeIcon={Icons.FontAwesome}
                 text={item?.numOfComment}
                 sizeIcon={16}
-                colorText={myColors.text}
+                colorText={theme.text}
               />
             </TouchableOpacity>
           </View>

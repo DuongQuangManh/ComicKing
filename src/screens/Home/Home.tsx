@@ -32,16 +32,17 @@ const HEADER_HEIGHT = 84;
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const theme = useAppTheme();
   const document = useAppSelector(state => state.userSlice.document);
-  console.log(document.id);
   const {
     doneComics = [],
     hotComic = [],
     newestComic = [],
     proposeComics = [],
+    newestComicUpdatedChapter = [],
     readingHistory,
   } = useAppSelector(state => state.homeSlice);
-
+  const {id} = useAppSelector(state => state.userSlice.document ?? {});
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
     onBeginDrag: (event, ctx) => {
@@ -67,32 +68,43 @@ const Home = () => {
     return {transform: [{translateY: translateY}]};
   });
 
-  useEffect(() => {
-    dispatch(getCate());
-  }, []);
-
   const _renderHeader = useMemo(() => {
     return (
       <Animated.View style={[styles.headerStyle, animatedStyles]}>
         <View
           style={{
+            paddingTop: 24,
+            paddingHorizontal: 10,
             flex: 1,
-            flexDirection: 'row',
             alignItems: 'center',
+
+            flexDirection: 'row',
+            backgroundColor: theme.background,
           }}>
-          <FastImage
-            style={{width: 30, height: 30}}
-            source={require('@assets/images/logo3.png')}
-          />
-          <Text style={{marginStart: 6}} type="medium_17">
-            Comic Stuff
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableOpacity onPress={() => navigate('search')}>
-            <Icon type={Icons.Ionicons} name="search-outline" />
-          </TouchableOpacity>
-          {/* <TouchableOpacity
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <FastImage
+              style={{width: 30, height: 30}}
+              source={require('@assets/images/logo3.png')}
+            />
+            <Text style={{marginStart: 6}} type="medium_17">
+              Comic Stuff
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: theme.background,
+            }}>
+            <TouchableOpacity onPress={() => navigate('search')}>
+              <Icon type={Icons.Ionicons} name="search-outline" />
+            </TouchableOpacity>
+            {/* <TouchableOpacity
           onPress={() => navigate('comicWorld')}
           style={{marginHorizontal: 10}}>
           <Icon
@@ -100,10 +112,11 @@ const Home = () => {
             name="view-dashboard-outline"
           />
         </TouchableOpacity> */}
-          <View style={{width: 10}} />
-          <TouchableOpacity onPress={() => navigate('notifications')}>
-            <Icon type={Icons.Ionicons} name="notifications-outline" />
-          </TouchableOpacity>
+            <View style={{width: 10}} />
+            <TouchableOpacity onPress={() => navigate('notifications')}>
+              <Icon type={Icons.Ionicons} name="notifications-outline" />
+            </TouchableOpacity>
+          </View>
         </View>
       </Animated.View>
     );
@@ -171,7 +184,7 @@ const Home = () => {
     return (
       <ComicWithDescContainer
         listComic={newestComic}
-        title="🏵️ Tryện Mới"
+        title="🏵️ Truyện Mới"
         isMore
       />
     );
@@ -182,6 +195,17 @@ const Home = () => {
       <FourComicContainer listComic={doneComics} title="✅ Hoàn Thành" isMore />
     );
   }, [doneComics]);
+
+  const _renderNewestUpdatedChapterComic = useMemo(() => {
+    return (
+      <FourComicContainer
+        listComic={newestComicUpdatedChapter}
+        title="✅ Mới Cập Nhật"
+        isMore
+        visibleType="left"
+      />
+    );
+  }, [newestComicUpdatedChapter]);
 
   const _renderHistoryComic = useMemo(() => {
     return (
@@ -201,15 +225,14 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
         style={{
           paddingTop: HEADER_HEIGHT,
-          backgroundColor: myColors.background,
+          backgroundColor: theme.background,
         }}
         contentContainerStyle={{paddingBottom: 150}}
         refreshControl={
           <RefreshControl
             style={{position: 'absolute'}}
             onRefresh={() => {
-              dispatch(getNewestComics());
-              dispatch(getHotComic());
+              helper.getAsset(dispatch, id);
             }}
             refreshing={false}
             colors={[myColors.primary]}
@@ -223,11 +246,12 @@ const Home = () => {
           <FlatListCustom label="🌟 Đề xuất" data={proposeComics} />
           {_renderNewComic}
           {_renderHotComic}
+          {_renderNewestUpdatedChapterComic}
           {_renderDoneComic}
         </View>
         <View
           style={{alignItems: 'center', justifyContent: 'center', height: 60}}>
-          <Text color={myColors.textHint} type="regular_14">
+          <Text color={theme.textHint} type="regular_14">
             Không còn nội dung
           </Text>
         </View>
@@ -247,7 +271,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   headerStyle: {
-    paddingTop: 24,
     height: HEADER_HEIGHT,
     position: 'absolute',
     zIndex: 10,
@@ -255,7 +278,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     flexDirection: 'row',
-    paddingHorizontal: 10,
     backgroundColor: 'white',
     elevation: 2,
   },

@@ -7,13 +7,14 @@ import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {getVipTicket} from '@redux/paymentSlice';
 import {sendRequest} from '@api';
 import {navigate} from '@navigations';
+import { useAppTheme } from '@hooks';
 
 const ITEM_WIDTH = WINDOW_WIDTH - 32;
 
 const ListVipTicket = () => {
   const dispatch = useAppDispatch();
   const {listVipTicket = []} = useAppSelector(state => state.paymentSlice);
-
+  const theme = useAppTheme();
   useEffect(() => {
     dispatch(getVipTicket());
   }, []);
@@ -39,14 +40,12 @@ const ListVipTicket = () => {
 
   return (
     <Screen
-      statusBarColor="#f9f9f9bc"
-      style={{backgroundColor: '#f9f9f9bc'}}
       preset="scroll"
       showsVerticalScrollIndicator={false}>
       <Header text="Thẻ Tháng" style={{backgroundColor: 'transparent'}} />
       <View style={{paddingHorizontal: 16, paddingBottom: 20}}>
         {listVipTicket.map((item, index) => (
-          <View key={index} style={styles.itemContainer}>
+          <View key={index} style={[styles.itemContainer,{backgroundColor: theme.itemCustom}]}>
             <View
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <Text type="medium_18">{item.name}</Text>

@@ -2,6 +2,8 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {Icon, Icons, Text} from '@components';
 import {myColors} from '@utils';
+import { useAppSelector } from '@redux/store';
+import { useAppTheme } from '@hooks';
 interface MenuItemProps {
   name: string;
   iconName: string;
@@ -16,6 +18,7 @@ const MenuItem: FC<MenuItemProps> = ({
   onPress,
   isSelect = false,
 }) => {
+  const theme = useAppTheme();
   return (
     <TouchableOpacity style={{height: 60}} onPress={onPress}>
       <View
@@ -26,14 +29,14 @@ const MenuItem: FC<MenuItemProps> = ({
         <Icon
           type={iconType}
           name={iconName}
-          color={isSelect ? myColors.background : myColors.text}
+          color={theme.text}
           size={22}
         />
         <Text
           type="semibold_16"
           style={[
             styles.text,
-            {color: isSelect ? myColors.background : myColors.text},
+            {color: theme.text},
           ]}>
           {name}
         </Text>

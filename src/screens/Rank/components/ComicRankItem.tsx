@@ -3,6 +3,7 @@ import {Icon, Icons, Text} from '@components';
 import React, {useMemo} from 'react';
 import FastImage from 'react-native-fast-image';
 import {helper, myColors} from '@utils';
+import { useAppTheme } from '@hooks';
 
 type ComponentProps = {
   name: string;
@@ -26,6 +27,7 @@ const ComicRankItem: React.FC<ComponentProps> = ({
   numOfView = 0,
   onPress,
 }) => {
+  const theme = useAppTheme();
   const _renderType = useMemo(() => {
     switch (type) {
       case 'hot':
@@ -36,9 +38,9 @@ const ComicRankItem: React.FC<ComponentProps> = ({
               name="fire"
               type={Icons.MaterialCommunityIcons}
               size={12}
-              color={myColors.textHint}
+              color={theme.textHint}
             />
-            <Text style={{color: myColors.textHint}} type="regular_12">
+            <Text style={{color: theme.textHint}} type="regular_12">
               {helper.convertToK(numOfView)}
             </Text>
           </View>
@@ -94,7 +96,7 @@ const ComicRankItem: React.FC<ComponentProps> = ({
             {description}
           </Text>
         </View>
-        <Text type="regular_12" color={myColors.textHint}>
+        <Text type="regular_12" color={theme.textHint}>
           {author}
         </Text>
       </View>

@@ -88,8 +88,7 @@ export const myTheme = {
     primary_80: '#fb6d79cb',
     surfaceVariant: 'white',
     background: '#fff',
-    text: '#282828',
-    black_60: '#00000095',
+    text: '#202020',
     textHint: '#74747494',
     gray:'#efeeee',
     blackCustom:'#334249',
@@ -97,7 +96,9 @@ export const myTheme = {
     transparentGray: '#8787878d',
     transparent: 'transparent',
     backgroundMsg: '#0000002d',
-    disablePrimary: '#fb6d798f'
+    disablePrimary: '#fb6d798f',
+    itemCustom: '#fff',
+    special: '#ffe6e8',
   },
   fonts: configureFonts({ config: fontConfig as any, isV3: false }) as any,
   roundness: 5

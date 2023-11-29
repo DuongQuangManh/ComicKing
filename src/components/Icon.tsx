@@ -10,6 +10,9 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import { useAppSelector } from '@redux/store';
+import { myColors } from '@utils';
+import { useAppTheme } from '@hooks';
 
 export const Icons = {
   Ionicons,
@@ -33,15 +36,16 @@ interface IconProps {
 const Icon: React.FC<IconProps> = ({
   type = Icons.MaterialIcons,
   name,
-  color = 'black',
+  color,
   size = 26,
   style = {},
 }) => {
+  const theme = useAppTheme()
   const Tag = type;
   return (
     <>
       {type && name && (
-        <Tag style={style} name={name} color={color} size={size} />
+        <Tag style={style} name={name} color={color || theme.text} size={size} />
       )}
     </>
   );

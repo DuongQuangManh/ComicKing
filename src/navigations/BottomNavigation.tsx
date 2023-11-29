@@ -8,6 +8,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {myColors} from '@utils';
 import {StatusBar} from 'react-native';
+import { useAppTheme } from '@hooks';
 
 const BottomTab = createBottomTabNavigator();
 const TABBAR_HEIEGHT = 60;
@@ -79,7 +80,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
   const {item} = props;
   const {onPress, accessibilityState} = props.buttonProps;
   const focused = accessibilityState?.selected;
-
+  const theme = useAppTheme();
   return (
     <View
       style={{
@@ -94,13 +95,13 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
         <Icon
           type={item.type}
           name={focused ? item.activeIcon : item.inActiveIcon}
-          color={focused ? myColors.primary : myColors.textHint}
+          color={focused ? myColors.primary : theme.textHint}
           size={18}
         />
         <Text
           style={{marginTop: 3}}
           type={focused ? 'medium_12' : 'regular_12'}
-          color={focused ? myColors.primary : myColors.textHint}>
+          color={focused ? myColors.primary : theme.textHint}>
           {item.label}
         </Text>
       </TouchableOpacity>
@@ -109,6 +110,7 @@ const TabBarButton: React.FC<TabBarButtonProps> = props => {
 };
 
 const BottomNavigation = () => {
+  const theme = useAppTheme();
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -116,7 +118,7 @@ const BottomNavigation = () => {
         tabBarStyle: {
           height: TABBAR_HEIEGHT,
           position: 'absolute',
-          backgroundColor: 'white',
+          backgroundColor: theme.background,
         },
       }}>
       {tabArr.map(item => (

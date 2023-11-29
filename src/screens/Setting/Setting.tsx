@@ -12,7 +12,7 @@ const Setting = () => {
   const dispatch = useAppDispatch();
 
   return (
-    <Screen backgroundColor={myColors.background}>
+    <Screen>
       <Header text="Setting" />
       <MenuItem
         name="Change Password"
@@ -34,7 +34,7 @@ const Setting = () => {
         name="Nigh mode"
         iconName="light-down"
         onPress={() => {
-          navigate('changePassword');
+          navigate('nighmode');
         }}
         iconType={Icons.Entypo}
       />
