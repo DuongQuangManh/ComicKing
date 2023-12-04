@@ -18,6 +18,7 @@ import {
 } from '@redux/homeSlice';
 import {getAttendance} from '@redux/attendanceSlice';
 import DeviceInfo from 'react-native-device-info';
+import {getCountNewNotification} from '@redux/notificationSlice';
 export const helper = {
   // you can pass 'message' param only
   showErrorMsg: (
@@ -163,6 +164,7 @@ export const helper = {
     dispatch(getHotComic());
     dispatch(getHistoryReading({userId}));
     dispatch(getAttendance(userId));
+    dispatch(getCountNewNotification({userId}));
   },
   getDeviceId: () => {
     return DeviceInfo.getUniqueIdSync();
