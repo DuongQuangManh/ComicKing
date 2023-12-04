@@ -1,5 +1,5 @@
 import {sendRequest} from '@api';
-import {ILevel, IPrivilege} from '@models';
+import {ILevel} from '@models';
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 
 export const getLevel = createAsyncThunk(
