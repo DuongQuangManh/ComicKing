@@ -5,7 +5,7 @@ import {
   StatusBar,
   RefreshControl,
 } from 'react-native';
-import React, {useMemo, useEffect} from 'react';
+import React, {useMemo} from 'react';
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
@@ -16,16 +16,13 @@ import Animated, {
 import {WINDOW_WIDTH, helper, myColors} from '@utils';
 import {navigate} from '@navigations';
 import {useAppDispatch, useAppSelector} from '@redux/store';
-import {getCate} from '@redux/categorySlice';
 import FlatListCustom from './components/FlatListCustom';
-import LeaderBoard from './components/LeaderBoard';
 import {Icon, Icons, Text} from '@components';
 import SlideShow from './components/SlideShow';
 import SixComicContainer from './components/SixComicContainer';
 import ComicWithDescContainer from './components/ComicWithDescContainer';
 import FourComicContainer from './components/FourComicContainer';
 import FastImage from 'react-native-fast-image';
-import {getHotComic, getNewestComics} from '@redux/homeSlice';
 import HistoryListContainer from './components/HistoryListContainer';
 import {useAppTheme} from '@hooks';
 
@@ -34,7 +31,6 @@ const HEADER_HEIGHT = 84;
 const Home = () => {
   const dispatch = useAppDispatch();
   const theme = useAppTheme();
-  const document = useAppSelector(state => state.userSlice.document);
   const {
     doneComics = [],
     hotComic = [],
@@ -43,6 +39,7 @@ const Home = () => {
     newestComicUpdatedChapter = [],
     readingHistory,
   } = useAppSelector(state => state.homeSlice);
+  const {countNew} = useAppSelector(state => state.notificationSlice);
   const {id} = useAppSelector(state => state.userSlice.document ?? {});
   const scrollY = useSharedValue(0);
   const scrollHandler = useAnimatedScrollHandler<{prevY?: number}>({
@@ -116,12 +113,25 @@ const Home = () => {
             <View style={{width: 10}} />
             <TouchableOpacity onPress={() => navigate('notifications')}>
               <Icon type={Icons.Ionicons} name="notifications-outline" />
+              {countNew > 0 && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    width: 8,
+                    height: 8,
+                    borderRadius: 4,
+                    backgroundColor: 'red',
+                    right: 3,
+                    top: 2,
+                  }}
+                />
+              )}
             </TouchableOpacity>
           </View>
         </View>
       </Animated.View>
     );
-  }, [theme]);
+  }, [theme, countNew]);
 
   const _renderOptions = useMemo(() => {
     return (

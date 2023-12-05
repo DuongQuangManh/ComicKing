@@ -14,6 +14,7 @@ import {
   setupPushLocalNotification,
 } from '@notification/index';
 import {setFirebaseToken} from '@redux/authSlice';
+import {getCountNewNotification} from '@redux/notificationSlice';
 
 LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state',
@@ -26,9 +27,10 @@ function App(): JSX.Element {
     if (notification) {
     }
   };
-  const handleActionWhenReceivceNotificationInForceround = (
-    notification: any,
-  ) => {};
+  const handleActionWhenReceivceNotificationInForceround = () => {
+    const userId = store.getState().userSlice.document?.id;
+    if (userId) store.dispatch(getCountNewNotification({userId}));
+  };
   const notificationHandler = async () => {
     try {
       await requestUserPermission();
