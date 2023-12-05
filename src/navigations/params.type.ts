@@ -34,6 +34,7 @@ export type StackParamList = {
   };
   menu: undefined;
   notifications: undefined;
+  notificationDetail: {notification: any};
   profile: undefined;
   infomation: undefined;
   editAvtFrame: {avatarFrame: Decorate | null};
