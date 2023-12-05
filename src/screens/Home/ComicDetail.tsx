@@ -23,7 +23,7 @@ import Interact from './components/Interact';
 import {CateModel, IComicDetails} from '@models';
 import {ActivityIndicator} from 'react-native-paper';
 import {sendRequest} from '@api';
-import { useAppTheme } from '@hooks';
+import {useAppTheme} from '@hooks';
 
 const ComicDetail = () => {
   const {id} = useRoute<RouteProp<StackParamList, 'comicdetail'>>().params;
@@ -134,9 +134,7 @@ const ComicDetail = () => {
                 textColor={
                   screen === 1 ? myColors.background : myColors.primary
                 }
-                buttonColor={
-                  screen === 1 ? myColors.primary : theme.itemCustom
-                }
+                buttonColor={screen === 1 ? myColors.primary : theme.itemCustom}
                 style={{flex: 1}}
                 borderRadius={40}
                 height={35}
@@ -147,9 +145,7 @@ const ComicDetail = () => {
                 textColor={
                   screen === 2 ? myColors.background : myColors.primary
                 }
-                buttonColor={
-                  screen === 2 ? theme.primary : theme.itemCustom
-                }
+                buttonColor={screen === 2 ? theme.primary : theme.itemCustom}
                 style={{flex: 1, marginStart: 10}}
                 borderRadius={40}
                 height={35}
@@ -162,7 +158,11 @@ const ComicDetail = () => {
                     comicId={detailComic.id}
                     isFollowing={detailComic.isFollowing}
                   />
-                  <View style={[styles.containerDes,{backgroundColor: theme.gray}]}>
+                  <View
+                    style={[
+                      styles.containerDes,
+                      {backgroundColor: theme.gray},
+                    ]}>
                     <TextMore text={detailComic.description} />
                     <FlashList
                       data={(cates as CateModel[]) ?? []}
@@ -215,7 +215,12 @@ const ComicDetail = () => {
                       borderRadius: 180,
                     }}
                   />
-                  <View style={{flex: 1, justifyContent: 'center'}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      marginStart: 10,
+                    }}>
                     <Text type="semibold_16">{detailComic.author?.name}</Text>
                     <Text type="regular_15">
                       {detailComic.author?.numOfFollow
@@ -232,13 +237,11 @@ const ComicDetail = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}>
-                    <Text type="semibold_14">
-                      Xem tác giả
-                    </Text>
+                    <Text type="semibold_14">Xem tác giả</Text>
                     <Icon type={Icons.Entypo} name="chevron-right" size={16} />
                   </TouchableOpacity>
                 </View>
-                <View style={[styles.box4,{backgroundColor: theme.gray}]}>
+                <View style={[styles.box4, {backgroundColor: theme.gray}]}>
                   <View
                     style={{
                       justifyContent: 'space-between',
@@ -393,6 +396,7 @@ const styles = StyleSheet.create({
   },
   author: {
     marginTop: 10,
+    padding: 5,
   },
   containerDes: {
     width: WINDOW_WIDTH - 20,
