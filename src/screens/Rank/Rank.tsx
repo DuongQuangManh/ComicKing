@@ -22,8 +22,8 @@ import {sendRequest} from '@api';
 import ComicRankItem from './components/ComicRankItem';
 import {navigate} from '@navigations';
 import UserRankItem from './components/UserRankItem';
-import { useAppSelector } from '@redux/store';
-import { useAppTheme } from '@hooks';
+import {useAppSelector} from '@redux/store';
+import {useAppTheme} from '@hooks';
 
 type TabType = {
   index: number;
@@ -82,7 +82,7 @@ const TAB_WIDTH = 110;
 
 const Rank = () => {
   const scrollRef = useRef<ScrollView>(null);
-  const theme = useAppTheme()
+  const theme = useAppTheme();
   const [state, setState] = useState<StateType>({
     selectedTab: TABS?.[0],
     listComic: [],
@@ -166,9 +166,7 @@ const Rank = () => {
             <Text
               style={{
                 color:
-                  selectedTab.name == item.name
-                    ? theme.primary
-                    : theme.text,
+                  selectedTab.name == item.name ? theme.primary : theme.text,
               }}
               type={selectedTab.name == item.name ? 'medium_16' : 'regular_16'}>
               {item.title}
@@ -196,35 +194,19 @@ const Rank = () => {
 
   return (
     <Screen unsafe statusBarColor="transparent" translucent>
-      <View style={{height: BANNER_HEIGHT, position: 'absolute', zIndex: -1}}>
-        <FastImage
-          source={{
-            uri: 'https://ik.imagekit.io/c7aqey5nn/banner/banner5.jpg?updatedAt=1698636090081',
-          }}
-          style={{width: WINDOW_WIDTH, height: BANNER_HEIGHT}}
-        />
-        <View
+      <View style={{}}>
+        <Header
+          text="Bảng Xếp Hạng"
+          color={myColors.text}
+          backgroundColor="transparent"
           style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            left: 0,
-            bottom: 0,
-          }}>
-          <Header
-            text="Bảng Xếp Hạng"
-            color="#fff"
-            backgroundColor="transparent"
-            style={{
-              top: 24,
-              position: 'absolute',
-            }}
-          />
-        </View>
+            top: 24,
+          }}
+        />
       </View>
       <View
         style={{
-          marginTop: BANNER_HEIGHT - 10,
+          marginTop: 24,
           borderTopLeftRadius: 10,
           borderTopRightRadius: 10,
           paddingTop: 6,

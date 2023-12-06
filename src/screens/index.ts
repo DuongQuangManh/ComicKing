@@ -47,6 +47,7 @@ import TransactionHistory from './Transaction/TransactionHistory';
 import TransactionStatus from './Transaction/TransactionStatus';
 import ComicMore from './Home/ComicMore';
 import MyVipTicket from './VipTicket/MyVipTicket';
+import NotificationDetail from './Notification/NotificationDetail';
 
 export {
   Splash,
@@ -97,4 +98,5 @@ export {
   TransactionStatus,
   ComicMore,
   MyVipTicket,
+  NotificationDetail,
 };
