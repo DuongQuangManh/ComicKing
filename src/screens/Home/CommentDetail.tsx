@@ -22,9 +22,11 @@ import {sendRequest} from '@api';
 import {FlashList} from '@shopify/flash-list';
 import {Comment} from '@items';
 import {ActivityIndicator} from 'react-native-paper';
+import {useAppSelector} from '@redux/store';
 
 const CommentDetail = () => {
   const {item} = useRoute<RouteProp<StackParamList, 'commentdetail'>>().params;
+  const user = useAppSelector(state => state.userSlice.document);
   const [like, setLike] = useState<number>(item?.numOfLike);
   const [isLike, setIsLike] = useState(item?.isLike);
   const [loading, setLoading] = useState(false);
@@ -71,7 +73,7 @@ const CommentDetail = () => {
   const handlerSendCmt = async () => {
     let path = 'api/user/sendCommentInComment';
     const body = {
-      senderId: item?.sender,
+      senderId: user?.id,
       content: cmt,
       commentId: item?.id,
     };
