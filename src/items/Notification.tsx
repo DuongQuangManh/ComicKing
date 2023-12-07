@@ -3,14 +3,18 @@ import React, {FC, useState} from 'react';
 import FastImage from 'react-native-fast-image';
 import {Text} from '@components';
 import {WINDOW_WIDTH, myColors} from '@utils';
+import {useAppDispatch} from '@redux/store';
+import {getDetailNotification} from '@redux/notificationSlice';
+import moment from 'moment';
 
 interface itemProps {
   item?: any;
 }
 const Notification: FC<itemProps> = ({item}) => {
-  console.log(item);
+  const dispatch = useAppDispatch();
   const [isSee, setIsSee] = useState(item.isRead);
   const handlerSee = () => {
+    dispatch(getDetailNotification({notificationId: item.id}));
     if (!isSee) {
       setIsSee(!isSee);
     }
@@ -24,9 +28,11 @@ const Notification: FC<itemProps> = ({item}) => {
         ]}>
         <FastImage
           source={
-            item.image
-              ? {uri: item.image}
-              : require('@assets/images/error_img.jpg')
+            item.tag == 'system'
+              ? item.image
+                ? {uri: item.image}
+                : require('@assets/images/error_img.jpg')
+              : require('@assets/icons/coin_v2_10000.png')
           }
           style={{width: 70, height: 70, borderRadius: 180}}
         />
@@ -46,6 +52,11 @@ const Notification: FC<itemProps> = ({item}) => {
             ellipsizeMode="tail"
             style={{fontSize: 14}}>
             {item.content}
+          </Text>
+          <Text
+            color={myColors.textHint}
+            style={{fontSize: 12, alignSelf: 'flex-end'}}>
+            {moment(item.createdAt).format('DD-MMMM-YYYY')}
           </Text>
         </View>
       </View>

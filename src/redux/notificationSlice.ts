@@ -1,10 +1,11 @@
 import {sendRequest} from '@api';
+import {navigate, push} from '@navigations';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {helper} from '@utils';
 
 export const getListNotification = createAsyncThunk(
   'notificationSlice/getListNotification',
-  async (body: {userId: string}) => {
+  async (body: {userId: string; tag: string}) => {
     let path = 'api/user/getListNotification';
     helper.showLoading();
     const res = await sendRequest(path, body);
@@ -51,7 +52,11 @@ export const getDetailNotification = createAsyncThunk(
     const res = await sendRequest(path, body);
     helper.hideLoading();
     if (res.err === 200) {
-      return res.data;
+      if (res.data?.data?.comic) {
+        push('comicdetail', {id: res.data?.data?.comic});
+      } else {
+        navigate('notificationDetail', {notification: res.data});
+      }
     } else {
       return false;
     }
@@ -88,9 +93,6 @@ const notificationSlice = createSlice({
         if (typeof action.payload == 'number') {
           state.countNew = action.payload;
         }
-      })
-      .addCase(getDetailNotification.fulfilled, (state, action) => {
-        console.log(action.payload);
       });
   },
 });

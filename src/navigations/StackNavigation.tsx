@@ -48,6 +48,7 @@ import {
   TransactionStatus,
   ComicMore,
   MyVipTicket,
+  NotificationDetail,
 } from '@screens';
 import {StackParamList, navigationRef} from '@navigations';
 import BottomNavigation from './BottomNavigation';
@@ -68,6 +69,10 @@ export const Stacknavigation = () => {
         <Stack.Screen name="bottomNavigation" component={BottomNavigation} />
 
         <Stack.Screen name="notifications" component={Notifications} />
+        <Stack.Screen
+          name="notificationDetail"
+          component={NotificationDetail}
+        />
 
         <Stack.Screen name="setting" component={Setting} />
         <Stack.Screen name="changePassword" component={ChangePassword} />

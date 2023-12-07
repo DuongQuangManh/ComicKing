@@ -14,7 +14,7 @@ import {TouchableOpacity} from 'react-native';
 import {sendRequest} from '@api';
 import {getCoinPackage} from '@redux/paymentSlice';
 import {navigate} from '@navigations';
-import { useAppTheme } from '@hooks';
+import {useAppTheme} from '@hooks';
 
 const {PayZaloBridge} = NativeModules;
 
@@ -102,9 +102,7 @@ const ListCoinPackage = () => {
   };
 
   return (
-    <Screen
-      preset="scroll"
-      showsVerticalScrollIndicator={false}>
+    <Screen preset="scroll" showsVerticalScrollIndicator={false}>
       <Header text="Nạp Xu" style={{backgroundColor: 'transparent'}} />
       <View
         style={{
